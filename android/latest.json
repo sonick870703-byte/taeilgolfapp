@@ -1,9 +1,9 @@
 {
- "version": "1.4.13",
- "file": "www-1.4.13.zip",
- "sha256": "00fc09b122251872248462cf01413c0cb31bbdc2e74ed4c2899d0a60bb2000df",
+ "version": "1.4.15",
+ "file": "www-1.4.15.zip",
+ "sha256": "86f5e03793521a0a606e6be690f2cce0efc30be400682075b41d5810d4ba589d",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.13 상품 칩·주변 정보 빨라짐",
- "sig": "oM1Kev70dorrOv0+bP5dxagfgW8s8A5ZdeA+pWMWZftO4O8kBfIsULOf5BMU4O9cLuxqMSsseNGTdv3AMyEVef7KtKHpW0EFeSnIqHTUExLlonKYex6C/Zw6RnNGN/4YlUJTr72fLXigf6s4D3p+WqCbpj7f1IaJqnHmDvKky1v6NB9ZC6NkLaC1ahavM4xUi8Pyy/k9mjiXsASV+6AnUxNYkVyNq2FBElwgkwqXznNgRgh2jBA85cP5e3WE8UR6JVypwhYUvjMADiYsTTOoaAofHmWGrH9uKvt7CWmLF1njzJ3vext6GtBvRzRO7VSUGjDd/mHQaE4TOq5yrkk/WA=="
+ "notes": "1.4.15 휴대폰 터치 조작 수정",
+ "sig": "NcQbxN1CbLs6foym9Qj/KMcW/kzN7GlrebjnqWjG5WDHXufsxNLUYQmPEC/mEnOFviiqoXgqoD/j16iJGXwbiaahGvYw/Q71RTrNP0QPjwAEJXTRqUYy+/C8992uEnn1RKvIKs9t3CPc0EjJlPOMKCe5q8bOPmRBOh2Eb4P3W9qys9fQxH+tB/ie/Y00QDHJ7fyMcG8c46VuV5NUPN2bepU1lkgW5qdNCzdNmLpcPZflrRBcdTzNhghX4U/5bOI7FS0XX6rYVFwccD2Ov43VPs8RG6ucFPZ4iTFScbotFv3plGLA+Tf4bnz/cSkfz0JpLWKK8XChJzL9vrZvag7OgQ=="
 }

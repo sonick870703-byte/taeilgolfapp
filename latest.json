@@ -1,9 +1,9 @@
 {
- "version": "1.4.13",
- "file": "app-1.4.13.asar",
- "sha256": "b99c11f3a3cbb659c5b7b97cfa2786e746dd1bfdc81cdcab7ed4e958dd353eaa",
+ "version": "1.4.15",
+ "file": "app-1.4.15.asar",
+ "sha256": "264fcd87ed34ec71144e2a7d6804a9fa1e0076ae6ef5bd32feda29dba1418b40",
  "minShell": "",
  "fullUrl": "",
- "notes": "확대 시 상품 이름표 작게, 음식점·관광지·숙박 빠르게 (동시 요청·저장)",
- "sig": "LozCG/xtVH7KnnXhCcgxEom4ZLSVCTmXnSfsRDD6dCNqy1ZhFwNHaHA3ODhv0+kb4MihIxKe6xQntfRcxkNAAQ=="
+ "notes": "로그인·회원가입 창에서 알림 뒤 입력이 안 되던 문제 수정 (새 설치 파일 필요)",
+ "sig": "26Yoy2f0SiAF68Z5DAfUdqljvrhR13rC1hTUSvZFtUeMVSvAOVrKnSG4JkSQZD67eU5NWBk8vuDAoXdSdXyOAQ=="
 }
