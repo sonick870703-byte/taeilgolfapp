@@ -1,9 +1,9 @@
 {
- "version": "1.4.15",
- "file": "app-1.4.15.asar",
- "sha256": "264fcd87ed34ec71144e2a7d6804a9fa1e0076ae6ef5bd32feda29dba1418b40",
+ "version": "1.4.16",
+ "file": "app-1.4.16.asar",
+ "sha256": "71825634004c86cff054298180bfe950adaa3bfcee24000e3e43c3d5824ecb20",
  "minShell": "",
  "fullUrl": "",
- "notes": "로그인·회원가입 창에서 알림 뒤 입력이 안 되던 문제 수정 (새 설치 파일 필요)",
- "sig": "26Yoy2f0SiAF68Z5DAfUdqljvrhR13rC1hTUSvZFtUeMVSvAOVrKnSG4JkSQZD67eU5NWBk8vuDAoXdSdXyOAQ=="
+ "notes": "골프장 이름 한글 우선 표시(원래 이름 아래), 파크골프 등 제외, 터치 조작 안정화",
+ "sig": "U5SBrXA7Oqz0R8foZQfay9wio/UXYC1AgfYfUQLKaHUBH9Wx6gUZ20CWXTGRvcERVgn+rMc3sFme0wywZyFkAQ=="
 }
