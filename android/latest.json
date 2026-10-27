@@ -1,9 +1,9 @@
 {
- "version": "1.4.27",
- "file": "www-1.4.27.zip",
- "sha256": "927a8fcf2c69d85e0b49837c4f347a3e0e66e342760ce4264ec51845f7b04553",
+ "version": "1.4.28",
+ "file": "www-1.4.28.zip",
+ "sha256": "afe1e1ec647d09f5d4bca2dbb4737f3955dbd142a8c6916a2348ea7dffd25cf4",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "예상 금액 계산, 나라별 추가 요금",
- "sig": "jRHz8i29bDQIxgs+HljAyYYgYjxi6znh08YpSUtnMKLLACD4s8kWHB32h3/cLFmk4Q6NoXaj/InPiTb5ARr7k34LLufLKbH3lGFr2UDYuyCNY5dHWKoTbbhUDuJkRaPRzKC7cUhXwzumzLG4euZS8c9UK4PWVVJM72m/o4l0LZypjnkVwV7unWCQZQkK+LRlw42G3v5w+P3gsF7b87YPM9Lzb+mfHmRbnX7R82xJujHmLvb6PKcG355xC40kpuX4PxQSX7XXkjapjFqIKaRIrmfeNAw7FagCXTE/DN8qeh6F5UJjazklW8HNwrhkocC2TSLr1WMP3vMKMeAt5zkJFA=="
+ "notes": "오른쪽 위 버튼 정리, 금액표 휴대폰 맞춤",
+ "sig": "G+BVocu9JOsYvlaa5mILr0WhFcVng2ibieBOXyGgKjkdP8cfypEA5+KHy4KTJJklbUdEyvEaVWKzO/gsd+1930eFuGDevwQ9x3BxosH64EtVxsazyLoWGQAnTd57GxmyCJsCYh2HURcqTIZ5ywfJrU++bDPMzl4zopBR7wlPsX7kT4t4htt7tUXYCulBXffGRZm9juaPYbU9IEjgqPUQo6bRN1xVvUHPx1WQhfiFrJeg+RFpXeSrXYRcvW60q2B5iqZD+EJQShNdMNwa8Llnolzmba7Jw739Gt9V2/DZAGkIbmoa3IyIgB4CBQX9fQrJkKakojwR3OjkC4gOG9FqUA=="
 }

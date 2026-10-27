@@ -1,9 +1,9 @@
 {
- "version": "1.4.27",
- "file": "app-1.4.27.asar",
- "sha256": "ee13d3433696feef7743e8ed51dd3eabda17de19872579ecfe6c459c173c3610",
+ "version": "1.4.28",
+ "file": "app-1.4.28.asar",
+ "sha256": "4818138dd2a8a38b0277ce415bc5473bbfcdf1c0db6e296e9792dbf23a4ae430",
  "minShell": "",
  "fullUrl": "",
- "notes": "예상 금액 계산, 나라별 옵션 요금(전세계), 캐디팁 원화 환산(오늘 환율), 공항 샌딩 중복 삭제, 상단 문구 정리",
- "sig": "s1nqF7YxObBHVXJ5lQc3M9nTtNkyOLknT+t7xrR4GDqmSdwzedYWCtxd78oMP6V2OcyUyllydRvRCTFMohnGBQ=="
+ "notes": "오른쪽 위 버튼 정리, 휴대폰 예상 금액표 맞춤",
+ "sig": "otWWG4mwg2TUK2Kvt8ohhdrLCjyepMiMzTt46MIHt58sHMIgh5AKDUGaTWIigSsCHUIE6ODAIZy0NE81D5cfAw=="
 }
