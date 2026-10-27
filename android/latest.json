@@ -1,9 +1,9 @@
 {
- "version": "1.4.8",
- "file": "www-1.4.8.zip",
- "sha256": "1ed6287b45ad71e90f531bbd7c3bed83f0e7ca32fc9adc070de185173ccefee7",
+ "version": "1.4.10",
+ "file": "www-1.4.10.zip",
+ "sha256": "391e22fd1f3d6d95496b7e7d1606ceaaab527c0470d5212d01f4a4efe5fe7a1c",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.8 실시간 정보",
- "sig": "ExVk7hC58ZbOt7L7H0NfLZGIpMlUZG+fkOTSQDeON40M7L/0uB9OWNy6VniFjDbb9Q4BMGUv/8CW3kMNKjvFxFOD6TOMJF9JqLZXFF6/xIsGFfKRgHSBdJa36bUhqatbXrKqxtF8ziPeHaigb90VN5R3OB3P2UDBRHMDexxUICjeIIFiDSDl346k/RFtfObpdqm2XeZe59KD+kCvdgnCrcPu4/qqk0ADGJpnWVNvt6QDtEEoFymi1LXPB6i1y2Y4fcqtqBtb5IXtU/fZGmEaGihRQY9AbxHxeIYjIJycevbugZqy2fUXHzW6iMmvFtVppNnB0JMLdwnWs5MuEpiBqw=="
+ "notes": "1.4.10 국기 아이콘·지도·제휴몰",
+ "sig": "EDYa28zgpZ+TPjV10hBtDxzBEljT0e3uVisO3L1ZWGzD9fLy1nL6MMbe/g8XO6OuQvP5bYjBsi3j2GK6XJzylWFcJILbEv2AWJqv2upHh0TQ6K4hsH0FYi6YAldLLtXGKbim4iDb2WFfnQMDKwmyPj/FAbnPwpjM0G4LxhtTOKaJw7e1rAEr7+KlKd5mlMoazaxIL1G+zg53R1V54UEckMby/UArcqIjuw565T6u9j6/CKing4lKD8sKdbaavi5e4PJtXWhwn4wEsW7a4Imi5h1cKBW+YuXTq86fPXUjheR5hczX7ej3f6ROCSlYDrQmVc95mcec48N9Jj8+SmbYTQ=="
 }
