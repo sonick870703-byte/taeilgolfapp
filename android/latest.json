@@ -1,9 +1,9 @@
 {
- "version": "1.4.25",
- "file": "www-1.4.25.zip",
- "sha256": "590e56c6a8aa5d69713c14a83ec505c27997ac1380b00e8e56f1ee8dff2bc653",
+ "version": "1.4.25.1",
+ "file": "www-1.4.25.1.zip",
+ "sha256": "1bdc2b8409fe6671f54345e2d21c224020598b017131c109b6c29abca97af117",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "참고 사진, 업데이트 자동 적용, 화면 잘림 수정",
- "sig": "EP5NnPzdUqpHgRdYlMh/MAIO8BMLWDreOWoPGBFT4wj6rwtdPgDFpNHwbIcStBGOTIoRaiemv0X47cZTzesgkyjsa3TBiWpje7Rpn4APcHRF2ueMvH43qj/kpirr6//2RT0l19jiqwseFZ1CwGhnWrN3UTxE0DglakNElHGS/+AoYn04sZw2oCV57EbXla7Os9Qg/N4W7Ff/T703dWjnUTiyiN8s3J+thgQccjPCNInp8Bvz/6lDR5MNpo9UZNqX/HplDc8AjHKPyCN5TQPgXZAgQb50emZIOshUJorkK63veXFs6l9qS1HFGuiNyQWN0aAIbmK7XAig2JMtqeRRUg=="
+ "notes": "저작권 문구를 목록 맨 아래로",
+ "sig": "Kg2yk/fNnQivQDZ++51rayyPkUHW7tsArf6TVGTv9yB+oifxu/VbZA/raLG1L1BK5hzMT+r3KRqf7GSusb1wNlc1FV0GKFCA5+aiha2BQyAx+h5no13gUCMfVu6joWhMFVTIKF5tdb0SzAcqKbU++dkVLCwAF5Uz0eOrBYUN7ObH561GAQT0CUEf4jY0MvpELMmRnAkAGb9zyTfF+SeIffOdZOStS4IWA9O0HimdHqohudYKFqnxW1pKPaejU/mCgQqtreiZtM+bonjPKF6dbu1E5akk7glKcsWO1ducFB5ASAxGwL++XONSKA6PmI4fk4+HN86bkmgv15Vve8lbxA=="
 }
