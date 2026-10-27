@@ -1,9 +1,9 @@
 {
- "version": "1.4.24",
- "file": "app-1.4.24.asar",
- "sha256": "2ee85154529a86aab155a0bc02c24ab87ee7459a3927c7c900d66fbe6f4f0a3f",
+ "version": "1.4.25",
+ "file": "app-1.4.25.asar",
+ "sha256": "3043d6f9528e29b7011546d87e88ac0a7b96dfd467070450338b5734721cbfb9",
  "minShell": "",
  "fullUrl": "",
- "notes": "방콕 멤버십 → 썬라이즈라군CC & 스카이밸리CC 멤버십",
- "sig": "Hv+iay3wRArMlhBkENWNoGr1gPVpQdXnBMzZzzcTPB1mky/oUY06xP4mD6fkxxaGqc3A8ANrD87hrVRvpRctCA=="
+ "notes": "공식 사진 없는 상품: 실사 참고 이미지(CC, 출처 표시)",
+ "sig": "Z/OHsojk5VviImDo72N20t1Z+fNLeobBwFq9YVo297hte//icx2H5I9O6EVn/UEMtPyctO5emi0GtT31eYILBQ=="
 }

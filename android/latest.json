@@ -1,9 +1,9 @@
 {
- "version": "1.4.24",
- "file": "www-1.4.24.zip",
- "sha256": "df108efd8ce91a5cc53ef9eaa7e8b97a42830c8c81c64e927b2b214e4f5c5a29",
+ "version": "1.4.25",
+ "file": "www-1.4.25.zip",
+ "sha256": "590e56c6a8aa5d69713c14a83ec505c27997ac1380b00e8e56f1ee8dff2bc653",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "멤버십 상품 이름·위치 변경",
- "sig": "iqcEybfUXNAELENl9iS2gZrHoN4uZyEuAqUq/fb9c1XB+eYKzL5aYwmwQYHp/3mba/0ExLbYQc/yMsBzjSiS7Xc3HpjjrY+AJ/iq7DB9kOb499gqn+mtzflxExC6bKzwYcii6S3GLMcKpxn3HPcJFcjLObtIsK9j1K1Dtspqhc3yTPB9mj1kskaxmjqFUGY+GDZOzysD+kxWsrsw78J2gj1hlKX49sG3KWy3miny2+paympHnPzzVftVC5Jpg2qlcsf5L12Oks7QqlNeo+EsxgJLlKRoUIHlzH96SoRLVN6Iwk7Yn9DxTpQFPF2AC0LSROwm7hO+ne1/fHn8kSNtLw=="
+ "notes": "참고 사진, 업데이트 자동 적용, 화면 잘림 수정",
+ "sig": "EP5NnPzdUqpHgRdYlMh/MAIO8BMLWDreOWoPGBFT4wj6rwtdPgDFpNHwbIcStBGOTIoRaiemv0X47cZTzesgkyjsa3TBiWpje7Rpn4APcHRF2ueMvH43qj/kpirr6//2RT0l19jiqwseFZ1CwGhnWrN3UTxE0DglakNElHGS/+AoYn04sZw2oCV57EbXla7Os9Qg/N4W7Ff/T703dWjnUTiyiN8s3J+thgQccjPCNInp8Bvz/6lDR5MNpo9UZNqX/HplDc8AjHKPyCN5TQPgXZAgQb50emZIOshUJorkK63veXFs6l9qS1HFGuiNyQWN0aAIbmK7XAig2JMtqeRRUg=="
 }
