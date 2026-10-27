@@ -1,9 +1,9 @@
 {
- "version": "1.4.25.1",
- "file": "www-1.4.25.1.zip",
- "sha256": "1bdc2b8409fe6671f54345e2d21c224020598b017131c109b6c29abca97af117",
+ "version": "1.4.26",
+ "file": "www-1.4.26.zip",
+ "sha256": "17dd6ab0249810c11c70af7661bc556b40071912008da096c18b49a4d70a5114",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "저작권 문구를 목록 맨 아래로",
- "sig": "Kg2yk/fNnQivQDZ++51rayyPkUHW7tsArf6TVGTv9yB+oifxu/VbZA/raLG1L1BK5hzMT+r3KRqf7GSusb1wNlc1FV0GKFCA5+aiha2BQyAx+h5no13gUCMfVu6joWhMFVTIKF5tdb0SzAcqKbU++dkVLCwAF5Uz0eOrBYUN7ObH561GAQT0CUEf4jY0MvpELMmRnAkAGb9zyTfF+SeIffOdZOStS4IWA9O0HimdHqohudYKFqnxW1pKPaejU/mCgQqtreiZtM+bonjPKF6dbu1E5akk7glKcsWO1ducFB5ASAxGwL++XONSKA6PmI4fk4+HN86bkmgv15Vve8lbxA=="
+ "notes": "목록에서 골프장 누르면 그 자리로 이동, 저작권 문구 아래로",
+ "sig": "H7Vk73u1Fw7fqKE/x5b0u0d/qp5QNWHwY6y/bB/OitelpQHP0oY/TTVV0W1rsbT+655ayZC/As7P/TgC6d9yYAiUdnwe3sZxupVGF3QqIv3JulSQMuiNKYWq6poUcjOey3btA+WIHhZYBbX24osXutFOnHDHG726GX77q86hTU4axUo8KG0hvBFia6uUGtIEGvL1s3Zn05bYgBp+vY1ayD3bdcoCKZlUtHIkmHkrTnQKrlEV7ixKFelIuDw9wDf4RP+bpj/mk21UYbGLFnT1ws7uk4ILUrNeEurYNJSic8cEu9w0A8FsoeFHioH7cV+vedVBKv1eQOrE62fzK2v0sQ=="
 }

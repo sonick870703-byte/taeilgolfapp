@@ -1,9 +1,9 @@
 {
- "version": "1.4.25",
- "file": "app-1.4.25.asar",
- "sha256": "3043d6f9528e29b7011546d87e88ac0a7b96dfd467070450338b5734721cbfb9",
+ "version": "1.4.26",
+ "file": "app-1.4.26.asar",
+ "sha256": "1df21d00d63b7e5b26c53f482599a2f1ab476b4370c588939fcb269fddac1ae9",
  "minShell": "",
  "fullUrl": "",
- "notes": "공식 사진 없는 상품: 실사 참고 이미지(CC, 출처 표시)",
- "sig": "Z/OHsojk5VviImDo72N20t1Z+fNLeobBwFq9YVo297hte//icx2H5I9O6EVn/UEMtPyctO5emi0GtT31eYILBQ=="
+ "notes": "목록에서 골프장 누르면 지구본 이동+자세히 보기, 저작권 문구 아래로, 구글 실제 사진 보기, 내 예약 좁은 화면 수정",
+ "sig": "TonWANLYvxTZayxZeAdvvCfX6ORYfjlDkVjmN3LlW2uVxxVEeWQjevd3g8ZS5PGXZIeCOzePZzlx6H019esSAg=="
 }
