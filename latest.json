@@ -1,9 +1,9 @@
 {
- "version": "1.4.21",
- "file": "app-1.4.21.asar",
- "sha256": "8d8bd19b28b5c82ba3eb1014f13ca23332379c7d01dce99d9a7808824728a166",
+ "version": "1.4.22",
+ "file": "app-1.4.22.asar",
+ "sha256": "25eef269ca0a294609349438f259321149c66260aa30a47f8157a5548d75b5d3",
  "minShell": "",
  "fullUrl": "",
- "notes": "업데이트 내역 창, 정보 제보 버튼, 제휴 문의(메일) 버튼",
- "sig": "r/E6wbEmkEYTcxKMlufzAIWmF9uBGP+044NO55TV1mfymvWkfEYD/4qaiDB44Kmkx4n11wDBPxfB7KKfvIvMCw=="
+ "notes": "나라·지역 2D 지도+목록, 상품 표지 공식 사진/골프장 그림",
+ "sig": "iBCM8MtAIbEGEDcl7K5hj906vLt+ggAJgtFILHNDefQDOj7RKo76ClRFVfXP/5k0p2+9E3Og0FTCfGh4bDTvAw=="
 }

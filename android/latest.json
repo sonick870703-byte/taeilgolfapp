@@ -1,9 +1,9 @@
 {
- "version": "1.4.21.1",
- "file": "www-1.4.21.1.zip",
- "sha256": "c9804f69763a69c5ab2044ca715eed7e1ec30a6be27501af523ad6c8ae105107",
+ "version": "1.4.22",
+ "file": "www-1.4.22.zip",
+ "sha256": "aa7374e62b27b03370dc4f95ca2e9c91cb6a6a2c4583edf43536fb1f629e264f",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "지도 위 버튼 한 줄로 정리",
- "sig": "lkR2ZqGCrfY8w6ygoavmGGG2VMH2yzHlLqRXkk9IitI5mYhUhyqmPjJEPUqH+xJ71PYk4hyV49msdCHBae+P3Amj6i6qMq31otXRvPGH0qWlCVe8LfkhpEY8r3Hj4JRkGaHsp5i/2ICUpoNMtXlNNcDMHvIkTfAjVa1Hm1HkrMdDHfn+6QNM8zDXsb4m2aTbvPc5GAPpI9630MEpRds6ac+/3Bjd3q+tXgKMBd+YVQxDXYoPq+dYQWrXmJcplLImN00d3+3zzGa+yKt+K0SItGbpUxRPhdCiKx3HAffBou9VmNsbVE5pN8gUyWwFe0NPJkqVzf3BcYecyMCb4n/WPQ=="
+ "notes": "나라·지역 지도, 상품 표지 사진",
+ "sig": "Qlpm3Wpm5hclWKpjA3PtGHdbGwpuw9aSR1K6+F2PNckzXgIv65otBGeAkBDLjAwVvAaKyaUcR8ZRiyo5+/trxViSdzk+eeAMQrhl1LgMoiYD0xEpyD3ZuG31HRc88/GglDA9Yf5ppIcFuTxnTypx8MXomM2p/oIPt/BXHSS1yzrRVR58XfVkbm+NkuXj6DUTGQBAc9tfLmt//ul9n83danwzn5kahj00CyLeqeowEZyumerXXJz6Zcx9Q4eM1r2aD6XHuXAXlwWvkGtxjZe+kfeofjYXWKImgz15d/IPraGZbYc7NREWZmH1QYY2v44eTCF26u6igQLPhaFgn1VBCg=="
 }
