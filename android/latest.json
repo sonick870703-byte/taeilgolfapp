@@ -1,9 +1,9 @@
 {
- "version": "1.4.2",
- "file": "www-1.4.2.zip",
- "sha256": "bf3368430355733b22b89a4625d8bf600bfc715a90cc9e208599bb3010255c41",
+ "version": "1.4.3",
+ "file": "www-1.4.3.zip",
+ "sha256": "7a08c96857fdf12353827f85e109119118b5661893dd425800a233b4be34b15b",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.2 예약 신청(구글 폼)",
- "sig": "mbAX+M3OJ5TfPKebJGNB0N0m7VO1Jp7s0KFkuDStQwAfifGMO8IG+6+3VVCorgE8eEnxgQyk3MV2TmMFshgAKn833YMFINx0ZlKJVjSOcIYmDXCMiKr4Lw10uXlt+nukkFdt+gsuivYqybhJ/XC+FJESE9kS5MhXKMdRCth+nV2n+BfbkvWa/OqLRvoX5GV3jmARFQ2tHVoSRat3dfP/RKKkiIhF6O3ODDv4j9jOt+eEVrOWv8LNm4e1YFnZa8zLJvWLm+eMG7I1vVjw+TtLS3k0bMlwhy6Lh5yJr/8BpRqr9SFWqGH9l8DLiyE4oaq/u6R70e9wyCkAj77YguIWgw=="
+ "notes": "1.4.3 카카오톡 상담·전화번호",
+ "sig": "nsOv1+9pLOekRE7HbF6LlxtuokT2ju/PFvB7XsdkPgu8MgNTdRX2M0YyOIzFgVy4XsTiHpfXc//Hp6EdbYCXV6/UP+Vdodzi3UqzjiXtXh8T3iqRUku+FrpA5l7QxV61AxuGQVMpUffOnpy0sv+VQHMQT2GZ+ChlbG6Xr6AiB9n5+k7vTXfrmPpsv3reYmgADa3fgNhI1iPAW9zhRwrRn7Yw5XQhtIGF8c+caINeCXoSj5LKZF0kf9/sYFrdRD4+XJgU+nbcHkV7NFeDxTZasF3TIxz/w8v3Iykb64beZxMalyfSSsMQWbirf63TZPhYUxXGZjFgXr9+325f3tdffQ=="
 }
