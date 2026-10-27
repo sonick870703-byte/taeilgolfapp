@@ -1,9 +1,9 @@
 {
- "version": "1.4.4",
- "file": "www-1.4.4.zip",
- "sha256": "6d579c7ff1848414687f5f5f3f18da0006b0123eb900f234f1e971b724cdd8e6",
+ "version": "1.4.5",
+ "file": "www-1.4.5.zip",
+ "sha256": "8d7dba938eb3f812a7b2261f20c87419319c26bb17366df99d3cad1b75686ddf",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.4 사진·상품 검색·예약 문의",
- "sig": "iTEneEGLtidwJsT0g7bO9PHvuhaVmoQcRlLJFeR3A6Ts1SqkeE76/uyZKxuIMIVaaCyO0O59D647S084iPAjCmvOg/upPrkYKEl8OFq58lC26ZAKxuB/eZNzH3rBWBVkTEjyPD/kgeIu1arE9k+MVPaeLOM+7hOEc2No2ETSWByY5Zah1a++OkHuX8SgJN4BZURbSwKXMXBYCpb3jATMFM7vrSep+fdHH9XlfuOhksb8U6nQu7IgCYVcp4uDTMIcN3PBm+KJYZ0NyP9kNznF/snAlSBjHeUAqt3A+fnbSrTSGdZchQHZ64luohroGy27Cw/wpKWAU02AHeCgwPD79w=="
+ "notes": "1.4.5 맞춤 예약·상세 화면",
+ "sig": "k8ry+EUj+ckBwrWhQ1n0Wv7bP/FClvO6c8Lh69L0Hg8MOmPIlHnmm+O5hUpszknuFFmJdhK8Jr9LnpQ/HrfPm2JnLnMfY+CiJy/CTpU3zd6wslf2eboZwwKSYY4c7b4w1zk99lUBTEO6U5D5PVu2cn2/3ybC7kW+VtEXjO85zbxdT7BKuZGd3BIbvNp/V2hOWFyl+LelgpQ4Ba4bRRbfH+RESkFjj5GQrN2PJMAWuDcTWXDprIAUQosW0EVEZuNLoDSk5HphGT92EGH0PyXSU8mTCTjybiCS7V96ukXr70Ws7fNE+Ib0GRSIsMZd3V5ZUh1p/ALvG1s1V48JDwNnZA=="
 }

@@ -1,9 +1,9 @@
 {
- "version": "1.4.4",
- "file": "app-1.4.4.asar",
- "sha256": "8442003fba2d81cbd7dfd81c384600ca365d29ab14854bec66bf4355fe957afd",
+ "version": "1.4.5",
+ "file": "app-1.4.5.asar",
+ "sha256": "9dbe74932f62dfc62bffb1babe80ad802c73417cbb65549f7cdd4d21c30e1333",
  "minShell": "",
  "fullUrl": "",
- "notes": "예약 문의 버튼 · 지역/호텔 검색 시 주변 상품 · 관리자 상품 등록 · 골프장 사진 · 부가세 안내",
- "sig": "TzNgBmWFyJ8WSup7XQ2zuJZg3yGHhG4VEeye0Qw9bnhIFkaGdqaeHmO24/PJGJmjNEG9dpf1ssAo7e4GJiDUDw=="
+ "notes": "1.4.5: 맞춤 예약(불포함 옵션 자동 계산), 상품·전세계 골프장 상세 페이지, 상세 화면 디자인, VAT 표시, 이전 화면 버튼, 골프장 아이콘, 저작권 표시",
+ "sig": "lhkGzQrE11oalsGd0JLV8QR4Etsge68V0OzcTllS2Xh/va9kJwFzO7yCH/CVrkOp1YL4b8JFGFqWG4aCBaW2BA=="
 }
