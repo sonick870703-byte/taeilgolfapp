@@ -1,9 +1,9 @@
 {
- "version": "1.4.21",
- "file": "www-1.4.21.zip",
- "sha256": "ff93a994fa12a87f4bc083aa39177f9b5c4a57b121206d6f5457c493b545dbd6",
+ "version": "1.4.21.1",
+ "file": "www-1.4.21.1.zip",
+ "sha256": "c9804f69763a69c5ab2044ca715eed7e1ec30a6be27501af523ad6c8ae105107",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "업데이트 내역, 정보 제보, 제휴 문의",
- "sig": "FXGvcl6upqf/V5ax3apg0stR0evVumsRZG5nZILkyZUGk0PlRJrSz7yXO/Q69wuVMFCVM1C6sT39hO/FVTj2XIa+Vp2N9MPC7lF3zB4N3v1Kkmwfmhgd6I+mz96oUwjUGObDlKgfTlQwqnyP8NEvVFsMl6XMqPMswIsigBb7s3v9fFGNwXWi01iI9T+WQir4WUbzpApG8jcCjTFvAU23P9zsuKzB/sX+hxH+k/iAwmjs5umJFez26kbLITYyx8sg/S/VgEHkjGj9NSJSSufG0mArUULRammzPrfNvkBMku3m1kLJhs4k/KjU9zUGmClWzySKiFHND/SNhF366ZM5cA=="
+ "notes": "지도 위 버튼 한 줄로 정리",
+ "sig": "lkR2ZqGCrfY8w6ygoavmGGG2VMH2yzHlLqRXkk9IitI5mYhUhyqmPjJEPUqH+xJ71PYk4hyV49msdCHBae+P3Amj6i6qMq31otXRvPGH0qWlCVe8LfkhpEY8r3Hj4JRkGaHsp5i/2ICUpoNMtXlNNcDMHvIkTfAjVa1Hm1HkrMdDHfn+6QNM8zDXsb4m2aTbvPc5GAPpI9630MEpRds6ac+/3Bjd3q+tXgKMBd+YVQxDXYoPq+dYQWrXmJcplLImN00d3+3zzGa+yKt+K0SItGbpUxRPhdCiKx3HAffBou9VmNsbVE5pN8gUyWwFe0NPJkqVzf3BcYecyMCb4n/WPQ=="
 }
