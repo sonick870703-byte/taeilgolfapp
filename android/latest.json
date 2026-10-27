@@ -1,9 +1,9 @@
 {
- "version": "1.4.19",
- "file": "www-1.4.19.zip",
- "sha256": "97ac851405ba2792e20ca137b80fccb6d32134a7e4cdf6d311884f4d93170967",
+ "version": "1.4.19.1",
+ "file": "www-1.4.19.1.zip",
+ "sha256": "60ad7ce9f7b907f177121681df8d229e831d4c34f7e91def019838e5cd3050e8",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "예약 접수 확인, 실패 시 신청서 열기",
- "sig": "Dn8+eqJ2Tusi61wFCAcl0JQRRbojfEIeM747xpugtjHvnujA5YhVyqLC05CFm+YutPXZ8qDY/3+mCqvBBmziD3k4f7+sv44emS1Ok/m5EsUIY2mfzgteq0dbK8n2+wLbBDvep83aIvPZ6IbGVjjeJfBeoC6gcucCf6aOk9QkrpUCq95yO8np7cjUoo9/fQAaTuD9IVohWixxG3lR3NmoQlWRei1inyOEfeQ5hsuX6CpHs3zjI6LvzzFvSM/cd2x9O+UuuTYAvzVTRjzaX8v5PzJ2v1nOB8Vh6Jmn8kbr4Y2z4tRBmjp8TqQS1Ib3nYb/9H98DagGvxZyYOZe/8l1lg=="
+ "notes": "로그인 후 돌아오기, 목록 끝까지 올리기, 버벅임 줄이기",
+ "sig": "hoF0UorqGzQ2NO4uz5wL2sIXylHU11wnEArBrztvSCpksBsS6hXz5nqV/dk34FnNDb3QJvjr8jJhcR8uT079b64EKVtSS876JVj0TFsL4uV0stPFr00lbb2BYDz+j2Z5sarX22dpqa2e1w3eQgxGh08LyBPFUb5kOabmf+aWJZ7PEmerc/KohfZtpiz8r8OG5tVWzyI8KVMh/urmPZmulkPz4Ebvhgu+l0IEiYLmOEY/PZVxkWfuQMc47aHWNIsQ6lwz0dCnEZAYWMXAZSw9YNMt6aH0DaxwD/itUxK1p3nV6SMutSQ2gCcBLKPE9B04fy14HfL9EDIwO56FGIHkEw=="
 }
