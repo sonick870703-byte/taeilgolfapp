@@ -1,9 +1,9 @@
 {
- "version": "1.4.29",
- "file": "app-1.4.29.asar",
- "sha256": "2c9d2ee2914ada9e765ec586122c814c0e712c4239d1af92c804f460b4caf8f3",
+ "version": "1.4.30",
+ "file": "app-1.4.30.asar",
+ "sha256": "249787238cc80d0e902313e1fab8e17c00a625a735d3305babded857733246e6",
  "minShell": "",
  "fullUrl": "",
- "notes": "휴대폰·좁은 창 오른쪽 위 버튼 표시",
- "sig": "MEYOUgSYhNzS4yFIWq/ebqk5T2iCvE2cEC4PD95WsE1YwfEsHqoVgvZ0U6yzLPmgCI388UCxUUYNFB0TALSFAQ=="
+ "notes": "1박 상품 예상 금액(1~100박·월별 요금·카트캐디·공항 송영 입국/출국), 결제 규정(예약금 20%·잔금·환불), 캐디팁 제외, 상품 묶음 표시 목록",
+ "sig": "cDpc78QQ0MqYw7lCbIWvWlS79Urb2l2qaPJ/zYKtwKSUq5LcwZ8Le8xeuWib2clPQiiJDXvZ4vuWORMlCy99Ag=="
 }

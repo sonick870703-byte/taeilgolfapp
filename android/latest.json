@@ -1,9 +1,9 @@
 {
- "version": "1.4.29",
- "file": "www-1.4.29.zip",
- "sha256": "2262c8f6053f2cabe5fa546036121eb25b497b09e2d0773f85c3dc0d2865b726",
+ "version": "1.4.30",
+ "file": "www-1.4.30.zip",
+ "sha256": "663ae3d96b0b6efc498a317999267609db1ef9c72487251ff5118961f3ae6df3",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "휴대폰 위쪽 버튼 정리",
- "sig": "o3UBKIzvWXZrrbJuM+T4Sc2XXNotW/4NhNTd/a+RXEtBKXsZeAGeeOa6Z637VRJWSq7JKSgID6/HOtHlJ0oiTkYEbLmmql2mEHPCPWaJHfWVaHN24Lsaa+ge2UZyPVxML/PS7nK0QnbVT35k7c9eBsHLSgawQhZPCLZezDV5ety+8iMwUloWD1VPt3wW3LGFhVJxcRN4V6M/xGfTBCuKq5yHRV/YGcoFCrBscrNRcjWZSborXkizlmHixsbJOp2OxR+iccgot5nb7T3Xf9C4z4T5ASRjO2UskNUqbl3KqadIZagPWbTkg4XnbYjpE2fLihkPLUDA+tMcMHAvHR7cfg=="
+ "notes": "숙박 일수별 예상 금액, 예약금 20%",
+ "sig": "gomjisbHQ6oOFVaIx+4lkKurnkXdPywVrWFfe91AGZzCsjWB0HcAbgldmtLZdBRU4Grc+w9bNn6PUjmjRqTGKHgC7iVXDiqZGQTFfg3UaV+tvWJelyOAHxLcFaVB9dqMg8TZK9v/uqutBmH4JtB77hy49Ig99j0ssqY6H4AWE2pFkPdBeUxiK4V5/5tbDUzqEX+DamUSLRNIqUPeR8DIyIHq2kE4wTZBl3DfbJ/1Sf42U+KLhVdzogA6eRVqShZw5upFXOrGDcLovX+cbmz/pTukXBD7ngL71DcmxNtyCmTWU+uRHFPaxuTJO/2S83QYh1/78t9oZ1PM1Ctd8NunIA=="
 }
