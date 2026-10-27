@@ -1,9 +1,9 @@
 {
- "version": "1.4.28",
- "file": "www-1.4.28.zip",
- "sha256": "afe1e1ec647d09f5d4bca2dbb4737f3955dbd142a8c6916a2348ea7dffd25cf4",
+ "version": "1.4.28.1",
+ "file": "www-1.4.28.1.zip",
+ "sha256": "406e9f9e9810a7b81648163b354342ef6738f67fbc6ddd77a2d1c0e13ace213f",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "오른쪽 위 버튼 정리, 금액표 휴대폰 맞춤",
- "sig": "G+BVocu9JOsYvlaa5mILr0WhFcVng2ibieBOXyGgKjkdP8cfypEA5+KHy4KTJJklbUdEyvEaVWKzO/gsd+1930eFuGDevwQ9x3BxosH64EtVxsazyLoWGQAnTd57GxmyCJsCYh2HURcqTIZ5ywfJrU++bDPMzl4zopBR7wlPsX7kT4t4htt7tUXYCulBXffGRZm9juaPYbU9IEjgqPUQo6bRN1xVvUHPx1WQhfiFrJeg+RFpXeSrXYRcvW60q2B5iqZD+EJQShNdMNwa8Llnolzmba7Jw739Gt9V2/DZAGkIbmoa3IyIgB4CBQX9fQrJkKakojwR3OjkC4gOG9FqUA=="
+ "notes": "휴대폰 위쪽 버튼(로그인·입국 서류·내 예약) 다시 보이게",
+ "sig": "QBZ/ZFLT2IaLK+cUjCUVseJu+i4vsPQkLt53W1FHS52fHeL0YDZ3mX1rqV6zTX82onrNNutkZiTMn/mGcpDMTjvyM5L3SCP735/Qh356enw4wB6mlL3ieozrgY8E1K7Sz+ChQ9FooDA340kEiSwFU1nqVZ+hPAbb1cgGVn9pYPI7RzFk2/n7cljg/Wpq+IEt2Hq7lKOXiLWccTSTynYzZ6uyJB8cykBGH/4xAJhUn8spyzQ/MiH6apkM2MF7QMM+QcoOxeNcDe/OEqY3Nrh60dMdZqOiBtjQIz56OcMJxpCTC+RqPtndbT5Ooi9ZoJOhpFuoZ7Lcnn25/f5wLpJZUg=="
 }
