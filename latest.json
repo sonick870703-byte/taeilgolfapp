@@ -1,9 +1,9 @@
 {
- "version": "1.4.22",
- "file": "app-1.4.22.asar",
- "sha256": "25eef269ca0a294609349438f259321149c66260aa30a47f8157a5548d75b5d3",
+ "version": "1.4.23",
+ "file": "app-1.4.23.asar",
+ "sha256": "e687c78da10a3fc2298e887d239df00a20333a9c5e27e6c9d6228d2570ae1b35",
  "minShell": "",
  "fullUrl": "",
- "notes": "나라·지역 2D 지도+목록, 상품 표지 공식 사진/골프장 그림",
- "sig": "iBCM8MtAIbEGEDcl7K5hj906vLt+ggAJgtFILHNDefQDOj7RKo76ClRFVfXP/5k0p2+9E3Og0FTCfGh4bDTvAw=="
+ "notes": "지도 창 닫기 버튼·휴대폰 목록 개선",
+ "sig": "PPROWuT4UpDq1RKu3ld/JZwWNYYX7P/mOEYlup5DYQLmRJG4D9fHwk8NZw1LdCNe1HymyNi+jsvQMQqSAuPRCw=="
 }
