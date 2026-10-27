@@ -1,9 +1,9 @@
 {
- "version": "1.4.5",
- "file": "app-1.4.5.asar",
- "sha256": "9dbe74932f62dfc62bffb1babe80ad802c73417cbb65549f7cdd4d21c30e1333",
+ "version": "1.4.6",
+ "file": "app-1.4.6.asar",
+ "sha256": "a4bfa313a9f54ce203e29c0ceefbd3e97ee2fdbf94855d5f07b4f756bfdd78a9",
  "minShell": "",
  "fullUrl": "",
- "notes": "1.4.5: 맞춤 예약(불포함 옵션 자동 계산), 상품·전세계 골프장 상세 페이지, 상세 화면 디자인, VAT 표시, 이전 화면 버튼, 골프장 아이콘, 저작권 표시",
- "sig": "lhkGzQrE11oalsGd0JLV8QR4Etsge68V0OzcTllS2Xh/va9kJwFzO7yCH/CVrkOp1YL4b8JFGFqWG4aCBaW2BA=="
+ "notes": "1.4.6: 주변 상품·골프장 카드 정렬",
+ "sig": "dfEOg4Y2duCxG/SyrztjVfIYYd4QD6H5c/nb1v6E6XZhId/pyFjvU8cmrBh6QXOldnKCcLCWlv6U5+FuNpLCBg=="
 }

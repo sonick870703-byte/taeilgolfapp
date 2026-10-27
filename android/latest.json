@@ -1,9 +1,9 @@
 {
- "version": "1.4.5",
- "file": "www-1.4.5.zip",
- "sha256": "8d7dba938eb3f812a7b2261f20c87419319c26bb17366df99d3cad1b75686ddf",
+ "version": "1.4.6",
+ "file": "www-1.4.6.zip",
+ "sha256": "47b2e42cbcf3132b69363fac0d44044bb5d528e42ebb160dd184118f88d1f3d9",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.5 맞춤 예약·상세 화면",
- "sig": "k8ry+EUj+ckBwrWhQ1n0Wv7bP/FClvO6c8Lh69L0Hg8MOmPIlHnmm+O5hUpszknuFFmJdhK8Jr9LnpQ/HrfPm2JnLnMfY+CiJy/CTpU3zd6wslf2eboZwwKSYY4c7b4w1zk99lUBTEO6U5D5PVu2cn2/3ybC7kW+VtEXjO85zbxdT7BKuZGd3BIbvNp/V2hOWFyl+LelgpQ4Ba4bRRbfH+RESkFjj5GQrN2PJMAWuDcTWXDprIAUQosW0EVEZuNLoDSk5HphGT92EGH0PyXSU8mTCTjybiCS7V96ukXr70Ws7fNE+Ib0GRSIsMZd3V5ZUh1p/ALvG1s1V48JDwNnZA=="
+ "notes": "1.4.6 주변 상품 카드 정렬",
+ "sig": "LT/lA66r7FR92RtE57m1Umrgw1hgOt2vjNWPnYhAS/ZumHpmZNqKOysKg8t+030GVBjVV1OSQWIxZkJ7/t2UoUQ9mz5Tz6Qz+2/BuHhiIb5xdCInGdubCVMKS7Q92/eUuJjSSZDuWheIhLUYfoU1sWFo/PYxSg1BPoIWGPi520Pax+4xFgeEsRXuGp0NrJFtjacmX2X9ZzHUaUMo1Dcbt4yc+JwRtpBB9tf/zaWKsoLmSAdBaCvgvBAemu93LuhoHkHvrJPc4sppAtFDV5/j9dRvVcYqV7wFDR3/lPJ+xZqNxQ1Hx13aaxeHsUxtZ/+8a0bdV4xDuZBvRArH/+q6DA=="
 }
