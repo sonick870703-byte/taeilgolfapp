@@ -1,9 +1,9 @@
 {
- "version": "1.3.2",
- "file": "www-1.3.2.zip",
- "sha256": "e0402017071a4358c44e08ef93ba9e83f9d3354810c771dd66dd0dce8ac8700f",
+ "version": "1.4.0",
+ "file": "www-1.4.0.zip",
+ "sha256": "58a3fcb061509e57159454214104171c7cae1d00304c74823b9531bca5f3015a",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.3.2",
- "sig": "qBDNPyKtOgznG7LF3TVR5yYcf0zezn9cp7MTUvgwmNSfN/EPWqA+ql/9qHJrNxZUQOCDx5g0d3Sci5YXr8zDL5KPYQn8CWt+5bsNGHbR37fvGOXIihD0wk/1SxUPHx/x92rGs2MEIruqjAaT+R7HGUUa+PF/wBuaTKv+F3STVREMW0P1dLZyHLKo6ignFyhzD/h3GPJkKWYmasvJkgFqooEz06Mlwwz6ClHLKMvgdA8Pg425xGCp+A3UnBJHZwSOB5I6qFn22hyzhEoLu47lQ7v+T8iG4PJBVG7Os76geufa2V1/pQdFNJoPC6aQ1sU9oID4M6oMbnGWrmGul1xD4A=="
+ "notes": "1.4.0 나라→지역→골프장 보기",
+ "sig": "bPR7oi0yPonpReU8h8LQ1Pp+FMVsKx+Lsz7Anbc1J+YTW5CrVPGq32DQOgN09z9WLoHfCUNe6embhOeCT9bTPdg6wiJXL4ql+aBh/28WrOWBwDWqNgT19C+e7wjvxE+LxBJoAiHbgitPH281j5CNfp7nc55s6F0JsCMFlXZihLHzIjVN0RAVbSB0j6fKMje06CQCdlWP9crqL8rgJIFFFYAn2bji32kw3UaXZP87XiZL7jCtBdLL/wJGiRJ4QplQ6//Qp2Q0lkjewp7xfnoWNAaUzkHcRCdiscQtZLOetTK83a4Wy8dAiGNcztSxuVvtrE7QcRzs1pPFv0AR+dfPyw=="
 }

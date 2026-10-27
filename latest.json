@@ -1,9 +1,9 @@
 {
- "version": "1.3.2",
- "file": "app-1.3.2.asar",
- "sha256": "a3216dd221828062fe1b5e7244d8587f52de0702aeacf3a9a17b102c8a6b1218",
+ "version": "1.4.0",
+ "file": "app-1.4.0.asar",
+ "sha256": "08001ca90d838b25b54967187bec1f6d370803f6479096ec601eaf75ee2301e5",
  "minShell": "",
  "fullUrl": "",
- "notes": "업데이트 주소 수정 · 상품 ★ 표시 겹침 정리",
- "sig": "8KqzlAUtrL52nDU/dmpRSBwAi9jNMTStJsf8RvQIb9wF6pXzERqOow/eDZUn43rYWHQZTToNXXxnQB0kQYugAA=="
+ "notes": "지구본 정리: 나라 → 지역 → 골프장 순서로 보기",
+ "sig": "ju1sk9AhDHzIeMT6IhMCzoclXXvxfrQSFcJ3vKqN8mf4hFkCdX7X+NKLyrxk43tt26BejAbnUyG93AZJUICTAQ=="
 }
