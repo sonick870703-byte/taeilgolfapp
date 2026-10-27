@@ -1,9 +1,9 @@
 {
- "version": "1.4.30",
- "file": "app-1.4.30.asar",
- "sha256": "249787238cc80d0e902313e1fab8e17c00a625a735d3305babded857733246e6",
+ "version": "1.4.31",
+ "file": "app-1.4.31.asar",
+ "sha256": "5193ec5e1d35c0f4b95f0bf05bd07b20b3039fcd79c511ee1c98de91e83418ac",
  "minShell": "",
  "fullUrl": "",
- "notes": "1박 상품 예상 금액(1~100박·월별 요금·카트캐디·공항 송영 입국/출국), 결제 규정(예약금 20%·잔금·환불), 캐디팁 제외, 상품 묶음 표시 목록",
- "sig": "cDpc78QQ0MqYw7lCbIWvWlS79Urb2l2qaPJ/zYKtwKSUq5LcwZ8Le8xeuWib2clPQiiJDXvZ4vuWORMlCy99Ag=="
+ "notes": "상품 표시가 지역 배지에 가려지던 문제 수정",
+ "sig": "dx8pQd68j4x116j5o24PHrxOnFKdqFUtYEjrGYWC4lp4+G6EZSI2Afnfz3gJ6zP+IfGlP/jnB+H9xLAUXYbtAA=="
 }
