@@ -1,9 +1,9 @@
 {
- "version": "1.4.18",
- "file": "app-1.4.18.asar",
- "sha256": "c5bea11058a62ff94d6ad249f88cde1a4b61aebf0cf1b0d59dc0933de6acbee4",
+ "version": "1.4.19",
+ "file": "app-1.4.19.asar",
+ "sha256": "da15bdef612cc73ee7b5ea28fd03d7ab25c52af64093ea8ed0c39dbcc53fc227",
  "minShell": "",
  "fullUrl": "",
- "notes": "카카오 채널 여권 사진 자동 첨부(새 설치파일), 음식점·관광지·숙박 불러오기 경로 추가·한국어 이름, 입국신고 앱 안내, 맞춤 예약 주의사항",
- "sig": "XyV/Bxr23dcgOgg9+lMqwbMj7iukh+Z6nFiFJkCYpeBSeAtIwut1Kd3r5yTe6L/diDvQCDWCkoiuAomRDo2ECA=="
+ "notes": "PC 프로그램 본체도 자동 업데이트, 상품 대표 화면 새 디자인·실제 골프장 위치, 사진 빈 칸 수정, 참고 요금(그린피·캐디피·카트·송영), 예약 전송 실패 시 신청서 바로 제출",
+ "sig": "x1DyjkIWMb57M9ysPFvb03ih7vur8RPBt+58Qrz/jZSPL3X7vqgYvPzwO0gpoZRYBSIIU1WGQIeLaPUExGssAQ=="
 }
