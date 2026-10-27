@@ -1,9 +1,9 @@
 {
- "version": "1.4.31",
- "file": "app-1.4.31.asar",
- "sha256": "5193ec5e1d35c0f4b95f0bf05bd07b20b3039fcd79c511ee1c98de91e83418ac",
+ "version": "1.4.32",
+ "file": "app-1.4.32.asar",
+ "sha256": "410cea86ef4586a1a3b559eca4a5c9e22f9daf15c2796379cf06902796ef8b92",
  "minShell": "",
  "fullUrl": "",
- "notes": "상품 표시가 지역 배지에 가려지던 문제 수정",
- "sig": "dx8pQd68j4x116j5o24PHrxOnFKdqFUtYEjrGYWC4lp4+G6EZSI2Afnfz3gJ6zP+IfGlP/jnB+H9xLAUXYbtAA=="
+ "notes": "상품 표시 항상 위로",
+ "sig": "/raJZmqP7bzOi3q2SxSctZPZr8tHoDLu1/DpLRLtsgk/uBlCTJNk8KGivF9uMXyxp9fJRoARRSGZ3mJtio1ECg=="
 }
