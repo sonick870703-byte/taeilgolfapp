@@ -1,9 +1,9 @@
 {
- "version": "1.4.19.1",
- "file": "www-1.4.19.1.zip",
- "sha256": "60ad7ce9f7b907f177121681df8d229e831d4c34f7e91def019838e5cd3050e8",
+ "version": "1.4.20",
+ "file": "www-1.4.20.zip",
+ "sha256": "3b5a2158ff8455b52293fda406bdbd9c7ceffab6556c127dd79f69e6783b2c73",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "로그인 후 돌아오기, 목록 끝까지 올리기, 버벅임 줄이기",
- "sig": "hoF0UorqGzQ2NO4uz5wL2sIXylHU11wnEArBrztvSCpksBsS6hXz5nqV/dk34FnNDb3QJvjr8jJhcR8uT079b64EKVtSS876JVj0TFsL4uV0stPFr00lbb2BYDz+j2Z5sarX22dpqa2e1w3eQgxGh08LyBPFUb5kOabmf+aWJZ7PEmerc/KohfZtpiz8r8OG5tVWzyI8KVMh/urmPZmulkPz4Ebvhgu+l0IEiYLmOEY/PZVxkWfuQMc47aHWNIsQ6lwz0dCnEZAYWMXAZSw9YNMt6aH0DaxwD/itUxK1p3nV6SMutSQ2gCcBLKPE9B04fy14HfL9EDIwO56FGIHkEw=="
+ "notes": "PC 1.4.20 반영, 번역 기능 제거",
+ "sig": "RXXks3gstbA6f6+o9fAhg3e2tRRsqX6zslHSu/9obH07cebr58f7MdneCjoFvClPNE5gqrRVkGe+j/v5O2hkNwgnp7uKAHb8hzIeKSdDMtNKXRUohaUowygU4ND8jOHUuK3J96C6XT1+uGvYLpu8ZvypOEg0jodoO22PjDR89ekuYS/1gznmsuDk/eP62ynKsuKTYsHpeGMqSn78z5eyc0121lmqcjMwMxdfw3bnyqbfijTfX9n+PCdeYkZY0v455Rc2+XyQWkjXDkRkSQ5g++h3Rn2a4hQAzvK+NTH90F4V2HNAoAtysjZvbOE2RYXhUL7RZNLmvx1YhpW+yOtsZg=="
 }

@@ -1,9 +1,9 @@
 {
- "version": "1.4.19",
- "file": "app-1.4.19.asar",
- "sha256": "da15bdef612cc73ee7b5ea28fd03d7ab25c52af64093ea8ed0c39dbcc53fc227",
+ "version": "1.4.20",
+ "file": "app-1.4.20.asar",
+ "sha256": "b4f2e462cf01b374f4c2714e92bcaf57e9985ec3a0d92d2eaf17c7372b4faaff",
  "minShell": "",
  "fullUrl": "",
- "notes": "PC 프로그램 본체도 자동 업데이트, 상품 대표 화면 새 디자인·실제 골프장 위치, 사진 빈 칸 수정, 참고 요금(그린피·캐디피·카트·송영), 예약 전송 실패 시 신청서 바로 제출",
- "sig": "x1DyjkIWMb57M9ysPFvb03ih7vur8RPBt+58Qrz/jZSPL3X7vqgYvPzwO0gpoZRYBSIIU1WGQIeLaPUExGssAQ=="
+ "notes": "추천 루트·가성비 루트·캐디팁 안내, 1인 예약 안내, 결제 안내, 마트·약국·렌터카 지도, 골프장 클릭 수정, 공식 상품 사진",
+ "sig": "eGs2iiqHRhaz18LFeBLv6xOiTZQtPUShy7Md/fbc5GWk+X4Z0jSaN0VzO3TmCwDjY16+uLZVWo9nJFDLq13TAw=="
 }
