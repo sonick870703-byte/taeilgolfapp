@@ -1,9 +1,9 @@
 {
- "version": "1.4.26",
- "file": "app-1.4.26.asar",
- "sha256": "1df21d00d63b7e5b26c53f482599a2f1ab476b4370c588939fcb269fddac1ae9",
+ "version": "1.4.27",
+ "file": "app-1.4.27.asar",
+ "sha256": "ee13d3433696feef7743e8ed51dd3eabda17de19872579ecfe6c459c173c3610",
  "minShell": "",
  "fullUrl": "",
- "notes": "목록에서 골프장 누르면 지구본 이동+자세히 보기, 저작권 문구 아래로, 구글 실제 사진 보기, 내 예약 좁은 화면 수정",
- "sig": "TonWANLYvxTZayxZeAdvvCfX6ORYfjlDkVjmN3LlW2uVxxVEeWQjevd3g8ZS5PGXZIeCOzePZzlx6H019esSAg=="
+ "notes": "예상 금액 계산, 나라별 옵션 요금(전세계), 캐디팁 원화 환산(오늘 환율), 공항 샌딩 중복 삭제, 상단 문구 정리",
+ "sig": "s1nqF7YxObBHVXJ5lQc3M9nTtNkyOLknT+t7xrR4GDqmSdwzedYWCtxd78oMP6V2OcyUyllydRvRCTFMohnGBQ=="
 }

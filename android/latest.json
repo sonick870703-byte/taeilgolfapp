@@ -1,9 +1,9 @@
 {
- "version": "1.4.26",
- "file": "www-1.4.26.zip",
- "sha256": "17dd6ab0249810c11c70af7661bc556b40071912008da096c18b49a4d70a5114",
+ "version": "1.4.27",
+ "file": "www-1.4.27.zip",
+ "sha256": "927a8fcf2c69d85e0b49837c4f347a3e0e66e342760ce4264ec51845f7b04553",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "목록에서 골프장 누르면 그 자리로 이동, 저작권 문구 아래로",
- "sig": "H7Vk73u1Fw7fqKE/x5b0u0d/qp5QNWHwY6y/bB/OitelpQHP0oY/TTVV0W1rsbT+655ayZC/As7P/TgC6d9yYAiUdnwe3sZxupVGF3QqIv3JulSQMuiNKYWq6poUcjOey3btA+WIHhZYBbX24osXutFOnHDHG726GX77q86hTU4axUo8KG0hvBFia6uUGtIEGvL1s3Zn05bYgBp+vY1ayD3bdcoCKZlUtHIkmHkrTnQKrlEV7ixKFelIuDw9wDf4RP+bpj/mk21UYbGLFnT1ws7uk4ILUrNeEurYNJSic8cEu9w0A8FsoeFHioH7cV+vedVBKv1eQOrE62fzK2v0sQ=="
+ "notes": "예상 금액 계산, 나라별 추가 요금",
+ "sig": "jRHz8i29bDQIxgs+HljAyYYgYjxi6znh08YpSUtnMKLLACD4s8kWHB32h3/cLFmk4Q6NoXaj/InPiTb5ARr7k34LLufLKbH3lGFr2UDYuyCNY5dHWKoTbbhUDuJkRaPRzKC7cUhXwzumzLG4euZS8c9UK4PWVVJM72m/o4l0LZypjnkVwV7unWCQZQkK+LRlw42G3v5w+P3gsF7b87YPM9Lzb+mfHmRbnX7R82xJujHmLvb6PKcG355xC40kpuX4PxQSX7XXkjapjFqIKaRIrmfeNAw7FagCXTE/DN8qeh6F5UJjazklW8HNwrhkocC2TSLr1WMP3vMKMeAt5zkJFA=="
 }
