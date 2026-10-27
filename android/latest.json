@@ -1,9 +1,9 @@
 {
- "version": "1.4.17",
- "file": "www-1.4.17.zip",
- "sha256": "2d00406df70e26c1ffac55acaa92273a14c51afc2531372810f760e3c93c60d8",
+ "version": "1.4.18",
+ "file": "www-1.4.18.zip",
+ "sha256": "34aa30e168e01f90a57515199eed58b110cf3b3d07c7a57e7786ee6ba874244e",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.17 입국 서류·내 예약",
- "sig": "ghT+xZgMnJgPPuN1wIMcdvJKelY/F1CYgGKEsypIkn9dVCYUl3L4izRAP+/gWaW2yTS23w8Py0RsprJ57YNMRlLUGs0an5cpepMbONOurwSlCsxTMQrqOWzXJ5dFTXM43CdvuJxesc25BwXfx4AitE0NU0pCV56RqF4Gws0Ri6/Q8TUJkMSOAl2pZnVYNnIl5ZZ0YQ/vxawyUM4Q/NR6Xi9E8ftxjVtSZooQBQ98lMq/GaxSiDvWAU5LFLDjSKvUprN4lI9Ri8nEktZCuRm0P0ULR7NSvj3XyR8CRL1v8mRUHjY6US9YT7CKhqERHbHkoAgjmYv6cacA2W538Oyo0A=="
+ "notes": "POI 한국어 이름, 입국 앱 안내, 여권 사진 카카오 공유",
+ "sig": "bzI/0ZThmZDWWLyPXP8lRJPK8Fwqr2FRQpY44z/C5U0DE03qxpMBSlCp7u1KKm2v4OT0bfyVQIv2yV0CQ2XcwCuVJ3pU/Mnlt6F6aQVzHuWzOlcLxOqJyR5mmx8fcydFFtHVSMceTuRlGkT/1Wczcou/41bu8Wn3njXct4EfsmrW/UuFNZ6b0O2dxh8SzweG0mTqg2UnohXwM9yCgC+x+1SUvMh7Te6pdp42lNTyvG0kOWkV/GjNSVgE2lafNecZsndHFhWWE4IyXD8YUpzcUQs8zPspY1Rz9zce5Bt0YTjbfBUpxPrmNRG0WBkI6NiIf6MNCKVJuR26XF7ibCdwbA=="
 }

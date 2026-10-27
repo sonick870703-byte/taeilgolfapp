@@ -1,9 +1,9 @@
 {
- "version": "1.4.17",
- "file": "app-1.4.17.asar",
- "sha256": "5ba74c385a8f3ff0ad0d3449732e3fa799b5b5408925c4e1aedd18b29b71b267",
+ "version": "1.4.18",
+ "file": "app-1.4.18.asar",
+ "sha256": "c5bea11058a62ff94d6ad249f88cde1a4b61aebf0cf1b0d59dc0933de6acbee4",
  "minShell": "",
  "fullUrl": "",
- "notes": "입국 서류(나라별 공식 전자입국신고서 17곳)·작성 도우미, 여권 사진 보내기, 내 예약·결제(카드 기본, 현금은 카카오 문의)",
- "sig": "OkFGLnI/5cWkirT9oVjZoZ8Zd8XjHDVSurA0hDaGPmSx2ORWmfKZMp+0lLOHz5LJFcbhcZdHpvihVBdsE8gTDg=="
+ "notes": "카카오 채널 여권 사진 자동 첨부(새 설치파일), 음식점·관광지·숙박 불러오기 경로 추가·한국어 이름, 입국신고 앱 안내, 맞춤 예약 주의사항",
+ "sig": "XyV/Bxr23dcgOgg9+lMqwbMj7iukh+Z6nFiFJkCYpeBSeAtIwut1Kd3r5yTe6L/diDvQCDWCkoiuAomRDo2ECA=="
 }
