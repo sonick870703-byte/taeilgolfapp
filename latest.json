@@ -1,9 +1,9 @@
 {
- "version": "1.4.0",
- "file": "app-1.4.0.asar",
- "sha256": "08001ca90d838b25b54967187bec1f6d370803f6479096ec601eaf75ee2301e5",
+ "version": "1.4.1",
+ "file": "app-1.4.1.asar",
+ "sha256": "85b7c7942c1a6707cad8bdc5db8769b01097dfc5376bb8b3cafa784c0557f7ec",
  "minShell": "",
  "fullUrl": "",
- "notes": "지구본 정리: 나라 → 지역 → 골프장 순서로 보기",
- "sig": "ju1sk9AhDHzIeMT6IhMCzoclXXvxfrQSFcJ3vKqN8mf4hFkCdX7X+NKLyrxk43tt26BejAbnUyG93AZJUICTAQ=="
+ "notes": "이름표 겹침 정리 (휴대폰 화면 포함)",
+ "sig": "bjCN7PUmObcrqJkYuD4Toi267rekIkVr9dERqDEyydw91bbF/2IE3tFk35GTkFtDXCY4AqD68CfgT64Ua4HrCw=="
 }

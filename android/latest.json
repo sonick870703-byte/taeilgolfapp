@@ -1,9 +1,9 @@
 {
- "version": "1.4.0",
- "file": "www-1.4.0.zip",
- "sha256": "58a3fcb061509e57159454214104171c7cae1d00304c74823b9531bca5f3015a",
+ "version": "1.4.1",
+ "file": "www-1.4.1.zip",
+ "sha256": "9812cc7fa8723a2286a8dd8593dfb0b34bcf5c161caba414450fdefc187763c4",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.0 나라→지역→골프장 보기",
- "sig": "bPR7oi0yPonpReU8h8LQ1Pp+FMVsKx+Lsz7Anbc1J+YTW5CrVPGq32DQOgN09z9WLoHfCUNe6embhOeCT9bTPdg6wiJXL4ql+aBh/28WrOWBwDWqNgT19C+e7wjvxE+LxBJoAiHbgitPH281j5CNfp7nc55s6F0JsCMFlXZihLHzIjVN0RAVbSB0j6fKMje06CQCdlWP9crqL8rgJIFFFYAn2bji32kw3UaXZP87XiZL7jCtBdLL/wJGiRJ4QplQ6//Qp2Q0lkjewp7xfnoWNAaUzkHcRCdiscQtZLOetTK83a4Wy8dAiGNcztSxuVvtrE7QcRzs1pPFv0AR+dfPyw=="
+ "notes": "1.4.1 겹침 정리",
+ "sig": "a8mvzWuWCBlzU/BW/wooHwPG527sy2bW/DzX72k/FO6+Fv7bJlt5vSZe1Ca2UCfvT+FExEWKSg8LS6nO98A3BLTtpRWka43bl9FjBxBuOGldS5rx7JRYIwMh1KT+/7RGnh4Pf72KWdoxe4iqXUKJtjSHK6XbBFYJnnyVhXzfekGE7Y2tih2cSx/AikdYxW0/BrAdmevF/9vQD/I54QXTfvHbkUl1rE+2K6qkDV16hUdMwaeo1XQMln9ZQgarjFr0hiAQsBjA+Zz+Sh114GLiADpX4b66SlPafQELim7WfkdOBadj0nsO7V2fHfpLyM2L3FaYbzKzwFkvAYisO4ndUg=="
 }
