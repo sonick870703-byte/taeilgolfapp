@@ -1,9 +1,9 @@
 {
- "version": "1.4.11",
- "file": "www-1.4.11.zip",
- "sha256": "311073c953a8a75f247a1f9d1bf6e7fad5e7ea59ec1fd82e7015b8ba348966f0",
+ "version": "1.4.12",
+ "file": "www-1.4.12.zip",
+ "sha256": "cae099483824e312a26831f2ead483f8a2dfebbdb65b525e23eaf924eeeecc81",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.11 가까이 확대",
- "sig": "bXHEAGyD+l1t/OvL4JAaZo3Fq/pvB4DSMvg8eyRiwWhQ/KvkWyPL4P3Es4Q07DyjQT7Zdq6VJqgh/Jy3YI3JA+A45PkhiArsr1RGN81+HfK0IQ/0qLpuGMVzPndt49CuYK3e1OncDuwyvlhEqs/ZsRmi+cYiimeUbH5Jf+Du8Fbfn6+/dDhWrDR6XFHhDT3FYqhBeM+uz1PaPMViB3UAHzPTgHo0nENqw0YXIddbI04mKy3MQhwDPrzrbY++ci7uF3Krm4tGXYW4GWe+8jtijv5O0YMEKMilod2OBo2C3bCIgCNOaC8LXlLeEMQlZzO77jFSb+pKa7ddBxeUzb6XVQ=="
+ "notes": "1.4.12 식당·명소·숙소 보기",
+ "sig": "ZQSfAJ3EmvEc+fuCQtlOk/nCLva8Wsfiqc7uCS1yTuKpajZC7NZORMJwXCX1rY9mjlPS8QW+hXeN6bjlZ4TxAI3cgH85AuQvwDNuVXCPCgVuCjvupmRz3/vbYahQLk5WnFTQu5sd5h97zZSc+syniSWtFFCsKp5weMsX5jMEbwPf55hEGuRztOlV0vrL/fAejiBDlohMgIbHm7K3e8UX1N3/nibTP5tNquRsh9zkRKiOyJYlNWQTgbkx30bXMJT81rT1nIkj86V3ozoPlYzZTzWQpFU8VV2yydJ9INo6s9J5jFixfmaNA1Xsf6bJGqZeAsiCqf9CDd12kbflM4O7TA=="
 }

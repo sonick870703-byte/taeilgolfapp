@@ -1,9 +1,9 @@
 {
- "version": "1.4.11",
- "file": "app-1.4.11.asar",
- "sha256": "e6326f9676347871bbad54b6e9a04087e85570ed498e67666a94ea74a78ca3ba",
+ "version": "1.4.12",
+ "file": "app-1.4.12.asar",
+ "sha256": "4d9a281be27063728a04423db63ac040872c50f370d020b2bc2dc8077f876eee",
  "minShell": "",
  "fullUrl": "",
- "notes": "더 가까이 확대(약 5km), 아이콘이 지도에 딱 붙게 수정",
- "sig": "13LdILJ1uJSM6tn55ZNxiSUvoY5Qy7ItdVAEKIDfVJKW4crUDvj8ZHh/8ty7AxeMwvBAGOQ2eIoB8yXsPr02CA=="
+ "notes": "확대 한계 조정, 확대 시 상품 이름 표시, 음식점·관광지·숙박 버튼, 중복 골프장 정리",
+ "sig": "aa3hih97bWRE370hHI36AASKj2nO3uVy2DNIAVzYmp54wQUBd8jZxPSOXt6msClKR5UtRpz/vBy/G8PwEN5WBg=="
 }
