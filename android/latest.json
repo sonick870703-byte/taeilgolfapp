@@ -1,9 +1,9 @@
 {
- "version": "1.4.7",
- "file": "www-1.4.7.zip",
- "sha256": "406bb0d7d81dadf127bd6ebe1ead7dcbc64fa1cb4b408bab330dc34644ff84af",
+ "version": "1.4.8",
+ "file": "www-1.4.8.zip",
+ "sha256": "1ed6287b45ad71e90f531bbd7c3bed83f0e7ca32fc9adc070de185173ccefee7",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.7 예약 옵션 선택",
- "sig": "PinQ251DZOzwT4VyYDX52cnSukEK6W1EjrxUKUEc8LSCoVzPrEmaWti+SrPDTEtd7bL4Pi9ZmX0Q6KBpyEBUY6Od1ojW83BubwJWM4x5AVKEh0gTFNoFiGlHRRYYMYZcuzJI1lzDNRFF7UWhkYCwEw0KvJDpS/6rcduAnT7AWePh2/shJprovSHZYBloRC3HVUjD+Dk6OBKULaMu8hTR3+KPSxSYzZIioserLMC+bONEhrFu4KRCrlwu1xzD4E+k/q6xJbP9+sTt4DX4VR4/Z7/3zNLelq/x1TBngtZG8fYuSVSw5SUWUs0odY7qKJd3GlzxsrmhSs965VkzI5z9VA=="
+ "notes": "1.4.8 실시간 정보",
+ "sig": "ExVk7hC58ZbOt7L7H0NfLZGIpMlUZG+fkOTSQDeON40M7L/0uB9OWNy6VniFjDbb9Q4BMGUv/8CW3kMNKjvFxFOD6TOMJF9JqLZXFF6/xIsGFfKRgHSBdJa36bUhqatbXrKqxtF8ziPeHaigb90VN5R3OB3P2UDBRHMDexxUICjeIIFiDSDl346k/RFtfObpdqm2XeZe59KD+kCvdgnCrcPu4/qqk0ADGJpnWVNvt6QDtEEoFymi1LXPB6i1y2Y4fcqtqBtb5IXtU/fZGmEaGihRQY9AbxHxeIYjIJycevbugZqy2fUXHzW6iMmvFtVppNnB0JMLdwnWs5MuEpiBqw=="
 }

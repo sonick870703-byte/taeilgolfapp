@@ -1,9 +1,9 @@
 {
- "version": "1.4.7",
- "file": "app-1.4.7.asar",
- "sha256": "6549bee272a238eac22ee0c825a6ecc70e44dbc12cd09e5ad32c67b698245bc9",
+ "version": "1.4.8",
+ "file": "app-1.4.8.asar",
+ "sha256": "133813ce376c5efaf32e403a5159d478d7db90dd1111c5d83dc1017ed45194da",
  "minShell": "",
  "fullUrl": "",
- "notes": "1.4.7: 예약 신청에 포함 항목 표시, 불포함 항목(픽업·샌딩·이동·캐디팁·숙소) 선택 시 금액 자동 추가",
- "sig": "gcycb3vsAHvNXVM03DopQ+i3dHluP7UnjeZJ5gLNpW1PGTILjzevY5tICXM6gdgLr40824XoaOzel46uSV83Ag=="
+ "notes": "1.4.8: 재난·안전 정보(태풍·홍수·지진, 외교부 여행경보), 실시간 항공기·공항 운항 현황·항공권 비교, 최적화(멈춘 화면 그리기 쉼)",
+ "sig": "Yy7n8rP22ylwjcKP+l+bG9Pp4KbeA80mYebRE7GCRoUo5p8SIHMZyqAoO1nsi9RIZrQ9fCqOWu/gQGC9LtK8BQ=="
 }
