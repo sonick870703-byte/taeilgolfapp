@@ -1,9 +1,9 @@
 {
- "version": "1.4.6",
- "file": "app-1.4.6.asar",
- "sha256": "a4bfa313a9f54ce203e29c0ceefbd3e97ee2fdbf94855d5f07b4f756bfdd78a9",
+ "version": "1.4.7",
+ "file": "app-1.4.7.asar",
+ "sha256": "6549bee272a238eac22ee0c825a6ecc70e44dbc12cd09e5ad32c67b698245bc9",
  "minShell": "",
  "fullUrl": "",
- "notes": "1.4.6: 주변 상품·골프장 카드 정렬",
- "sig": "dfEOg4Y2duCxG/SyrztjVfIYYd4QD6H5c/nb1v6E6XZhId/pyFjvU8cmrBh6QXOldnKCcLCWlv6U5+FuNpLCBg=="
+ "notes": "1.4.7: 예약 신청에 포함 항목 표시, 불포함 항목(픽업·샌딩·이동·캐디팁·숙소) 선택 시 금액 자동 추가",
+ "sig": "gcycb3vsAHvNXVM03DopQ+i3dHluP7UnjeZJ5gLNpW1PGTILjzevY5tICXM6gdgLr40824XoaOzel46uSV83Ag=="
 }
