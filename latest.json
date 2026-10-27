@@ -1,9 +1,9 @@
 {
- "version": "1.4.23",
- "file": "app-1.4.23.asar",
- "sha256": "e687c78da10a3fc2298e887d239df00a20333a9c5e27e6c9d6228d2570ae1b35",
+ "version": "1.4.24",
+ "file": "app-1.4.24.asar",
+ "sha256": "2ee85154529a86aab155a0bc02c24ab87ee7459a3927c7c900d66fbe6f4f0a3f",
  "minShell": "",
  "fullUrl": "",
- "notes": "지도 창 닫기 버튼·휴대폰 목록 개선",
- "sig": "PPROWuT4UpDq1RKu3ld/JZwWNYYX7P/mOEYlup5DYQLmRJG4D9fHwk8NZw1LdCNe1HymyNi+jsvQMQqSAuPRCw=="
+ "notes": "방콕 멤버십 → 썬라이즈라군CC & 스카이밸리CC 멤버십",
+ "sig": "Hv+iay3wRArMlhBkENWNoGr1gPVpQdXnBMzZzzcTPB1mky/oUY06xP4mD6fkxxaGqc3A8ANrD87hrVRvpRctCA=="
 }
