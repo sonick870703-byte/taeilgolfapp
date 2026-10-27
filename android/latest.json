@@ -1,9 +1,9 @@
 {
- "version": "1.4.1",
- "file": "www-1.4.1.zip",
- "sha256": "9812cc7fa8723a2286a8dd8593dfb0b34bcf5c161caba414450fdefc187763c4",
+ "version": "1.4.2",
+ "file": "www-1.4.2.zip",
+ "sha256": "bf3368430355733b22b89a4625d8bf600bfc715a90cc9e208599bb3010255c41",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.1 겹침 정리",
- "sig": "a8mvzWuWCBlzU/BW/wooHwPG527sy2bW/DzX72k/FO6+Fv7bJlt5vSZe1Ca2UCfvT+FExEWKSg8LS6nO98A3BLTtpRWka43bl9FjBxBuOGldS5rx7JRYIwMh1KT+/7RGnh4Pf72KWdoxe4iqXUKJtjSHK6XbBFYJnnyVhXzfekGE7Y2tih2cSx/AikdYxW0/BrAdmevF/9vQD/I54QXTfvHbkUl1rE+2K6qkDV16hUdMwaeo1XQMln9ZQgarjFr0hiAQsBjA+Zz+Sh114GLiADpX4b66SlPafQELim7WfkdOBadj0nsO7V2fHfpLyM2L3FaYbzKzwFkvAYisO4ndUg=="
+ "notes": "1.4.2 예약 신청(구글 폼)",
+ "sig": "mbAX+M3OJ5TfPKebJGNB0N0m7VO1Jp7s0KFkuDStQwAfifGMO8IG+6+3VVCorgE8eEnxgQyk3MV2TmMFshgAKn833YMFINx0ZlKJVjSOcIYmDXCMiKr4Lw10uXlt+nukkFdt+gsuivYqybhJ/XC+FJESE9kS5MhXKMdRCth+nV2n+BfbkvWa/OqLRvoX5GV3jmARFQ2tHVoSRat3dfP/RKKkiIhF6O3ODDv4j9jOt+eEVrOWv8LNm4e1YFnZa8zLJvWLm+eMG7I1vVjw+TtLS3k0bMlwhy6Lh5yJr/8BpRqr9SFWqGH9l8DLiyE4oaq/u6R70e9wyCkAj77YguIWgw=="
 }

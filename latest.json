@@ -1,9 +1,9 @@
 {
- "version": "1.4.1",
- "file": "app-1.4.1.asar",
- "sha256": "85b7c7942c1a6707cad8bdc5db8769b01097dfc5376bb8b3cafa784c0557f7ec",
+ "version": "1.4.2",
+ "file": "app-1.4.2.asar",
+ "sha256": "42f8d6c02ab9a1f84359fc7ebcaaf8ede67af8d569403a4387bc02469c5cab6d",
  "minShell": "",
  "fullUrl": "",
- "notes": "이름표 겹침 정리 (휴대폰 화면 포함)",
- "sig": "bjCN7PUmObcrqJkYuD4Toi267rekIkVr9dERqDEyydw91bbF/2IE3tFk35GTkFtDXCY4AqD68CfgT64Ua4HrCw=="
+ "notes": "예약 신청을 구글 폼(시트)으로 접수 · 일반 문의 제거",
+ "sig": "bvok8CGmArKqDXYurfoINEGX6K0ZZrw+AMC6mF3JV28tqugkYFutTZyT+INJzwISXhV2ff5PLBArh0IJDZMHAQ=="
 }
