@@ -1,9 +1,9 @@
 {
- "version": "1.4.16",
- "file": "www-1.4.16.zip",
- "sha256": "ce0afaf5d0c3c65ea4b11e6943db9d69d7ba71d9ff064ab3d31215276eb06407",
+ "version": "1.4.17",
+ "file": "www-1.4.17.zip",
+ "sha256": "2d00406df70e26c1ffac55acaa92273a14c51afc2531372810f760e3c93c60d8",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.16 한글 이름 우선·파크골프 제외",
- "sig": "qz5hwn9jgA9KJTmKcBtfPht2vnfPQK5X2KNedQlblvGXMoHytTbZPn0K2L97cL7iDv+rF+zKdjoEUz06Lzbc4SqvXqTimbVHT05azJ6rVV6gMc3pcqDmix9KOgsgGH4zoVcYx6fDG+8BmiGHc9Y5XMEVSKr8JerI9Tc1A5l+zbgGneiS6FfNqFFZoOXdciSwUdRbuthzzbrf9gBn3E9XADJUfiH9f5SILk36wgZsae/lllmXC2N2xwJkke6yspJyj5UT3iGtQ7K1ahGVuK52K+8SafmsznNV2RXPWIwPDgyKlLiU0ed/db3Iq+UvXWkw2b+tMZmdF57nE1I4YSytNg=="
+ "notes": "1.4.17 입국 서류·내 예약",
+ "sig": "ghT+xZgMnJgPPuN1wIMcdvJKelY/F1CYgGKEsypIkn9dVCYUl3L4izRAP+/gWaW2yTS23w8Py0RsprJ57YNMRlLUGs0an5cpepMbONOurwSlCsxTMQrqOWzXJ5dFTXM43CdvuJxesc25BwXfx4AitE0NU0pCV56RqF4Gws0Ri6/Q8TUJkMSOAl2pZnVYNnIl5ZZ0YQ/vxawyUM4Q/NR6Xi9E8ftxjVtSZooQBQ98lMq/GaxSiDvWAU5LFLDjSKvUprN4lI9Ri8nEktZCuRm0P0ULR7NSvj3XyR8CRL1v8mRUHjY6US9YT7CKhqERHbHkoAgjmYv6cacA2W538Oyo0A=="
 }

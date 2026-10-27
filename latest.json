@@ -1,9 +1,9 @@
 {
- "version": "1.4.16",
- "file": "app-1.4.16.asar",
- "sha256": "71825634004c86cff054298180bfe950adaa3bfcee24000e3e43c3d5824ecb20",
+ "version": "1.4.17",
+ "file": "app-1.4.17.asar",
+ "sha256": "5ba74c385a8f3ff0ad0d3449732e3fa799b5b5408925c4e1aedd18b29b71b267",
  "minShell": "",
  "fullUrl": "",
- "notes": "골프장 이름 한글 우선 표시(원래 이름 아래), 파크골프 등 제외, 터치 조작 안정화",
- "sig": "U5SBrXA7Oqz0R8foZQfay9wio/UXYC1AgfYfUQLKaHUBH9Wx6gUZ20CWXTGRvcERVgn+rMc3sFme0wywZyFkAQ=="
+ "notes": "입국 서류(나라별 공식 전자입국신고서 17곳)·작성 도우미, 여권 사진 보내기, 내 예약·결제(카드 기본, 현금은 카카오 문의)",
+ "sig": "OkFGLnI/5cWkirT9oVjZoZ8Zd8XjHDVSurA0hDaGPmSx2ORWmfKZMp+0lLOHz5LJFcbhcZdHpvihVBdsE8gTDg=="
 }
