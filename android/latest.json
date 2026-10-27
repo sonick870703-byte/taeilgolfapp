@@ -1,9 +1,9 @@
 {
- "version": "1.4.31",
- "file": "www-1.4.31.zip",
- "sha256": "9bac2455298f775f97ae274f0a480f7dbd209c2966b77fc81e9167da02513777",
+ "version": "1.4.31.1",
+ "file": "www-1.4.31.1.zip",
+ "sha256": "271fda67c62825aa152f3a7e83eb1b7d7226dbef9f90df1ab1978493aafb856e",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "상품 배지 누르면 목록이 뜨게",
- "sig": "Uf+ErjCZZ4lFaYzvqqJEaddYYsJY3QMbO5AsbzzxwunIlGP8VlKTMDEkyrQKi4ExwipBcMM9FhhH+6nzFGWEZwVUtjeYEZ/F5h852TIIfBxw0tW6LXQwUd6b4+o+XCW58j5PH6ma/9/bKtxbSlrfr9H1w7O8QS7S7k4+ct1JS9HsSFG80smFLrPqwepWhBdFzuAg5Tg862gMIPfJAejjGXYDm8C0Wudzpoif/0yMNFSLIWXlYQJudk4pYGHofGILtNsrENDq4l6Jeedn7pZpdKv5J1V0IXa5S6MSeGrdtFDDNzsssBwKhy9J4kVmRm1pJkdvtj7/ZULvUNn3Aj7HKg=="
+ "notes": "★ 상품 배지 누르면 상품 목록이 뜨게",
+ "sig": "EmCbX4erQDuaBlaw5SjDaWCrtbskW8u7OkcTUndq8grTdMHT9Vu/+wm1eR7fNfaz0wRSZzPorr5qAbRIgsIhr4r8gIEd+y3Lrq1G604MMYOyvcjmmpW0pImU5wG8LNViKTvpa3G9a2itOAaxjHHaF1pKxDZJ5pm+GBasQK7tWyiJyQEMhv6ZofH4mgn+AsgA4qDG0MYTTpvkfCBARWn8FaSM9EJ1mWs7RckjSfBKkKR3qrARgHVihzu8OHHDZztUNv8hlmakcJxx7XOREUuTR4oUQSw4G93ygT+j3jFALS20aU8rSPd3b5Rxb/Mg+s7mIzsGiIERkxJLn6afpEQzvw=="
 }
