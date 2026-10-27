@@ -1,9 +1,9 @@
 {
- "version": "1.4.10",
- "file": "app-1.4.10.asar",
- "sha256": "f66b857efc9d67581bc88a279e2652728a939cff1d7ef249773f80e0caf9f74d",
+ "version": "1.4.11",
+ "file": "app-1.4.11.asar",
+ "sha256": "e6326f9676347871bbad54b6e9a04087e85570ed498e67666a94ea74a78ca3ba",
  "minShell": "",
  "fullUrl": "",
- "notes": "확대·축소 수정, 확대 시 골프장 전부 아이콘·실제 지도 표시, 제휴사 쇼핑몰 추가",
- "sig": "INLQWGzS9nUj0NfcSxuFRlTJ+zRmK/RRoZo8NTzJBWuDS59aD0i2ALiDDWJs7oEmlSXaF2idp/JXVxUQt/ZnCA=="
+ "notes": "더 가까이 확대(약 5km), 아이콘이 지도에 딱 붙게 수정",
+ "sig": "13LdILJ1uJSM6tn55ZNxiSUvoY5Qy7ItdVAEKIDfVJKW4crUDvj8ZHh/8ty7AxeMwvBAGOQ2eIoB8yXsPr02CA=="
 }
