@@ -1,9 +1,9 @@
 {
- "version": "1.4.12",
- "file": "www-1.4.12.zip",
- "sha256": "cae099483824e312a26831f2ead483f8a2dfebbdb65b525e23eaf924eeeecc81",
+ "version": "1.4.13",
+ "file": "www-1.4.13.zip",
+ "sha256": "00fc09b122251872248462cf01413c0cb31bbdc2e74ed4c2899d0a60bb2000df",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.12 식당·명소·숙소 보기",
- "sig": "ZQSfAJ3EmvEc+fuCQtlOk/nCLva8Wsfiqc7uCS1yTuKpajZC7NZORMJwXCX1rY9mjlPS8QW+hXeN6bjlZ4TxAI3cgH85AuQvwDNuVXCPCgVuCjvupmRz3/vbYahQLk5WnFTQu5sd5h97zZSc+syniSWtFFCsKp5weMsX5jMEbwPf55hEGuRztOlV0vrL/fAejiBDlohMgIbHm7K3e8UX1N3/nibTP5tNquRsh9zkRKiOyJYlNWQTgbkx30bXMJT81rT1nIkj86V3ozoPlYzZTzWQpFU8VV2yydJ9INo6s9J5jFixfmaNA1Xsf6bJGqZeAsiCqf9CDd12kbflM4O7TA=="
+ "notes": "1.4.13 상품 칩·주변 정보 빨라짐",
+ "sig": "oM1Kev70dorrOv0+bP5dxagfgW8s8A5ZdeA+pWMWZftO4O8kBfIsULOf5BMU4O9cLuxqMSsseNGTdv3AMyEVef7KtKHpW0EFeSnIqHTUExLlonKYex6C/Zw6RnNGN/4YlUJTr72fLXigf6s4D3p+WqCbpj7f1IaJqnHmDvKky1v6NB9ZC6NkLaC1ahavM4xUi8Pyy/k9mjiXsASV+6AnUxNYkVyNq2FBElwgkwqXznNgRgh2jBA85cP5e3WE8UR6JVypwhYUvjMADiYsTTOoaAofHmWGrH9uKvt7CWmLF1njzJ3vext6GtBvRzRO7VSUGjDd/mHQaE4TOq5yrkk/WA=="
 }
