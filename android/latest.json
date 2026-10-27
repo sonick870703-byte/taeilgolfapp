@@ -1,9 +1,9 @@
 {
- "version": "1.4.20",
- "file": "www-1.4.20.zip",
- "sha256": "3b5a2158ff8455b52293fda406bdbd9c7ceffab6556c127dd79f69e6783b2c73",
+ "version": "1.4.21",
+ "file": "www-1.4.21.zip",
+ "sha256": "ff93a994fa12a87f4bc083aa39177f9b5c4a57b121206d6f5457c493b545dbd6",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "PC 1.4.20 반영, 번역 기능 제거",
- "sig": "RXXks3gstbA6f6+o9fAhg3e2tRRsqX6zslHSu/9obH07cebr58f7MdneCjoFvClPNE5gqrRVkGe+j/v5O2hkNwgnp7uKAHb8hzIeKSdDMtNKXRUohaUowygU4ND8jOHUuK3J96C6XT1+uGvYLpu8ZvypOEg0jodoO22PjDR89ekuYS/1gznmsuDk/eP62ynKsuKTYsHpeGMqSn78z5eyc0121lmqcjMwMxdfw3bnyqbfijTfX9n+PCdeYkZY0v455Rc2+XyQWkjXDkRkSQ5g++h3Rn2a4hQAzvK+NTH90F4V2HNAoAtysjZvbOE2RYXhUL7RZNLmvx1YhpW+yOtsZg=="
+ "notes": "업데이트 내역, 정보 제보, 제휴 문의",
+ "sig": "FXGvcl6upqf/V5ax3apg0stR0evVumsRZG5nZILkyZUGk0PlRJrSz7yXO/Q69wuVMFCVM1C6sT39hO/FVTj2XIa+Vp2N9MPC7lF3zB4N3v1Kkmwfmhgd6I+mz96oUwjUGObDlKgfTlQwqnyP8NEvVFsMl6XMqPMswIsigBb7s3v9fFGNwXWi01iI9T+WQir4WUbzpApG8jcCjTFvAU23P9zsuKzB/sX+hxH+k/iAwmjs5umJFez26kbLITYyx8sg/S/VgEHkjGj9NSJSSufG0mArUULRammzPrfNvkBMku3m1kLJhs4k/KjU9zUGmClWzySKiFHND/SNhF366ZM5cA=="
 }
