@@ -1,9 +1,9 @@
 {
- "version": "1.4.3",
- "file": "www-1.4.3.zip",
- "sha256": "7a08c96857fdf12353827f85e109119118b5661893dd425800a233b4be34b15b",
+ "version": "1.4.4",
+ "file": "www-1.4.4.zip",
+ "sha256": "6d579c7ff1848414687f5f5f3f18da0006b0123eb900f234f1e971b724cdd8e6",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "1.4.3 카카오톡 상담·전화번호",
- "sig": "nsOv1+9pLOekRE7HbF6LlxtuokT2ju/PFvB7XsdkPgu8MgNTdRX2M0YyOIzFgVy4XsTiHpfXc//Hp6EdbYCXV6/UP+Vdodzi3UqzjiXtXh8T3iqRUku+FrpA5l7QxV61AxuGQVMpUffOnpy0sv+VQHMQT2GZ+ChlbG6Xr6AiB9n5+k7vTXfrmPpsv3reYmgADa3fgNhI1iPAW9zhRwrRn7Yw5XQhtIGF8c+caINeCXoSj5LKZF0kf9/sYFrdRD4+XJgU+nbcHkV7NFeDxTZasF3TIxz/w8v3Iykb64beZxMalyfSSsMQWbirf63TZPhYUxXGZjFgXr9+325f3tdffQ=="
+ "notes": "1.4.4 사진·상품 검색·예약 문의",
+ "sig": "iTEneEGLtidwJsT0g7bO9PHvuhaVmoQcRlLJFeR3A6Ts1SqkeE76/uyZKxuIMIVaaCyO0O59D647S084iPAjCmvOg/upPrkYKEl8OFq58lC26ZAKxuB/eZNzH3rBWBVkTEjyPD/kgeIu1arE9k+MVPaeLOM+7hOEc2No2ETSWByY5Zah1a++OkHuX8SgJN4BZURbSwKXMXBYCpb3jATMFM7vrSep+fdHH9XlfuOhksb8U6nQu7IgCYVcp4uDTMIcN3PBm+KJYZ0NyP9kNznF/snAlSBjHeUAqt3A+fnbSrTSGdZchQHZ64luohroGy27Cw/wpKWAU02AHeCgwPD79w=="
 }

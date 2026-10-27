@@ -1,9 +1,9 @@
 {
- "version": "1.4.3",
- "file": "app-1.4.3.asar",
- "sha256": "88456d0ec41a2f4a2ced4d1d710ba2abe88aec93da63927c1ddb7cec73752504",
+ "version": "1.4.4",
+ "file": "app-1.4.4.asar",
+ "sha256": "8442003fba2d81cbd7dfd81c384600ca365d29ab14854bec66bf4355fe957afd",
  "minShell": "",
  "fullUrl": "",
- "notes": "카카오톡 상담 문의 버튼 · 전화번호 표시",
- "sig": "jLCaq/76IXp/+3EqzMutReUvkSPAHhVVplOqse3KSAMXdOMeSmTsS7hv/zZ/Nu+wH6IntuT4N3T/F95tingzAA=="
+ "notes": "예약 문의 버튼 · 지역/호텔 검색 시 주변 상품 · 관리자 상품 등록 · 골프장 사진 · 부가세 안내",
+ "sig": "TzNgBmWFyJ8WSup7XQ2zuJZg3yGHhG4VEeye0Qw9bnhIFkaGdqaeHmO24/PJGJmjNEG9dpf1ssAo7e4GJiDUDw=="
 }
