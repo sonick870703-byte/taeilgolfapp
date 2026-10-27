@@ -1,9 +1,9 @@
 {
- "version": "1.4.28",
- "file": "app-1.4.28.asar",
- "sha256": "4818138dd2a8a38b0277ce415bc5473bbfcdf1c0db6e296e9792dbf23a4ae430",
+ "version": "1.4.29",
+ "file": "app-1.4.29.asar",
+ "sha256": "2c9d2ee2914ada9e765ec586122c814c0e712c4239d1af92c804f460b4caf8f3",
  "minShell": "",
  "fullUrl": "",
- "notes": "오른쪽 위 버튼 정리, 휴대폰 예상 금액표 맞춤",
- "sig": "otWWG4mwg2TUK2Kvt8ohhdrLCjyepMiMzTt46MIHt58sHMIgh5AKDUGaTWIigSsCHUIE6ODAIZy0NE81D5cfAw=="
+ "notes": "휴대폰·좁은 창 오른쪽 위 버튼 표시",
+ "sig": "MEYOUgSYhNzS4yFIWq/ebqk5T2iCvE2cEC4PD95WsE1YwfEsHqoVgvZ0U6yzLPmgCI388UCxUUYNFB0TALSFAQ=="
 }
