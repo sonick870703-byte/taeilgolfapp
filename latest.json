@@ -1,9 +1,9 @@
 {
- "version": "1.4.38",
- "file": "app-1.4.38.asar",
- "sha256": "f3289d82e7ff65f7a43e908c21ec2bdc26ed788cc832f7d595d4e5570cdd909b",
+ "version": "1.4.39",
+ "file": "app-1.4.39.asar",
+ "sha256": "51b5ae19231c47f0093195bbd6245ff53f3c1a3a4375b21a0219ea8b9b40ebfa",
  "minShell": "",
  "fullUrl": "",
- "notes": "휴대폰 날짜별 예상 금액 카드형 표시",
- "sig": "OExd0edK2MgclNqkMm3fjU14BAs64ZBQ3MhYoEcP8+nxbAI8fgtmaJbSqApIuFh4jTc7Fl6Wl+JxzLdLzLHWDg=="
+ "notes": "카트·캐디 날짜별·인원별 따로 선택, 예약 신청 위치 이동",
+ "sig": "8Nf02/KNBtjl/MzTXQI+jXOsRMM1jzK12WUis9stSCdk9Cxb2A0A8nhTAotCjCJj27xTQXh5e+/tbi7p9pZZBQ=="
 }

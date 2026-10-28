@@ -1,9 +1,9 @@
 {
- "version": "1.4.38",
- "file": "www-1.4.38.zip",
- "sha256": "1f4eebbef209e81d0132adf2c44f480a6118a91226e3e05e7a6c9c88973acf47",
+ "version": "1.4.39",
+ "file": "www-1.4.39.zip",
+ "sha256": "403deae80cc947486f413d09ba41af884176a50cfba062d128c49653882867b3",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "휴대폰 날짜별 금액 카드",
- "sig": "qavWznr7mUEkZ5jeIvEnNdKnxiOUVlKDyC1kGs2gXkf5chFN6kM0HrFE6P6KPKWTJj0HEZJkmFSJHbrqLvoW3SMHgMdaHcHa/zgIRs/lkTEt8loKqZMokXWo6nERg+1TOZbLSiXyoVtDae3RFumZnShTLEOXuuXvGf3+r8Ja2aGSKwNk6qZ3Z1PNrPejOO3HBF6TJ6yQWlIR/yx4CWmPMrquE+ueS1beriK6UuhFb+jXcFStf/X2aTL1CIeorybtRJEf02RcTLnYJptJr0nXek8MoudldNkWO2lUMTQF+ZBSt0z5mlxm16NEnJlA4D7vpo7Riz8qLEuWXWYxnieQ1w=="
+ "notes": "날짜별 카트·캐디 인원 선택",
+ "sig": "VUaUqqENdCtTFCKn8urnoVnNnFy2Qaj+GQlBByVlD1JqaIZbCL56N6Hecv8nwQTrdrsf9UiNsEgTSVJjOE6XaaaSxHsXshb2eH1vzArwd5WvZFk4DZ8aUUIEFW07/AE7AovFc/m5JHQa4bDKiWChBXedoeMTWaVvO2a7CMNNGB7mskai6HSzMQilfK3uaPE5xKZ1oZHAdKSGhlQsqC8zzt/WrepO+h/USMt1tbYhCk63Xieu7z3Yz7BEqYgzz3eX5y2aS61Jh9iNRaQxn4SuPtm+FF2JqpApBOE+ts0SwHZ9cgiIAdlOVTdX233KtmtSVJ506jH76tv3KtKL06G0yw=="
 }
