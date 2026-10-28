@@ -1,9 +1,9 @@
 {
- "version": "1.4.39",
- "file": "www-1.4.39.zip",
- "sha256": "403deae80cc947486f413d09ba41af884176a50cfba062d128c49653882867b3",
+ "version": "1.4.41",
+ "file": "www-1.4.41.zip",
+ "sha256": "72115fc987ddbc47dd2cd6a80be25ced2ee5ff96968392e6ab59a1c6f4acce74",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "날짜별 카트·캐디 인원 선택",
- "sig": "VUaUqqENdCtTFCKn8urnoVnNnFy2Qaj+GQlBByVlD1JqaIZbCL56N6Hecv8nwQTrdrsf9UiNsEgTSVJjOE6XaaaSxHsXshb2eH1vzArwd5WvZFk4DZ8aUUIEFW07/AE7AovFc/m5JHQa4bDKiWChBXedoeMTWaVvO2a7CMNNGB7mskai6HSzMQilfK3uaPE5xKZ1oZHAdKSGhlQsqC8zzt/WrepO+h/USMt1tbYhCk63Xieu7z3Yz7BEqYgzz3eX5y2aS61Jh9iNRaQxn4SuPtm+FF2JqpApBOE+ts0SwHZ9cgiIAdlOVTdX233KtmtSVJ506jH76tv3KtKL06G0yw=="
+ "notes": "카트비·캐디피 선택 박스",
+ "sig": "BYcwOkuNqvXYhaYlT5QoMWiylpOe/unNC7oOes0FD4w03aLPBmkERvm1G57LKLOzShZGJvIXqDH2inHpzQp+n/y8IRwCyYkFAy7Sp+30HGDzKUpAmGctAAAHsJEvO7Hl6qJ3NI68iHt4w446ftKhZWLLFrrkNnRYYF/UEJlKbaafaPdwet2b9UL2nHAwJ87CikYCJKZf8lQvqIbC/ZQPPr8ljpDHzfMrb0o6XJe8DSwlZ6v8EPy1h6mrD+zcURXNBMH1L2lBRtHSYvtsiXMDyS9ARPRiCfNZruy9DCOfYO8B25hCYaRI98w27ufS3m3sC1QXZ9RK6diQqlxrSQGPdw=="
 }

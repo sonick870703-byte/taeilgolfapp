@@ -1,9 +1,9 @@
 {
- "version": "1.4.39",
- "file": "app-1.4.39.asar",
- "sha256": "51b5ae19231c47f0093195bbd6245ff53f3c1a3a4375b21a0219ea8b9b40ebfa",
+ "version": "1.4.41",
+ "file": "app-1.4.41.asar",
+ "sha256": "b7a32ebcf16179c580af99e5241f01bcede0c00d1e7a9fb8d53953f9a344f2c0",
  "minShell": "",
  "fullUrl": "",
- "notes": "카트·캐디 날짜별·인원별 따로 선택, 예약 신청 위치 이동",
- "sig": "8Nf02/KNBtjl/MzTXQI+jXOsRMM1jzK12WUis9stSCdk9Cxb2A0A8nhTAotCjCJj27xTQXh5e+/tbi7p9pZZBQ=="
+ "notes": "카트비·캐디피 체크로 넣고 빼기, 모든 날 버튼 선택 표시",
+ "sig": "5SPXUqF440UiFNQdGLDBwElRTix40tBlUCoP09JYb7B4y7Mo9Hlpbo/1lttQYWMJ/QEHfhD0VEgoVdyUYBKQDA=="
 }
