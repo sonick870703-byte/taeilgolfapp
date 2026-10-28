@@ -1,9 +1,9 @@
 {
- "version": "1.4.32",
- "file": "app-1.4.32.asar",
- "sha256": "410cea86ef4586a1a3b559eca4a5c9e22f9daf15c2796379cf06902796ef8b92",
+ "version": "1.4.33",
+ "file": "app-1.4.33.asar",
+ "sha256": "a545be4bf40bda195844c926344c89c848c33f2c1e0c30eceb6fcf3c8fdaafa0",
  "minShell": "",
  "fullUrl": "",
- "notes": "상품 표시 항상 위로",
- "sig": "/raJZmqP7bzOi3q2SxSctZPZr8tHoDLu1/DpLRLtsgk/uBlCTJNk8KGivF9uMXyxp9fJRoARRSGZ3mJtio1ECg=="
+ "notes": "한달살기 공항 송영 무료 표시",
+ "sig": "Kpv+2kcDtYCHcsNqkBYLAJRWWcwRvhNTVdXs3csYaeMRITGH/fy1N3ZefbCvW9i8JQuyMOTVzVgnCeMnRETXAw=="
 }

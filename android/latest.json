@@ -1,9 +1,9 @@
 {
- "version": "1.4.32",
- "file": "www-1.4.32.zip",
- "sha256": "94a03b4e9124cea4cb5fc6f0f359aea1be8ff8bccc7845f64105d52544c26bb1",
+ "version": "1.4.33",
+ "file": "www-1.4.33.zip",
+ "sha256": "afb2e14e5ccaf17e5d42962ba3a6157502fe2c2adb8a142a51c0dc94c549c118",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "★ 상품 배지 누르면 상품 목록",
- "sig": "g4BRV6WntZWJ7+VaSePCVAiN2KY5ZG3u1I7KV1vIVlQHKDtDS6Uo3E3MBbPlLi/GYQ2YHx827qs/t81/SlDh8THZDK/lLXSJvHvdyV0cz0MYErdbcdK40jzgyTYE8HCAxa15jr4NaQyeb5HeIka+GUWiqJEIPTLJlorwrwj7XhB0xExs31SldaHlHd6LJ2Um6vQDJCaF938z7vkznm2qEwFkDmVRttdBn2AsCDsQZjpk6QpXuF4BB+ooFCY6jeV5V7z+3V1Khud/iWsO1pl7Y9rxxoVcATuXFpCr1FUFB5OBzRu8hMcNBClR1HDm50wUXJNv/SidiqYmwwwe4V/WrA=="
+ "notes": "한달살기 공항 송영 무료, 벳부 캐디 항목 숨김",
+ "sig": "LCyWNdZOagWjkpC2uJ9rRCzt5r+p0YMAzacUhekRElh+9H4t9n95sh644QtscHbbPq24573tCX2ynqlpHYVR9W4hiGfDp+ZCp9QYrJyH/V8VPdWexB8XXFdPhjiEfRExsbwzEhZlCetX5/MxLmf4+FSfWQItEqW60yarZ7R5ZeOx9o1lcRDLEs8mYpB2RoOzRgWsdd30IDET3IpYVb6s28f0RttroAxL1ixY9cfRWyHbF9KLlCHzU5EmrBnnTcBwyNZV5OJh4m6OfgSRUJ4eXrGxXxsA7Xt9qpziG9nvznOGbGmXkmUZPlUrMaioV3f2xSRSRqDkPe6SQLL1x214cA=="
 }
