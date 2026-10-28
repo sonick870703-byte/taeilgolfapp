@@ -1,9 +1,9 @@
 {
- "version": "1.4.49",
- "file": "app-1.4.49.asar",
- "sha256": "1f5e4e6d81a8db162113ea93e795433b3f4864fb2b5f302bbf128cc628227a6f",
+ "version": "1.4.50",
+ "file": "app-1.4.50.asar",
+ "sha256": "36638a0b9b835143448f8a428537f6088a0fe0304a020766d9e6f559d2a79c87",
  "minShell": "",
  "fullUrl": "",
- "notes": "공공데이터 자동 연결 준비 (인증키 입력 불필요)",
- "sig": "yYRNdkRcrmYkTAjkvYy846C6PIw86hJItIY+QKfXvI2fZlsghh0vu+S4gvNlM12SgIvuZ72fvw3t58agzY+QCA=="
+ "notes": "상품 첫 사진을 골프장 코스 사진으로",
+ "sig": "VQo3PGjWYXPiJykqYW6afvHC2F7a/EfgOagDeZmeBJG3jdSOwsjVbAb+CNKThJaLuWIQvQIq05Wnk/2SVFDjCw=="
 }

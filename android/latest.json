@@ -1,9 +1,9 @@
 {
- "version": "1.4.49.1",
- "file": "www-1.4.49.1.zip",
- "sha256": "76ffb335a3cf48ca78a2276e0505b2ae26c0700d7c6c0c6c24c17030a37e8883",
+ "version": "1.4.50",
+ "file": "www-1.4.50.zip",
+ "sha256": "5177fa8b2d8b8cf2bc6f75152cd083e3d5397f041c37925fb899a3f1167fc67a",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "여행경보·인천공항 연결 서버 지원",
- "sig": "iwZrQYbzqEpbHGvXwwTeneSndwkM8gehUuQ21yIe2VTCQyFX5HAdWgeGQ15CpvOQMpTbH8iMwkqk27XHGI5lPngmq7TjdLGSy3kFp6nLfujkJV1EENSCLRb7TaAJg4UkdSYicMKzoEs4aHcFMh3VAX2CNKuSy4/hFXD4eweFScu+oNRFLFAXCv5cLiYhER96JXvCgvflXY5sRpz37CmA2UsPoxLyjc1OXG+K7Uj9ryT21KjkSoE/qAx365gIOlQ9Lii6vPPPGH/64g9IkrFVc6ClQfCOhLq1u4w24kbR/JSdjpoItTebDbQpV4s5JwjdBxtEjsEHPSnlzwg2uMX2DQ=="
+ "notes": "상품 사진 순서 개선",
+ "sig": "eMl958zlHTc25TU2EvqTyZdZH0pNeKixmmLYtAz3STlxda7xjSwz4ZrIIUVDIfH9xJ51EpZB7DkoycZnaBCtA59QYbkeWdzvUCI9O7bNSc7om4hYhMGPGxFSYsXZAsSwkNL6qkHMipmb01vfJYaxDHiBZvLssrpckaVgQ3bXzNkS72L3YUbSkKB4iiN2Q2SnguvFKn487MUZrPNtX129xTyK9RA3vg9NPNTZ72YD3Tb9Frio71RxrMmQfj7gOUGwrhPq5FkdqsR51DjfaNxIImctoi28rFiS+exv19IvGu08OrZVUMZdg+NTZUcuxRTHxWLtDw5CewdVq7n7RfKuNw=="
 }
