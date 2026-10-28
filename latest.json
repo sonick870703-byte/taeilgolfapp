@@ -1,9 +1,9 @@
 {
- "version": "1.4.41",
- "file": "app-1.4.41.asar",
- "sha256": "b7a32ebcf16179c580af99e5241f01bcede0c00d1e7a9fb8d53953f9a344f2c0",
+ "version": "1.4.42",
+ "file": "app-1.4.42.asar",
+ "sha256": "9da8f14f02d5046d6b95edfa718ea29248e1d21f34c9322008ffd002dade5f74",
  "minShell": "",
  "fullUrl": "",
- "notes": "카트비·캐디피 체크로 넣고 빼기, 모든 날 버튼 선택 표시",
- "sig": "5SPXUqF440UiFNQdGLDBwElRTix40tBlUCoP09JYb7B4y7Mo9Hlpbo/1lttQYWMJ/QEHfhD0VEgoVdyUYBKQDA=="
+ "notes": "휴대폰 코랏 카트 금액 잘림 수정",
+ "sig": "6eSBQRDPCVq/gUB0Hk8yn2AFZSyNRF65HBtasoFueyx0iQOEO0g8TXCmnKp/e7Bl8An4H9HMuArm8Q0LsVEtDg=="
 }

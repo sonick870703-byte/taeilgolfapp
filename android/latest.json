@@ -1,9 +1,9 @@
 {
- "version": "1.4.41",
- "file": "www-1.4.41.zip",
- "sha256": "72115fc987ddbc47dd2cd6a80be25ced2ee5ff96968392e6ab59a1c6f4acce74",
+ "version": "1.4.42",
+ "file": "www-1.4.42.zip",
+ "sha256": "7900767998ada692896e5ad37b0b1f782763a6be3846bd4d132c6390d8494c05",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "카트비·캐디피 선택 박스",
- "sig": "BYcwOkuNqvXYhaYlT5QoMWiylpOe/unNC7oOes0FD4w03aLPBmkERvm1G57LKLOzShZGJvIXqDH2inHpzQp+n/y8IRwCyYkFAy7Sp+30HGDzKUpAmGctAAAHsJEvO7Hl6qJ3NI68iHt4w446ftKhZWLLFrrkNnRYYF/UEJlKbaafaPdwet2b9UL2nHAwJ87CikYCJKZf8lQvqIbC/ZQPPr8ljpDHzfMrb0o6XJe8DSwlZ6v8EPy1h6mrD+zcURXNBMH1L2lBRtHSYvtsiXMDyS9ARPRiCfNZruy9DCOfYO8B25hCYaRI98w27ufS3m3sC1QXZ9RK6diQqlxrSQGPdw=="
+ "notes": "카트 안내 줄바꿈 수정",
+ "sig": "Vbu3hnuIfm9uM2E9Acu0H+/P2HTqj0640GP9mB/xhVKoz7M1PXo5aybTTYqDht/oZ9A1imrcYQVaa7Ikr8fRkc2cGt1gaMCFNfBR9IxLzlBS+3+mkKHxNPxlB78cNs/ipCq+jhRR4wAZdYJ8r2mH/WPNDrs6EJr2lRE30Up4oouiRnuZmyh5vjykpk7jOQZv9/XOfxY3FFW6sa1I8D5f5HlgHHiQzg4IIc31GpjySDnc3xZB6SStc1bXLY/Wn9g86byEhd1PPJtdnPf2JpQ05XtsLkoD/lw31NQzKNqdSjwx06GeVlxg1PPOLYmnm+BTD+/Nnq5bvL5EBTnggrG67g=="
 }
