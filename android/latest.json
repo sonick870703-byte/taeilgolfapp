@@ -1,9 +1,9 @@
 {
- "version": "1.4.35",
- "file": "www-1.4.35.zip",
- "sha256": "426194e112756d572e6273996cffd0b8221bc1a779ede408e8ddcf05a167e13f",
+ "version": "1.4.36",
+ "file": "www-1.4.36.zip",
+ "sha256": "3baceb6941344a45091c5546aacb3647a86c01928a69ce73a462b37ce1a889dd",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "한달살기 금액표, 별도 문의 항목",
- "sig": "QRYDH4h/Hawvbr5mgeuxRb7aVaiZsaCOpFMt5gbTkhTcZb4fUkorfGp7MAdbWQzd3VfJO74ogTlWktCuaac8ziktcLWwSFyTdxoyLFi21w/6k18Xiv57VG7Z15NkkDU034U4IiyO2ITdzukCALR1Ohci2mpoPeieraFs0HjqPXIYuZzUdJvOSlGSCZED8VLutAGmt1U63J3KVG0lQBuYViHPhIWJsjVlkMtljl3ar+tWYmgFNT+7kbH/HuICcdjaq4gnUWEC+WR1XqWkLbEEOI/RRNzD4FWmsZvxaazgbSwMvqZ04i4Ip2WrR5ECaDM1a5y3UzRTjMfqYzhzV5Hl7A=="
+ "notes": "숙박 3박부터, 포함·불포함 안내, 조인 안내",
+ "sig": "Gpkxp72fYdNjeyNrN5EIAl/qeBOvOgTiICYTDM8nJfkUZ8uPPogG1egf72MaKyJ6bthtYuRlb8y0UF6s1fLgHof0cE7uvSW+CrdziUDc0/DT0xr5cG9Thzzd2uu0qtpiOVzz6QjSftgea7dtDeSDGxFQHWvmucxfeYTLTxWW/eZvNl1CG3xu6qaU1VtGm/o3/kwVF4/kgd4ow6aowYFvznA5mRc6YLVeh7i/sPpWEhnbaKRKQEAn7xytmchQOdeWV216OF3YeGkPoeLM5ux2g4R8KLCRjqQe3hUfGtM25AQjVwSfyPu8fu5IZZJ/p8KUr/yk9x5CshovGQTGxjdf8g=="
 }

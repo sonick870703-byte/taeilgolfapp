@@ -1,9 +1,9 @@
 {
- "version": "1.4.35",
- "file": "app-1.4.35.asar",
- "sha256": "721e5dd7ef1a837eedbb261e5b10fb80f2d0f537e8470478e447f7a9c2a5a441",
+ "version": "1.4.36",
+ "file": "app-1.4.36.asar",
+ "sha256": "2f007d8c7845c3b5fe1966454e94e165bfd7943431dee8ccfd724f3cc7611b4d",
  "minShell": "",
  "fullUrl": "",
- "notes": "한달살기 라운드 삭제, 불포함/별도 문의 분리, 항공·보험·eSIM 불포함 안내",
- "sig": "y/ZuqN8sXZl5qzdkMbL1r4Bi5HmUWSo/oeFEuSAL/Mwkw69kRe/5NGRAZ0iCtxzxcV0merdHHaB5bljEDWDQBg=="
+ "notes": "1박 상품 포함/불포함 표시, 3박부터, 조·중·석식, 1·2인 조인 안내",
+ "sig": "CVaiXUHWQPE+g0tt6jm23Sjl9XRTZJ0UNtptV2fLVY6Rc/c/5kUrLsiF6t8oZGehCA6g2R0YRx5EKvL8QJmNBQ=="
 }
