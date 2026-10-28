@@ -1,9 +1,9 @@
 {
- "version": "1.4.36",
- "file": "app-1.4.36.asar",
- "sha256": "2f007d8c7845c3b5fe1966454e94e165bfd7943431dee8ccfd724f3cc7611b4d",
+ "version": "1.4.37",
+ "file": "app-1.4.37.asar",
+ "sha256": "4364bfa8ead4713080c1ba7c90309ecb5e9c290b7d9add19fe0c80727307bf15",
  "minShell": "",
  "fullUrl": "",
- "notes": "1박 상품 포함/불포함 표시, 3박부터, 조·중·석식, 1·2인 조인 안내",
- "sig": "CVaiXUHWQPE+g0tt6jm23Sjl9XRTZJ0UNtptV2fLVY6Rc/c/5kUrLsiF6t8oZGehCA6g2R0YRx5EKvL8QJmNBQ=="
+ "notes": "1박 골프 예상 금액 날짜별 일정표, 포함·불포함 상품 안내로 이동, 항공 운항 현황 수정",
+ "sig": "kFijz0g7j8SesimMbX2sL1CfkmlQo+uxkPnXEph4qt9ZK0aA9nBXDJobevCBLUocx1cILI0xLltDR8jjVAMlCQ=="
 }
