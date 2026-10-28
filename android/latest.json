@@ -1,9 +1,9 @@
 {
- "version": "1.4.44",
- "file": "www-1.4.44.zip",
- "sha256": "6c752199544b5bf86ded8c71f83708834f284af74c4bb182050ca85e41717f75",
+ "version": "1.4.45",
+ "file": "www-1.4.45.zip",
+ "sha256": "7c3da252138b5c374d6d7e4e49a4eb7b4db3e4c16427f5517d10d36bd676676e",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "주변 시설 이름·주소 한국어 표시",
- "sig": "BIKIZBTmdQ32coTBEdseJ9PmYDJrbqd+z1h9V6rwHi+8oQrADdn4m8eetil6ToeTIt9j8w/6jAX5IqQ+Cohswl9ky7qWGBD2lQVpKioF3RYlmhX7gKPrsN/v9UJp/tO3tfAdU/vUHTQejBeK9rqShS3RnUFnEQOSNyPjCIZ2X+2YnFPd6yGJwdVABSpodSYThht1gYAfandZHqEXB+VJe0ll19txQPj9oL0jTXkRvSrjQ2B2ZQ0a6nhIeT/LyBmRyfEDS/GDVFmUShsONvzN1aGsWWGBtiHWWIg9EZSxslUQfOfb+Sr1U8WmcUJ34LByZaYyw3ZxurqRomZC19GqCQ=="
+ "notes": "주변 시설 한국어 표기 보완",
+ "sig": "faCtk4AuQ1vHWJcyNzpjBD2h8TKlMrWFSq3B478Zc5z8dkCXe87CgL8jzrvYNKTz82wo5N2QcJBS+CZWWNP1vRgxL60MEZ8wh/Vq/ccQ3CKsjpAp5dC/Ct1oMKEcj/tkIDXTVvLW1EHjgE9CO+KwvxSqqmnBIazeEwdUipxUwBiduu2dl7pI6FEzQk/E+jhwHu+kqNNglQB+TRp4NQey3wCi2p3TGtJDCU8d65arkdqOXx0D3iX0RJnqFZUtONuMplo9N8PCAp5QnGSR9sVHD/D+Xfg0dFvfizGYGKtqlFEJpaMM1cbSRUMFi7b6WBPS0+N62m/K3mtn58DmiqILuQ=="
 }

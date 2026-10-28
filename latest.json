@@ -1,9 +1,9 @@
 {
- "version": "1.4.44",
- "file": "app-1.4.44.asar",
- "sha256": "ea450146776fb697215ef8965a4d2f71421276959a6e8db06eb586da2e933bee",
+ "version": "1.4.45",
+ "file": "app-1.4.45.asar",
+ "sha256": "c3880e92ad1f59a62d8b3c0d35b3c332439ef73cfd9c77d3a18299fe60ac5d9c",
  "minShell": "",
  "fullUrl": "",
- "notes": "주변 장소(음식점·관광지·숙박·마트·약국·병원·렌터카) 이름·주소 한글 표시",
- "sig": "fkCJqm/cPJifaeReakZxmgyz5L0Ep3D/ui3QKREALLmf7dfT2jX3gnoDuuElXC3GDn+UYn5KvIAncFW1koQgDQ=="
+ "notes": "호텔 브랜드·베트남 지명 한글 표시 보강",
+ "sig": "DNFOwyEd0BqHMEK+C0O/sus4WORKbVfli0GQFihP+FoAobw1V4dbCrZtuat+y6GSXXOyDI+YsecvITjIR8uRBg=="
 }
