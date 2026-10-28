@@ -1,9 +1,9 @@
 {
- "version": "1.4.42",
- "file": "www-1.4.42.zip",
- "sha256": "7900767998ada692896e5ad37b0b1f782763a6be3846bd4d132c6390d8494c05",
+ "version": "1.4.43",
+ "file": "www-1.4.43.zip",
+ "sha256": "e9c66a277d9c04a211608d9c9fda2bf6fc5e247b0e85fe090e03a7fc570292f8",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "카트 안내 줄바꿈 수정",
- "sig": "Vbu3hnuIfm9uM2E9Acu0H+/P2HTqj0640GP9mB/xhVKoz7M1PXo5aybTTYqDht/oZ9A1imrcYQVaa7Ikr8fRkc2cGt1gaMCFNfBR9IxLzlBS+3+mkKHxNPxlB78cNs/ipCq+jhRR4wAZdYJ8r2mH/WPNDrs6EJr2lRE30Up4oouiRnuZmyh5vjykpk7jOQZv9/XOfxY3FFW6sa1I8D5f5HlgHHiQzg4IIc31GpjySDnc3xZB6SStc1bXLY/Wn9g86byEhd1PPJtdnPf2JpQ05XtsLkoD/lw31NQzKNqdSjwx06GeVlxg1PPOLYmnm+BTD+/Nnq5bvL5EBTnggrG67g=="
+ "notes": "업데이트 확인 버튼(PC)",
+ "sig": "W16Of1clsscNJlmLANkfBWLyEyOdmEF+ZcKTyshGOhylQlUxasvu22R/mn/lvlnCfBkhEFp6ZNjO0iXfDvhuIT8lFZSIjkm1dSr/w2FOuVHkj+q1GZiQdHqIchpfI3hpxShresDnM8uMn2FgIMkX3vjlvgOeUOdjTtp/uXcJRgvMJf3nOmxpLlB1fU8kfphHJVZ2S1id9CWnPFfg9KZ7odo93Wf/NZcTbe6tS/zQxmSNstSKOi52UHNZ3Yh3aCQG4aUqCBcQ14BEdXtaDxkE8im4JiK9DMOxj0nTnB9OPB3PoLwv/HxC3vNHohzUTkDwl1oyjI6Ai0kQ2ab7qXaHoQ=="
 }

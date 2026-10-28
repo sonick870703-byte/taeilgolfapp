@@ -1,9 +1,9 @@
 {
- "version": "1.4.42",
- "file": "app-1.4.42.asar",
- "sha256": "9da8f14f02d5046d6b95edfa718ea29248e1d21f34c9322008ffd002dade5f74",
+ "version": "1.4.43",
+ "file": "app-1.4.43.asar",
+ "sha256": "e6d6366996e48a70db2096c00ae8200032359951658c11721ae3588501e82f39",
  "minShell": "",
  "fullUrl": "",
- "notes": "휴대폰 코랏 카트 금액 잘림 수정",
- "sig": "6eSBQRDPCVq/gUB0Hk8yn2AFZSyNRF65HBtasoFueyx0iQOEO0g8TXCmnKp/e7Bl8An4H9HMuArm8Q0LsVEtDg=="
+ "notes": "업데이트 확인 버튼, 끄지 않고 바로 업데이트",
+ "sig": "DMf8fCnU0mUfQr/hK5DlOvFpOqfiqncJs8/LHuRgyeaHrYSMox8DtoFDdKGq8M42Eez/BfnEqnddznyQxBwbAg=="
 }
