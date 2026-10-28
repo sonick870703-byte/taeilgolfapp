@@ -1,9 +1,9 @@
 {
- "version": "1.4.45",
- "file": "www-1.4.45.zip",
- "sha256": "7c3da252138b5c374d6d7e4e49a4eb7b4db3e4c16427f5517d10d36bd676676e",
+ "version": "1.4.46",
+ "file": "www-1.4.46.zip",
+ "sha256": "dc0b37e1d9502642379c6b00ba740344cda71ba672568bad8488960c151615b1",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "주변 시설 한국어 표기 보완",
- "sig": "faCtk4AuQ1vHWJcyNzpjBD2h8TKlMrWFSq3B478Zc5z8dkCXe87CgL8jzrvYNKTz82wo5N2QcJBS+CZWWNP1vRgxL60MEZ8wh/Vq/ccQ3CKsjpAp5dC/Ct1oMKEcj/tkIDXTVvLW1EHjgE9CO+KwvxSqqmnBIazeEwdUipxUwBiduu2dl7pI6FEzQk/E+jhwHu+kqNNglQB+TRp4NQey3wCi2p3TGtJDCU8d65arkdqOXx0D3iX0RJnqFZUtONuMplo9N8PCAp5QnGSR9sVHD/D+Xfg0dFvfizGYGKtqlFEJpaMM1cbSRUMFi7b6WBPS0+N62m/K3mtn58DmiqILuQ=="
+ "notes": "VAT 포함 합계 표시",
+ "sig": "jvrGhgPG1/SVamCgid+2/Yl+zrOorjn6MXEwq7xBUti+cQGP7xxoDWJxKM1E2lQAAx0NXMjiphUe+/OcxS5RywlX5rtRR95eWokCPUI0RgL124ISzNFbZi77BGdb7rGXp59mhqopK1ViX+wkzJjnfJrswTKSt5D/8YcUzlZgKB9bVPOHskXfIvB6K1lbc8TBeH2PFFrZss++tDI5E9uIEb8jtEV0kJ1cSPhdsJdXOC5dZ3D5ZJnUZT3bhb/nkDDvZXVzYJZcRhK3oOzokI5w2dDRTTPhDFZT4wPcE7ub/DZw/9pdO1SnMUhdcGemT8NaeLMK9sIvbVBMsGv3cc298A=="
 }

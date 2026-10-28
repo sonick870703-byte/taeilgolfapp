@@ -1,9 +1,9 @@
 {
- "version": "1.4.45",
- "file": "app-1.4.45.asar",
- "sha256": "c3880e92ad1f59a62d8b3c0d35b3c332439ef73cfd9c77d3a18299fe60ac5d9c",
+ "version": "1.4.46",
+ "file": "app-1.4.46.asar",
+ "sha256": "3dd62e9662ca73d9756441fd3934f92cb4f3079b32bc97e38fd024afdfa2160c",
  "minShell": "",
  "fullUrl": "",
- "notes": "호텔 브랜드·베트남 지명 한글 표시 보강",
- "sig": "DNFOwyEd0BqHMEK+C0O/sus4WORKbVfli0GQFihP+FoAobw1V4dbCrZtuat+y6GSXXOyDI+YsecvITjIR8uRBg=="
+ "notes": "VAT 포함 가격으로 표시: 계(VAT 미포함) / 합 계(VAT 포함)",
+ "sig": "HVq3385swki2rW9VDQlALD6PRLPKWQKit6tOTtMz3IaX1cDNixHvc01amEeVQpYXimkMhDJttb/XdZ6blJR6Cw=="
 }
