@@ -1,9 +1,9 @@
 {
- "version": "1.4.49",
- "file": "www-1.4.49.zip",
- "sha256": "7b3f1ecb1f0c7faf388ef371ebb1238da81a64e557921ab4e9aac4b333234da6",
+ "version": "1.4.49.1",
+ "file": "www-1.4.49.1.zip",
+ "sha256": "76ffb335a3cf48ca78a2276e0505b2ae26c0700d7c6c0c6c24c17030a37e8883",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "여행경보·인천공항 키 없이 사용",
- "sig": "refjitAw5u38P0zAiF/n/7q69UnmqeqKC/mj07xWiZibBNJnPpu+TC1+0AHRM2c9Xj7LV30btX4swUEd+mQnJcjUshjYyoQ3i0AKgtouKpHGO8mlKl7LJbbPahddE1lb/RF644aD/iKD3N/Rd1IohIBB+q+FogcWrk74cOhZpl51JFxUi6SL9VgZm6XW8Ul33jaxtGo1PzbYlTphSLik0Aqewpd5NQg/d8dS8gi7JATn4h27GUxNGB88Y721FNeUa7mnK+g7pJwW3rZYWQ7gN1pg8rREx1YY32lunOB5s+Oe7qmyVPupr7gkp76/7zZC1T66PozNkUkK597s6PFsrA=="
+ "notes": "여행경보·인천공항 연결 서버 지원",
+ "sig": "iwZrQYbzqEpbHGvXwwTeneSndwkM8gehUuQ21yIe2VTCQyFX5HAdWgeGQ15CpvOQMpTbH8iMwkqk27XHGI5lPngmq7TjdLGSy3kFp6nLfujkJV1EENSCLRb7TaAJg4UkdSYicMKzoEs4aHcFMh3VAX2CNKuSy4/hFXD4eweFScu+oNRFLFAXCv5cLiYhER96JXvCgvflXY5sRpz37CmA2UsPoxLyjc1OXG+K7Uj9ryT21KjkSoE/qAx365gIOlQ9Lii6vPPPGH/64g9IkrFVc6ClQfCOhLq1u4w24kbR/JSdjpoItTebDbQpV4s5JwjdBxtEjsEHPSnlzwg2uMX2DQ=="
 }
