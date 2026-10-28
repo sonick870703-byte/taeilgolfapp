@@ -1,9 +1,9 @@
 {
- "version": "1.4.47",
- "file": "app-1.4.47.asar",
- "sha256": "a2c61c4693cc8750feed1fb2a7a3e6ceb90837dae97ec7f2457d9b107659852b",
+ "version": "1.4.48",
+ "file": "app-1.4.48.asar",
+ "sha256": "e0e629aff6b76b47e2643ab97b9e5190f997ed68b4e32299a7c2adb841300ff3",
  "minShell": "",
  "fullUrl": "",
- "notes": "VAT 미포함 표시 삭제, 합 계 (VAT 포함)",
- "sig": "wnrPvN+fNmsamcJ022H4TXfp/s1uHhJKJRPm7yPOgeRfXQjitLjnr4/BynLbQ9H5rqU9wSPnsYloaxl8HgsDDg=="
+ "notes": "VAT 안내 문구 삭제",
+ "sig": "sNzcGkTyed9vtOF7g8fYaIuDC7ob2mJFQwhdkyxLGNCUOOKhjkerTPQlrGQW3wICrl2jgssky+sktLPRkxh+Aw=="
 }

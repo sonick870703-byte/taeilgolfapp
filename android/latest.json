@@ -1,9 +1,9 @@
 {
- "version": "1.4.47",
- "file": "www-1.4.47.zip",
- "sha256": "ca90e85f08b39c37767f900d2808b9cf7791c774150d3ab4deb78f05a60bea9e",
+ "version": "1.4.48",
+ "file": "www-1.4.48.zip",
+ "sha256": "8066a7533fec79bede350f80ba0bd39ed3e441f9ad3038da0baf0d0cfd428576",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "VAT 표기 정리",
- "sig": "RQHr9PTkc6VzNqBm32hht2cdi50/iEzULT8wBYG7IFK08GTKII+FDKD9gWmhg7R0k2kXujA3YwG8ohjRbeEENmC+ft5hNtRBNNQObsELAdJJC4arTZ7gY6iwoLerkNxYK8qgPqOYcuiLRrGJd0ucdYGZzASXhPxhd1BWQv+Y2OyRVumKotDFtU7NcPVzqtANV+2NvWixOtO756sk4xqRTaBoxvSXh42186IhjjTgqIXqDXbK66qfSxp9p7zfjC4snbvHsfMOGk/F9JuJkHQ8k8G57fJ9m3nHT0IanfpLqvSMmODWfCRSwMbE8/Iqb/N0QatRAegp/m5684f7px8r9w=="
+ "notes": "VAT 별도 문구 삭제",
+ "sig": "FqEI54qn2mZwKPkkSGXEwhdi51W7UZ9G9IEXkTY7rgDpyzi2Ronho5mdc8fXj4pSjc+WPQJhOPcq6syVFQ12/hm8FbC3h+U/bN1zOBoGfzDI9mR3SCsBuios/TmRSfczi5czEuj1Gx2Yc6RZV/zOG6/ftDZ3KZaQ9t/Jt784MPv/TJg8diIa4ccR4OsECyoeh8MP3I+R0av/cTQcS6BuNHZbta/zqRHUJss6JKSp0n9NYV+k/C6rUKPXpzKs/Arw48x6BO7QL4L86ri/4wbivLEpIj4n4VjqeGyN8EtdqO7YME7beTqJMYhOYroABAJGwrSn0iyo3/BKlMYIKSCH4g=="
 }
