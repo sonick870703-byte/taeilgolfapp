@@ -1,9 +1,9 @@
 {
- "version": "1.4.43",
- "file": "app-1.4.43.asar",
- "sha256": "e6d6366996e48a70db2096c00ae8200032359951658c11721ae3588501e82f39",
+ "version": "1.4.44",
+ "file": "app-1.4.44.asar",
+ "sha256": "ea450146776fb697215ef8965a4d2f71421276959a6e8db06eb586da2e933bee",
  "minShell": "",
  "fullUrl": "",
- "notes": "업데이트 확인 버튼, 끄지 않고 바로 업데이트",
- "sig": "DMf8fCnU0mUfQr/hK5DlOvFpOqfiqncJs8/LHuRgyeaHrYSMox8DtoFDdKGq8M42Eez/BfnEqnddznyQxBwbAg=="
+ "notes": "주변 장소(음식점·관광지·숙박·마트·약국·병원·렌터카) 이름·주소 한글 표시",
+ "sig": "fkCJqm/cPJifaeReakZxmgyz5L0Ep3D/ui3QKREALLmf7dfT2jX3gnoDuuElXC3GDn+UYn5KvIAncFW1koQgDQ=="
 }

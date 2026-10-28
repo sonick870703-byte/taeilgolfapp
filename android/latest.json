@@ -1,9 +1,9 @@
 {
- "version": "1.4.43.1",
- "file": "www-1.4.43.1.zip",
- "sha256": "1eb9b9d4183af43cadfdaa43931ffec39da32a051d53bf98ba8ed318d2c2a6e0",
+ "version": "1.4.44",
+ "file": "www-1.4.44.zip",
+ "sha256": "6c752199544b5bf86ded8c71f83708834f284af74c4bb182050ca85e41717f75",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "업데이트 확인 버튼",
- "sig": "SpfHvQcgePmgN7Sun5FkPivdRKQvXUQAXOKs+ni3iN4mJCdWYrkzaQrRijcYoOXeIpV5pGtP1GcsA+IyeEAQOYdnzVou3d1R/mT5hArKtUNGwvV3pUDzQAdRFuOoCwV/TRV7pim8G8L7hds9sxmwqLKeOLU01d8x7y/CGvpGGxRxTDFstzOSUpvlMGGKA3XR2tH99hPtt4Evne9ho2MON3rpOaJr+siHZjzdnztTRody2UuYuGSdsbU2PyL2q2b+0WSxX4gSujGi4h3ik4WYk1WqCwzy5SXx9vie9Q32Q+GmW1vN2X53hsKbslqPmdOqbURi3fsCoG+cGNkcgCtrrw=="
+ "notes": "주변 시설 이름·주소 한국어 표시",
+ "sig": "BIKIZBTmdQ32coTBEdseJ9PmYDJrbqd+z1h9V6rwHi+8oQrADdn4m8eetil6ToeTIt9j8w/6jAX5IqQ+Cohswl9ky7qWGBD2lQVpKioF3RYlmhX7gKPrsN/v9UJp/tO3tfAdU/vUHTQejBeK9rqShS3RnUFnEQOSNyPjCIZ2X+2YnFPd6yGJwdVABSpodSYThht1gYAfandZHqEXB+VJe0ll19txQPj9oL0jTXkRvSrjQ2B2ZQ0a6nhIeT/LyBmRyfEDS/GDVFmUShsONvzN1aGsWWGBtiHWWIg9EZSxslUQfOfb+Sr1U8WmcUJ34LByZaYyw3ZxurqRomZC19GqCQ=="
 }
