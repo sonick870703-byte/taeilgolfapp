@@ -1,9 +1,9 @@
 {
- "version": "1.4.34",
- "file": "www-1.4.34.zip",
- "sha256": "22e49c37ebeb42708678f99ad3056deb11511424325b18d291dd49ce3cba6066",
+ "version": "1.4.35",
+ "file": "www-1.4.35.zip",
+ "sha256": "426194e112756d572e6273996cffd0b8221bc1a779ede408e8ddcf05a167e13f",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "엑스트라 베드 안내",
- "sig": "ddo35CF2ql+QVBPrZ3dzeKBV5HZWRFWne2lntAmC2GjHw2TT3J2YGwjdSJPT3ktGReDJU+h6Jd8mfiaOlPGFNNZeAY1LE1TCmCdNUMx1MpKODcRK1B6qbRVm+TvmRnJicnOpaKSNJr0zfDp2ckuKn8liT/ehKXsyXl4dJE0P4DL7dRyaHrWC6p5S6tlT5VeAsoel/HtyiTJH7+F2vBM8ug7vLLamx6t4NntKFrgTBDQJvhsHRbZea1d2UDOwwgi6MZ1KZ7ukPKNguXaCMUEjQR5bAJplzKyoDjejT4qiyI/+KnTYnEk1DanRcDu/WaFlNP6lNr7StY8cO1Jmg6cv1g=="
+ "notes": "한달살기 금액표, 별도 문의 항목",
+ "sig": "QRYDH4h/Hawvbr5mgeuxRb7aVaiZsaCOpFMt5gbTkhTcZb4fUkorfGp7MAdbWQzd3VfJO74ogTlWktCuaac8ziktcLWwSFyTdxoyLFi21w/6k18Xiv57VG7Z15NkkDU034U4IiyO2ITdzukCALR1Ohci2mpoPeieraFs0HjqPXIYuZzUdJvOSlGSCZED8VLutAGmt1U63J3KVG0lQBuYViHPhIWJsjVlkMtljl3ar+tWYmgFNT+7kbH/HuICcdjaq4gnUWEC+WR1XqWkLbEEOI/RRNzD4FWmsZvxaazgbSwMvqZ04i4Ip2WrR5ECaDM1a5y3UzRTjMfqYzhzV5Hl7A=="
 }

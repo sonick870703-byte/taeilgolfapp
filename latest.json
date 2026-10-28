@@ -1,9 +1,9 @@
 {
- "version": "1.4.34",
- "file": "app-1.4.34.asar",
- "sha256": "eb82d898d21d5a0b41b1a2da9596ac39062f498b9e0cdb15585ccc0d62ec98ff",
+ "version": "1.4.35",
+ "file": "app-1.4.35.asar",
+ "sha256": "721e5dd7ef1a837eedbb261e5b10fb80f2d0f537e8470478e447f7a9c2a5a441",
  "minShell": "",
  "fullUrl": "",
- "notes": "3인 이상 홀수 인원 엑스트라 베드 요금 안내",
- "sig": "O+svtERI0Em5bUXIwMaePu/QhwqjSGhLTw8tsQOw22/DFV21ypEC2M3JtTCKVZGPnJzTRbzkRmJqg/BiCOm3Bw=="
+ "notes": "한달살기 라운드 삭제, 불포함/별도 문의 분리, 항공·보험·eSIM 불포함 안내",
+ "sig": "y/ZuqN8sXZl5qzdkMbL1r4Bi5HmUWSo/oeFEuSAL/Mwkw69kRe/5NGRAZ0iCtxzxcV0merdHHaB5bljEDWDQBg=="
 }
