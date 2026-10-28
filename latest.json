@@ -1,9 +1,9 @@
 {
- "version": "1.4.33",
- "file": "app-1.4.33.asar",
- "sha256": "a545be4bf40bda195844c926344c89c848c33f2c1e0c30eceb6fcf3c8fdaafa0",
+ "version": "1.4.34",
+ "file": "app-1.4.34.asar",
+ "sha256": "eb82d898d21d5a0b41b1a2da9596ac39062f498b9e0cdb15585ccc0d62ec98ff",
  "minShell": "",
  "fullUrl": "",
- "notes": "한달살기 공항 송영 무료 표시",
- "sig": "Kpv+2kcDtYCHcsNqkBYLAJRWWcwRvhNTVdXs3csYaeMRITGH/fy1N3ZefbCvW9i8JQuyMOTVzVgnCeMnRETXAw=="
+ "notes": "3인 이상 홀수 인원 엑스트라 베드 요금 안내",
+ "sig": "O+svtERI0Em5bUXIwMaePu/QhwqjSGhLTw8tsQOw22/DFV21ypEC2M3JtTCKVZGPnJzTRbzkRmJqg/BiCOm3Bw=="
 }

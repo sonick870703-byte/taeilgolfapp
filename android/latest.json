@@ -1,9 +1,9 @@
 {
- "version": "1.4.33",
- "file": "www-1.4.33.zip",
- "sha256": "afb2e14e5ccaf17e5d42962ba3a6157502fe2c2adb8a142a51c0dc94c549c118",
+ "version": "1.4.34",
+ "file": "www-1.4.34.zip",
+ "sha256": "22e49c37ebeb42708678f99ad3056deb11511424325b18d291dd49ce3cba6066",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "한달살기 공항 송영 무료, 벳부 캐디 항목 숨김",
- "sig": "LCyWNdZOagWjkpC2uJ9rRCzt5r+p0YMAzacUhekRElh+9H4t9n95sh644QtscHbbPq24573tCX2ynqlpHYVR9W4hiGfDp+ZCp9QYrJyH/V8VPdWexB8XXFdPhjiEfRExsbwzEhZlCetX5/MxLmf4+FSfWQItEqW60yarZ7R5ZeOx9o1lcRDLEs8mYpB2RoOzRgWsdd30IDET3IpYVb6s28f0RttroAxL1ixY9cfRWyHbF9KLlCHzU5EmrBnnTcBwyNZV5OJh4m6OfgSRUJ4eXrGxXxsA7Xt9qpziG9nvznOGbGmXkmUZPlUrMaioV3f2xSRSRqDkPe6SQLL1x214cA=="
+ "notes": "엑스트라 베드 안내",
+ "sig": "ddo35CF2ql+QVBPrZ3dzeKBV5HZWRFWne2lntAmC2GjHw2TT3J2YGwjdSJPT3ktGReDJU+h6Jd8mfiaOlPGFNNZeAY1LE1TCmCdNUMx1MpKODcRK1B6qbRVm+TvmRnJicnOpaKSNJr0zfDp2ckuKn8liT/ehKXsyXl4dJE0P4DL7dRyaHrWC6p5S6tlT5VeAsoel/HtyiTJH7+F2vBM8ug7vLLamx6t4NntKFrgTBDQJvhsHRbZea1d2UDOwwgi6MZ1KZ7ukPKNguXaCMUEjQR5bAJplzKyoDjejT4qiyI/+KnTYnEk1DanRcDu/WaFlNP6lNr7StY8cO1Jmg6cv1g=="
 }
