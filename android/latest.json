@@ -1,9 +1,9 @@
 {
- "version": "1.4.37",
- "file": "www-1.4.37.zip",
- "sha256": "4cf6e6ac892008cafae5431a1b73d48489565732f521b67a102aada22dae655d",
+ "version": "1.4.38",
+ "file": "www-1.4.38.zip",
+ "sha256": "1f4eebbef209e81d0132adf2c44f480a6118a91226e3e05e7a6c9c88973acf47",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "날짜별 예상 금액표, 항공 현황 수정",
- "sig": "TVXvy91P1IcLwZoj55Fjkd3h1Xa7J+aloTd4pHtQoLDKre/lNO/YawiXrwcP7y2CdGjlWegTIS3P7i67QvTBkVLgx7Stu54a+tpwbvtzrqD7le2Ab6nn4/wnxvHX/4nEni1lSTCR4puzkjHDNfs8VN/tvCL0lX3lGZCkjapvm18JZ4+Hdbq4qvRU2AHBjZXiDzxyXszmKtxxrTwBgHggSFEoqRSrIq/nn74Up+eBVnh37zJ6LY6JLs9EFaNeOacyJNv0+0ix15ebAKSrNJmO+Sv/muk8imNoTQEevCB26uUTBCXGMPN7D4IlLtBw1NyxY21F+14Sf4wblI7Dpnaopw=="
+ "notes": "휴대폰 날짜별 금액 카드",
+ "sig": "qavWznr7mUEkZ5jeIvEnNdKnxiOUVlKDyC1kGs2gXkf5chFN6kM0HrFE6P6KPKWTJj0HEZJkmFSJHbrqLvoW3SMHgMdaHcHa/zgIRs/lkTEt8loKqZMokXWo6nERg+1TOZbLSiXyoVtDae3RFumZnShTLEOXuuXvGf3+r8Ja2aGSKwNk6qZ3Z1PNrPejOO3HBF6TJ6yQWlIR/yx4CWmPMrquE+ueS1beriK6UuhFb+jXcFStf/X2aTL1CIeorybtRJEf02RcTLnYJptJr0nXek8MoudldNkWO2lUMTQF+ZBSt0z5mlxm16NEnJlA4D7vpo7Riz8qLEuWXWYxnieQ1w=="
 }

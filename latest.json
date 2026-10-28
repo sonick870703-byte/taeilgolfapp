@@ -1,9 +1,9 @@
 {
- "version": "1.4.37",
- "file": "app-1.4.37.asar",
- "sha256": "4364bfa8ead4713080c1ba7c90309ecb5e9c290b7d9add19fe0c80727307bf15",
+ "version": "1.4.38",
+ "file": "app-1.4.38.asar",
+ "sha256": "f3289d82e7ff65f7a43e908c21ec2bdc26ed788cc832f7d595d4e5570cdd909b",
  "minShell": "",
  "fullUrl": "",
- "notes": "1박 골프 예상 금액 날짜별 일정표, 포함·불포함 상품 안내로 이동, 항공 운항 현황 수정",
- "sig": "kFijz0g7j8SesimMbX2sL1CfkmlQo+uxkPnXEph4qt9ZK0aA9nBXDJobevCBLUocx1cILI0xLltDR8jjVAMlCQ=="
+ "notes": "휴대폰 날짜별 예상 금액 카드형 표시",
+ "sig": "OExd0edK2MgclNqkMm3fjU14BAs64ZBQ3MhYoEcP8+nxbAI8fgtmaJbSqApIuFh4jTc7Fl6Wl+JxzLdLzLHWDg=="
 }
