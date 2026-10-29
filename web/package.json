@@ -1,0 +1,8 @@
+{
+  "name": "taeil-web",
+  "private": true,
+  "type": "module",
+  "description": "태일골프 홈페이지 + ERP",
+  "engines": { "node": ">=22.5" },
+  "scripts": { "start": "node server.js", "demo": "DEMO=1 DATA_DIR=./data-demo node server.js" }
+}
