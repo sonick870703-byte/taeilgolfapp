@@ -43,7 +43,7 @@ function applySite() {
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
-    <div class="links"><a href="#/terms/service">이용약관</a><a href="#/terms/privacy"><b>개인정보처리방침</b></a><a href="#/terms/travel">여행 표준약관</a><a href="#/notice">공지사항</a><a href="erp/">직원 ERP</a></div>
+    <div class="links"><a href="#/terms/service">이용약관</a><a href="#/terms/privacy"><b>개인정보처리방침</b></a><a href="#/terms/travel">여행 표준약관</a><a href="#/notice">공지사항</a><a href="erp/index.html">직원 ERP</a></div>
     <div class="cols">
       <div><b>${esc(site.companyName)}</b> (${esc(site.brand)})<br>대표 ${esc(site.ceo)} · 사업자등록번호 ${esc(site.bizNo)}${site.travelRegNo ? `<br>관광사업자 등록번호 ${esc(site.travelRegNo)}` : ''}${site.mailOrderNo ? ` · 통신판매업 ${esc(site.mailOrderNo)}` : ''}<br>${esc(site.address)}</div>
       <div><b>상담</b><br>${esc(site.tel)}${site.tel2 ? ' / ' + esc(site.tel2) : ''}<br>${esc(site.hours)}<br>${esc(site.email)}</div>
