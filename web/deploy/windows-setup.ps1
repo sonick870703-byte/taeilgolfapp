@@ -82,6 +82,14 @@ Register-ScheduledTask -TaskName 'TaeilERP' -Action $action -Trigger $trigger -S
 Remove-Item "$Root\tunnel.log", "$Root\접속주소.txt" -Force -ErrorAction SilentlyContinue
 Start-Process wscript.exe "`"$Root\start-hidden.vbs`""
 
+# 바탕 화면에 업데이트 바로가기 (다음부터는 이것만 더블클릭)
+$upd = "$Root\update.cmd"
+Set-Content $upd -Encoding ASCII -Value "@echo off`r`nchcp 65001 >nul`r`npowershell -NoProfile -ExecutionPolicy Bypass -Command `"[Console]::OutputEncoding=[Text.Encoding]::UTF8; irm '$Raw/deploy/windows-setup.ps1' | iex`"`r`npause"
+try {
+  $lnk = (New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path ([Environment]::GetFolderPath('Desktop')) '태일ERP 업데이트.lnk'))
+  $lnk.TargetPath = $upd; $lnk.WorkingDirectory = $Root; $lnk.Save()
+} catch {}
+
 Step '5/5 접속 주소 확인'
 $url = $null
 for ($i = 0; $i -lt 40 -and -not $url; $i++) {
