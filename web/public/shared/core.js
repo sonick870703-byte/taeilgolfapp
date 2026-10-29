@@ -203,7 +203,14 @@ export function createApi(store, deps) {
   on('GET', '/api/site', async () => {
     const s = await settings();
     const { domains, dnsTarget, ...pub } = s;
+    pub.pages = (await store.all('pages')).filter(p => p.visible !== false && p.inMenu && p.id !== 'home')
+      .sort((a, b) => (a.menuOrder || 99) - (b.menuOrder || 99)).map(p => ({ slug: p.slug, title: p.menuTitle || p.title }));
     return pub;
+  });
+  on('GET', '/api/pages/:slug', async ({ params }) => {
+    const p = (await store.all('pages')).find(x => x.slug === params.slug && x.visible !== false);
+    if (!p) throw err(404, '페이지를 찾을 수 없습니다.');
+    return p;
   });
   on('GET', '/api/products', async ({ query }) => {
     const t = today();
@@ -411,6 +418,32 @@ export function createApi(store, deps) {
   }, STAFF);
   on('DELETE', '/api/erp/products/:id', async ({ params }) => { await store.del('products', params.id); return { ok: true }; }, ADMIN);
 
+  on('GET', '/api/erp/pages', async () => (await store.all('pages')).sort((a, b) => (a.id === 'home' ? -1 : b.id === 'home' ? 1 : (a.menuOrder || 99) - (b.menuOrder || 99))), STAFF);
+  on('PUT', '/api/erp/pages/:id', async ({ params, body }) => {
+    const old = (await store.get('pages', params.id)) || {};
+    const id = params.id === 'new' ? 'pg_' + deps.randomId(8) : params.id;
+    let slug = id === 'home' ? 'home' : str(body.slug, 40).toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || id.replace('pg_', 'p-');
+    const others = (await store.all('pages')).filter(p => p.id !== id);
+    if (slug === 'home' && id !== 'home') slug += '-1';
+    while (others.some(p => p.slug === slug)) slug += '-1';
+    const blocks = Array.isArray(body.blocks) ? body.blocks.slice(0, 60).map(b => {
+      const o = {};
+      for (const [k, v] of Object.entries(b || {})) {
+        if (k === 'img') o.img = v && typeof v === 'object' ? pick(v, ['lg', 'md', 'sm']) : (typeof v === 'string' ? v.slice(0, 3000000) : null);
+        else if (typeof v === 'string') o[k] = v.slice(0, 20000);
+        else if (typeof v === 'number' || typeof v === 'boolean') o[k] = v;
+      }
+      return o;
+    }) : (old.blocks || []);
+    const p = { ...old, id, slug, title: str(body.title, 80) || '새 페이지', menuTitle: str(body.menuTitle, 20), inMenu: id !== 'home' && !!body.inMenu, menuOrder: Number(body.menuOrder) || 99, visible: id === 'home' ? true : body.visible !== false, blocks, updatedAt: now() };
+    await store.put('pages', p);
+    return p;
+  }, STAFF);
+  on('DELETE', '/api/erp/pages/:id', async ({ params }) => {
+    if (params.id === 'home') throw err(400, '메인 화면은 지울 수 없습니다.');
+    await store.del('pages', params.id); return { ok: true };
+  }, STAFF);
+
   on('GET', '/api/erp/notices', async () => (await store.all('notices')).sort((a, b) => b.createdAt - a.createdAt), STAFF);
   on('PUT', '/api/erp/notices/:id', async ({ params, body, user }) => {
     const old = (await store.get('notices', params.id)) || {};
@@ -487,6 +520,14 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
     const salt = deps.randomId(16);
     await store.put('users', { id: 'u_' + deps.randomId(12), email: adminEmail.toLowerCase(), name: '관리자', phone: '', role: 'admin', salt, hash: await deps.hash(adminPassword, salt), createdAt: deps.now() });
   }
+  if (!(await store.get('pages', 'home'))) {
+    await store.put('pages', { id: 'home', slug: 'home', title: '메인 화면', visible: true, inMenu: false, updatedAt: deps.now(), blocks: [
+      { type: 'hero' }, { type: 'categories' },
+      { type: 'products', title: '지금 예약할 수 있는 상품', category: '', limit: 12 },
+      { type: 'notices', title: '공지사항', limit: 5 },
+      { type: 'contact', title: '어떤 여행이 맞을지 고민되시나요?' },
+    ] });
+  }
   if ((await store.all('products')).length) return;
   const P = (id, o) => store.put('products', { id, visible: true, images: [], includes: '', excludes: '', body: '', ...o });
   const golfIncl = '그린피, 숙박(2인 1실), 호텔↔골프장 왕복 이동';
@@ -510,6 +551,11 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
       b.status = autoStatus(b, t);
       await store.put('bookings', b);
     };
+    await store.put('pages', { id: 'pg_about', slug: 'about', title: '회사 소개', inMenu: true, menuOrder: 1, visible: true, updatedAt: deps.now(), blocks: [
+      { type: 'heading', text: '태일골프를 소개합니다', sub: '태국 골프 여행 · 한 달 살기' },
+      { type: 'imageText', img: null, title: '골프 여행 전문 브랜드', text: '태일골프커뮤니케이션은 태국·말레이시아 골프 여행과 한 달 살기를 전문으로 합니다.\n현지 골프장과 직접 계약해 합리적인 요금으로 모십니다.', side: 'left' },
+      { type: 'contact', title: '궁금한 점은 편하게 물어보세요' },
+    ] });
     await mk({ productId: 'p_kk_month', departDate: addDays(t, 40), pax: 2, name: '김영수', phone: '010-1234-5678', ago: 0 }, [], false);
     await mk({ productId: 'p_kk_month', departDate: addDays(t, 33), pax: 2, name: '이정희', phone: '010-2222-3333', ago: 6 }, [{ id: 'x1', amount: 716000, date: addDays(t, -5), method: '계좌이체', memo: '예약금' }]);
     await mk({ productId: 'p_royalcreek_member', departDate: addDays(t, 5), pax: 1, name: '박성민', phone: '010-5555-1212', ago: 20 }, [{ id: 'x2', amount: 2990000, date: addDays(t, -18), method: '계좌이체', memo: '완납' }]);

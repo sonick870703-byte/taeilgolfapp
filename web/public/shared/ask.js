@@ -3,7 +3,7 @@ export function ask(message, okLabel = '확인') {
   return new Promise(resolve => {
     const bg = document.createElement('div');
     bg.className = 'ask-bg';
-    bg.innerHTML = `<div class="ask" role="alertdialog" aria-modal="true" aria-labelledby="askMsg">
+    bg.innerHTML = `<div class="askbox" role="alertdialog" aria-modal="true" aria-labelledby="askMsg">
       <p id="askMsg"></p><div class="ask-act"><button class="btn" data-v="0">취소</button><button class="btn primary" data-v="1"></button></div></div>`;
     bg.querySelector('#askMsg').textContent = message;
     bg.querySelector('[data-v="1"]').textContent = okLabel;

@@ -3,6 +3,7 @@ import { api, getToken, setToken, isDemo, resetDemo } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
 import { won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
+import { pagesView } from './pages.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -57,10 +58,11 @@ const MENU = [
   ['notices', '공지사항', ''],
   ['members', '회원 · 직원', ''],
   ['-', '홈페이지'],
+  ['pages', '페이지 만들기', ''],
   ['site', '홈페이지 설정', ''],
   ['domain', '도메인 연결', ''],
 ];
-const TITLES = { dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
+const TITLES = { pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
 
 function shell() {
   root.innerHTML = `<div class="shell">
@@ -88,7 +90,7 @@ async function route() {
   const view = $('#view');
   view.innerHTML = '<div class="loading">불러오는 중…</div>';
   try {
-    await ({ dashboard, bookings, products, notices, members, site: siteSettings, domain }[k] || dashboard)(view, arg);
+    await ({ dashboard, bookings, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv) }[k] || dashboard)(view, arg);
   } catch (e) {
     if (e.status === 401) { me = null; return loginView(); }
     view.innerHTML = `<div class="empty">${esc(e.message)}</div>`;
@@ -617,6 +619,8 @@ async function domain(view) {
   };
   render();
 }
+
+const pageEnv = { toast, imageUploader, getSettings, drawer, closeDrawer, setBarAct: html => { $('#barAct').innerHTML = html; } };
 
 // ---------- 시작 ----------
 async function start() {

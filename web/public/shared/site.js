@@ -2,6 +2,7 @@
 import { api, getToken, setToken, isDemo, resetDemo } from './api.js';
 import { ask } from './ask.js';
 import { won, todayKST, addDays } from './core.js';
+import { renderBlocks, mountHero, productCard as card, priceHtml } from './blocks.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -19,19 +20,7 @@ const fmtDate = ms => new Date(ms).toLocaleDateString('ko-KR');
 const catName = id => (site.menus.find(m => m.id === id) || {}).name || '';
 const img = (images, size = 'md') => (images && images[0] && (images[0][size] || images[0].md || images[0].sm)) || '';
 
-function priceHtml(p, big) {
-  if (!p.price) return `<div class="price ask">${esc(p.priceNote || '요금 상담')}</div>`;
-  return `<div class="price">${won(p.price)}<small>1인${p.category === 'membership' ? '' : ' · 2인 1실 기준'}</small></div>`;
-}
-
-function productCard(p) {
-  const src = img(p.images, 'sm');
-  return `<a class="pcard" href="#/p/${esc(p.id)}">
-    <div class="pimg">${src ? `<img src="${esc(src)}" alt="" loading="lazy">` : `<div class="ph"><small>${esc(p.country)} · ${esc(p.city)}</small><strong>${esc(p.city || p.title)}</strong></div>`}
-      <span class="tag">${esc(catName(p.category))}</span></div>
-    <div class="pbody"><h3>${esc(p.title)}</h3><div class="loc">${esc([p.country, p.city].filter(Boolean).join(' · '))}${p.nights ? ` · ${p.nights}박` : ''}</div>
-      ${p.summary ? `<div class="sum">${esc(p.summary)}</div>` : ''}${priceHtml(p)}</div></a>`;
-}
+const productCard = p => card(p, site);
 
 function applySite() {
   document.documentElement.style.setProperty('--primary', site.colors.primary);
@@ -39,7 +28,8 @@ function applySite() {
   document.title = `${site.brand} | ${site.tagline}`;
   $('#brandName').textContent = site.brand;
   $('#logo').src = site.logo || 'assets/logo.jpg';
-  $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('') + `<a href="#/notice">공지사항</a>`;
+  $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('')
+    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/notice">공지사항</a>`;
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
@@ -60,38 +50,13 @@ function renderTop() {
 }
 
 // ---------- 화면 ----------
-async function home() {
-  const [products, notices] = await Promise.all([api.get('/api/products'), api.get('/api/notices')]);
-  const banners = site.heroBanners.length ? site.heroBanners : [{ title: site.brand, sub: site.tagline }];
-  const cats = site.menus.filter(m => m.visible !== false);
-  const desc = { unlimited: '원하는 만큼 라운드', month: '시니어 장기 체류', trip: '맞춤 골프 일정', membership: '선불권 · 회원권' };
-  app.innerHTML = `
-    <section class="hero" id="hero"></section>
-    <div class="wrap"><div class="cats">${cats.map((c, i) => `<a class="cat" href="#/c/${c.id}"><i>${i + 1}</i><b>${esc(c.name)}</b><span>${esc(desc[c.id] || '')}</span></a>`).join('')}</div></div>
-    <section class="section"><div class="wrap">
-      <div class="sec-head"><h2>지금 예약할 수 있는 상품</h2></div>
-      <div class="grid">${products.map(productCard).join('') || '<div class="empty">곧 상품이 올라옵니다.</div>'}</div>
-    </div></section>
-    <section class="section alt"><div class="wrap">
-      <div class="sec-head"><h2>공지사항</h2><a href="#/notice">전체 보기</a></div>
-      <div class="notice-list">${notices.slice(0, 5).map(n => `<a href="#/notice/${esc(n.id)}">${n.pinned ? '<span class="pin">필독</span>' : ''}<span class="t">${esc(n.title)}</span><span class="d">${fmtDate(n.createdAt)}</span></a>`).join('') || '<div class="empty">공지사항이 없습니다.</div>'}</div>
-    </div></section>
-    <section class="section"><div class="wrap"><div class="contact-band">
-      <div><h2>어떤 여행이 맞을지 고민되시나요?</h2><p>${esc(site.hours)} · 전화 ${esc(site.tel)} · 카카오톡 채널 ${esc(site.brand)}</p></div>
-      <div class="acts"><a class="btn kk" href="${esc(site.kakaoUrl.replace(/\/$/, '') + '/chat')}" target="_blank" rel="noopener">카카오톡 상담</a><a class="btn" href="tel:${esc(site.tel)}">전화 상담</a></div>
-    </div></div></section>`;
-  let i = 0;
-  const show = () => {
-    const b = banners[i];
-    $('#hero').innerHTML = `${b.img ? `<img src="${esc(typeof b.img === 'string' ? b.img : (b.img.lg || b.img.md))}" alt="">` : '<div class="hero-pattern"></div>'}
-      <div class="wrap"><h1>${esc(b.title)}</h1><p>${esc(b.sub || '')}</p>${b.link ? `<a class="btn accent" href="${esc(b.link)}">자세히 보기</a>` : ''}
-      ${banners.length > 1 ? `<div class="dots">${banners.map((_, k) => `<button aria-label="배너 ${k + 1}" class="${k === i ? 'on' : ''}" data-k="${k}"></button>`).join('')}</div>` : ''}</div>`;
-    $('#hero').querySelectorAll('.dots button').forEach(btn => btn.onclick = () => { i = +btn.dataset.k; show(); });
-  };
-  show();
-  clearInterval(heroTimer);
-  if (banners.length > 1) heroTimer = setInterval(() => { if (!document.getElementById('hero')) return clearInterval(heroTimer); i = (i + 1) % banners.length; show(); }, 6000);
+async function page(slug) {
+  const [pg, products, notices] = await Promise.all([api.get('/api/pages/' + encodeURIComponent(slug)), api.get('/api/products'), api.get('/api/notices')]);
+  const { html } = renderBlocks(pg.blocks, { site, products, notices });
+  app.innerHTML = html || '<div class="empty" style="margin:48px 16px">아직 내용이 없습니다.</div>';
+  mountHero(app, site);
 }
+const home = () => page('home');
 
 async function category(id) {
   const products = await api.get('/api/products?category=' + encodeURIComponent(id));
@@ -265,6 +230,7 @@ async function route() {
   try {
     if (!a) await home();
     else if (a === 'c') await category(b);
+    else if (a === 'page') await page(b);
     else if (a === 'p') await product(b);
     else if (a === 'login' || a === 'signup') authPage(a);
     else if (a === 'my') await my();
