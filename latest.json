@@ -1,9 +1,9 @@
 {
- "version": "1.4.51",
- "file": "app-1.4.51.asar",
- "sha256": "3b59d92f311c8c02d765559e24663c8757d0003ca6ca7f7864a53eea015d3dc4",
+ "version": "1.4.52",
+ "file": "app-1.4.52.asar",
+ "sha256": "2d4a8f6f6c69bb3c86a8673268c1c69260c082858cc1659b190cf1b4618bccfe",
  "minShell": "",
  "fullUrl": "",
- "notes": "국내 골프 찾기 (스크린골프·연습장·골프장) 추가",
- "sig": "FY5QsAgZ+cKizVbPEQee0nBqVqqh4f8gMH0Q2kIYwijkc4Ih1gmhLbvUFpUSlXzzwQNj4OqixWQIKpLHIPdyCA=="
+ "notes": "국내 골프 찾기: 네이버 가격 보기·매장 요금 등록",
+ "sig": "aBUeLLgPM3TX2+WH0T1ZvPxsXexqJ/K01fW3QfaPCvMZjQPwHiFbqe0LHIdUekjD5/AOssFt3DHmbqdTGK/LAQ=="
 }

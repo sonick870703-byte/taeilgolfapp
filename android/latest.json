@@ -1,9 +1,9 @@
 {
- "version": "1.4.51",
- "file": "www-1.4.51.zip",
- "sha256": "ea65fb8bb922a95a95d86e0c898dabc4279bae670730981d62a1451e05ce238e",
+ "version": "1.4.52",
+ "file": "www-1.4.52.zip",
+ "sha256": "32f65c74292c72e5b01fa9e2903ff1e6b4e4964099e6767aa182c8d5ad7d8886",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "국내 골프 찾기 추가",
- "sig": "iFLqK4eiJ7I/5uTvTEx3OgoUUEWp90MHu+1Pr8zeYCMmbaL4iDHToWcIzShoBFMgchtx/5t/tIFPxVwrHEGZ27qn4LWLa0ezlpsHjkz49DSfM+bOwdTESTTkTRrK1MpyMghzbbvR/UusuxHCNzEG/CoPA7XKk+JBwrT7RbJ4G/ZGmVnQq9pMESYyN65H5OyuE2CM9uY5tH0xziuea6gaQr0vYL3Y0Zh3uDt6IuMMAncdFCRw8AYtxQpGiEGC9HkkJX29PCUMvG1G/w0jHTfTsYC8cWOpnPGKfqmyZZlaVrT0vPpN+USQd6hsuWbrzb5ZMmG1slMfFtNcwAqCvRW6xg=="
+ "notes": "국내 골프 찾기: 네이버 가격 보기·매장 요금 등록",
+ "sig": "ehdlQcHefyfqdsfocbjFv5as81h1tDqp44MUeepK6VyB06fjoNICoPw32ARrIEcQ5DFbLV7nnJx6H8SADHT/hgA+NcGQvC4CEmwuIRrMkIqJPT4Bp14DEM62bbtndgtEA8M4IcvnGuP1k5k91P79x6dj6I37kgQo58DEmrlWg9hBZzRgfWptvydBVCWdCyizjAxgGjGa+qZMGEzW3Tc93zvvtj7/rCGcPOwF7okUm+rTlo+MOV1ArD7QhS8G60vU2yA62BpUPxjVvkSTmMlL7jVYmoO3xxAVwUPLtFi4pM+tgMJ2/5270X3eIpWSf4WHnBeDAJRbDn+VGh5XcGb1yw=="
 }
