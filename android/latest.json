@@ -1,9 +1,9 @@
 {
- "version": "1.4.50",
- "file": "www-1.4.50.zip",
- "sha256": "5177fa8b2d8b8cf2bc6f75152cd083e3d5397f041c37925fb899a3f1167fc67a",
+ "version": "1.4.51",
+ "file": "www-1.4.51.zip",
+ "sha256": "ea65fb8bb922a95a95d86e0c898dabc4279bae670730981d62a1451e05ce238e",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "상품 사진 순서 개선",
- "sig": "eMl958zlHTc25TU2EvqTyZdZH0pNeKixmmLYtAz3STlxda7xjSwz4ZrIIUVDIfH9xJ51EpZB7DkoycZnaBCtA59QYbkeWdzvUCI9O7bNSc7om4hYhMGPGxFSYsXZAsSwkNL6qkHMipmb01vfJYaxDHiBZvLssrpckaVgQ3bXzNkS72L3YUbSkKB4iiN2Q2SnguvFKn487MUZrPNtX129xTyK9RA3vg9NPNTZ72YD3Tb9Frio71RxrMmQfj7gOUGwrhPq5FkdqsR51DjfaNxIImctoi28rFiS+exv19IvGu08OrZVUMZdg+NTZUcuxRTHxWLtDw5CewdVq7n7RfKuNw=="
+ "notes": "국내 골프 찾기 추가",
+ "sig": "iFLqK4eiJ7I/5uTvTEx3OgoUUEWp90MHu+1Pr8zeYCMmbaL4iDHToWcIzShoBFMgchtx/5t/tIFPxVwrHEGZ27qn4LWLa0ezlpsHjkz49DSfM+bOwdTESTTkTRrK1MpyMghzbbvR/UusuxHCNzEG/CoPA7XKk+JBwrT7RbJ4G/ZGmVnQq9pMESYyN65H5OyuE2CM9uY5tH0xziuea6gaQr0vYL3Y0Zh3uDt6IuMMAncdFCRw8AYtxQpGiEGC9HkkJX29PCUMvG1G/w0jHTfTsYC8cWOpnPGKfqmyZZlaVrT0vPpN+USQd6hsuWbrzb5ZMmG1slMfFtNcwAqCvRW6xg=="
 }
