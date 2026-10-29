@@ -25,7 +25,7 @@ async function detect() {
 }
 
 async function initDemo() {
-  const KEY = 'taeil.demo.v1';
+  const KEY = 'taeil.demo.v2';
   let data = {};
   try { data = JSON.parse(ls.get(KEY) || '{}'); } catch { data = {}; }
   const save = () => { try { ls.set(KEY, JSON.stringify(data)); } catch { /* 저장 공간 부족 시 메모리에만 유지 */ } };
@@ -45,7 +45,7 @@ async function initDemo() {
   demoApi = createApi(store, deps);
 }
 
-export function resetDemo() { ls.del('taeil.demo.v1'); ls.del(TOKEN_KEY); location.reload(); }
+export function resetDemo() { ls.del('taeil.demo.v2'); ls.del(TOKEN_KEY); location.reload(); }
 export const getToken = () => ls.get(TOKEN_KEY);
 export const setToken = t => (t ? ls.set(TOKEN_KEY, t) : ls.del(TOKEN_KEY));
 export async function isDemo() { return (await detect()) === 'demo'; }

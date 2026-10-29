@@ -541,6 +541,16 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
   await store.put('notices', { id: 'n_1', title: '[필독] 태일골프 예약 · 결제 · 환불 안내', pinned: true, visible: true, createdAt: deps.now(), author: '관리자',
     body: '■ 요금 기준\n· 1박 골프 상품은 2인 1실 기준 1인 요금입니다.\n· 1인 예약(1인 1실 사용) 시 추가 요금이 있습니다.\n· 항공권과 여행자보험은 모든 상품에 포함되어 있지 않습니다.\n· 카트비, 캐디비, 캐디팁은 현지에서 따로 내시는 비용입니다.\n\n■ 결제 안내\n· 예약 시 예약금 20%, 잔금은 출발 1개월 전까지 입금해 주세요.\n· 모든 상품의 요금은 VAT 별도 금액입니다.\n\n■ 환불 안내\n· 환불은 출발 2주(14일) 전까지만 가능합니다.\n\n■ 상담 문의\n· 전화 02-737-6658 / 010-6801-9330\n· 카카오채널 태일골프 http://pf.kakao.com/_MzSxiX' });
   if (demo) {
+    // 미리보기용 예시 그림 (직접 그린 일러스트, 실제 골프장 사진 아님)
+    const base = typeof window !== 'undefined' ? new URL('../assets/sample/', import.meta.url).href : '/assets/sample/';
+    const im = n => ({ lg: base + n + '.jpg', md: base + n + '.jpg', sm: base + n + '.jpg' });
+    const set = await store.get('settings', 'site');
+    await store.put('settings', { ...set, heroBanners: [
+      { img: im('banner-1'), title: '태국·말레이시아 골프, 태일골프가 함께합니다', sub: '무제한 골프 · 한 달 살기 · 골프여행 · 멤버십', link: '#/c/unlimited' },
+      { img: im('banner-2'), title: '바다 옆에서 보내는 한 달', sub: '코타키나발루 · 파타야 시니어 한 달 살기', link: '#/c/month' },
+    ] });
+    const pics = { p_pattaya_sunrise: 'pattaya', p_udon_royalcreek: 'udon', p_korat_luxkorat: 'korat', p_kk_month: 'kk-month', p_pattaya_month: 'pattaya-month', p_royalcreek_member: 'membership' };
+    for (const [id, n] of Object.entries(pics)) { const p = await store.get('products', id); if (p) await store.put('products', { ...p, images: [im(n)] }); }
     // 미리보기용 예약 몇 건
     const t = todayKST(deps.now());
     const mk = async (o, pays = [], confirm = true) => {
@@ -553,7 +563,7 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
     };
     await store.put('pages', { id: 'pg_about', slug: 'about', title: '회사 소개', inMenu: true, menuOrder: 1, visible: true, updatedAt: deps.now(), blocks: [
       { type: 'heading', text: '태일골프를 소개합니다', sub: '태국 골프 여행 · 한 달 살기' },
-      { type: 'imageText', img: null, title: '골프 여행 전문 브랜드', text: '태일골프커뮤니케이션은 태국·말레이시아 골프 여행과 한 달 살기를 전문으로 합니다.\n현지 골프장과 직접 계약해 합리적인 요금으로 모십니다.', side: 'left' },
+      { type: 'imageText', img: im('about'), title: '골프 여행 전문 브랜드', text: '태일골프커뮤니케이션은 태국·말레이시아 골프 여행과 한 달 살기를 전문으로 합니다.\n현지 골프장과 직접 계약해 합리적인 요금으로 모십니다.', side: 'left' },
       { type: 'contact', title: '궁금한 점은 편하게 물어보세요' },
     ] });
     await mk({ productId: 'p_kk_month', departDate: addDays(t, 40), pax: 2, name: '김영수', phone: '010-1234-5678', ago: 0 }, [], false);
