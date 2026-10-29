@@ -42,6 +42,10 @@ ADMIN_EMAIL=관리자이메일 ADMIN_PASSWORD='처음비밀번호' node server.j
 
 서버 없이 `public/` 폴더만 열면(미리보기) 브라우저 안의 데모 저장소로 같은 업무 로직이 돌아갑니다. 미리보기 관리자: `admin@tigc.co.kr` / `demo1234`.
 
+## 사무실 윈도우 PC에 올리기 (무료)
+
+`deploy/windows-setup.bat`을 PC에서 더블클릭하면 `C:\TaeilERP`에 Node.js, 프로그램, Cloudflare 터널을 받고, 로그인할 때 자동으로 켜지게 등록합니다. 관리자 권한은 필요 없습니다. 직원 공유 주소(`*.trycloudflare.com`)는 PC를 다시 켤 때마다 바뀌며 `C:\TaeilERP\접속주소.txt`에 적힙니다. 고정 주소(erp.tigc.co.kr)는 Cloudflare 계정으로 이름 있는 터널을 만들어 붙입니다. 다시 실행하면 데이터는 두고 프로그램만 최신으로 바꿉니다. 프로그램 파일을 바꾸면 `deploy/make-manifest.sh`로 목록을 갱신하세요.
+
 ## 오라클 클라우드 무료 서버에 올리기
 
 Ubuntu 서버에 접속해서 한 줄을 붙여 넣으면 Node.js, 자동 https(Caddy), 자동 시작까지 설치됩니다.
