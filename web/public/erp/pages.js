@@ -7,6 +7,14 @@ import { BLOCK_TYPES, PAGE_TEMPLATES, blockName, newBlock, renderBlocks, mountHe
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
+// "넣기"에 바로 보이는 블록. 나머지는 "더 보기" 안에 둡니다.
+const MAIN_ADD = ['heading', 'text', 'image', 'imageText', 'button'];
+// 접힌 블록 제목 옆에 보이는 한 줄 요약
+const summary = b => {
+  const t = b.title || b.text || b.label || b.caption || (b.img ? '사진 있음' : '');
+  return String(t || '').replace(/\s+/g, ' ').slice(0, 30);
+};
+
 // env: { toast, imageUploader, getSettings, drawer, closeDrawer, setBarAct }
 export async function pagesView(view, id, env) {
   if (id) return editor(view, id, env);
@@ -14,9 +22,10 @@ export async function pagesView(view, id, env) {
   env.setBarAct('<button class="btn primary sm" id="newPg">+ 새 페이지</button>');
   $('#newPg').onclick = () => templatePicker(env);
   view.innerHTML = `<p class="muted" style="margin-top:0">블록(제목, 글, 사진, 상품 목록 등)을 골라 쌓기만 하면 페이지가 만들어집니다. 오른쪽에서 바로 미리 보고, 저장하면 홈페이지에 반영됩니다.</p>
-    <div class="pg-list">${pages.map(p => `<a class="pg-card" href="#/pages/${esc(p.id)}">
+    <div class="pg-list"><button type="button" class="pg-card pg-new" id="newPg2"><div><b>+ 새 페이지 만들기</b><div class="muted" style="font-size:13px">틀을 하나 고르면 글과 사진만 바꾸면 됩니다</div></div></button>${pages.map(p => `<a class="pg-card" href="#/pages/${esc(p.id)}">
       <div><b>${esc(p.title)}</b><div class="muted" style="font-size:13px">${p.id === 'home' ? '홈페이지 첫 화면' : (p.inMenu ? '상단 메뉴에 표시' : '메뉴에 없음 (주소로만 열림)')} · 블록 ${(p.blocks || []).length}개</div></div>
       <span>${p.id === 'home' ? '<span class="badge g">메인</span>' : p.visible === false ? '<span class="badge">숨김</span>' : '<span class="badge b">공개</span>'}</span></a>`).join('')}</div>`;
+  $('#newPg2', view).onclick = () => templatePicker(env);
 }
 
 function templatePicker(env) {
@@ -45,21 +54,30 @@ async function editor(view, id, env) {
       ${isHome ? '<div class="card" style="padding:14px 16px"><b>메인 화면</b><div class="muted" style="font-size:13px">홈페이지 첫 화면입니다. 블록 순서를 바꾸거나 빼고, 새 블록을 넣을 수 있습니다.</div></div>' : `
       <div class="card" style="padding:14px 16px">
         <div class="field"><label for="pgTitle">페이지 이름</label><input id="pgTitle" value="${esc(pg.title)}"></div>
-        <label class="check"><input type="checkbox" id="pgMenu" ${pg.inMenu ? 'checked' : ''}> 상단 메뉴에 보이기</label>
-        <label class="check"><input type="checkbox" id="pgVis" ${pg.visible !== false ? 'checked' : ''}> 홈페이지에 공개</label>
+        <div class="pg-opts"><label class="check"><input type="checkbox" id="pgMenu" ${pg.inMenu ? 'checked' : ''}> 상단 메뉴에 보이기</label>
+        <label class="check"><input type="checkbox" id="pgVis" ${pg.visible !== false ? 'checked' : ''}> 홈페이지에 공개</label></div>
         <details><summary class="muted" style="cursor:pointer;font-size:13px">더 보기 (메뉴 순서, 주소)</summary>
           <div class="grid2" style="margin-top:10px"><div class="field"><label for="pgOrder">메뉴 순서</label><input id="pgOrder" type="number" value="${pg.menuOrder || 99}"></div>
           <div class="field"><label for="pgSlug">주소 (영문)</label><input id="pgSlug" value="${esc(pg.slug)}"></div></div></details>
       </div>`}
       <div id="blocks"></div>
-      <div class="card add-blk"><b>블록 추가</b><div class="add-grid">${BLOCK_TYPES.map(t => `<button type="button" data-add="${t.type}"><b>${t.name}</b><span>${t.hint}</span></button>`).join('')}</div></div>
+      <div class="card add-blk"><b>넣기</b><div class="add-main">${MAIN_ADD.map(t => `<button type="button" data-add="${t}"><b>${esc(blockName(t))}</b></button>`).join('')}</div>
+        <details class="add-more"><summary>다른 블록 더 보기</summary><div class="add-grid">${BLOCK_TYPES.filter(t => !MAIN_ADD.includes(t.type)).map(t => `<button type="button" data-add="${t.type}"><b>${t.name}</b><span>${t.hint}</span></button>`).join('')}</div></details></div>
       <div class="save-bar">${isHome ? '' : '<button class="btn" id="pgDel" style="color:var(--danger);margin-right:auto">페이지 삭제</button>'}<a class="btn" href="../${isHome ? '' : '#/page/' + esc(pg.slug)}" target="_blank">홈페이지에서 보기</a><button class="btn primary" id="pgSave">저장</button></div>
     </div>
-    <div class="pb-preview"><div class="pb-pv-head"><span>미리보기</span><span class="muted">저장 전 화면입니다</span></div><div class="pv" id="pv"></div></div>
+    <div class="pb-preview"><div class="pb-pv-head"><span>미리보기</span><span class="muted">고칠 곳을 누르세요</span></div><div class="pv" id="pv"></div></div>
   </div>`;
 
   const pv = $('#pv', view);
-  pv.addEventListener('click', e => { if (e.target.closest('a, button')) e.preventDefault(); });
+  let openK = null; // 펼쳐서 고치는 블록 (한 번에 하나만)
+  // 미리보기에서 고치고 싶은 곳을 누르면 그 블록이 펼쳐집니다
+  pv.addEventListener('click', e => {
+    if (e.target.closest('a, button')) e.preventDefault();
+    const hit = e.target.closest('[data-blk]');
+    if (!hit) return;
+    openK = Number(hit.dataset.blk); renderBlocksEditor();
+    $(`.blk-ed[data-k="${openK}"]`, view)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  });
   let stopHero = () => {};
   let t;
   const preview = (focus) => {
@@ -107,13 +125,14 @@ async function editor(view, id, env) {
 
   const renderBlocksEditor = () => {
     const box = $('#blocks', view);
-    box.innerHTML = pg.blocks.map((b, k) => `<div class="card blk-ed" data-k="${k}">
-      <div class="blk-ed-head"><b>${k + 1}. ${esc(blockName(b.type))}</b>
+    box.innerHTML = pg.blocks.map((b, k) => `<div class="card blk-ed ${k === openK ? 'open' : ''}" data-k="${k}">
+      <div class="blk-ed-head"><button type="button" class="blk-toggle" aria-expanded="${k === openK}"><b>${k + 1}. ${esc(blockName(b.type))}</b><span class="muted">${esc(summary(b))}</span></button>
         <span><button type="button" class="ib" data-mv="-1" ${k === 0 ? 'disabled' : ''} aria-label="위로">↑</button><button type="button" class="ib" data-mv="1" ${k === pg.blocks.length - 1 ? 'disabled' : ''} aria-label="아래로">↓</button><button type="button" class="ib" data-dup aria-label="복사">⧉</button><button type="button" class="ib" data-rm aria-label="블록 삭제" style="color:var(--danger)">×</button></span></div>
-      ${fields(b, k)}</div>`).join('') || '<div class="empty" style="margin-bottom:16px">블록이 없습니다. 아래에서 추가해 주세요.</div>';
+      ${k === openK ? `<div class="blk-body">${fields(b, k)}</div>` : ''}</div>`).join('') || '<div class="empty" style="margin-bottom:16px">블록이 없습니다. 아래에서 추가해 주세요.</div>';
     $$('.blk-ed', box).forEach(card => {
       const k = +card.dataset.k, b = pg.blocks[k];
-      $$('[data-f]', card).forEach(inp => inp.oninput = inp.onchange = () => { b[inp.dataset.f] = inp.type === 'number' ? Number(inp.value) : inp.value; touch(k); });
+      $('.blk-toggle', card).onclick = () => { openK = openK === k ? null : k; renderBlocksEditor(); if (openK != null) preview(k); };
+      $$('[data-f]', card).forEach(inp => inp.oninput = inp.onchange = () => { b[inp.dataset.f] = inp.type === 'number' ? Number(inp.value) : inp.value; $('.blk-toggle .muted', card).textContent = summary(b); touch(k); });
       const link = $('[data-link]', card);
       if (link) link.onchange = () => {
         const box2 = $('[data-urlbox]', card);
@@ -127,12 +146,13 @@ async function editor(view, id, env) {
       $$('[data-mv]', card).forEach(btn => btn.onclick = () => {
         const j = k + Number(btn.dataset.mv);
         [pg.blocks[k], pg.blocks[j]] = [pg.blocks[j], pg.blocks[k]];
+        if (openK === k) openK = j; else if (openK === j) openK = k;
         renderBlocksEditor(); touch(j);
       });
-      $('[data-dup]', card).onclick = () => { pg.blocks.splice(k + 1, 0, structuredClone(b)); renderBlocksEditor(); touch(k + 1); };
+      $('[data-dup]', card).onclick = () => { pg.blocks.splice(k + 1, 0, structuredClone(b)); openK = k + 1; renderBlocksEditor(); touch(k + 1); };
       $('[data-rm]', card).onclick = async () => {
         if (!await ask(`${blockName(b.type)} 블록을 뺄까요?`, '빼기')) return;
-        pg.blocks.splice(k, 1); renderBlocksEditor(); touch();
+        pg.blocks.splice(k, 1); openK = null; renderBlocksEditor(); touch();
       };
       card.addEventListener('focusin', () => pv.querySelector(`[data-blk="${k}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
     });
@@ -140,6 +160,7 @@ async function editor(view, id, env) {
 
   $$('[data-add]', view).forEach(btn => btn.onclick = () => {
     pg.blocks.push(newBlock(btn.dataset.add));
+    openK = pg.blocks.length - 1;
     renderBlocksEditor(); touch(pg.blocks.length - 1);
     $$('.blk-ed', view).pop()?.scrollIntoView({ block: 'center', behavior: 'smooth' });
   });

@@ -170,3 +170,23 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
   .bar { flex-wrap: wrap; }
   #barAct:not(:empty) { flex-basis: 100%; justify-content: flex-start; }
 }
+/* 페이지 만들기: 간단 모드 */
+.pg-new { cursor: pointer; text-align: left; border: 2px dashed var(--primary); background: #f7faf8; font: inherit; color: inherit; }
+.pg-new b { color: var(--primary); font-size: 16px; }
+.pg-opts { display: flex; gap: 16px; flex-wrap: wrap; }
+.blk-ed { padding: 0; }
+.blk-ed-head { margin: 0; padding: 6px 8px 6px 4px; }
+.blk-toggle { flex: 1; min-width: 0; display: flex; gap: 10px; align-items: baseline; background: none; border: 0; padding: 8px 10px; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.blk-toggle .muted { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.blk-toggle::before { content: '▸'; color: var(--ink-3); }
+.blk-ed.open .blk-toggle::before { content: '▾'; }
+.blk-ed.open { border-color: var(--primary); }
+.blk-body { padding: 4px 16px 14px; border-top: 1px solid var(--line); }
+.add-main { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.add-main button { border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 14px 8px; cursor: pointer; font: inherit; }
+.add-main button:hover { border-color: var(--primary); background: #f7faf8; }
+.add-more { margin-top: 10px; }
+.add-more summary { cursor: pointer; font-size: 13px; color: var(--ink-3); margin-bottom: 8px; }
+#pv [data-blk] { cursor: pointer; }
+#pv [data-blk]:hover { outline: 2px dashed var(--primary); outline-offset: -2px; }
+.blk-toggle b { white-space: nowrap; }
