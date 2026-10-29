@@ -324,6 +324,15 @@ export function createApi(store, deps) {
   });
   on('POST', '/api/logout', async ({ token }) => { if (token) await store.del('sessions', token); return { ok: true }; });
   on('GET', '/api/me', async ({ user }) => ({ user: publicUser(user) }));
+  on('POST', '/api/me/password', async ({ body, user }) => {
+    const u = await store.get('users', user.id);
+    if (u.hash !== await deps.hash(String(body.current || ''), u.salt)) throw err(400, '지금 비밀번호가 맞지 않습니다.');
+    const pw = String(body.next || '');
+    if (pw.length < 8 || !/[0-9]/.test(pw) || !/[a-zA-Z]/.test(pw)) throw err(400, '새 비밀번호는 영문과 숫자를 섞어 8자 이상으로 정해 주세요.');
+    u.salt = deps.randomId(16); u.hash = await deps.hash(pw, u.salt);
+    await store.put('users', u);
+    return { ok: true };
+  });
 
   on('POST', '/api/bookings', async ({ body, user }) => {
     const p = await store.get('products', str(body.productId, 64));

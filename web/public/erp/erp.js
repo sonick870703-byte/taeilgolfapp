@@ -69,11 +69,12 @@ function shell() {
     <aside class="side" id="side">
       <div class="brand"><img src="../assets/logo.jpg" alt=""><span>태일골프 ERP</span></div>
       <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${k === 'bookings' ? '<span class="cnt" id="waitCnt" hidden></span>' : ''}</a>`).join('')}</nav>
-      <div class="who">${esc(me.name)} · ${me.role === 'admin' ? '관리자' : '직원'}<br><a href="../" target="_blank" style="text-decoration:underline">홈페이지 보기</a> · <button id="lo">로그아웃</button>
+      <div class="who">${esc(me.name)} · ${me.role === 'admin' ? '관리자' : '직원'}<br><a href="../" target="_blank" style="text-decoration:underline">홈페이지 보기</a> · <button id="pwc">비밀번호 바꾸기</button> · <button id="lo">로그아웃</button>
         ${demo ? '<br><button id="rd" style="margin-top:6px">미리보기 처음 상태로</button>' : ''}</div>
     </aside>
     <div class="main"><div class="bar"><button class="menu-btn" id="mb" aria-label="메뉴"><span></span><span></span><span></span></button><h1 id="title"></h1><div id="barAct"></div></div>
       <div class="content" id="view"></div></div></div>`;
+  $('#pwc').onclick = passwordDrawer;
   $('#lo').onclick = async () => { await api.post('/api/logout').catch(() => {}); setToken(null); me = null; loginView(); };
   if ($('#rd')) $('#rd').onclick = resetDemo;
   $('#mb').onclick = () => $('#side').classList.toggle('open');
@@ -301,6 +302,22 @@ async function newBookingDrawer(after) {
     const f = new FormData($('#nb', d));
     const body = Object.fromEntries(f); body.single = !!f.get('single');
     try { const b = await api.post('/api/erp/bookings', body); toast(`예약 ${b.no} 등록했습니다.`); closeDrawer(); after && after(); openBooking(b.id, after); }
+    catch (err) { toast(err.message); }
+  };
+}
+
+// ---------- 비밀번호 바꾸기 ----------
+function passwordDrawer() {
+  const d = drawer('비밀번호 바꾸기', `<form id="pwf">
+    <div class="field"><label for="pw0">지금 비밀번호</label><input id="pw0" type="password" autocomplete="current-password" required></div>
+    <div class="field"><label for="pw1">새 비밀번호</label><input id="pw1" type="password" autocomplete="new-password" required><span class="muted" style="font-size:13px">영문과 숫자를 섞어 8자 이상 (예: taeil2026)</span></div>
+    <div class="field"><label for="pw2">새 비밀번호 한 번 더</label><input id="pw2" type="password" autocomplete="new-password" required></div></form>`,
+    '<button class="btn" id="pwN">취소</button><button class="btn primary" id="pwY">바꾸기</button>');
+  $('#pwN', d).onclick = closeDrawer;
+  $('#pwY', d).onclick = async () => {
+    const [a, b, c] = ['#pw0', '#pw1', '#pw2'].map(s => $(s, d).value);
+    if (b !== c) return toast('새 비밀번호 두 칸이 서로 다릅니다.');
+    try { await api.post('/api/me/password', { current: a, next: b }); toast('비밀번호를 바꿨습니다. 다음 로그인부터 새 비밀번호를 쓰세요.'); closeDrawer(); }
     catch (err) { toast(err.message); }
   };
 }
