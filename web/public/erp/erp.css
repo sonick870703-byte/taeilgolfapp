@@ -158,3 +158,15 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
   .pv { max-height: 70vh; }
 }
 @media (max-width: 760px) { .tpl-grid { grid-template-columns: 1fr; } }
+/* 엑셀로 올리기 */
+.xl-sum { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 12px; }
+.xl-sum span { background: var(--bg-2); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+.xl-sum span.bad { background: #fde8e6; color: #b42318; }
+.tbl tr.xl-err td { background: #fff6f5; }
+.xl-msg { color: #b42318; font-size: 13px; margin-top: 4px; }
+#barAct { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.bar h1 { white-space: nowrap; }
+@media (max-width: 760px) {
+  .bar { flex-wrap: wrap; }
+  #barAct:not(:empty) { flex-basis: 100%; justify-content: flex-start; }
+}

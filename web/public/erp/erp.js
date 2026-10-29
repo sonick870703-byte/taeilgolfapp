@@ -1,7 +1,7 @@
 // 태일골프 ERP (직원용 관리자 화면)
 import { api, getToken, setToken, isDemo, resetDemo } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
-import { won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween } from '../shared/core.js';
+import { won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js';
 
@@ -307,9 +307,12 @@ async function newBookingDrawer(after) {
 
 // ---------- 상품 관리 ----------
 async function products(view) {
-  $('#barAct').innerHTML = '<button class="btn primary sm" id="newP">+ 상품 등록</button>';
+  $('#barAct').innerHTML = `<a class="btn sm" href="../assets/product-template.xlsx" download="태일골프_상품등록_양식.xlsx">엑셀 양식 받기</a>
+    <label class="btn sm">엑셀로 올리기<input type="file" id="xlIn" accept=".xlsx,.xls,.csv" hidden></label>
+    <button class="btn primary sm" id="newP">+ 상품 등록</button>`;
   $('#newP').onclick = () => productEditor(null, () => products(view));
   const list = await api.get('/api/erp/products');
+  $('#xlIn').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) excelImport(f, list, () => products(view)); };
   view.innerHTML = `<p class="muted" style="margin-top:0">기준가(시트 가격)를 넣으면 홈페이지·앱에는 <b>기준가 + ${won(PRICE_MARKUP)}</b>이 1인 요금으로 자동 표시됩니다. 기준가는 직원에게만 보입니다.</p>
     <div class="tbl-wrap"><table class="tbl"><thead><tr><th style="width:80px">사진</th><th>상품명</th><th class="hide-m">분류</th><th class="num">기준가</th><th class="num hide-m">고객 표시가</th><th>노출</th></tr></thead>
     <tbody>${list.map(p => {
@@ -320,6 +323,56 @@ async function products(view) {
       <td>${p.visible !== false ? '<span class="badge g">노출</span>' : '<span class="badge">숨김</span>'}</td></tr>`;
     }).join('') || '<tr><td colspan="6" class="muted">등록된 상품이 없습니다.</td></tr>'}</tbody></table></div>`;
   $$('tr[data-id]', view).forEach(tr => tr.onclick = () => productEditor(list.find(p => p.id === tr.dataset.id), () => products(view)));
+}
+
+// 엑셀 읽기 도구는 엑셀을 올릴 때만 불러옵니다
+let xlsxLib = null;
+function loadXlsx() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  return xlsxLib ||= new Promise((ok, no) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    sc.onload = () => ok(window.XLSX);
+    sc.onerror = () => { xlsxLib = null; no(new Error('엑셀 읽기 도구를 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.')); };
+    document.head.append(sc);
+  });
+}
+
+async function excelImport(file, list, after) {
+  let rows;
+  try {
+    const XLSX = await loadXlsx();
+    const wb = XLSX.read(await file.arrayBuffer());
+    const name = wb.SheetNames.find(n => n === '상품목록') || wb.SheetNames[0];
+    rows = XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: '', raw: true });
+  } catch (err) { toast(err.message || '엑셀 파일을 읽지 못했습니다.'); return; }
+  const checked = rows.map((raw, i) => {
+    const { data, errors } = excelRowToProduct(raw);
+    const kind = isExampleRow(data) ? 'skip' : errors.length ? 'err' : list.some(p => p.code && p.code === data.code) ? 'upd' : 'new';
+    return { line: i + 2, raw, data, errors, kind };
+  });
+  const n = k => checked.filter(c => c.kind === k).length;
+  const good = checked.filter(c => c.kind === 'new' || c.kind === 'upd');
+  const LABEL = { new: '<span class="badge g">새로 등록</span>', upd: '<span class="badge b">수정</span>', err: '<span class="badge r">오류</span>', skip: '<span class="badge">예시 · 건너뜀</span>' };
+  const d = drawer('엑셀로 상품 올리기', `<p style="margin-top:0"><b>${esc(file.name)}</b> · ${checked.length}줄을 읽었습니다.</p>
+    <div class="xl-sum"><span>새로 등록 <b>${n('new')}</b></span><span>수정 <b>${n('upd')}</b></span><span class="${n('err') ? 'bad' : ''}">오류 <b>${n('err')}</b></span>${n('skip') ? `<span>예시 줄 <b>${n('skip')}</b></span>` : ''}</div>
+    ${n('err') ? '<p class="muted">오류가 있는 줄은 빼고 올립니다. 엑셀에서 고친 뒤 다시 올리면 됩니다.</p>' : ''}
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>줄</th><th>처리</th><th>상품</th><th class="num">기준가</th></tr></thead><tbody>
+    ${checked.map(c => `<tr class="${c.kind === 'err' ? 'xl-err' : ''}"><td>${c.line}</td><td>${LABEL[c.kind]}</td>
+      <td><b>${esc(c.data.title || '(상품명 없음)')}</b><div class="muted" style="font-size:12px">${esc(c.data.code)} · ${esc(catName(c.data.category))}${c.data.nights ? ` · ${c.data.nights}박` : ''}${c.data.visible ? '' : ' · 숨김'}</div>
+      ${c.errors.length ? `<div class="xl-msg">${c.errors.map(esc).join('<br>')}</div>` : ''}</td>
+      <td class="num">${c.data.basePrice ? won(c.data.basePrice) : '<span class="muted">요금 상담</span>'}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">읽은 줄이 없습니다. 첫 줄에 제목(상품코드, 상품명, 분류 …)이 있는지 확인해 주세요.</td></tr>'}
+    </tbody></table></div>`,
+    `<button class="btn" id="xlNo">취소</button><button class="btn primary" id="xlGo" ${good.length ? '' : 'disabled'}>${good.length}개 상품 올리기</button>`);
+  $('#xlNo', d).onclick = closeDrawer;
+  $('#xlGo', d).onclick = async () => {
+    $('#xlGo', d).disabled = true;
+    try {
+      const r = await api.post('/api/erp/products/import', { rows: good.map(c => c.raw) });
+      toast(`새로 등록 ${r.created}개, 수정 ${r.updated}개 했습니다. 홈페이지에 바로 반영됩니다.`);
+      closeDrawer(); after();
+    } catch (err) { toast(err.message); $('#xlGo', d).disabled = false; }
+  };
 }
 
 function imageUploader(container, images, slot, onChange, max = 8) {

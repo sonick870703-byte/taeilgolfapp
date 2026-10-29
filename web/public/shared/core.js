@@ -138,6 +138,74 @@ export function won(n) {
   return (Number(n) || 0).toLocaleString('ko-KR') + '원';
 }
 
+// ---------- 엑셀 양식 ----------
+// 엑셀 첫 줄(제목 줄)의 이름. 띄어쓰기와 * 표시는 무시하고 맞춥니다.
+export const EXCEL_COLUMNS = [
+  ['code', '상품코드*', '같은 코드가 있으면 그 상품을 고칩니다'],
+  ['title', '상품명*', ''],
+  ['category', '분류*', '무제한 골프 / 한 달 살기 / 골프여행 / 멤버십'],
+  ['country', '나라', ''],
+  ['city', '도시', ''],
+  ['nights', '박수', '숫자'],
+  ['basePrice', '기준가(1인)', '숫자. 비우면 "요금 상담". 고객에게는 +20,000원으로 표시'],
+  ['singleSupplement', '1인1실 추가요금', '숫자'],
+  ['summary', '한줄소개', ''],
+  ['includes', '포함', ''],
+  ['excludes', '불포함', ''],
+  ['body', '상세안내', ''],
+  ['priceNote', '요금없을때 문구', '예: 요금은 상담 후 안내'],
+  ['visible', '노출(Y/N)', '비우면 Y'],
+  ['showFrom', '노출 시작일', '2026-11-01 형식'],
+  ['showTo', '노출 종료일', '2027-03-31 형식'],
+  ['order', '순서', '작을수록 앞'],
+  ['images', '사진 주소', '공식 사진 주소. 여러 장은 쉼표로'],
+];
+const normHead = h => String(h || '').replace(/[\s*]/g, '').toLowerCase();
+const HEAD_MAP = Object.fromEntries(EXCEL_COLUMNS.map(([k, h]) => [normHead(h), k]));
+const CAT_BY_NAME = Object.fromEntries(CATEGORIES.flatMap(c => [[c.name.replace(/\s/g, ''), c.id], [c.id, c.id]]));
+
+// 엑셀 한 줄 → 상품. { data, errors }
+export function excelRowToProduct(row) {
+  const r = {};
+  for (const [h, v] of Object.entries(row || {})) { const k = HEAD_MAP[normHead(h)] || (EXCEL_COLUMNS.some(c => c[0] === h) ? h : null); if (k) r[k] = v; }
+  const errors = [];
+  const t = v => (v == null ? '' : String(v)).trim();
+  const num = v => { const n = Number(t(v).replace(/[,원\s]/g, '')); return Number.isFinite(n) ? n : NaN; };
+  const date = v => {
+    if (v instanceof Date && !isNaN(v)) return v.toISOString().slice(0, 10);
+    if (typeof v === 'number' && v > 20000 && v < 80000) return new Date(Date.UTC(1899, 11, 30) + v * 86400000).toISOString().slice(0, 10);
+    const s = t(v).replace(/[./]/g, '-');
+    if (!s) return '';
+    const m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (!m) { errors.push(`날짜 형식 확인: ${t(v)}`); return ''; }
+    return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  };
+  const data = {
+    code: t(r.code), title: t(r.title), country: t(r.country), city: t(r.city),
+    summary: t(r.summary), includes: t(r.includes), excludes: t(r.excludes), body: t(r.body), priceNote: t(r.priceNote),
+  };
+  if (!data.code) errors.push('상품코드가 비어 있습니다');
+  if (!data.title) errors.push('상품명이 비어 있습니다');
+  const cat = CAT_BY_NAME[t(r.category).replace(/\s/g, '')];
+  if (!cat) errors.push(`분류를 확인해 주세요 (${CATEGORIES.map(c => c.name).join(', ')})`);
+  data.category = cat || 'trip';
+  for (const k of ['nights', 'basePrice', 'singleSupplement', 'order']) {
+    if (t(r[k]) === '') { data[k] = k === 'order' ? 99 : 0; continue; }
+    const n = num(r[k]);
+    if (Number.isNaN(n) || n < 0) errors.push(`${EXCEL_COLUMNS.find(c => c[0] === k)[1]}은(는) 숫자로 적어 주세요`);
+    data[k] = Number.isNaN(n) ? 0 : n;
+  }
+  const vis = t(r.visible).toUpperCase();
+  data.visible = !['N', 'NO', '아니오', 'X', '숨김'].includes(vis);
+  data.showFrom = date(r.showFrom);
+  data.showTo = date(r.showTo);
+  data.images = t(r.images).split(/[,\n]/).map(x => x.trim()).filter(x => /^https:\/\//.test(x)).slice(0, 12).map(u => ({ lg: u, md: u, sm: u }));
+  return { data, errors };
+}
+
+// 양식의 예시 줄(상품코드가 "예시"로 시작)은 올리지 않습니다
+export const isExampleRow = d => /^예시/.test(d.code || '');
+
 // ---------- API ----------
 function err(status, message) { const e = new Error(message); e.status = status; return e; }
 const pick = (o, keys) => Object.fromEntries(keys.filter(k => o[k] !== undefined).map(k => [k, o[k]]));
@@ -398,11 +466,10 @@ export function createApi(store, deps) {
   }, STAFF);
 
   on('GET', '/api/erp/products', async () => (await store.all('products')).sort((a, b) => (a.order || 99) - (b.order || 99)), STAFF);
-  on('PUT', '/api/erp/products/:id', async ({ params, body }) => {
-    const old = (await store.get('products', params.id)) || {};
-    const p = {
+  function buildProduct(id, body, old) {
+    return {
       ...old,
-      id: params.id === 'new' ? 'p_' + deps.randomId(10) : params.id,
+      id,
       code: str(body.code, 30), title: str(body.title, 120), category: CATEGORIES.some(c => c.id === body.category) ? body.category : 'trip',
       country: str(body.country, 40), city: str(body.city, 40), summary: str(body.summary, 300), body: str(body.body, 20000),
       basePrice: Math.max(0, Math.round(Number(body.basePrice) || 0)), singleSupplement: Math.max(0, Math.round(Number(body.singleSupplement) || 0)),
@@ -412,9 +479,32 @@ export function createApi(store, deps) {
       visible: body.visible !== false, order: Number(body.order) || 99,
       showFrom: str(body.showFrom, 10), showTo: str(body.showTo, 10), updatedAt: now(),
     };
+  }
+  on('PUT', '/api/erp/products/:id', async ({ params, body }) => {
+    const old = (await store.get('products', params.id)) || {};
+    const p = buildProduct(params.id === 'new' ? 'p_' + deps.randomId(10) : params.id, body, old);
     if (!p.title) throw err(400, '상품명을 입력해 주세요.');
     await store.put('products', p);
     return p;
+  }, STAFF);
+  // 엑셀 일괄 등록: 상품코드가 같으면 수정, 없으면 새로 등록
+  on('POST', '/api/erp/products/import', async ({ body }) => {
+    const rows = Array.isArray(body.rows) ? body.rows.slice(0, 500) : [];
+    const all = await store.all('products');
+    let created = 0, updated = 0;
+    const errors = [];
+    let skipped = 0;
+    for (const [i, raw] of rows.entries()) {
+      const { data, errors: e } = excelRowToProduct(raw);
+      if (isExampleRow(data)) { skipped++; continue; }
+      if (e.length) { errors.push({ row: i + 2, errors: e }); continue; }
+      const old = all.find(p => p.code && p.code === data.code);
+      if (old && !data.images.length) delete data.images; // 사진 칸이 비면 기존 사진 유지
+      const p = buildProduct(old ? old.id : 'p_' + deps.randomId(10), data, old || {});
+      await store.put('products', p);
+      if (old) updated++; else { created++; all.push(p); }
+    }
+    return { created, updated, skipped, errors };
   }, STAFF);
   on('DELETE', '/api/erp/products/:id', async ({ params }) => { await store.del('products', params.id); return { ok: true }; }, ADMIN);
 
