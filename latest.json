@@ -1,9 +1,9 @@
 {
- "version": "1.4.52",
- "file": "app-1.4.52.asar",
- "sha256": "2d4a8f6f6c69bb3c86a8673268c1c69260c082858cc1659b190cf1b4618bccfe",
+ "version": "1.4.53",
+ "file": "app-1.4.53.asar",
+ "sha256": "759710bea941c58a2ab40bc8879673e881f7c432212896411457c60d7f3c4e6f",
  "minShell": "",
  "fullUrl": "",
- "notes": "국내 골프 찾기: 네이버 가격 보기·매장 요금 등록",
- "sig": "aBUeLLgPM3TX2+WH0T1ZvPxsXexqJ/K01fW3QfaPCvMZjQPwHiFbqe0LHIdUekjD5/AOssFt3DHmbqdTGK/LAQ=="
+ "notes": "자동 업데이트 빠르게: 켜자마자 바로 적용",
+ "sig": "DRTCoTqqM/EifEwpkn5Xyo78n4nqGDc2UWgDVepysU8qq/OU0c5gseYefM3W1M9I9K7CKBtj4+bFgGGdwkkYAA=="
 }

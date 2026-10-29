@@ -1,9 +1,9 @@
 {
- "version": "1.4.52",
- "file": "www-1.4.52.zip",
- "sha256": "32f65c74292c72e5b01fa9e2903ff1e6b4e4964099e6767aa182c8d5ad7d8886",
+ "version": "1.4.53",
+ "file": "www-1.4.53.zip",
+ "sha256": "4187ea9aeac89653e5e386359c0953fec561afac11feae707f2ee9f80d2ee36f",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "국내 골프 찾기: 네이버 가격 보기·매장 요금 등록",
- "sig": "ehdlQcHefyfqdsfocbjFv5as81h1tDqp44MUeepK6VyB06fjoNICoPw32ARrIEcQ5DFbLV7nnJx6H8SADHT/hgA+NcGQvC4CEmwuIRrMkIqJPT4Bp14DEM62bbtndgtEA8M4IcvnGuP1k5k91P79x6dj6I37kgQo58DEmrlWg9hBZzRgfWptvydBVCWdCyizjAxgGjGa+qZMGEzW3Tc93zvvtj7/rCGcPOwF7okUm+rTlo+MOV1ArD7QhS8G60vU2yA62BpUPxjVvkSTmMlL7jVYmoO3xxAVwUPLtFi4pM+tgMJ2/5270X3eIpWSf4WHnBeDAJRbDn+VGh5XcGb1yw=="
+ "notes": "자동 업데이트 빠르게: 켜자마자 바로 적용",
+ "sig": "iDJWOrux2FuDty/WFMt+syRYhQ/ByqNAhdNwnHCWq+woGozji5yDlWOoonzEFT6q9ilL5Ab+z4hxljjsvaEvrrQ9OzeSxfwwedGQt/ukca8QtRGdWGeH4ZdLlMgoDcqKf7XiJA9kRx6nEizKIPvCa6btIjOi9iA16hQt7QxS0MHitLI/MZbG31IuV+1x3mGmwTt/ozIqvNrLDhrxdK+VTlYt3Cs3VS2gDlz1Lwyz6Mge8fWMmu/vBbKgYARLcXkLsFUnMFjj46OlP1pAu8SqMNxiJlQVhQiASF5SCz2o+yoL+xD/iE9b0NSRJpYKnIUyWW019NbPtvAAgmDQ/zwGDQ=="
 }
