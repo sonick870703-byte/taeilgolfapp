@@ -1,9 +1,9 @@
 {
- "version": "1.4.51",
- "file": "app-1.4.51.asar",
- "sha256": "3b59d92f311c8c02d765559e24663c8757d0003ca6ca7f7864a53eea015d3dc4",
+ "version": "1.4.50",
+ "file": "app-1.4.50.asar",
+ "sha256": "36638a0b9b835143448f8a428537f6088a0fe0304a020766d9e6f559d2a79c87",
  "minShell": "",
  "fullUrl": "",
- "notes": "국내 골프 찾기 (스크린골프·연습장·골프장) 추가",
- "sig": "FY5QsAgZ+cKizVbPEQee0nBqVqqh4f8gMH0Q2kIYwijkc4Ih1gmhLbvUFpUSlXzzwQNj4OqixWQIKpLHIPdyCA=="
+ "notes": "상품 첫 사진을 골프장 코스 사진으로",
+ "sig": "VQo3PGjWYXPiJykqYW6afvHC2F7a/EfgOagDeZmeBJG3jdSOwsjVbAb+CNKThJaLuWIQvQIq05Wnk/2SVFDjCw=="
 }
