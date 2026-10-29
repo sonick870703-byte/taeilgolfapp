@@ -42,6 +42,17 @@ ADMIN_EMAIL=관리자이메일 ADMIN_PASSWORD='처음비밀번호' node server.j
 
 서버 없이 `public/` 폴더만 열면(미리보기) 브라우저 안의 데모 저장소로 같은 업무 로직이 돌아갑니다. 미리보기 관리자: `admin@tigc.co.kr` / `demo1234`.
 
+## 오라클 클라우드 무료 서버에 올리기
+
+Ubuntu 서버에 접속해서 한 줄을 붙여 넣으면 Node.js, 자동 https(Caddy), 자동 시작까지 설치됩니다.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sonick870703-byte/taeilgolfapp/claude/project-thread-8bxa3u/web/deploy/oracle-setup.sh | sudo bash
+# 주소를 붙일 때: ... | sudo SITE_DOMAIN=new.tigc.co.kr ERP_DOMAIN=erp.tigc.co.kr bash
+```
+
+처음 관리자 비밀번호는 설치 끝에 한 번 보여 주고 서버의 `/etc/taeil.env`에만 저장합니다. 오라클 콘솔의 보안 목록(Security List)에서 TCP 80, 443을 열어야 합니다.
+
 ## 구조
 
 - `public/shared/core.js` : 업무 규칙과 API 전체 (서버와 미리보기가 같이 씀)
