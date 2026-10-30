@@ -1,7 +1,7 @@
 // ERP "운항 현황": 출발(기본 인천) → 도착 공항 직항편 실시간 운항표, 즐겨찾기 노선, 확인용 그룹, 연결 설정
 import { api } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
-import { BOARD_AIRPORTS, boardAirportName, normFlight } from '../shared/flight-board.js?v=20261030d';
+import { BOARD_AIRPORTS, boardAirportName, normFlight } from '../shared/flight-board.js?v=20261030e';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -123,7 +123,7 @@ export async function boardView(view, arg, env) {
   };
   $('#bQ', view).oninput = e => { st.q = e.target.value; draw(view); };
   $('#bAir', view).onchange = e => { st.airline = e.target.value; save(); draw(view); };
-  $('#bReload', view).onclick = () => load(view);
+  $('#bReload', view).onclick = () => { schedCache.clear(); load(view); };
   $('#gNew', view).onclick = async () => { const name = prompt('그룹 이름 (예: 11월 3일 파타야 김OO님 팀)'); if (!name) return; try { prefs.groups.push(await api.post('/api/erp/board/groups', { name })); drawGroups(view); } catch (e) { env.toast(e.message); } };
   drawFavs(view);
   drawGroups(view);
@@ -162,30 +162,61 @@ async function load(view, quiet) {
 // 운항표 한 줄의 실제 노선 (그룹에 넣을 때 씀)
 const rowRoute = (d, r) => (d.to === 'ICN' && d.from !== 'ICN' ? { from: r.other || d.from, to: 'ICN' } : { from: d.from, to: r.other || d.to });
 
+const schedCache = new Map(), schedBusy = new Set();  // "ICN-BKK-20261205" → 그 날 정기 스케줄
+const DMIN = '2026-01-01', DMAX = '2027-12-31';
+const dash = x => `${x.slice(0, 4)}-${x.slice(4, 6)}-${x.slice(6, 8)}`;
+const dot = x => `${x.slice(0, 4)}.${+x.slice(4, 6)}.${+x.slice(6, 8)}`;
+
+async function loadSched(view, key, from, to, day) {
+  if (schedBusy.has(key)) return;
+  schedBusy.add(key);
+  try { schedCache.set(key, await api.get(`/api/erp/board/sched?from=${from}&to=${to}&date=${day}`)); }
+  catch (e) { schedCache.set(key, { error: e.message }); }
+  schedBusy.delete(key);
+  if (`${last && last.from}-${last && last.to}-${st.day}` === key) draw(view);
+}
+
 function draw(view) {
   const list = $('#bList', view), info = $('#bInfo', view);
   if (!list || !last) return;
   const d = last, admin = curEnv && curEnv.me.role === 'admin';
-  if (d.need) {
-    info.textContent = '';
-    list.innerHTML = `<div class="alerts"><div class="alert warn">${d.need === 'icn'
-      ? '인천 출발·도착 운항표를 보려면 공공데이터포털 인증키가 필요합니다.'
-      : `인천을 거치지 않는 노선(${esc(apName(d.from))} 출발)은 AeroDataBox 키가 있어야 볼 수 있습니다. 출발이나 도착을 인천으로 고르면 키 없이 볼 수 있습니다.`}
-      ${admin ? ' <a href="#/board/settings" style="text-decoration:underline">연결 설정</a>' : ' 관리자에게 연결 설정을 부탁해 주세요.'}</div></div>`;
-    return;
-  }
-  // 날짜: 인천공항 자료는 어제·내일 편도 같이 와서, 고른 날(처음엔 오늘)만 봅니다
+  const setLink = admin ? ' <a href="#/board/settings" style="text-decoration:underline">연결 설정</a>' : ' 관리자에게 부탁해 주세요.';
+  // 날짜: 실시간 자료(어제·오늘·내일)는 바로, 그 밖의 날(2026~2027년)은 정기 스케줄로
   const ymd = todayStr().replace(/-/g, '');
   const days = [...new Set((d.rows || []).map(r => r.sched.slice(0, 8)).filter(Boolean))].sort();
-  if (!days.includes(st.day)) st.day = days.includes(ymd) ? ymd : (days[0] || ymd);
+  if (!/^\d{8}$/.test(st.day || '') || st.day < DMIN.replace(/-/g, '') || st.day > DMAX.replace(/-/g, '')) st.day = ymd;
   const dayRel = x => { const diff = Math.round((Date.UTC(+x.slice(0, 4), +x.slice(4, 6) - 1, +x.slice(6, 8)) - Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6, 8))) / 864e5); return { '-1': '어제', 0: '오늘', 1: '내일' }[diff] || ''; };
   const dayEl = $('#bDays', view);
   if (dayEl) {
-    dayEl.hidden = days.length < 2;
-    dayEl.innerHTML = days.map(x => `<button class="chip ${x === st.day ? 'on' : ''}" data-day="${x}">${+x.slice(4, 6)}/${+x.slice(6, 8)}${dayRel(x) ? ' ' + dayRel(x) : ''}</button>`).join('');
-    $$('[data-day]', dayEl).forEach(b => b.onclick = () => { st.day = b.dataset.day; draw(view); });
+    const chips = [...new Set([...days, ymd])].sort();
+    dayEl.innerHTML = `<button class="btn sm" data-step="-1" title="하루 전" aria-label="하루 전">‹</button>
+      <input type="date" id="bDate" min="${DMIN}" max="${DMAX}" value="${dash(st.day)}" aria-label="날짜" style="width:150px">
+      <button class="btn sm" data-step="1" title="하루 뒤" aria-label="하루 뒤">›</button>
+      ${chips.map(x => `<button class="chip ${x === st.day ? 'on' : ''}" data-day="${x}">${+x.slice(4, 6)}/${+x.slice(6, 8)}${dayRel(x) ? ' ' + dayRel(x) : ''}</button>`).join('')}`;
+    const go = x => { if (x < DMIN.replace(/-/g, '') || x > DMAX.replace(/-/g, '')) return curEnv.toast('2026년 1월 1일 ~ 2027년 12월 31일 안에서 골라 주세요.'); st.day = x; draw(view); };
+    $$('[data-day]', dayEl).forEach(b => b.onclick = () => go(b.dataset.day));
+    $('#bDate', dayEl).onchange = e => { if (e.target.value) go(e.target.value.replace(/-/g, '')); };
+    $$('[data-step]', dayEl).forEach(b => b.onclick = () => { const t = new Date(Date.UTC(+st.day.slice(0, 4), +st.day.slice(4, 6) - 1, +st.day.slice(6, 8)) + +b.dataset.step * 864e5); go(t.toISOString().slice(0, 10).replace(/-/g, '')); });
   }
-  const dayRows = (d.rows || []).filter(r => r.sched.startsWith(st.day));
+  const dayTxt = `${st.day.slice(0, 4)}년 ${+st.day.slice(4, 6)}/${+st.day.slice(6, 8)}${dayRel(st.day) ? ' ' + dayRel(st.day) : ''}`;
+  const note = (cls, html) => { info.textContent = ''; list.innerHTML = `<div class="alerts"><div class="alert ${cls}">${html}</div></div>`; };
+  if (d.need) {
+    return note('warn', (d.need === 'icn'
+      ? '인천 출발·도착 운항표를 보려면 공공데이터포털 인증키가 필요합니다.'
+      : `인천을 거치지 않는 노선(${esc(apName(d.from))} 출발)은 AeroDataBox 키가 있어야 볼 수 있습니다. 출발이나 도착을 인천으로 고르면 키 없이 볼 수 있습니다.`) + setLink);
+  }
+  let src = d, sch = null;
+  if (!days.includes(st.day)) {
+    const key = `${d.from}-${d.to}-${st.day}`;
+    sch = schedCache.get(key);
+    if (!sch) { info.textContent = ''; list.innerHTML = `<div class="loading">${esc(dayTxt)} 운항 스케줄 불러오는 중…</div>`; loadSched(view, key, d.from, d.to, st.day); return; }
+    if (sch.error) return note('danger', esc(sch.error));
+    if (sch.need) return note('warn', `${esc(dayTxt)}은(는) 실시간 운항 정보가 없는 날이라 <b>정기 운항 스케줄</b>로 보여 드립니다. 이 자료는 공공데이터포털에서 <b>「인천국제공항공사_여객기 정기운항 편 일정 조회」</b>를 따로 활용신청해야 나옵니다 (지금 쓰는 인증키 그대로, 무료).` + setLink);
+    if (sch.seasonEnd && st.day > sch.seasonEnd) return note('warn', `${esc(dayTxt)} 스케줄은 아직 나오지 않았습니다. 지금 공개된 인천공항 정기 스케줄은 <b>${dot(sch.seasonEnd)}</b>까지입니다. 다음 시즌 스케줄은 항공사가 확정하면 (보통 시즌 시작 전) 자동으로 보입니다.`);
+    if (st.day < ymd && (!sch.seasonStart || st.day < sch.seasonStart)) return note('warn', `${esc(dayTxt)}은(는) 지난 날짜입니다. 인천공항 자료는 지난 운항 기록을 어제까지만 주고, 지난 시즌 스케줄은 제공하지 않습니다.`);
+    src = sch;
+  }
+  const dayRows = (src.rows || []).filter(r => r.sched.startsWith(st.day));
   const watch = watched();
   const mine = r => [r.flight, ...(r.alias || [])].some(f => watch.has(normFlight(f)));
   const q = st.q.trim().toLowerCase();
@@ -199,15 +230,14 @@ function draw(view) {
   const rows = dayRows.filter(r => (!st.airline || ofAirline(r, st.airline)) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
   const bad = rows.filter(r => r.cls === 'bad').length;
   const otherHead = d.to === 'ICN' && d.from !== 'ICN' ? '출발지' : '도착지';
-  const dayTxt = `${+st.day.slice(4, 6)}/${+st.day.slice(6, 8)}${dayRel(st.day) ? ' ' + dayRel(st.day) : ''}`;
-  info.innerHTML = `${dayTxt} · ${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
-  list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${esc(d.timeLabel)}</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${otherHead}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th><th></th></tr></thead><tbody>
+  info.innerHTML = `${dayTxt} · ${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(src.timeLabel)} 현지 기준 · ${sch ? `<b>정기 운항 스케줄</b> (실제 운항 상태가 아니라 계획표입니다. 지연·결항은 출발 하루 전부터 실시간으로 보입니다)` : `${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음`} · 자료: ${esc(src.source)}${src.demo ? ' · <b>미리보기 예시</b>' : ''}`;
+  list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${esc(src.timeLabel)}</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${otherHead}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th><th></th></tr></thead><tbody>
     ${rows.map((r, i) => `<tr${mine(r) ? ' style="background:#fffbea"' : ''}><td>${hm(r.sched)}</td><td>${r.est && r.est !== r.sched ? `<b>${hm(r.est)}</b>` : ''}</td>
         <td><b>${mine(r) ? '★ ' : ''}${esc(r.flight)}</b>${r.alias && r.alias.length ? `<div class="muted" style="font-size:12px">공동운항 ${esc(r.alias.join(' · '))}</div>` : ''}</td>
         <td class="hide-m">${esc(r.airline)}</td>
         <td>${esc(apName(r.other) !== r.other ? apName(r.other) : (r.otherName || r.other))} <span class="muted">${esc(r.other)}</span></td>
         <td class="hide-m">${esc([r.terminal, r.gate && '게이트 ' + r.gate].filter(Boolean).join(' · '))}</td>
-        <td>${r.status ? `<span class="badge ${CLS[r.cls] || ''}">${esc(r.status)}</span>` : ''}</td>
+        <td>${r.status ? `<span class="badge ${CLS[r.cls] || ''}">${esc(r.status)}</span>` : sch ? '<span class="badge">스케줄</span>' : ''}</td>
         <td><button class="btn sm" data-add="${i}" title="그룹에 넣기">+ 그룹</button></td></tr>`).join('')
       || `<tr><td colspan="8" class="muted" style="text-align:center;padding:32px">${st.airline ? `${dayTxt} ${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)}의 ` : `${dayTxt} `}${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항편이 없습니다.</td></tr>`}
     </tbody></table></div>

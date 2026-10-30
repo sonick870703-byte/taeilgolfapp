@@ -63,6 +63,49 @@ export function icnRows(items, dir) {
   });
 }
 
+// 스케줄 응답 한 줄 → { flight, airline, other, otherName, time:"HHMM", first, last:"YYYYMMDD", days:"1..7"(월=1), codeshareOf, via }
+// 항목 이름이 문서에 안 나와 있어 비슷한 이름을 여러 개 받아 줍니다
+const DAY_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const on8 = v => /^(y|yes|1|o|true|운항)$/i.test(String(v ?? '').trim());
+export function schedRows(items) {
+  const out = [];
+  for (const raw of items || []) {
+    if (!raw || typeof raw !== 'object') continue;
+    const r = {};
+    for (const [k, v] of Object.entries(raw)) r[k.toLowerCase()] = v;
+    const pick = (...ks) => { for (const k of ks) if (r[k] != null && String(r[k]).trim() !== '') return String(r[k]).trim(); return ''; };
+    const d8 = v => { const x = String(v || '').replace(/\D/g, ''); return x.length >= 8 ? x.slice(0, 8) : ''; };
+    const flight = normFlight(pick('flightid', 'flightno', 'fid', 'flight'));
+    const first = d8(pick('firstdate', 'startdate', 'fromdate', 'sdate', 'firstday', 'effectivedate'));
+    const last = d8(pick('lastdate', 'enddate', 'todate', 'edate', 'lastday', 'expirydate'));
+    let t = pick('st', 'scheduletime', 'scheduledatetime', 'schedule', 'std', 'sta', 'time', 'stime', 'internationaltime').replace(/\D/g, '');
+    t = t.length >= 12 ? t.slice(8, 12) : t.length === 3 ? '0' + t : t.slice(0, 4);
+    let days = '';
+    if (DAY_KEYS.some(k => k in r)) days = DAY_KEYS.map((k, i) => (on8(r[k]) || String(r[k] || '').trim().toLowerCase() === k ? String(i + 1) : '')).join('');
+    else {
+      const w = pick('opday', 'operationday', 'operday', 'weekday', 'week', 'day', 'days');
+      days = /[월화수목금토일]/.test(w) ? [...'월화수목금토일'].map((c, i) => (w.includes(c) ? String(i + 1) : '')).join('') : [...new Set(w.replace(/[^1-7]/g, ''))].sort().join('');
+    }
+    if (!flight || !first || !last || !/^\d{4}$/.test(t)) continue;
+    out.push({
+      flight, airline: pick('airline', 'airlinename'), other: pick('airportcode', 'airport_code').toUpperCase(), otherName: pick('airport', 'airportname'),
+      time: t, first, last, days: days || '1234567',
+      codeshareOf: /slave/i.test(pick('codeshare')) ? pick('masterflightid', 'masterflight') : '',
+      via: ['airportcode2', 'airportcode3'].some(k => r[k]),
+    });
+  }
+  return out;
+}
+
+// 그 날 다니는 스케줄 편만 운항표 줄로
+export function schedForDay(list, day) {
+  const wd = String((new Date(Date.UTC(+day.slice(0, 4), +day.slice(4, 6) - 1, +day.slice(6, 8))).getUTCDay() + 6) % 7 + 1);
+  return tidy(list.filter(s => s.first <= day && day <= s.last && s.days.includes(wd)).map(s => ({
+    sched: day + s.time, est: '', flight: s.flight, airline: s.airline, other: s.other, otherName: s.otherName,
+    terminal: '', gate: '', counter: '', via: s.via, codeshareOf: s.codeshareOf, status: '', cls: '',
+  })));
+}
+
 // AeroDataBox 응답 한쪽(departures 또는 arrivals) → 화면 행
 export function adbRows(list) {
   return (list || []).filter(f => !f.isCargo).map(f => {
@@ -97,6 +140,9 @@ function tidy(rows) {
 }
 
 const ICN_URL = { D: 'https://apis.data.go.kr/B551177/StatusOfPassengerFlightsDeOdp/getPassengerDeparturesDeOdp', A: 'https://apis.data.go.kr/B551177/StatusOfPassengerFlightsDeOdp/getPassengerArrivalsDeOdp' };
+// 정기 운항 스케줄 (한 시즌치: 하계 3월 말~10월 말, 동계 10월 말~3월 말). 실시간과 별도로 공공데이터포털 활용신청 필요
+const SCHED_URL = { D: 'https://apis.data.go.kr/B551177/StatusOfPaxFltSched/getPaxFltSchedDeparturesDeOdp', A: 'https://apis.data.go.kr/B551177/StatusOfPaxFltSched/getPaxFltSchedArrivalsDeOdp' };
+const SCHED_TTL = 12 * 60 * 60 * 1000;  // 스케줄은 자주 안 바뀜: 12시간
 const ADB_HOST = { rapidapi: 'https://aerodatabox.p.rapidapi.com', apimarket: 'https://prod.api.market/api/v1/aedbx/aerodatabox' };
 const ICN_TTL = 3 * 60 * 1000;   // 인천: 3분 (하루 사용량 넉넉함)
 const ADB_TTL = 15 * 60 * 1000;  // 그 밖: 15분 (월 무료 한도를 아끼려고)
@@ -173,6 +219,21 @@ export function registerBoardRoutes({ on, store, deps, now, err, str, roles }) {
     return tidy(icnRows(all, dir));
   }
 
+  // 정기 스케줄 한 시즌치 (출발 또는 도착 전체)
+  async function icnSched(c, dir) {
+    const all = [];
+    for (let page = 1; page <= 10; page++) {
+      const j = await getJson(SCHED_URL[dir] + '?serviceKey=' + (/%[0-9a-f]{2}/i.test(c.dataKey) ? c.dataKey : encodeURIComponent(c.dataKey)) + `&type=json&lang=K&numOfRows=1000&pageNo=${page}`);
+      const got = items(j).filter(Boolean);
+      all.push(...got);
+      const total = Number(((j && j.response && j.response.body) || (j || {})).totalCount) || 0;
+      if (!got.length || !total || all.length >= total) break;
+    }
+    const list = schedRows(all);
+    if (all.length && !list.length) throw err(502, '스케줄 자료 형식을 읽지 못했습니다. 받은 항목: ' + Object.keys(all[0]).slice(0, 25).join(', '));
+    return list;
+  }
+
   // 공항 출발편: 지금부터 2시간 전 ~ 10시간 뒤 (현지 시각 계산 없이 "지금 기준"으로 묻는 주소)
   async function adb(c, code) {
     const url = `${ADB_HOST[c.adbProvider] || ADB_HOST.rapidapi}/flights/airports/iata/${code}?offsetMinutes=-120&durationMinutes=720&withLeg=false&direction=Departure&withCancelled=true&withCodeshared=false&withCargo=false&withPrivate=false&withLocation=false`;
@@ -212,6 +273,34 @@ export function registerBoardRoutes({ on, store, deps, now, err, str, roles }) {
     if (!c.adbKey) return { ...out, need: 'adb' };
     const v = await cached('board:' + from, ADB_TTL, () => adb(c, from));
     return { ...out, rows: v.data.filter(r => !to || r.other === to), at: v.at, source: 'AeroDataBox' };
+  }, STAFF);
+
+  // 고른 날짜의 정기 스케줄 (실시간 자료가 없는 날: 며칠 뒤 ~ 시즌 끝, 또는 이번 시즌의 지난 날)
+  on('GET', '/api/erp/board/sched', async ({ query }) => {
+    const from = String(query.from || 'ICN').toUpperCase(), to = String(query.to || '').toUpperCase(), day = String(query.date || '').replace(/\D/g, '');
+    if (!IATA.test(from) || (to && !IATA.test(to))) throw err(400, '공항 코드(영문 3글자)를 확인해 주세요.');
+    if (!/^20(2[6-7])(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/.test(day)) throw err(400, '날짜는 2026년~2027년 안에서 골라 주세요.');
+    const dir = from === 'ICN' ? 'D' : to === 'ICN' ? 'A' : '';
+    if (!dir) throw err(400, '스케줄은 인천 출발·도착 노선만 볼 수 있습니다.');
+    const out = { from, to, day, demo, rows: [], at: now(), source: '인천국제공항공사 정기 운항 스케줄 (공공데이터포털)', timeLabel: dir === 'A' ? '인천 도착' : '인천 출발', seasonStart: '', seasonEnd: '' };
+    if (demo) {
+      const rows = sample(from, to).map(r => ({ ...r, sched: day + r.sched.slice(8), est: '', status: '', cls: '', gate: '', terminal: '' })).sort((a, b) => a.sched.localeCompare(b.sched));
+      const y = +day.slice(0, 4);
+      return { ...out, rows, seasonStart: '20261025', seasonEnd: '20270327', source: '예시 자료 (실제 스케줄 아님)', ...(y === 2027 && day > '20270327' ? { rows: [] } : {}) };
+    }
+    const c = await cfg();
+    if (!c.dataKey) return { ...out, need: 'sched' };
+    let v;
+    try { v = await cached('sched:' + dir, SCHED_TTL, () => icnSched(c, dir)); }
+    catch (e) { if (/키|활용|HTTP 40[13]/.test(e.message || '')) return { ...out, need: 'sched' }; throw e; }
+    const list = v.data || [];
+    const want = dir === 'D' ? to : from;
+    return {
+      ...out, at: v.at,
+      seasonStart: list.reduce((m, s) => (!m || s.first < m ? s.first : m), ''),
+      seasonEnd: list.reduce((m, s) => (s.last > m ? s.last : m), ''),
+      rows: schedForDay(list, day).filter(r => !r.via && (!want || r.other === want)),
+    };
   }, STAFF);
 
   // 즐겨찾기 노선 + 그룹 (회사 직원 모두 같이 봄)
@@ -277,7 +366,7 @@ export function registerBoardRoutes({ on, store, deps, now, err, str, roles }) {
     if (body.adbProvider) c.adbProvider = body.adbProvider === 'apimarket' ? 'apimarket' : 'rapidapi';
     await store.put('secrets', c);
     mem.clear();
-    for (const d of await store.all('cache')) if (String(d.id).startsWith('board:')) await store.del('cache', d.id);
+    for (const d of await store.all('cache')) if (/^(board|sched):/.test(String(d.id))) await store.del('cache', d.id);
     return { ok: true };
   }, ADMIN);
 }
