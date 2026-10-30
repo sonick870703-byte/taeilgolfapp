@@ -12,15 +12,12 @@ public/assets/sample/membership.jpg
 public/assets/sample/pattaya-month.jpg
 public/assets/sample/pattaya.jpg
 public/assets/sample/udon.jpg
+public/erp/airports.json
 public/erp/board.js
 public/erp/calc.js
 public/erp/erp.css
 public/erp/erp.js
-public/erp/erp.js
-public/erp/erp.js
 public/erp/flights.js
-public/erp/index.html
-public/erp/index.html
 public/erp/index.html
 public/erp/mail.js
 public/erp/pages.js
@@ -32,8 +29,6 @@ public/shared/ask.js
 public/shared/blocks.js
 public/shared/calc.js
 public/shared/chat-widget.js
-public/shared/core.js
-public/shared/core.js
 public/shared/core.js
 public/shared/flight-board.js
 public/shared/flights-site.js
