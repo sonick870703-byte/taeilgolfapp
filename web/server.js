@@ -119,7 +119,7 @@ const server = http.createServer(async (req, res) => {
     }
     // erp.tigc.co.kr 로 들어오면 ERP 화면
     let p = decodeURIComponent(url.pathname);
-    if ((await erpHosts()).has(host) && !p.startsWith('/erp') && !p.startsWith('/shared') && !p.startsWith('/assets')) p = '/erp' + p;
+    if ((await erpHosts()).has(host) && !/^\/(erp|shared|assets|vendor)(\/|$)/.test(p)) p = '/erp' + p;
     if (p.endsWith('/')) p += 'index.html';
     const file = path.join(PUBLIC, path.normalize(p));
     if (!file.startsWith(PUBLIC)) return send(res, 403, '');
