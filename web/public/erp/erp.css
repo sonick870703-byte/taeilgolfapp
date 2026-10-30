@@ -233,3 +233,14 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
 .tv-form { margin-top: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
 .tv-scan { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; font-size: 13px; }
 .tv-scan label.btn { cursor: pointer; }
+
+/* 금액 계산기 */
+.calc-days td, .calc-days th { padding: 6px 8px; white-space: nowrap; }
+.calc-days select { padding: 4px 6px; font-size: 13px; }
+.calc-sum .kv { grid-template-columns: max-content 1fr; }
+.calc-sum .kv b { text-align: right; }
+@media print {
+  .side, .bar, .filters, .calc-days select:disabled, details.card, .toast { display: none !important; }
+  .main, .content { margin: 0 !important; padding: 0 !important; }
+  .card { break-inside: avoid; border: 0; }
+}
