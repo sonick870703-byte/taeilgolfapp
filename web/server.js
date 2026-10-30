@@ -97,7 +97,7 @@ function readBody(req, limit = 12 * 1024 * 1024) {
 
 function serveFile(res, file, cache) {
   fs.stat(file, (e, st) => {
-    if (e || !st.isFile()) return send(res, 404, '없는 페이지입니다.', { 'Content-Type': 'text/plain; charset=utf-8' });
+    if (e || !st.isFile()) return send(res, 404, '없는 페이지입니다.', { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' });
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream', 'Content-Length': st.size, 'Cache-Control': cache || 'no-cache', 'X-Content-Type-Options': 'nosniff' });
     fs.createReadStream(file).pipe(res);
   });
