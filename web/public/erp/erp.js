@@ -689,6 +689,37 @@ async function getSettings(force) {
   return settingsCache;
 }
 
+// 구글 스프레드시트 Apps Script (열쇠가 맞는 요청만 받아 탭별로 한 줄씩 붙임)
+function sheetScript(key) {
+  return `// 태일골프 ERP → 구글 시트 (이 열쇠는 다른 사람에게 알려 주지 마세요)
+const KEY = '${key}';
+function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const d = JSON.parse(e.postData.contents);
+    if (d.key !== KEY) return out({ ok: false, error: '열쇠가 맞지 않습니다.' });
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sh = ss.getSheetByName(d.sheet) || ss.insertSheet(d.sheet);
+    const rows = d.rows || [];
+    if (!rows.length) return out({ ok: true, added: 0 });
+    const head = sh.getLastRow() ? sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].filter(String) : [];
+    Object.keys(rows[0]).forEach(k => { if (head.indexOf(k) < 0) head.push(k); });
+    sh.getRange(1, 1, 1, head.length).setValues([head]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+    const vals = rows.map(r => head.map(h => (r[h] === undefined || r[h] === null) ? '' : String(r[h])));
+    sh.getRange(sh.getLastRow() + 1, 1, vals.length, head.length).setNumberFormat('@').setValues(vals);
+    return out({ ok: true, added: vals.length });
+  } catch (err) {
+    return out({ ok: false, error: String(err) });
+  } finally {
+    lock.releaseLock();
+  }
+}
+function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+`;
+}
+
 async function siteSettings(view) {
   const s = structuredClone(await getSettings(true));
   const ro = me.role !== 'admin';
@@ -726,8 +757,31 @@ async function siteSettings(view) {
     <div class="card"><h2>프로그램 다운로드 <small>홈페이지 메뉴 "프로그램 다운로드"에 나옵니다</small></h2>
       <div id="dls"></div><button type="button" class="btn sm" id="addDl" style="margin-top:8px">+ 프로그램 추가</button>
       <p class="hint">설치 파일은 크기가 커서 GitHub 등에 올린 뒤 그 내려받기 주소(https://…)를 넣습니다. 새 버전은 주소만 바꾸면 됩니다.</p></div>
+    <div class="card"><h2>구글 스프레드시트에 같이 저장 <small>회원가입 · 예약 · 견적 문의가 들어올 때마다 시트에 한 줄씩 쌓입니다</small></h2>
+      <ol class="steps">
+        <li>회사 구글 계정으로 새 스프레드시트를 만들고 <b>확장 프로그램 → Apps Script</b>를 엽니다.</li>
+        <li>있던 글을 모두 지우고 아래 <b>코드 복사</b>로 복사한 내용을 붙여 넣은 뒤 저장(💾)합니다.</li>
+        <li><b>배포 → 새 배포 → 유형: 웹 앱</b>, 실행: <b>나</b>, 액세스: <b>모든 사용자</b> → 배포 → 권한 승인(고급 → 이동 → 허용).</li>
+        <li>나온 <b>웹 앱 URL</b>을 아래에 붙여 넣고 맨 아래 <b>저장</b>을 누릅니다. 그다음 "지금까지 내역 보내기"로 확인해 보세요.</li>
+      </ol>
+      <div class="filters"><input class="grow" id="shUrl" value="${esc((s.sheet && s.sheet.url) || '')}" placeholder="https://script.google.com/macros/s/…/exec" aria-label="웹 앱 URL"><button type="button" class="btn sm" id="shCode">코드 복사</button></div>
+      <div class="filters">${[['signups', '회원가입'], ['bookings', '예약'], ['inquiries', '견적 문의']].map(([k, n]) => `<label class="check" style="margin:0"><input type="checkbox" data-sh="${k}" ${s.sheet && s.sheet[k] === false ? '' : 'checked'}> ${n}</label>`).join('')}</div>
+      <div class="filters">${[['signups', '회원'], ['bookings', '예약'], ['inquiries', '견적 문의']].map(([k, n]) => `<button type="button" class="btn sm ghost" data-shsend="${k}">지금까지 ${n} 내역 보내기</button>`).join('')}</div>
+      <p class="hint">비밀번호와 여권번호는 보내지 않습니다. 시트는 회사 직원만 볼 수 있게 공유 범위를 "제한됨"으로 두세요.</p></div>
     ${ro ? '' : '<div class="save-bar"><button class="btn primary" id="sSave">저장하고 홈페이지에 반영</button></div>'}
   </form>`;
+  // 구글 시트
+  s.sheet = { url: '', key: '', signups: true, bookings: true, inquiries: true, ...(s.sheet || {}) };
+  if (!s.sheet.key) s.sheet.key = Array.from(crypto.getRandomValues(new Uint8Array(18)), x => 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'[x % 56]).join('');
+  $('#shUrl', view).oninput = e => { s.sheet.url = e.target.value.trim(); };
+  $$('[data-sh]', view).forEach(c => c.onchange = () => { s.sheet[c.dataset.sh] = c.checked; });
+  $('#shCode', view).onclick = () => { copy(sheetScript(s.sheet.key)); toast('코드를 복사했습니다. Apps Script에 붙여 넣으세요.'); };
+  $$('[data-shsend]', view).forEach(b => b.onclick = async () => {
+    b.disabled = true;
+    try { const r = await api.post('/api/erp/sheet/send', { kind: b.dataset.shsend }); toast(`${r.count}건을 구글 시트로 보냈습니다.`); }
+    catch (err) { toast(err.message); }
+    b.disabled = false;
+  });
   // 로고
   const logoImgs = s.logo ? [{ md: s.logo.startsWith('data:') || s.logo.startsWith('/') ? s.logo : '../' + s.logo }] : [];
   imageUploader($('#logoUp', view), logoImgs, 'logo', imgs => { s.logo = imgs[0] ? (imgs[0].md || '') : 'assets/logo.jpg'; }, 1);

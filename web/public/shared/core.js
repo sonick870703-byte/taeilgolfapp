@@ -59,6 +59,8 @@ export const DEFAULT_SETTINGS = {
     { name: '태일골프 골프 지구본 · PC (윈도우)', desc: '윈도우 10/11 PC에 설치합니다. 설치 후에는 새 버전이 나오면 자동으로 업데이트됩니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/installer/Taeilgolf_Setup_v1421.exe', kind: 'pc' },
     { name: '태일골프 골프 지구본 · 안드로이드 휴대폰', desc: '안드로이드 휴대폰에서 눌러 받은 뒤 설치합니다. 설치 후에는 앱이 스스로 새 내용을 받습니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/android/TaeilGolfGlobe-android.apk', kind: 'android' },
   ],
+  // 구글 스프레드시트에 사본 저장 (Apps Script 웹 앱 주소). /api/site 로는 내보내지 않습니다.
+  sheet: { url: '', key: '', signups: true, bookings: true, inquiries: true },
   domains: [],
   dnsTarget: { a: '', cname: '' },
 };
@@ -233,6 +235,30 @@ export function createApi(store, deps) {
     return { ...DEFAULT_SETTINGS, ...(s || {}) };
   }
 
+  // ----- 구글 스프레드시트 사본 (비밀번호·여권번호는 보내지 않음) -----
+  const kst = t => new Date(t + 9 * 3600e3).toISOString().slice(0, 16).replace('T', ' ');
+  const SHEET_ROWS = {
+    signups: u => ({ '가입일시': kst(u.createdAt), '이름': u.name, '이메일': u.email, '휴대폰': u.phone || '', '마케팅 수신': u.marketing ? '동의' : '' }),
+    bookings: b => ({ '접수일시': kst(b.createdAt), '예약번호': b.no, '상품': b.productTitle, '출발일': b.departDate, '박': b.nights, '인원': b.pax, '1인실': b.single ? '예' : '', '예약자': b.name, '연락처': b.phone, '카카오톡 ID': b.kakaoId || '', '요청사항': b.note || '', '총액': b.total || 0, '상태': b.status }),
+    inquiries: q => ({ '접수일시': kst(q.createdAt), '종류': q.type, '이름': q.name, '연락처': q.phone, '이메일': q.email || '', '가고 싶은 곳': q.destination, '출발 희망일': q.departDate, '박': q.nights, '인원': q.pax, '예산': q.budget, '내용': q.message }),
+  };
+  const SHEET_NAMES = { signups: '회원가입', bookings: '예약', inquiries: '견적문의' };
+  async function sendSheet(cfg, kind, docs) {
+    if (!deps.httpFetch) throw err(400, '미리보기에서는 구글 시트로 보낼 수 없습니다.');
+    const r = await deps.httpFetch(cfg.url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ key: cfg.key, sheet: SHEET_NAMES[kind], rows: docs.map(SHEET_ROWS[kind]) }) });
+    const j = await r.json().catch(() => null);
+    if (!j || !j.ok) throw err(502, (j && j.error) || '구글 시트가 받지 못했습니다. Apps Script 배포 설정(액세스: 모든 사용자)을 확인해 주세요.');
+    return j;
+  }
+  // 가입·예약·문의 저장 뒤 사본을 보냅니다. 실패해도 고객 화면은 막지 않습니다 (최대 5초).
+  async function toSheet(kind, doc) {
+    try {
+      const s = await settings();
+      if (!s.sheet || !s.sheet.url || s.sheet[kind] === false) return;
+      await Promise.race([sendSheet(s.sheet, kind, [doc]), new Promise(ok => setTimeout(ok, 5000))]);
+    } catch (e) { if (typeof console !== 'undefined') console.error('sheet', kind, e && e.message); }
+  }
+
   async function userFromToken(token) {
     if (!token) return null;
     const s = await store.get('sessions', token);
@@ -283,7 +309,7 @@ export function createApi(store, deps) {
   on('GET', '/api/health', async () => ({ ok: true }));
   on('GET', '/api/site', async () => {
     const s = await settings();
-    const { domains, dnsTarget, ...pub } = s;
+    const { domains, dnsTarget, sheet, ...pub } = s;
     pub.pages = (await store.all('pages')).filter(p => p.visible !== false && p.inMenu && p.id !== 'home')
       .sort((a, b) => (a.menuOrder || 99) - (b.menuOrder || 99)).map(p => ({ slug: p.slug, title: p.menuTitle || p.title }));
     return pub;
@@ -328,6 +354,7 @@ export function createApi(store, deps) {
       budget: str(body.budget, 40), message: str(body.message, 2000), memo: '', history: [],
     };
     await store.put('inquiries', q);
+    await toSheet('inquiries', q);
     return { ok: true };
   });
 
@@ -383,6 +410,7 @@ export function createApi(store, deps) {
     const salt = newSalt();
     const u = { id: 'u_' + deps.randomId(12), email, name, phone, role: 'member', salt, hash: await deps.hash(pw, salt), createdAt: now(), marketing: !!body.marketing };
     await store.put('users', u);
+    await toSheet('signups', u);
     return { token: await newSession(u), user: publicUser(u) };
   });
   on('POST', '/api/login', async ({ body }) => {
@@ -427,6 +455,7 @@ export function createApi(store, deps) {
     recompute(b, p);
     log(b, null, '예약 신청 접수');
     await store.put('bookings', b);
+    await toSheet('bookings', b);
     return memberBooking(b);
   }, MEMBER);
   on('GET', '/api/my/bookings', async ({ user }) => (await store.all('bookings')).filter(b => b.memberId === user.id).sort((a, b) => b.createdAt - a.createdAt).map(memberBooking), MEMBER);
@@ -799,10 +828,26 @@ export function createApi(store, deps) {
   }, ADMIN);
 
   on('GET', '/api/erp/settings', async () => settings(), STAFF);
+  // 구글 시트: 지금까지 쌓인 내역을 한 번에 보내기 (kind 하나씩, 시험 보내기 겸용)
+  on('POST', '/api/erp/sheet/send', async ({ body }) => {
+    const s = await settings();
+    if (!s.sheet || !s.sheet.url) throw err(400, '먼저 웹 앱 주소를 넣고 저장해 주세요.');
+    const kind = SHEET_ROWS[body.kind] ? body.kind : 'signups';
+    let docs = await store.all({ signups: 'users', bookings: 'bookings', inquiries: 'inquiries' }[kind]);
+    if (kind === 'signups') docs = docs.filter(u => u.role === 'member');
+    docs.sort((a, b) => a.createdAt - b.createdAt);
+    for (let i = 0; i < docs.length; i += 500) await sendSheet(s.sheet, kind, docs.slice(i, i + 500));
+    return { ok: true, count: docs.length };
+  }, ADMIN);
   on('PUT', '/api/erp/settings', async ({ body }) => {
     const cur = await settings();
-    const allowed = ['companyName', 'companyNameEn', 'brand', 'tagline', 'logo', 'colors', 'heroBanners', 'menus', 'bizNo', 'ceo', 'tel', 'tel2', 'email', 'address', 'hours', 'bank', 'kakaoUrl', 'sns', 'terms', 'domains', 'dnsTarget', 'travelRegNo', 'mailOrderNo', 'downloads'];
+    const allowed = ['companyName', 'companyNameEn', 'brand', 'tagline', 'logo', 'colors', 'heroBanners', 'menus', 'bizNo', 'ceo', 'tel', 'tel2', 'email', 'address', 'hours', 'bank', 'kakaoUrl', 'sns', 'terms', 'domains', 'dnsTarget', 'travelRegNo', 'mailOrderNo', 'downloads', 'sheet'];
     const next = { ...cur, ...pick(body, allowed), id: 'site' };
+    if (body.sheet) {
+      const url = str(body.sheet.url, 300);
+      if (url && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(url)) throw err(400, '구글 Apps Script 웹 앱 주소(https://script.google.com/macros/s/…/exec)를 넣어 주세요.');
+      next.sheet = { url, key: (cur.sheet && cur.sheet.key) || (/^[\w-]{20,40}$/.test(body.sheet.key || '') ? body.sheet.key : deps.randomId(24)), signups: body.sheet.signups !== false, bookings: body.sheet.bookings !== false, inquiries: body.sheet.inquiries !== false };
+    }
     await store.put('settings', next);
     return next;
   }, ADMIN);
