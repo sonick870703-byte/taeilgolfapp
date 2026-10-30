@@ -328,6 +328,25 @@ function guideMessage(b, s) {
   return lines.join('\n');
 }
 
+// 카카오톡 채널로 보낼 안내문 종류. 금액·기한은 예약에서 자동으로 채웁니다.
+const NOTICE_KINDS = [['guide', '예약 안내'], ['deposit', '예약금 입금 요청'], ['balance', '잔금 안내'], ['refund', '환불 마감 안내'], ['depart', '출발 안내']];
+function noticeMessage(kind, b, s) {
+  if (kind === 'guide') return guideMessage(b, s);
+  const p = paid(b);
+  const head = `[${s.brand}] ${b.name}님, 안녕하세요.`;
+  const bank = `입금 계좌: ${s.bank.name} ${s.bank.account} (예금주 ${s.bank.holder})`;
+  const tail = `문의: ${s.tel} · 카카오톡 채널 ${s.brand}`;
+  const item = `■ ${b.productTitle} / 출발 ${b.departDate} / ${b.pax}명 (예약번호 ${b.no})`;
+  const amt = (label, due) => !b.total ? `■ ${label}: 금액을 확정해 따로 안내드립니다.` : due > 0 ? `■ ${label}: ${won(due)}` : `■ ${label}: 입금 확인되었습니다. 감사합니다.`;
+  if (kind === 'deposit') return [head, '', '예약이 접수되었습니다. 아래 예약금을 입금해 주시면 예약이 확정됩니다.', '', item, amt('예약금(20%)', b.deposit - p), '', bank, '', tail].join('\n');
+  if (kind === 'balance') return [head, '', `잔금 입금 기한(${b.balanceDue})이 다가와 안내드립니다.`, '', item, amt('잔금', b.total - p), '', bank, '', tail].join('\n');
+  if (kind === 'refund') return [head, '', `환불은 출발 14일 전인 ${b.refundDeadline}까지만 가능합니다. 일정 변경이나 취소를 생각하고 계시면 그 전에 알려 주세요.`, '', item, '', tail].join('\n');
+  if (kind === 'depart') return [head, '', `출발일(${b.departDate})이 다가왔습니다. 즐거운 라운드 되시도록 준비하겠습니다.`, '', item,
+    '■ 챙기실 것: 여권(만료 6개월 이상 남아야 함), 골프 장비, 상비약', '■ 캐디팁은 현지에서 직접 드리는 비용입니다.', '', tail].join('\n');
+  return '';
+}
+const channelAdminUrl = s => { const m = (s.kakaoUrl || '').match(/pf\.kakao\.com\/(_[A-Za-z0-9]+)/); return m ? `https://center-pf.kakao.com/${m[1]}/chats` : 'https://center-pf.kakao.com/'; };
+
 async function openBooking(id, after) {
   const [b, s] = await Promise.all([api.get('/api/erp/bookings/' + id), getSettings()]);
   const p = paid(b);
@@ -376,9 +395,11 @@ async function openBooking(id, after) {
       <select name="method"><option>계좌이체</option><option>카드</option><option>현금</option></select>
       <input name="memo" placeholder="메모 (예: 예약금)" class="grow">
       <button class="btn primary sm">입금 등록</button></form>`}
-    <div class="sec-title">고객 안내 메시지 <span class="muted" style="font-weight:400;font-size:13px">금액·기한이 자동으로 들어갑니다</span></div>
+    <div class="sec-title">카카오톡 안내문 <span class="muted" style="font-weight:400;font-size:13px">금액·기한이 자동으로 들어갑니다</span></div>
+    <div class="chips-erp" id="nk">${NOTICE_KINDS.map(([k, n], i) => `<button type="button" class="${i ? '' : 'on'}" data-nk="${k}">${n}</button>`).join('')}</div>
     <div class="msgbox" id="msg">${esc(guideMessage(b, s))}</div>
-    <button class="btn sm" id="cpy">메시지 복사</button>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="cpy">복사</button><button class="btn primary sm" id="cpyK">복사하고 카카오 채널 열기</button></div>
+    <p class="muted" style="font-size:12px;margin:6px 0 0">채널 관리자 채팅에서 ${esc(b.name)}님을 찾아 붙여 넣으세요. 카카오 규칙상 먼저 채널로 말을 건 고객에게만 보낼 수 있습니다.</p>
     <div class="sec-title">처리 기록</div>
     <div class="history">${(b.history || []).slice().reverse().map(h => `<div>${fmtDT(h.at)} · ${esc(h.by)} · ${esc(h.action)}</div>`).join('')}</div>`,
     closed
@@ -387,7 +408,11 @@ async function openBooking(id, after) {
          <button class="btn" data-act="done">출발 완료</button>
          <button class="btn" data-act="cancel" style="color:var(--danger)">예약 취소</button>`);
   const reload = () => { openBooking(id, after); after && after(); };
-  $('#cpy', d).onclick = () => copy(guideMessage(b, s));
+  let nk = 'guide';
+  $$('[data-nk]', d).forEach(btn => btn.onclick = () => { nk = btn.dataset.nk; $$('[data-nk]', d).forEach(x => x.classList.toggle('on', x === btn)); $('#msg', d).textContent = noticeMessage(nk, b, s); });
+  const logSent = () => api.post(`/api/erp/bookings/${b.id}/notified`, { kind: NOTICE_KINDS.find(x => x[0] === nk)[1] }).catch(() => {});
+  $('#cpy', d).onclick = () => { copy(noticeMessage(nk, b, s)); logSent(); };
+  $('#cpyK', d).onclick = () => { copy(noticeMessage(nk, b, s)); logSent(); window.open(channelAdminUrl(s), '_blank', 'noopener'); };
   const bf = $('#bf', d);
   bf.onsubmit = async e => {
     e.preventDefault();

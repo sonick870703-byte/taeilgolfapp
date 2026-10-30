@@ -431,6 +431,13 @@ export function createApi(store, deps) {
   }, MEMBER);
 
   // ----- ERP (직원) -----
+  on('POST', '/api/erp/bookings/:id/notified', async ({ params, body, user }) => {
+    const b = await store.get('bookings', params.id);
+    if (!b) throw err(404, '예약을 찾을 수 없습니다.');
+    log(b, user, '카카오톡 안내문 복사: ' + str(body.kind, 30));
+    await store.put('bookings', b);
+    return { ok: true };
+  }, STAFF);
   on('GET', '/api/erp/inquiries', async () => (await store.all('inquiries')).sort((a, b) => b.createdAt - a.createdAt), STAFF);
   on('PATCH', '/api/erp/inquiries/:id', async ({ params, body, user }) => {
     const q = await store.get('inquiries', params.id);

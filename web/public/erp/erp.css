@@ -220,3 +220,8 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
   .chat-list { max-height: 240px; }
   .chat-pane { height: 70vh; }
 }
+
+/* 안내문 종류 */
+.chips-erp { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips-erp button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+.chips-erp button.on { background: var(--primary); border-color: var(--primary); color: #fff; }
