@@ -1,0 +1,41 @@
+/* 항공권 화면 */
+.fl-hero { background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 9%, #fff), #fff); padding: 36px 0 8px; }
+.fl-hero h1 { font-size: 30px; margin: 0 0 4px; letter-spacing: -.02em; }
+.fl-hero > .wrap > p { color: var(--ink-2); margin: 0 0 18px; }
+.fl-search { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+.fl-trip { display: flex; gap: 18px; margin-bottom: 12px; font-weight: 600; }
+.fl-trip label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.fl-trip input { accent-color: var(--primary); width: 18px; height: 18px; }
+.fl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0 10px; }
+.fl-small { font-size: 13px; color: var(--ink-3); margin: 10px 0 0; }
+.fl-small a { text-decoration: underline; }
+.fl-body { padding: 18px 16px 72px; }
+.fl-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin: 6px 0 12px; }
+.fl-demo { background: #fff1e0; color: #a85400; border-radius: 6px; padding: 1px 6px; font-weight: 700; }
+.fl-card { display: grid; grid-template-columns: 150px 1fr 150px; gap: 16px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; background: #fff; }
+.fl-card .air { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.fl-card .air img { width: 28px; height: 28px; object-fit: contain; }
+.fl-card .air .code { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-2); display: grid; place-items: center; font-size: 12px; }
+.fl-slice { display: grid; grid-template-columns: 70px 1fr 70px; align-items: center; gap: 4px 10px; padding: 4px 0; }
+.fl-slice .t { display: flex; flex-direction: column; text-align: center; line-height: 1.25; }
+.fl-slice .t b { font-size: 19px; }
+.fl-slice .t sup { color: var(--danger); font-size: 11px; }
+.fl-slice .t span { font-size: 13px; color: var(--ink-3); }
+.fl-slice .mid { display: flex; flex-direction: column; align-items: center; font-size: 12px; color: var(--ink-3); }
+.fl-slice .mid i { width: 100%; height: 1px; background: var(--line); margin: 3px 0; }
+.fl-slice .fn { grid-column: 1 / -1; font-size: 12px; color: var(--ink-3); }
+.fl-card .buy { text-align: right; }
+.fl-card .buy .p { font-size: 22px; font-weight: 800; color: var(--primary); }
+.fl-card .buy .p small { font-size: 12px; color: var(--ink-3); font-weight: 500; margin-left: 4px; }
+.fl-card .buy .btn { margin-top: 8px; min-width: 96px; }
+.fl-book { max-width: 820px; }
+.fl-book h2 { margin: 12px 0; }
+.fl-book h3 { font-size: 17px; margin: 22px 0 8px; }
+.fl-pax { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px 0; margin: 0 0 10px; }
+.fl-pax legend { font-weight: 700; padding: 0 6px; }
+@media (max-width: 720px) {
+  .fl-card { grid-template-columns: 1fr; gap: 8px; }
+  .fl-card .buy { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; }
+  .fl-card .buy .btn { margin: 0; }
+  .fl-head { flex-direction: column; align-items: flex-start; }
+}

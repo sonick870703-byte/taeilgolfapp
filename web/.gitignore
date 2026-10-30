@@ -1,0 +1,6 @@
+data/
+data-demo/
+.dev.vars
+wrangler.test.jsonc
+wrangler.jsonc
+.wrangler/
