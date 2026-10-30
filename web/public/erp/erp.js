@@ -814,9 +814,9 @@ async function domain(view) {
             ${dm.status === 'ok' ? '<span class="badge g">연결됨</span>' : dm.status === 'pending' ? '<span class="badge o">아직 연결 전</span>' : '<span class="badge">확인 전</span>'}
             ${dm.checkedAt ? `<span class="muted" style="font-size:13px">${fmtDT(dm.checkedAt)} 확인</span>` : ''}
             <span style="margin-left:auto;display:flex;gap:6px"><button class="btn sm" data-chk="${k}">연결 확인</button>${ro ? '' : `<button class="btn sm ghost" data-drm="${k}" style="color:var(--danger)">삭제</button>`}</span></div>
-          <table class="tbl dns" style="margin-top:10px"><thead><tr><th>타입</th><th>이름(호스트)</th><th>값</th><th></th></tr></thead><tbody>
+          ${dm.status === 'ok' ? '' : `<table class="tbl dns" style="margin-top:10px"><thead><tr><th>타입</th><th>이름(호스트)</th><th>값</th><th></th></tr></thead><tbody>
             ${recordsFor(dm, s.dnsTarget).map(r => `<tr><td>${r.type}</td><td>${esc(r.name)}</td><td>${esc(r.value)}</td><td><button class="btn sm ghost" data-copy="${esc(r.value)}">복사</button></td></tr>`).join('')}
-          </tbody></table>
+          </tbody></table>`}
           ${dm.detail ? `<div class="muted" style="font-size:13px;margin-top:6px">${esc(dm.detail)}</div>` : ''}
         </div>`).join('') || '<div class="muted">아직 추가한 주소가 없습니다.</div>'}
       </div>`;
@@ -836,6 +836,14 @@ async function domain(view) {
       const dm = s.domains[+b.dataset.chk];
       b.disabled = true; b.textContent = '확인 중…';
       try {
+        // 홈페이지·ERP는 Cloudflare에서 바로 답하므로, 그 주소에서 우리 서버가 답하는지 먼저 봅니다
+        const live = await fetch(`https://${dm.host}/api/health`, { cache: 'no-store', signal: AbortSignal.timeout(8000) }).then(r => r.json()).then(j => j && j.ok === true).catch(() => false);
+        if (live) {
+          Object.assign(dm, { status: 'ok', checkedAt: Date.now(), detail: 'Cloudflare에서 바로 연결되어 있습니다. 따로 넣을 값은 없습니다.' });
+          if (!ro) await save();
+          render();
+          return toast(`${dm.host} 연결이 확인되었습니다.`);
+        }
         const recs = recordsFor(dm, s.dnsTarget);
         const results = [];
         for (const r of recs) {

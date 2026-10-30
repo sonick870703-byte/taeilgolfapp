@@ -115,7 +115,10 @@ export default {
         }
         const token = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '') || null;
         const out = await api.handle({ method: request.method, path: url.pathname, query: Object.fromEntries(url.searchParams), body, token });
-        return json(200, out);
+        const res = json(200, out);
+        // ERP '도메인 연결'의 연결 확인이 다른 주소(tigc.co.kr 등)에서 읽을 수 있게 합니다
+        if (url.pathname === '/api/health') res.headers.set('Access-Control-Allow-Origin', '*');
+        return res;
       }
       if (url.pathname.startsWith('/uploads/')) {
         const name = url.pathname.slice('/uploads/'.length);
