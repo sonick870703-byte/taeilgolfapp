@@ -43,7 +43,7 @@ function applySite() {
       <div><b>입금 계좌</b><br>${esc(site.bank.name)} ${esc(site.bank.account)}<br>예금주 ${esc(site.bank.holder)}<br>
         ${[['instagram', '인스타그램'], ['youtube', '유튜브'], ['band', '밴드'], ['tiktok', '틱톡']].filter(([k]) => s[k]).map(([k, n]) => `<a href="${esc(s[k])}" target="_blank" rel="noopener">${n}</a>`).join(' · ')}</div>
     </div>
-    <div class="copy"><span>© ${esc(site.companyName)} (${esc(site.companyNameEn)})</span><span>모든 상품 요금은 VAT 별도입니다.</span></div></div>`;
+    <div class="copy"><span>© ${new Date().getFullYear()} ${esc(site.companyName)} (${esc(site.companyNameEn)}). All rights reserved. 이 홈페이지의 글·사진·디자인을 허락 없이 복제하거나 다른 곳에 쓸 수 없습니다.</span><span>모든 상품 요금은 VAT 별도입니다.</span></div></div>`;
 }
 
 function renderTop() {

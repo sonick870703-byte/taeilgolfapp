@@ -33,6 +33,8 @@ async function copy(text) {
 }
 
 // ---------- 로그인 ----------
+const COPYRIGHT = `© ${new Date().getFullYear()} 태일 골프커뮤니케이션 (TAEIL GOLF COMMUNICATION). All rights reserved.`;
+
 function loginView() {
   root.innerHTML = `<div class="login-wrap"><form class="login-card" id="lf" novalidate>
     <div class="brand"><img src="../assets/logo.jpg" alt="" style="width:44px;height:44px"><span>태일골프 ERP</span></div>
@@ -42,6 +44,7 @@ function loginView() {
     <div class="field"><label for="lp">비밀번호</label><input id="lp" type="password" autocomplete="current-password" value="${demo ? 'demo1234' : ''}"></div>
     <button class="btn primary block" id="lb">ERP 로그인</button>
     <p class="muted" style="font-size:13px;margin:14px 0 0">직원 계정만 들어올 수 있습니다. 직원 등록은 관리자가 회원 관리에서 합니다.</p>
+    <p class="muted" style="font-size:12px;margin:18px 0 0;text-align:center">${COPYRIGHT}</p>
   </form></div>`;
   $('#lf').onsubmit = async e => {
     e.preventDefault();
@@ -77,7 +80,8 @@ function shell() {
       <div class="brand"><img src="../assets/logo.jpg" alt=""><span>태일골프 ERP</span></div>
       <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${{ bookings: '<span class="cnt" id="waitCnt" hidden></span>', inquiries: '<span class="cnt" id="inqCnt" hidden></span>', flights: '<span class="cnt" id="flCnt" hidden></span>', chats: '<span class="cnt" id="chatCnt" hidden></span>', approvals: '<span class="cnt" id="apCnt" hidden></span>' }[k] || ''}</a>`).join('')}</nav>
       <div class="who">${esc(me.name)} · ${me.role === 'admin' ? '관리자' : '직원'}<br><a href="../" target="_blank" style="text-decoration:underline">홈페이지 보기</a> · <button id="pwc">비밀번호 바꾸기</button> · <button id="lo">로그아웃</button>
-        ${demo ? '<br><button id="rd" style="margin-top:6px">미리보기 처음 상태로</button>' : ''}</div>
+        ${demo ? '<br><button id="rd" style="margin-top:6px">미리보기 처음 상태로</button>' : ''}
+        <div style="margin-top:10px;font-size:11px;color:#7f9488;line-height:1.5">${COPYRIGHT}</div></div>
     </aside>
     <div class="main"><div class="bar"><button class="menu-btn" id="mb" aria-label="메뉴"><span></span><span></span><span></span></button><h1 id="title"></h1><div id="barAct"></div></div>
       <div class="content" id="view"></div></div></div>`;
