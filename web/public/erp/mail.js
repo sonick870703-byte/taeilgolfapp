@@ -16,18 +16,45 @@ export async function mailView(view, arg, env) {
   $('#mNew').onclick = () => compose(env, {}, () => mailView(view, null, env));
   if ($('#mCfg')) $('#mCfg').onclick = () => settings(env);
   const list = await api.get(`/api/erp/mails?folder=${folder}&q=${encodeURIComponent(q)}`);
+  const acts = folder === 'trash'
+    ? '<button type="button" class="btn sm" data-act="restore">되살리기</button><button type="button" class="btn sm" data-act="delete" style="color:var(--danger)">영구 삭제</button>'
+    : `${folder === 'inbox' ? '<button type="button" class="btn sm" data-act="read">읽음 표시</button><button type="button" class="btn sm" data-act="unread">안 읽음 표시</button>' : ''}<button type="button" class="btn sm" data-act="trash" style="color:var(--danger)">삭제</button>`;
   view.innerHTML = `<div class="filters">${FOLDERS.map(([k, n]) => `<button type="button" class="btn sm ${k === folder ? 'primary' : 'ghost'}" data-f="${k}">${n}</button>`).join('')}
       <input class="grow" id="mQ" placeholder="보낸 사람, 제목, 내용 찾기" value="${esc(q)}"></div>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${folder === 'sent' ? '받는 사람' : '보낸 사람'}</th><th>제목</th><th class="hide-m">받은 시각</th></tr></thead><tbody>
+    <div class="filters" id="mActs" style="display:none"><b id="mSel"></b>${acts}</div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th style="width:36px"><input type="checkbox" id="mAll" aria-label="전체 선택"></th><th>${folder === 'sent' ? '받는 사람' : '보낸 사람'}</th><th>제목</th><th class="hide-m">받은 시각</th></tr></thead><tbody>
     ${list.map(m => `<tr class="click" data-id="${esc(m.id)}" style="${m.read ? '' : 'font-weight:700'}">
+      <td data-chk><input type="checkbox" class="mChk" value="${esc(m.id)}" aria-label="선택"></td>
       <td>${esc(folder === 'sent' ? (m.to || []).join(', ') : (m.from && (m.from.name || m.from.address)))}</td>
       <td>${m.read ? '' : '<span class="badge o">새 메일</span> '}${esc(m.subject)}${m.atts ? ' 📎' : ''}${m.replied ? ' <span class="badge g">답장함</span>' : ''}<div class="muted" style="font-size:12px;font-weight:400">${esc(m.snippet)}</div></td>
-      <td class="hide-m">${fmtDT(m.at)}</td></tr>`).join('') || `<tr><td colspan="3" class="muted">${folder === 'inbox' ? '받은 메일이 없습니다. 메일 받기 연결이 끝나면 taeilgolf@tigc.co.kr 로 온 메일이 여기에 쌓입니다.' : '메일이 없습니다.'}</td></tr>`}
+      <td class="hide-m">${fmtDT(m.at)}</td></tr>`).join('') || `<tr><td colspan="4" class="muted">${folder === 'inbox' ? '받은 메일이 없습니다. 메일 받기 연결이 끝나면 taeilgolf@tigc.co.kr 로 온 메일이 여기에 쌓입니다.' : '메일이 없습니다.'}</td></tr>`}
     </tbody></table></div>`;
-  $$('[data-f]', view).forEach(b => b.onclick = () => { folder = b.dataset.f; mailView(view, null, env); });
+  const reload = () => mailView(view, null, env);
+  $$('[data-f]', view).forEach(b => b.onclick = () => { folder = b.dataset.f; reload(); });
   let t;
-  $('#mQ', view).oninput = e => { clearTimeout(t); t = setTimeout(() => { q = e.target.value.trim(); mailView(view, null, env).then(() => { const i = $('#mQ', view); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 400); };
-  $$('tr[data-id]', view).forEach(tr => tr.onclick = () => open(env, tr.dataset.id, () => mailView(view, null, env)));
+  $('#mQ', view).oninput = e => { clearTimeout(t); t = setTimeout(() => { q = e.target.value.trim(); reload().then(() => { const i = $('#mQ', view); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 400); };
+  // 선택: 줄 맨 앞 칸을 누르면 체크, 나머지를 누르면 메일 열기
+  const picked = () => $$('.mChk:checked', view).map(c => c.value);
+  const sync = () => {
+    const n = picked().length, all = $$('.mChk', view).length;
+    $('#mActs', view).style.display = n ? '' : 'none';
+    $('#mSel', view).textContent = `${n}통 선택`;
+    $('#mAll', view).checked = !!all && n === all;
+    $('#mAll', view).indeterminate = n > 0 && n < all;
+  };
+  $('#mAll', view).onchange = e => { $$('.mChk', view).forEach(c => c.checked = e.target.checked); sync(); };
+  $$('td[data-chk]', view).forEach(td => td.onclick = e => { e.stopPropagation(); if (e.target.tagName !== 'INPUT') { const c = $('input', td); c.checked = !c.checked; } sync(); });
+  $$('[data-act]', view).forEach(b => b.onclick = async () => {
+    const ids = picked(), act = b.dataset.act;
+    if (!ids.length) return;
+    if (act === 'delete' && !await ask(`선택한 ${ids.length}통을 영구 삭제할까요? 첨부 파일까지 지워지고 되돌릴 수 없습니다.`, '영구 삭제')) return;
+    try {
+      const r = await api.post('/api/erp/mails/bulk', { ids, action: act });
+      env.toast({ trash: '휴지통으로 옮겼습니다.', restore: '되살렸습니다.', delete: '영구 삭제했습니다.', read: '읽음으로 표시했습니다.', unread: '안 읽음으로 표시했습니다.' }[act] + ` (${r.count}통)`);
+      reload();
+    } catch (err) { env.toast(err.message); }
+  });
+  $$('tr[data-id]', view).forEach(tr => tr.onclick = () => open(env, tr.dataset.id, reload));
 }
 
 async function open(env, id, after) {
@@ -38,7 +65,7 @@ async function open(env, id, after) {
     <div class="muted" style="font-size:14px;line-height:1.7">보낸 사람 <b>${esc(who(m.from))}</b><br>받는 사람 ${esc((m.to || []).join(', '))}<br>${fmtDT(m.at)}${m.by ? ` · 보낸 직원 ${esc(m.by)}` : ''}</div>
     ${(m.atts || []).length ? `<div class="filters" style="margin-top:10px">${m.atts.map((a, n) => `<button type="button" class="btn sm ghost" data-att="${n}">📎 ${esc(a.name)} <span class="muted">(${Math.ceil(a.size / 1024)}KB)</span></button>`).join('')}</div>` : ''}
     <div style="margin-top:12px">${m.html ? `<iframe id="mBody" sandbox="allow-popups allow-popups-to-escape-sandbox" style="width:100%;min-height:420px;border:1px solid var(--line);border-radius:10px;background:#fff"></iframe>` : `<pre style="white-space:pre-wrap;font:inherit;margin:0">${esc(m.text)}</pre>`}</div>`,
-    `${m.folder === 'inbox' ? '<button class="btn" id="mDel" style="color:var(--danger);margin-right:auto">휴지통</button>' : m.folder === 'trash' ? '<button class="btn" id="mBack" style="margin-right:auto">받은 메일로</button>' : ''}${m.folder !== 'sent' ? '<button class="btn primary" id="mRe">답장</button>' : ''}`);
+    `${m.folder !== 'trash' ? '<button class="btn" id="mDel" style="color:var(--danger);margin-right:auto">휴지통</button>' : m.folder === 'trash' ? '<button class="btn" id="mBack" style="margin-right:auto">되살리기</button>' : ''}${m.folder !== 'sent' ? '<button class="btn primary" id="mRe">답장</button>' : ''}`);
   if (m.html) $('#mBody', d).srcdoc = csp + m.html;
   $$('[data-att]', d).forEach(b => b.onclick = async () => {
     try {
@@ -49,8 +76,8 @@ async function open(env, id, after) {
       document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
     } catch (err) { env.toast(err.message); }
   });
-  if ($('#mDel', d)) $('#mDel', d).onclick = async () => { await api.patch('/api/erp/mails/' + m.id, { folder: 'trash' }); env.closeDrawer(); after(); };
-  if ($('#mBack', d)) $('#mBack', d).onclick = async () => { await api.patch('/api/erp/mails/' + m.id, { folder: 'inbox' }); env.closeDrawer(); after(); };
+  if ($('#mDel', d)) $('#mDel', d).onclick = async () => { await api.post('/api/erp/mails/bulk', { ids: [m.id], action: 'trash' }); env.closeDrawer(); after(); };
+  if ($('#mBack', d)) $('#mBack', d).onclick = async () => { await api.post('/api/erp/mails/bulk', { ids: [m.id], action: 'restore' }); env.closeDrawer(); after(); };
   if ($('#mRe', d)) $('#mRe', d).onclick = () => compose(env, {
     to: m.from && m.from.address, replyTo: m.id, subject: /^re:/i.test(m.subject) ? m.subject : 'Re: ' + m.subject,
     text: `\n\n\n--- ${fmtDT(m.at)}, ${who(m.from)} 님이 보낸 메일 ---\n` + (m.text || '').split('\n').map(l => '> ' + l).join('\n'),
