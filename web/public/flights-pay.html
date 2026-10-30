@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결제 확인 | 태일골프</title>
+<link rel="stylesheet" href="shared/site.css">
+</head>
+<body>
+<main class="narrow" style="text-align:center">
+  <h1 id="t">결제를 확인하고 있습니다</h1>
+  <p class="sub" id="m">창을 닫지 말고 잠시만 기다려 주세요.</p>
+  <a class="btn primary" href="./#/flights/my" id="go" hidden>내 항공권 보기</a>
+</main>
+<script type="module">
+  // 토스페이먼츠 결제창에서 돌아오는 곳: 서버에서 금액을 확인하고 결제를 승인합니다.
+  import { api } from './shared/api.js';
+  const q = new URLSearchParams(location.search);
+  const $ = id => document.getElementById(id);
+  const done = (title, msg) => { $('t').textContent = title; $('m').textContent = msg; $('go').hidden = false; };
+  if (q.get('fail')) done('결제가 완료되지 않았습니다', q.get('message') || '결제를 취소하셨거나 승인이 되지 않았습니다. 다시 시도해 주세요.');
+  else api.post('/api/flights/pay/confirm', { paymentKey: q.get('paymentKey'), orderId: q.get('orderId'), amount: Number(q.get('amount')) })
+    .then(b => { done(b.status === '발권 완료' ? '결제와 발권이 끝났습니다' : '결제가 완료되었습니다', b.status === '발권 완료' ? `항공 예약번호 ${b.pnr}. 전자 항공권은 이메일로 보내 드립니다.` : '담당자가 확인 후 발권하고 카톡·문자로 알려 드립니다.'); history.replaceState(null, '', 'flights-pay.html?done=1'); })
+    .catch(e => done('결제를 확인하지 못했습니다', e.message + ' 카드에서 돈이 나갔다면 카톡 상담으로 알려 주세요.'));
+</script>
+</body>
+</html>

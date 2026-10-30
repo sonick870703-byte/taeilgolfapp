@@ -31,6 +31,7 @@ const store = {
 };
 
 const deps = {
+  httpFetch: (url, opts) => fetch(url, { ...opts, signal: AbortSignal.timeout(30000) }),
   now: () => Date.now(),
   randomId: n => crypto.randomBytes(n).toString('base64url').slice(0, n),
   hash: (pw, salt) => new Promise((ok, no) => crypto.scrypt(pw, salt, 32, (e, k) => (e ? no(e) : ok(k.toString('hex'))))),

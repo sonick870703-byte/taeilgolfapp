@@ -1,7 +1,8 @@
 // 태일골프 홈페이지 + ERP 공통 업무 로직.
 // 서버(Node)와 브라우저 미리보기(데모 모드)가 이 파일 하나를 함께 씁니다.
 // store: { all(col), get(col,id), put(col,doc), del(col,id) } (모두 async)
-// deps:  { hash(pw,salt), randomId(n), now() }
+// deps:  { hash(pw,salt), randomId(n), now() }  (+ 서버: httpFetch, 미리보기: demoFlights)
+import { registerFlightRoutes } from './flights.js';
 
 export const CATEGORIES = [
   { id: 'unlimited', name: '무제한 골프' },
@@ -485,9 +486,9 @@ export function createApi(store, deps) {
   }, STAFF);
 
   on('GET', '/api/erp/counts', async ({ user }) => {
-    const [bk, inq, chats, v, ap] = await Promise.all([store.all('bookings'), store.all('inquiries'), store.all('chats'), store.get('visits', today()), store.all('approvals')]);
+    const [bk, inq, chats, v, ap, fl] = await Promise.all([store.all('bookings'), store.all('inquiries'), store.all('chats'), store.get('visits', today()), store.all('approvals'), store.all('flightBookings')]);
     return { approvals: user.role === 'admin' ? ap.filter(a => a.status === '대기').length : 0, waiting: bk.filter(b => b.status === '접수').length, inquiries: inq.filter(q => q.status === '새 문의').length,
-      chats: chats.filter(c => !c.closed && c.unread > 0).length, visitorsToday: v ? v.ids.length : 0, viewsToday: v ? v.views : 0 };
+      chats: chats.filter(c => !c.closed && c.unread > 0).length, flights: fl.filter(b => ['견적 요청', '결제 완료', '확인 필요'].includes(b.status)).length, visitorsToday: v ? v.ids.length : 0, viewsToday: v ? v.views : 0 };
   }, STAFF);
 
   on('GET', '/api/erp/dashboard', async () => {
@@ -738,6 +739,8 @@ export function createApi(store, deps) {
     }
     throw err(404, '없는 주소입니다.');
   }
+
+  registerFlightRoutes({ on, store, deps, now, today, err, str, settings, roles: { STAFF, MEMBER, ADMIN } });
 
   return { handle };
 }

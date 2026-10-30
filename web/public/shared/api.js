@@ -37,6 +37,7 @@ async function initDemo() {
   };
   const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
   const deps = {
+    demoFlights: true,
     now: () => Date.now(),
     randomId: n => { const a = new Uint8Array(n); crypto.getRandomValues(a); return [...a].map(x => 'abcdefghijklmnopqrstuvwxyz0123456789'[x % 36]).join(''); },
     hash: async (pw, salt) => hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salt + ':' + pw))),

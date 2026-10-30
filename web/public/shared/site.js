@@ -4,6 +4,7 @@ import { ask } from './ask.js';
 import { won, todayKST, addDays, INQUIRY_TYPES } from './core.js';
 import { mountChat, countVisit } from './chat-widget.js';
 import { renderBlocks, mountHero, productCard as card, priceHtml } from './blocks.js';
+import { flightsPage } from './flights-site.js';
 import { PRIVACY_POLICY, SIGNUP_CONSENT, CANCEL_POLICY, SERVICE_TERMS, TRAVEL_TERMS } from './legal.js';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -31,7 +32,7 @@ function applySite() {
   $('#brandName').textContent = site.brand;
   $('#logo').src = site.logo || 'assets/logo.jpg';
   $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('')
-    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>`;
+    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/flights">항공권</a><a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>`;
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
@@ -183,7 +184,7 @@ async function my() {
   if (!me) { sessionStorage.setItem('afterLogin', '#/my'); location.hash = '#/login'; return; }
   const list = await api.get('/api/my/bookings');
   app.innerHTML = `<div class="wrap page" style="max-width:820px">
-    <div class="sec-head"><h1 style="margin:0">내 예약</h1><button class="btn sm" id="logout">로그아웃</button></div>
+    <div class="sec-head"><h1 style="margin:0">내 예약</h1><div><a class="btn sm" href="#/flights/my">내 항공권</a> <button class="btn sm" id="logout">로그아웃</button></div></div>
     <div class="my-list">${list.map(b => {
       const paid = (b.payments || []).reduce((s, p) => s + p.amount, 0);
       return `<div class="my-item"><div><h3>${esc(b.productTitle)}</h3>
@@ -275,6 +276,7 @@ async function route() {
     else if (a === 'notice') await notices(b);
     else if (a === 'terms') terms(b);
     else if (a === 'inquiry') inquiryPage(b);
+    else if (a === 'flights') await flightsPage(b, { app, me, site, toast });
     else app.innerHTML = '<div class="empty" style="margin:48px 16px">페이지를 찾을 수 없습니다. <a href="#/" class="btn">홈으로</a></div>';
   } catch (e) {
     app.innerHTML = `<div class="wrap page"><div class="empty">${esc(e.message || '불러오지 못했습니다.')}<br><a href="#/" class="btn">홈으로</a></div></div>`;
