@@ -548,7 +548,8 @@ async function siteSettings(view) {
     </div>
     <div class="card"><h2>약관</h2>
       <div class="field"><label>이용약관</label><textarea data-k="terms.service" style="min-height:140px">${esc(s.terms.service)}</textarea></div>
-      <div class="field"><label>개인정보처리방침</label><textarea data-k="terms.privacy" style="min-height:140px">${esc(s.terms.privacy)}</textarea><span class="hint">주민등록번호는 법으로 수집이 금지되어 있으니 수집 항목에 넣지 마세요.</span></div>
+      <div class="field"><label>개인정보처리방침</label><textarea data-k="terms.privacy" style="min-height:140px">${esc(s.terms.privacy)}</textarea><span class="hint">비워 두면 기본 개인정보처리방침이 나옵니다. 주민등록번호는 법으로 수집이 금지되어 있으니 수집 항목에 넣지 마세요.</span></div>
+      <div class="field"><label>예약·취소 규정</label><textarea data-k="terms.cancel" style="min-height:140px">${esc(s.terms.cancel || '')}</textarea><span class="hint">비워 두면 기본 규정(출발 14일 전까지 환급)이 나옵니다.</span></div>
       <div class="field"><label>여행 표준약관</label><textarea data-k="terms.travel" style="min-height:140px">${esc(s.terms.travel)}</textarea></div>
     </div>
     ${ro ? '' : '<div class="save-bar"><button class="btn primary" id="sSave">저장하고 홈페이지에 반영</button></div>'}

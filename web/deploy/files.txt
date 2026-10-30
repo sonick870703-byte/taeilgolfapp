@@ -20,6 +20,7 @@ public/shared/ask.js
 public/shared/blocks.js
 public/shared/core.js
 public/shared/image.js
+public/shared/legal.js
 public/shared/site.css
 public/shared/site.js
 server.js

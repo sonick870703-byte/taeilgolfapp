@@ -3,6 +3,7 @@ import { api, getToken, setToken, isDemo, resetDemo } from './api.js';
 import { ask } from './ask.js';
 import { won, todayKST, addDays } from './core.js';
 import { renderBlocks, mountHero, productCard as card, priceHtml } from './blocks.js';
+import { PRIVACY_POLICY, SIGNUP_CONSENT, CANCEL_POLICY, SERVICE_TERMS, TRAVEL_TERMS } from './legal.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -33,7 +34,7 @@ function applySite() {
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
-    <div class="links"><a href="#/terms/service">이용약관</a><a href="#/terms/privacy"><b>개인정보처리방침</b></a><a href="#/terms/travel">여행 표준약관</a><a href="#/notice">공지사항</a><a href="erp/index.html">직원 ERP</a></div>
+    <div class="links"><a href="#/terms/service">회원약관</a><a href="#/terms/privacy"><b>개인정보처리방침</b></a><a href="#/terms/cancel">예약·취소 규정</a><a href="#/terms/travel">여행 표준약관</a><a href="#/notice">공지사항</a><a href="erp/index.html">직원 ERP</a></div>
     <div class="cols">
       <div><b>${esc(site.companyName)}</b> (${esc(site.brand)})<br>대표 ${esc(site.ceo)} · 사업자등록번호 ${esc(site.bizNo)}${site.travelRegNo ? `<br>관광사업자 등록번호 ${esc(site.travelRegNo)}` : ''}${site.mailOrderNo ? ` · 통신판매업 ${esc(site.mailOrderNo)}` : ''}<br>${esc(site.address)}</div>
       <div><b>상담</b><br>${esc(site.tel)}${site.tel2 ? ' / ' + esc(site.tel2) : ''}<br>${esc(site.hours)}<br>${esc(site.email)}</div>
@@ -84,7 +85,7 @@ async function product(id) {
         </div>
         ${p.body ? `<div class="info-box"><h3>상품 안내</h3><div class="body-text">${esc(p.body)}</div></div>` : ''}
         <div class="info-box"><h3>예약 · 결제 · 환불</h3><p>· 예약금은 총액의 20%, 잔금은 출발 1개월 전까지 입금해 주세요.
-· 환불은 출발 14일 전까지만 가능합니다.
+· 환불은 출발 14일 전까지만 가능합니다. 날짜별 취소료는 <a href="#/terms/cancel" style="text-decoration:underline">예약·취소 규정</a>을 확인해 주세요.
 · 1인 예약(1인 1실) 시 추가 요금이 있습니다.${p.category === 'month' ? ' 한 달 살기는 1인 예약 시 2인 요금입니다.' : ''}
 · 항공권과 여행자보험은 포함되어 있지 않습니다. 요금은 VAT 별도입니다.</p></div>
       </div>
@@ -110,7 +111,8 @@ async function product(id) {
   if (me) $('#bookMore').innerHTML = `
     <div class="row2"><div class="field"><label for="bName">예약자 이름</label><input id="bName" value="${esc(me.name)}" autocomplete="name"></div>
     <div class="field"><label for="bPhone">연락처</label><input id="bPhone" value="${esc(me.phone || '')}" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></div></div>
-    <div class="field"><label for="bNote">요청사항</label><textarea id="bNote" placeholder="원하는 항공 시간, 라운드 일정 등"></textarea></div>`;
+    <div class="field"><label for="bNote">요청사항</label><textarea id="bNote" placeholder="원하는 항공 시간, 라운드 일정 등"></textarea></div>
+    <label class="check"><input type="checkbox" id="bAgree"> <span>(필수) <a href="#/terms/cancel" target="_blank" style="text-decoration:underline">예약·취소 규정</a>을 확인했고 동의합니다. 예약금 20%, 잔금 출발 30일 전, 환급은 출발 14일 전까지이며 표준약관과 다른 특약입니다.</span></label>`;
   const update = async () => {
     const d = $('#bDate').value;
     if (!d) return;
@@ -129,9 +131,10 @@ async function product(id) {
     e.preventDefault();
     if (!me) { sessionStorage.setItem('afterLogin', location.hash); location.hash = '#/login'; return; }
     if (!$('#bDate').value) { toast('출발일을 선택해 주세요.'); $('#bDate').focus(); return; }
+    if (!$('#bAgree').checked) { toast('예약·취소 규정에 동의해 주세요.'); $('#bAgree').focus(); return; }
     const btn = $('#bookBtn'); btn.disabled = true; btn.textContent = '신청하는 중…';
     try {
-      const b = await api.post('/api/bookings', { productId: p.id, departDate: $('#bDate').value, pax: $('#bPax').value, single: $('#bSingle').checked, name: $('#bName').value, phone: $('#bPhone').value, note: $('#bNote').value });
+      const b = await api.post('/api/bookings', { productId: p.id, departDate: $('#bDate').value, pax: $('#bPax').value, single: $('#bSingle').checked, name: $('#bName').value, phone: $('#bPhone').value, note: $('#bNote').value, agreeCancel: true });
       toast(`예약 신청이 접수되었습니다. (예약번호 ${b.no})`);
       location.hash = '#/my';
     } catch (err) { toast(err.message); btn.disabled = false; btn.textContent = '예약 신청하기'; }
@@ -149,9 +152,9 @@ function authPage(kind) {
       <div class="field"><label for="aPhone">휴대폰 번호</label><input id="aPhone" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></div>` : ''}
       <div class="field"><label for="aEmail">이메일</label><input id="aEmail" type="email" autocomplete="email" required></div>
       <div class="field"><label for="aPw">비밀번호</label><input id="aPw" type="password" autocomplete="${signup ? 'new-password' : 'current-password'}" required>${signup ? '<span class="hint">8자 이상</span>' : ''}</div>
-      ${signup ? `<label class="check"><input type="checkbox" id="aT"> <span>(필수) <a href="#/terms/service" target="_blank" style="text-decoration:underline">이용약관</a>에 동의합니다</span></label>
-      <label class="check"><input type="checkbox" id="aP"> <span>(필수) <a href="#/terms/privacy" target="_blank" style="text-decoration:underline">개인정보 수집·이용</a>에 동의합니다</span></label>
-      <label class="check"><input type="checkbox" id="aM"> <span>(선택) 할인·신상품 소식 받기</span></label>` : ''}
+      ${signup ? `<label class="check"><input type="checkbox" id="aT"> <span>(필수) <a href="#/terms/service" target="_blank" style="text-decoration:underline">회원약관(예약·취소 규정 포함)</a>에 동의합니다</span></label>
+      <label class="check"><input type="checkbox" id="aP"> <span>(필수) <a href="#/terms/consent" target="_blank" style="text-decoration:underline">개인정보 수집·이용</a>에 동의합니다</span></label>
+      <label class="check"><input type="checkbox" id="aM"> <span>(선택) 할인·신상품 소식 받기 (<a href="#/terms/consent" target="_blank" style="text-decoration:underline">내용 보기</a>)</span></label>` : ''}
       <button class="btn primary block" type="submit" id="aBtn">${signup ? '가입하기' : '로그인'}</button>
     </form>
     <div class="alt-link">${signup ? '이미 회원이신가요? <a href="#/login">로그인</a>' : '처음이신가요? <a href="#/signup">회원가입</a>'}</div>
@@ -215,8 +218,9 @@ async function notices(id) {
 }
 
 function terms(kind) {
-  const titles = { service: '이용약관', privacy: '개인정보처리방침', travel: '여행 표준약관' };
-  const text = (site.terms || {})[kind] || '내용을 준비하고 있습니다. 관리자 화면 › 홈페이지 설정 › 약관에서 입력할 수 있습니다.';
+  const titles = { service: '회원약관', privacy: '개인정보처리방침', travel: '여행 표준약관', consent: '개인정보 수집·이용 동의', cancel: '예약 및 취소 규정' };
+  const builtIn = { service: SERVICE_TERMS, travel: TRAVEL_TERMS, privacy: PRIVACY_POLICY, consent: SIGNUP_CONSENT, cancel: CANCEL_POLICY };
+  const text = (site.terms || {})[kind] || builtIn[kind] || '내용을 준비하고 있습니다. 관리자 화면 › 홈페이지 설정 › 약관에서 입력할 수 있습니다.';
   app.innerHTML = `<div class="wrap page" style="max-width:860px"><h1>${titles[kind] || '약관'}</h1><article class="article">${esc(text)}</article></div>`;
 }
 

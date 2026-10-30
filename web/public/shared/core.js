@@ -47,6 +47,7 @@ export const DEFAULT_SETTINGS = {
     privacy: '',
     service: '',
     travel: '',
+    cancel: '',
   },
   domains: [],
   dnsTarget: { a: '', cname: '' },
@@ -340,6 +341,7 @@ export function createApi(store, deps) {
     const departDate = str(body.departDate, 10);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(departDate)) throw err(400, '출발일을 선택해 주세요.');
     if (departDate < today()) throw err(400, '출발일은 오늘 이후로 선택해 주세요.');
+    if (!body.agreeCancel) throw err(400, '예약·취소 규정에 동의해 주세요.');
     const name = str(body.name, 40) || user.name;
     const phone = str(body.phone, 30) || user.phone;
     if (!name || !phone) throw err(400, '예약자 이름과 연락처를 입력해 주세요.');
@@ -348,7 +350,7 @@ export function createApi(store, deps) {
       memberId: user.id, memberEmail: user.email,
       productId: p.id, productTitle: p.title, category: p.category, basePrice: p.basePrice || 0, singleSupplement: p.singleSupplement || 0,
       departDate, nights: Number(body.nights) || p.nights || 0, pax: Math.max(1, Math.min(20, Number(body.pax) || 2)), single: !!body.single,
-      name, phone, kakaoId: str(body.kakaoId, 40), note: str(body.note, 1000),
+      name, phone, kakaoId: str(body.kakaoId, 40), note: str(body.note, 1000), cancelPolicyAgreedAt: now(),
       status: '접수', confirmed: false, payments: [],
     };
     recompute(b, p);
