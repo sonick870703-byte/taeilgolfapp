@@ -8,7 +8,13 @@
   "d1_databases": [{ "binding": "DB", "database_name": "taeil", "database_id": "__D1_ID__" }],
   "kv_namespaces": [{ "binding": "UPLOADS", "id": "__KV_ID__" }],
   "vars": { "ADMIN_EMAIL": "admin@tigc.co.kr", "ERP_HOSTS": "erp.tigc.co.kr" },
-  "routes": [{ "pattern": "erp.tigc.co.kr/*", "zone_name": "tigc.co.kr" }],
+  "routes": [
+    { "pattern": "erp.tigc.co.kr/*", "zone_name": "tigc.co.kr" },
+    // 홈페이지: Cloudflare DNS에서 @ · www · m 기록을 주황 구름(프록시)으로 바꾸면 이 Worker가 답합니다
+    { "pattern": "tigc.co.kr/*", "zone_name": "tigc.co.kr" },
+    { "pattern": "www.tigc.co.kr/*", "zone_name": "tigc.co.kr" },
+    { "pattern": "m.tigc.co.kr/*", "zone_name": "tigc.co.kr" }
+  ],
   "workers_dev": false,
   "observability": { "enabled": true }
 }
