@@ -7,6 +7,7 @@ import { pagesView } from './pages.js?v=20261030h';
 import { mailView } from './mail.js?v=20261030j';
 import { flightsView } from './flights.js';
 import { boardView } from './board.js?v=20261030c';
+import { calcView } from './calc.js?v=20261030a';
 import { travelersHtml, bindTravelers } from './passport.js';
 import { SERVICE_TERMS, PRIVACY_POLICY, CANCEL_POLICY, TRAVEL_TERMS } from '../shared/legal.js';
 
@@ -62,6 +63,7 @@ function loginView() {
 const MENU = [
   ['dashboard', '대시보드', '오늘 할 일'],
   ['bookings', '예약 관리', ''],
+  ['calc', '금액 계산기', ''],
   ['inquiries', '견적 문의', ''],
   ['flights', '항공권', ''],
   ['board', '운항 현황', ''],
@@ -76,7 +78,7 @@ const MENU = [
   ['site', '홈페이지 설정', ''],
   ['domain', '도메인 연결', ''],
 ];
-const TITLES = { board: '운항 현황', mail: '메일함', flights: '항공권', approvals: '전자결재', inquiries: '견적 문의', chats: '1:1 실시간 문의', pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
+const TITLES = { calc: '금액 계산기', board: '운항 현황', mail: '메일함', flights: '항공권', approvals: '전자결재', inquiries: '견적 문의', chats: '1:1 실시간 문의', pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
 
 function shell() {
   root.innerHTML = `<div class="shell">
@@ -106,7 +108,7 @@ async function route() {
   const view = $('#view');
   view.innerHTML = '<div class="loading">불러오는 중…</div>';
   try {
-    await ({ dashboard, bookings, inquiries, chats, approvals, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv), flights: (v, a) => flightsView(v, a, { ...pageEnv, me }), board: (v, a) => boardView(v, a, { ...pageEnv, me }), mail: (v, a) => mailView(v, a, { ...pageEnv, me }) }[k] || dashboard)(view, arg);
+    await ({ dashboard, bookings, inquiries, chats, approvals, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv), flights: (v, a) => flightsView(v, a, { ...pageEnv, me }), board: (v, a) => boardView(v, a, { ...pageEnv, me }), mail: (v, a) => mailView(v, a, { ...pageEnv, me }), calc: (v, a) => calcView(v, a, { ...pageEnv, me, loadXlsx, copy }) }[k] || dashboard)(view, arg);
   } catch (e) {
     if (e.status === 401) { me = null; return loginView(); }
     view.innerHTML = `<div class="empty">${esc(e.message)}</div>`;
