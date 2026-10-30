@@ -58,8 +58,12 @@ call "$envFile"
 cd /d "$App"
 start "" /b "$Node" server.js > "$Root\server.log" 2>&1
 if exist "$Root\tunnel.log" del "$Root\tunnel.log"
+if exist "$Root\config.yml" goto fixed
 start "" /b powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "$Root\addr.ps1"
 "$Cf" tunnel --no-autoupdate --url http://localhost:$Port --logfile "$Root\tunnel.log"
+goto :eof
+:fixed
+"$Cf" tunnel --no-autoupdate --config "$Root\config.yml" --logfile "$Root\tunnel.log" run
 "@
 Set-Content "$Root\start-hidden.vbs" -Encoding ASCII -Value "CreateObject(""WScript.Shell"").Run """"""$Root\start.cmd"""""", 0, False"
 # 터널이 새 주소를 받으면 접속주소.txt 에 적어 둠 (PC를 켤 때마다 주소가 바뀜)
@@ -79,7 +83,8 @@ $action  = New-ScheduledTaskAction -Execute 'wscript.exe' -Argument "`"$Root\sta
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
 $set     = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit ([TimeSpan]::Zero)
 Register-ScheduledTask -TaskName 'TaeilERP' -Action $action -Trigger $trigger -Settings $set -Force | Out-Null
-Remove-Item "$Root\tunnel.log", "$Root\접속주소.txt" -Force -ErrorAction SilentlyContinue
+Remove-Item "$Root\tunnel.log" -Force -ErrorAction SilentlyContinue
+if (-not (Test-Path "$Root\config.yml")) { Remove-Item "$Root\접속주소.txt" -Force -ErrorAction SilentlyContinue }
 Start-Process wscript.exe "`"$Root\start-hidden.vbs`""
 
 # 바탕 화면에 업데이트 바로가기 (다음부터는 이것만 더블클릭)
@@ -92,6 +97,7 @@ try {
 
 Step '5/5 접속 주소 확인'
 $url = $null
+if (Test-Path "$Root\fixed-host.txt") { $url = 'https://' + (Get-Content "$Root\fixed-host.txt" -First 1).Trim() }
 for ($i = 0; $i -lt 40 -and -not $url; $i++) {
   Start-Sleep 2
   if (Test-Path "$Root\tunnel.log") {
@@ -109,5 +115,5 @@ if ($url) { Write-Host " 직원 공유 : $url/erp/" -ForegroundColor Yellow } el
 Write-Host ' 관리자    : admin@tigc.co.kr'
 if ($firstPw) { Write-Host " 처음 비밀번호 : $firstPw  (C:\TaeilERP\관리자_비밀번호.txt 에도 저장)" -ForegroundColor Yellow }
 else { Write-Host ' 비밀번호  : C:\TaeilERP\관리자_비밀번호.txt' }
-Write-Host ' 직원 공유 주소는 PC를 다시 켜면 바뀝니다. 새 주소는 C:\TaeilERP\접속주소.txt 에 있습니다.'
+Write-Host ' 접속 주소는 C:\TaeilERP\접속주소.txt 에도 적혀 있습니다.'
 Write-Host "==========================================="
