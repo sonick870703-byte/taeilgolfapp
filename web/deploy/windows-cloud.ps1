@@ -68,25 +68,33 @@ $cfg = [IO.File]::ReadAllText("$Site\wrangler.template.jsonc").Replace('__D1_ID_
 [IO.File]::WriteAllText("$Site\wrangler.jsonc", $cfg, (New-Object Text.UTF8Encoding $false))
 Write-Host " 데이터베이스 $($d1.uuid)"
 
+# 중간에 실패하면 사무실 PC 서버를 다시 켜서 ERP가 꺼진 채로 남지 않게 합니다
+function StartPc { if (Test-Path "$Root\start-hidden.vbs") { Start-Process wscript.exe "`"$Root\start-hidden.vbs`""; Write-Host ' 사무실 PC 서버를 다시 켰습니다 (ERP는 계속 쓸 수 있습니다).' -ForegroundColor Yellow } }
+function FailPc($t) { Pop-Location; StartPc; Fail $t }
+
 if ($first) {
   Step '5/6 사무실 PC 데이터 옮기기'
-  # 옮기는 동안 새 데이터가 생기지 않도록 사무실 PC 서버를 먼저 끕니다
+  # 옮기는 동안 새 데이터가 생기지 않도록 사무실 PC 서버를 잠깐 끕니다
   Get-Process node, cloudflared -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "$Root\node*" -or $_.Path -like "$Root\cloudflared*" } | Stop-Process -Force
   Start-Sleep 2
   $exp = "$Cloud\export"
   if (Test-Path $exp) { Remove-Item $exp -Recurse -Force }
   & $Node "$Site\deploy\export-cloud.mjs" $Data $exp 2>$null | Out-Host
-  if (-not (Test-Path "$exp\docs.sql")) { Pop-Location; Fail '사무실 PC 데이터를 읽지 못했습니다.' }
-  & $W d1 execute taeil --remote --yes --file "$exp\docs.sql" | Out-Host
-  if ($LASTEXITCODE -ne 0) { Pop-Location; Fail '데이터를 Cloudflare에 넣지 못했습니다.' }
-  foreach ($f in Get-ChildItem $exp -Filter 'uploads-*.json') { & $W kv bulk put $f.FullName --namespace-id $kv.id --remote | Out-Host }
+  if (-not (Test-Path "$exp\import.json")) { FailPc '사무실 PC 데이터를 읽지 못했습니다.' }
+  # D1 파일 올리기는 일부 인터넷에서 막혀서, KV로 보내고 첫 접속 때 Cloudflare 안에서 D1로 옮깁니다
+  & $W kv bulk put "$exp\import.json" --namespace-id $kv.id --remote | Out-Host
+  if ($LASTEXITCODE -ne 0) { FailPc '데이터를 Cloudflare에 넣지 못했습니다.' }
+  foreach ($f in Get-ChildItem $exp -Filter 'uploads-*.json') {
+    & $W kv bulk put $f.FullName --namespace-id $kv.id --remote | Out-Host
+    if ($LASTEXITCODE -ne 0) { FailPc '사진을 Cloudflare에 넣지 못했습니다.' }
+  }
 } else {
   Step '5/6 데이터는 Cloudflare에 이미 있습니다 (건너뜀)'
 }
 
 Step '6/6 Cloudflare에 올리기'
 & $W deploy | Out-Host
-if ($LASTEXITCODE -ne 0) { Pop-Location; Fail 'Cloudflare에 올리지 못했습니다.' }
+if ($LASTEXITCODE -ne 0) { if ($first) { FailPc 'Cloudflare에 올리지 못했습니다.' } else { Pop-Location; Fail 'Cloudflare에 올리지 못했습니다.' } }
 if ($first) {
   # 여권번호 암호 열쇠는 사무실 PC 것을 그대로 씁니다 (그래야 저장된 여권번호를 읽을 수 있음)
   if (Test-Path "$Data\passport.key") { (Get-Content "$Data\passport.key" -Raw).Trim() | & $W secret put PASSPORT_KEY | Out-Host }
@@ -97,7 +105,8 @@ if ($first) {
 Pop-Location
 
 $ok = $false
-for ($i = 0; $i -lt 20 -and -not $ok; $i++) {
+# 첫 접속 때 옮긴 데이터를 D1에 넣느라 잠깐 '옮기는 중'(503)이 나올 수 있어 넉넉히 기다립니다
+for ($i = 0; $i -lt 60 -and -not $ok; $i++) {
   Start-Sleep 3
   try { $r = Invoke-WebRequest "https://$ErpHost/api/health" -UseBasicParsing -TimeoutSec 10; $ok = $r.Headers['X-Taeil-Server'] -eq 'cloudflare' } catch {}
 }
@@ -120,6 +129,6 @@ if ($ok) {
   Write-Host ' 계정과 비밀번호는 사무실 PC에서 쓰던 그대로입니다.'
 } else {
   Write-Host ' 상태 : 아직 확인되지 않았습니다. 이 화면을 캡처해서 보내 주세요.' -ForegroundColor Red
-  if ($first) { Write-Host ' (사무실 PC 서버는 꺼 두었습니다. 다시 켜려면 바탕화면의 "태일ERP 업데이트" 대신 C:\TaeilERP\start-hidden.vbs 를 실행하세요.)' }
+  if ($first) { StartPc }
 }
 Write-Host "================================================="

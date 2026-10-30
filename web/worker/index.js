@@ -54,11 +54,38 @@ function makeDeps(env) {
   };
 }
 
+// 사무실 PC 데이터 옮기기: 설치 프로그램이 KV에 올린 묶음(__import__/...)을 D1에 넣습니다.
+// 진행 상황은 D1(meta 표)에 남겨, 여러 곳에서 동시에 실행돼도 같은 묶음을 두 번 넣지 않습니다.
+// 한 번에 몇 묶음씩만 넣고, 남아 있으면 503(옮기는 중)으로 답해 다음 접속에서 이어 갑니다.
+const PER_REQUEST = 8;
+async function importFromKv(env) {
+  const meta = await env.UPLOADS.get('__import__/meta', 'json');
+  if (!meta) return true;
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT NOT NULL)').run();
+  const key = 'import:' + meta.id;
+  const row = await env.DB.prepare('SELECT v FROM meta WHERE k = ?').bind(key).first();
+  let done = row ? Number(row.v) : 0;
+  for (let n = 0; n < PER_REQUEST && done < meta.parts; n++) {
+    const part = await env.UPLOADS.get(`__import__/${meta.id}/${done + 1}`);
+    if (part == null) throw new Error(`옮길 데이터 ${done + 1}번 묶음이 없습니다.`);
+    await env.DB.batch([
+      env.DB.prepare("INSERT OR REPLACE INTO docs (col, id, json) SELECT json_extract(value, '$.col'), json_extract(value, '$.id'), json_extract(value, '$.json') FROM json_each(?)").bind(part),
+      env.DB.prepare('INSERT INTO meta (k, v) VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v').bind(key, String(++done)),
+    ]);
+  }
+  if (done < meta.parts) return false;
+  // 다 넣었으면 KV의 임시 묶음은 지웁니다 (지우기가 늦게 퍼져도 meta 표 덕분에 다시 넣지 않음)
+  for (let i = 1; i <= meta.parts; i++) await env.UPLOADS.delete(`__import__/${meta.id}/${i}`).catch(() => {});
+  await env.UPLOADS.delete('__import__/meta').catch(() => {});
+  return true;
+}
+
 // 한 번 켜진 작업 공간(isolate)에서는 api 를 다시 만들지 않습니다
 let ready = null;
 function init(env) {
   if (!ready) ready = (async () => {
     await env.DB.prepare('CREATE TABLE IF NOT EXISTS docs (col TEXT NOT NULL, id TEXT NOT NULL, json TEXT NOT NULL, PRIMARY KEY (col, id))').run();
+    if (!(await importFromKv(env))) throw Object.assign(new Error('사무실 PC 데이터를 옮기는 중입니다. 잠시 후 다시 열어 주세요.'), { status: 503 });
     const store = makeStore(env.DB), deps = makeDeps(env);
     await seed(store, deps, { adminEmail: env.ADMIN_EMAIL || 'admin@tigc.co.kr', adminPassword: env.ADMIN_PASSWORD || crypto.randomBytes(12).toString('base64url'), demo: false });
     return { api: createApi(store, deps), store };
