@@ -500,15 +500,15 @@ async function products(view) {
   $('#newP').onclick = () => productEditor(null, () => products(view));
   const list = await api.get('/api/erp/products');
   $('#xlIn').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) excelImport(f, list, () => products(view)); };
-  view.innerHTML = `<p class="muted" style="margin-top:0">기준가(시트 가격)를 넣으면 홈페이지·앱에는 <b>기준가 + ${won(PRICE_MARKUP)}</b>이 1인 요금으로 자동 표시됩니다. 기준가는 직원에게만 보입니다.</p>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th style="width:80px">사진</th><th>상품명</th><th class="hide-m">분류</th><th class="num">기준가</th><th class="num hide-m">고객 표시가</th><th>노출</th></tr></thead>
+  view.innerHTML = `<p class="muted" style="margin-top:0">기준가(시트 가격)를 넣으면 홈페이지·앱에는 <b>기준가 + ${won(PRICE_MARKUP)}</b>이 1인 요금으로 자동 표시됩니다. 기준가는 직원에게만 보입니다.<br>홈페이지 "지금 예약할 수 있는 상품"은 여기 목록입니다. <b>수정</b>을 누르면 사진·이름·가격·설명·노출·순서를 바꿀 수 있습니다.</p>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th style="width:80px">사진</th><th>상품명</th><th class="hide-m">분류</th><th class="num">기준가</th><th class="num hide-m">고객 표시가</th><th>노출</th><th></th></tr></thead>
     <tbody>${list.map(p => {
       const im = p.images && p.images[0];
       return `<tr class="click" data-id="${esc(p.id)}"><td>${im ? `<img src="${esc(im.sm || im.md)}" alt="" style="width:64px;aspect-ratio:4/3;object-fit:cover;border-radius:6px">` : '<div style="width:64px;aspect-ratio:4/3;border-radius:6px;background:var(--bg-2)"></div>'}</td>
       <td><b>${esc(p.title)}</b><div class="muted" style="font-size:12px">${esc(p.code || '')} · ${esc([p.country, p.city].filter(Boolean).join(' '))}${p.nights ? ` · ${p.nights}박` : ''}</div></td>
       <td class="hide-m">${esc(catName(p.category))}</td><td class="num">${p.basePrice ? won(p.basePrice) : '<span class="muted">미입력</span>'}</td><td class="num hide-m">${p.basePrice ? won(p.basePrice + PRICE_MARKUP) : '요금 상담'}</td>
-      <td>${p.visible !== false ? '<span class="badge g">노출</span>' : '<span class="badge">숨김</span>'}</td></tr>`;
-    }).join('') || '<tr><td colspan="6" class="muted">등록된 상품이 없습니다.</td></tr>'}</tbody></table></div>`;
+      <td>${p.visible !== false ? '<span class="badge g">노출</span>' : '<span class="badge">숨김</span>'}</td><td><button type="button" class="btn sm">수정</button></td></tr>`;
+    }).join('') || '<tr><td colspan="7" class="muted">등록된 상품이 없습니다.</td></tr>'}</tbody></table></div>`;
   $$('tr[data-id]', view).forEach(tr => tr.onclick = () => productEditor(list.find(p => p.id === tr.dataset.id), () => products(view)));
 }
 
