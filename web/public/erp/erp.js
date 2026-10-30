@@ -719,6 +719,9 @@ async function siteSettings(view) {
       <div class="field"><label>여행 표준약관</label><textarea data-k="terms.travel" style="min-height:220px">${esc(s.terms.travel || TRAVEL_TERMS)}</textarea></div>
       <p class="hint">미리 정리해 둔 문구가 들어가 있습니다. 고칠 곳만 고치고 저장하세요.</p>
     </div>
+    <div class="card"><h2>프로그램 다운로드 <small>홈페이지 메뉴 "프로그램 다운로드"에 나옵니다</small></h2>
+      <div id="dls"></div><button type="button" class="btn sm" id="addDl" style="margin-top:8px">+ 프로그램 추가</button>
+      <p class="hint">설치 파일은 크기가 커서 GitHub 등에 올린 뒤 그 내려받기 주소(https://…)를 넣습니다. 새 버전은 주소만 바꾸면 됩니다.</p></div>
     ${ro ? '' : '<div class="save-bar"><button class="btn primary" id="sSave">저장하고 홈페이지에 반영</button></div>'}
   </form>`;
   // 로고
@@ -744,6 +747,19 @@ async function siteSettings(view) {
     });
   };
   renderBanners();
+  s.downloads = s.downloads || [];
+  const renderDls = () => {
+    const box = $('#dls', view);
+    box.innerHTML = s.downloads.map((d, k) => `<div style="border-top:1px solid var(--line);padding:10px 0">
+      <div class="grid2"><div class="field"><label>이름</label><input data-dl="${k}" data-f="name" value="${esc(d.name || '')}"></div>
+      <div class="field"><label>종류</label><select data-dl="${k}" data-f="kind"><option value="">기타</option><option value="pc" ${d.kind === 'pc' ? 'selected' : ''}>PC (윈도우)</option><option value="android" ${d.kind === 'android' ? 'selected' : ''}>안드로이드</option></select></div></div>
+      <div class="field"><label>설명</label><input data-dl="${k}" data-f="desc" value="${esc(d.desc || '')}"></div>
+      <div class="filters"><input class="grow" data-dl="${k}" data-f="url" value="${esc(d.url || '')}" placeholder="https://…" aria-label="내려받기 주소"><button type="button" class="btn sm ghost" data-dlrm="${k}" style="color:var(--danger)">삭제</button></div></div>`).join('') || '<div class="muted">없습니다. 비워 두면 홈페이지 메뉴에서 숨겨집니다.</div>';
+    $$('[data-dl]', box).forEach(inp => inp.oninput = inp.onchange = () => { s.downloads[+inp.dataset.dl][inp.dataset.f] = inp.value.trim(); });
+    $$('[data-dlrm]', box).forEach(b => b.onclick = () => { s.downloads.splice(+b.dataset.dlrm, 1); renderDls(); });
+  };
+  renderDls();
+  $('#addDl', view).onclick = () => { s.downloads.push({ name: '', desc: '', url: '', kind: '' }); renderDls(); };
   $('#addBanner', view).onclick = () => { s.heroBanners.push({ img: '', title: '새 배너 문구', sub: '', link: '' }); renderBanners(); };
   $$('[data-c]', view).forEach(inp => inp.oninput = () => { s.colors[inp.dataset.c] = inp.value; inp.nextElementSibling.textContent = inp.value; });
   $$('[data-menu]', view).forEach(inp => inp.oninput = () => { s.menus[+inp.dataset.menu].name = inp.value; });

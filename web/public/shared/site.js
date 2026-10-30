@@ -32,7 +32,7 @@ function applySite() {
   $('#brandName').textContent = site.brand;
   $('#logo').src = site.logo || 'assets/logo.jpg';
   $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('')
-    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/flights">항공권</a><a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>`;
+    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/flights">항공권</a><a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>${(site.downloads || []).length ? '<a href="#/download">프로그램 다운로드</a>' : ''}`;
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
@@ -226,6 +226,20 @@ function terms(kind) {
   app.innerHTML = `<div class="wrap page" style="max-width:860px"><h1>${titles[kind] || '약관'}</h1><article class="article">${esc(text)}</article></div>`;
 }
 
+// ---------- 프로그램 다운로드 ----------
+function downloadPage() {
+  const list = (site.downloads || []).filter(d => d.url && /^https:\/\//.test(d.url));
+  const tip = { pc: '설치할 때 "Windows의 PC 보호" 창이 뜨면 <b>추가 정보 → 실행</b>을 누르세요.', android: '설치할 때 "출처를 알 수 없는 앱" 안내가 뜨면 <b>설정 → 이 출처 허용</b>을 켜고 다시 설치하세요.' };
+  app.innerHTML = `<div class="wrap page" style="max-width:860px"><h1>프로그램 다운로드</h1>
+    <p class="sub">태일골프에서 만든 프로그램을 내려받을 수 있습니다. 버튼을 누르면 바로 받아집니다.</p>
+    ${list.map(d => `<div class="card" style="padding:20px;margin:14px 0;border:1px solid var(--line);border-radius:14px">
+      <h2 style="margin:0 0 6px;font-size:19px">${esc(d.name)}</h2>
+      ${d.desc ? `<p style="margin:0 0 10px">${esc(d.desc)}</p>` : ''}
+      ${tip[d.kind] ? `<p class="muted" style="margin:0 0 12px;font-size:14px">${tip[d.kind]}</p>` : ''}
+      <a class="btn primary" href="${esc(d.url)}" rel="noopener" download>내려받기</a></div>`).join('') || '<div class="empty">아직 올린 프로그램이 없습니다.</div>'}
+  </div>`;
+}
+
 // ---------- 견적 문의 ----------
 function inquiryPage(preType) {
   const type = INQUIRY_TYPES.includes(decodeURIComponent(preType || '')) ? decodeURIComponent(preType) : '골프여행';
@@ -276,6 +290,7 @@ async function route() {
     else if (a === 'notice') await notices(b);
     else if (a === 'terms') terms(b);
     else if (a === 'inquiry') inquiryPage(b);
+    else if (a === 'download') downloadPage();
     else if (a === 'flights') await flightsPage(b, { app, me, site, toast });
     else app.innerHTML = '<div class="empty" style="margin:48px 16px">페이지를 찾을 수 없습니다. <a href="#/" class="btn">홈으로</a></div>';
   } catch (e) {

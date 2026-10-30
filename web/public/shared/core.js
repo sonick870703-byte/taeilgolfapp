@@ -54,6 +54,11 @@ export const DEFAULT_SETTINGS = {
     travel: '',
     cancel: '',
   },
+  // 홈페이지 '프로그램 다운로드' (#/download). 큰 설치 파일은 GitHub에 두고 주소만 겁니다.
+  downloads: [
+    { name: '태일골프 골프 지구본 · PC (윈도우)', desc: '윈도우 10/11 PC에 설치합니다. 설치 후에는 새 버전이 나오면 자동으로 업데이트됩니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/installer/Taeilgolf_Setup_v1421.exe', kind: 'pc' },
+    { name: '태일골프 골프 지구본 · 안드로이드 휴대폰', desc: '안드로이드 휴대폰에서 눌러 받은 뒤 설치합니다. 설치 후에는 앱이 스스로 새 내용을 받습니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/android/TaeilGolfGlobe-android.apk', kind: 'android' },
+  ],
   domains: [],
   dnsTarget: { a: '', cname: '' },
 };
@@ -796,7 +801,7 @@ export function createApi(store, deps) {
   on('GET', '/api/erp/settings', async () => settings(), STAFF);
   on('PUT', '/api/erp/settings', async ({ body }) => {
     const cur = await settings();
-    const allowed = ['companyName', 'companyNameEn', 'brand', 'tagline', 'logo', 'colors', 'heroBanners', 'menus', 'bizNo', 'ceo', 'tel', 'tel2', 'email', 'address', 'hours', 'bank', 'kakaoUrl', 'sns', 'terms', 'domains', 'dnsTarget', 'travelRegNo', 'mailOrderNo'];
+    const allowed = ['companyName', 'companyNameEn', 'brand', 'tagline', 'logo', 'colors', 'heroBanners', 'menus', 'bizNo', 'ceo', 'tel', 'tel2', 'email', 'address', 'hours', 'bank', 'kakaoUrl', 'sns', 'terms', 'domains', 'dnsTarget', 'travelRegNo', 'mailOrderNo', 'downloads'];
     const next = { ...cur, ...pick(body, allowed), id: 'site' };
     await store.put('settings', next);
     return next;
