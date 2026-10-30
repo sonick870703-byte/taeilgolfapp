@@ -66,7 +66,7 @@ function init(env) {
   return ready;
 }
 
-const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
+const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'X-Taeil-Server': 'cloudflare' } });
 
 async function erpHosts(env, store) {
   const s = await store.get('settings', 'site');
@@ -95,7 +95,7 @@ export default {
         if (!/^[\w.-]+$/.test(name)) return new Response('없는 파일입니다.', { status: 404 });
         const { value, metadata } = await env.UPLOADS.getWithMetadata(name, 'arrayBuffer');
         if (!value) return new Response('없는 파일입니다.', { status: 404, headers: { 'Cache-Control': 'no-store' } });
-        return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'application/octet-stream', 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff' } });
+        return new Response(value, { headers: { 'Content-Type': (metadata && metadata.type) || 'application/octet-stream', 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff', 'X-Taeil-Server': 'cloudflare' } });
       }
       // erp 주소로 들어오면 ERP 화면
       let p = url.pathname;

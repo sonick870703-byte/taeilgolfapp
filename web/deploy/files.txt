@@ -1,3 +1,4 @@
+deploy/export-cloud.mjs
 package.json
 public/assets/logo.jpg
 public/assets/product-template.xlsx
@@ -38,3 +39,5 @@ public/vendor/tesseract/tesseract-core-simd-lstm.wasm.js
 public/vendor/tesseract/tesseract.min.js
 public/vendor/tesseract/worker.min.js
 server.js
+worker/index.js
+wrangler.template.jsonc
