@@ -1,7 +1,7 @@
 // 예약 상세의 "여행자 · 여권" 칸.
 // 여권 사진은 이 브라우저 안에서만 읽고(서버로 보내지 않음), 읽은 글자만 저장합니다.
 // 여권번호는 서버에서 암호화되어 저장되고 화면에는 가린 번호만 보입니다.
-import { api } from '../shared/api.js';
+import { api, isDemo } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
 import { addMonths } from '../shared/core.js';
 import { parseMRZ } from '../shared/mrz.js';
@@ -10,6 +10,8 @@ const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const VENDOR = new URL('../vendor/tesseract/', import.meta.url).href;
+// 미리보기(서버 없음)에서는 글자 데이터(.gz)를 올릴 수 없어 공개 CDN의 같은 파일을 씁니다.
+const DEMO_LANG = 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng@1.0.0/4.0.0_best_int';
 
 // 여권 만료 확인: 대부분의 나라가 입국일 기준 6개월 이상 남아 있어야 합니다.
 function expiryWarn(x, departDate) {
@@ -76,7 +78,7 @@ function loadScript(src) {
 async function getWorker() {
   if (!workerP) workerP = (async () => {
     if (!window.Tesseract) await loadScript(VENDOR + 'tesseract.min.js');
-    const w = await window.Tesseract.createWorker('eng', 1, { workerPath: VENDOR + 'worker.min.js', corePath: VENDOR, langPath: VENDOR, gzip: true });
+    const w = await window.Tesseract.createWorker('eng', 1, { workerPath: VENDOR + 'worker.min.js', corePath: VENDOR, langPath: (await isDemo()) ? DEMO_LANG : VENDOR, gzip: true });
     await w.setParameters({ tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<', tessedit_pageseg_mode: '6' });
     return w;
   })().catch(e => { workerP = null; throw e; });
