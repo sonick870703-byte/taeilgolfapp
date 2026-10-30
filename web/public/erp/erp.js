@@ -3,7 +3,7 @@ import { api, getToken, setToken, isDemo, resetDemo } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
 import { APPROVAL_TYPES, INQUIRY_TYPES, INQUIRY_STATUSES, won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
-import { pagesView } from './pages.js';
+import { pagesView } from './pages.js?v=20261030h';
 import { flightsView } from './flights.js';
 import { travelersHtml, bindTravelers } from './passport.js';
 import { SERVICE_TERMS, PRIVACY_POLICY, CANCEL_POLICY, TRAVEL_TERMS } from '../shared/legal.js';
@@ -940,7 +940,8 @@ async function domain(view) {
   render();
 }
 
-const pageEnv = { toast, imageUploader, getSettings, drawer, closeDrawer, setBarAct: html => { $('#barAct').innerHTML = html; } };
+const pageEnv = { toast, imageUploader, getSettings, drawer, closeDrawer, setBarAct: html => { $('#barAct').innerHTML = html; },
+  async editProduct(id, after) { const p = (await api.get('/api/erp/products')).find(x => x.id === id); if (!p) return toast('상품을 찾을 수 없습니다.'); productEditor(p, after); } };
 
 // ---------- 시작 ----------
 async function start() {

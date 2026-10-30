@@ -41,7 +41,7 @@ function templatePicker(env) {
 }
 
 async function editor(view, id, env) {
-  const [pages, s, products, notices] = await Promise.all([api.get('/api/erp/pages'), env.getSettings(true), api.get('/api/products'), api.get('/api/notices')]);
+  let [pages, s, products, notices] = await Promise.all([api.get('/api/erp/pages'), env.getSettings(true), api.get('/api/products'), api.get('/api/notices')]);
   const pg = structuredClone(pages.find(p => p.id === id));
   if (!pg) { view.innerHTML = '<div class="empty">페이지를 찾을 수 없습니다. <a class="btn" href="#/pages">목록으로</a></div>'; return; }
   const isHome = pg.id === 'home';
@@ -65,7 +65,7 @@ async function editor(view, id, env) {
         <details class="add-more"><summary>다른 블록 더 보기</summary><div class="add-grid">${BLOCK_TYPES.filter(t => !MAIN_ADD.includes(t.type)).map(t => `<button type="button" data-add="${t.type}"><b>${t.name}</b><span>${t.hint}</span></button>`).join('')}</div></details></div>
       <div class="save-bar">${isHome ? '' : '<button class="btn" id="pgDel" style="color:var(--danger);margin-right:auto">페이지 삭제</button>'}<a class="btn" href="../${isHome ? '' : '#/page/' + esc(pg.slug)}" target="_blank">홈페이지에서 보기</a><button class="btn primary" id="pgSave">저장</button></div>
     </div>
-    <div class="pb-preview"><div class="pb-pv-head"><span>미리보기</span><span class="muted">고칠 곳을 누르세요</span></div><div class="pv" id="pv"></div></div>
+    <div class="pb-preview"><div class="pb-pv-head"><span>미리보기</span><span class="muted">고칠 곳을 누르세요 · 상품 카드를 누르면 상품 수정</span></div><div class="pv" id="pv"></div></div>
   </div>`;
 
   const pv = $('#pv', view);
@@ -73,6 +73,10 @@ async function editor(view, id, env) {
   // 미리보기에서 고치고 싶은 곳을 누르면 그 블록이 펼쳐집니다
   pv.addEventListener('click', e => {
     if (e.target.closest('a, button')) e.preventDefault();
+    // 상품 카드를 누르면 그 상품의 수정 창(사진·이름·가격·설명)이 바로 열립니다
+    const card = e.target.closest('a.pcard');
+    const pid = card && /#\/p\/(.+)$/.exec(card.getAttribute('href') || '');
+    if (pid && env.editProduct) return env.editProduct(decodeURIComponent(pid[1]), async () => { products = await api.get('/api/products'); preview(); });
     const hit = e.target.closest('[data-blk]');
     if (!hit) return;
     openK = Number(hit.dataset.blk); renderBlocksEditor();

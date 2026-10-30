@@ -1,6 +1,6 @@
 # 홈페이지 + ERP 자동 업데이트: web/ 이 바뀌면 Cloudflare Workers(taeil-erp)에 바로 올립니다.
 # 필요: GitHub 저장소 Settings › Secrets and variables › Actions 에 CLOUDFLARE_API_TOKEN
-#       (Cloudflare "Edit Cloudflare Workers" 템플릿 + Account · D1 · Edit, Zone tigc.co.kr)
+#       (Cloudflare "Edit Cloudflare Workers" 템플릿 그대로, Account = 회사 계정, Zone = tigc.co.kr)
 name: Deploy homepage + ERP
 
 on:
@@ -39,7 +39,8 @@ jobs:
         run: npm install --no-save --no-fund --no-audit wrangler@4
       - name: Write wrangler.jsonc (D1 · KV 번호는 이름으로 찾음)
         run: |
-          D1=$(npx wrangler d1 list --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const x=JSON.parse(s).find(d=>d.name==='taeil');if(!x)process.exit(1);console.log(x.uuid)})")
+          # D1 번호는 고정 (토큰에 D1 권한이 없어도 되도록)
+          D1=12ddaf9a-f065-492b-b8c6-d5a1ac52d748
           KV=$(npx wrangler kv namespace list | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const x=JSON.parse(s).find(n=>n.title==='UPLOADS'||n.title.endsWith('-UPLOADS'));if(!x)process.exit(1);console.log(x.id)})")
           sed -e "s/__D1_ID__/$D1/" -e "s/__KV_ID__/$KV/" wrangler.template.jsonc > wrangler.jsonc
           echo "D1 $D1 / KV $KV"
