@@ -32,7 +32,7 @@ function applySite() {
   $('#brandName').textContent = site.brand;
   $('#logo').src = site.logo || 'assets/logo.jpg';
   $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('')
-    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/flights">항공권</a><a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>${(site.downloads || []).length ? '<a href="#/download">프로그램 다운로드</a>' : ''}`;
+    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/flights">항공권</a><a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>${(site.downloads || []).length ? '<a href="#/download">다운로드</a>' : ''}`;
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
