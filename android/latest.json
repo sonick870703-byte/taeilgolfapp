@@ -1,9 +1,9 @@
 {
- "version": "1.4.53",
- "file": "www-1.4.53.zip",
- "sha256": "4187ea9aeac89653e5e386359c0953fec561afac11feae707f2ee9f80d2ee36f",
+ "version": "1.4.54",
+ "file": "www-1.4.54.zip",
+ "sha256": "f353825db1331d0ff89b65037629fd80d5551ab039424fc3224089e75206a917",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "자동 업데이트 빠르게: 켜자마자 바로 적용",
- "sig": "iDJWOrux2FuDty/WFMt+syRYhQ/ByqNAhdNwnHCWq+woGozji5yDlWOoonzEFT6q9ilL5Ab+z4hxljjsvaEvrrQ9OzeSxfwwedGQt/ukca8QtRGdWGeH4ZdLlMgoDcqKf7XiJA9kRx6nEizKIPvCa6btIjOi9iA16hQt7QxS0MHitLI/MZbG31IuV+1x3mGmwTt/ozIqvNrLDhrxdK+VTlYt3Cs3VS2gDlz1Lwyz6Mge8fWMmu/vBbKgYARLcXkLsFUnMFjj46OlP1pAu8SqMNxiJlQVhQiASF5SCz2o+yoL+xD/iE9b0NSRJpYKnIUyWW019NbPtvAAgmDQ/zwGDQ=="
+ "notes": "새 기능: 🗺 파타야 지도 (수완나품 공항·차층사오·파타야와 골프장 27곳, 거리·시간)",
+ "sig": "ldYeIyvjbYFFMjwCP3oYq+Hf44hrCs9SLx6sRvIP29K0tMq5feSeHcGcW+8KYjSFmGU+K8HulmHzH+nMmDjIloADuXPbKT9j/3qKpXEhi/4IpZNOpGWRRuoCyNFfauosWf+zgdfONo8yADzyM0k1FBOZY0BWP1gXd+HPvNvkuhnfJzzt0qZUWfeATWHjI7iuQX7TEp+UbALlhKNMKuC+EV04nQ2kGu9+GZ1SWYVncrAHMvZm1w/A+ODauiLiyji6hZlfcUayRxwsR2TRBg4r2i++KVUyxudpZK3CtExG1n89QJI4IGkbbq+ihH9fyIbtgsQc+s/Dg6Yl7vpI4rtE7g=="
 }
