@@ -58,12 +58,17 @@ call "$envFile"
 cd /d "$App"
 start "" /b "$Node" server.js > "$Root\server.log" 2>&1
 if exist "$Root\tunnel.log" del "$Root\tunnel.log"
+if exist "$Root\tunnel-token.txt" goto token
 if exist "$Root\config.yml" goto fixed
 start "" /b powershell -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "$Root\addr.ps1"
 "$Cf" tunnel --no-autoupdate --url http://localhost:$Port --logfile "$Root\tunnel.log"
 goto :eof
 :fixed
 "$Cf" tunnel --no-autoupdate --config "$Root\config.yml" --logfile "$Root\tunnel.log" run
+goto :eof
+:token
+set /p TUNNEL_TOKEN=<"$Root\tunnel-token.txt"
+"$Cf" tunnel --no-autoupdate --logfile "$Root\tunnel.log" run
 "@
 Set-Content "$Root\start-hidden.vbs" -Encoding ASCII -Value "CreateObject(""WScript.Shell"").Run """"""$Root\start.cmd"""""", 0, False"
 # 터널이 새 주소를 받으면 접속주소.txt 에 적어 둠 (PC를 켤 때마다 주소가 바뀜)
@@ -84,7 +89,7 @@ $trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
 $set     = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit ([TimeSpan]::Zero)
 Register-ScheduledTask -TaskName 'TaeilERP' -Action $action -Trigger $trigger -Settings $set -Force | Out-Null
 Remove-Item "$Root\tunnel.log" -Force -ErrorAction SilentlyContinue
-if (-not (Test-Path "$Root\config.yml")) { Remove-Item "$Root\접속주소.txt" -Force -ErrorAction SilentlyContinue }
+if (-not (Test-Path "$Root\config.yml") -and -not (Test-Path "$Root\tunnel-token.txt")) { Remove-Item "$Root\접속주소.txt" -Force -ErrorAction SilentlyContinue }
 Start-Process wscript.exe "`"$Root\start-hidden.vbs`""
 
 # 바탕 화면에 업데이트 바로가기 (다음부터는 이것만 더블클릭)
