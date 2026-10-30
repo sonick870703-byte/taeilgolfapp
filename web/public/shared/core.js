@@ -220,6 +220,8 @@ const str = (v, max = 2000) => (v == null ? '' : String(v)).slice(0, max).trim()
 export function createApi(store, deps) {
   const now = () => deps.now();
   const today = () => todayKST(now());
+  // 새 비밀번호는 deps.saltPrefix(서버마다 다른 암호화 강도 표시)를 붙인 salt로 저장합니다
+  const newSalt = () => (deps.saltPrefix || '') + deps.randomId(16);
 
   async function settings() {
     const s = await store.get('settings', 'site');
@@ -373,7 +375,7 @@ export function createApi(store, deps) {
     if (!body.agreeTerms || !body.agreePrivacy) throw err(400, '이용약관과 개인정보 수집·이용에 동의해 주세요.');
     const exists = (await store.all('users')).find(u => u.email === email);
     if (exists) throw err(409, '이미 가입된 이메일입니다. 로그인해 주세요.');
-    const salt = deps.randomId(16);
+    const salt = newSalt();
     const u = { id: 'u_' + deps.randomId(12), email, name, phone, role: 'member', salt, hash: await deps.hash(pw, salt), createdAt: now(), marketing: !!body.marketing };
     await store.put('users', u);
     return { token: await newSession(u), user: publicUser(u) };
@@ -381,7 +383,10 @@ export function createApi(store, deps) {
   on('POST', '/api/login', async ({ body }) => {
     const email = str(body.email, 120).toLowerCase();
     const u = (await store.all('users')).find(x => x.email === email);
-    if (!u || u.hash !== await deps.hash(String(body.password || ''), u.salt)) throw err(401, '이메일 또는 비밀번호가 맞지 않습니다.');
+    const pw = String(body.password || '');
+    if (!u || u.hash !== await deps.hash(pw, u.salt)) throw err(401, '이메일 또는 비밀번호가 맞지 않습니다.');
+    // 다른 서버에서 옮겨 온 비밀번호는 이 서버 방식으로 다시 저장
+    if (deps.saltPrefix && !u.salt.startsWith(deps.saltPrefix)) { u.salt = newSalt(); u.hash = await deps.hash(pw, u.salt); await store.put('users', u); }
     return { token: await newSession(u), user: publicUser(u) };
   });
   on('POST', '/api/logout', async ({ token }) => { if (token) await store.del('sessions', token); return { ok: true }; });
@@ -391,7 +396,7 @@ export function createApi(store, deps) {
     if (u.hash !== await deps.hash(String(body.current || ''), u.salt)) throw err(400, '지금 비밀번호가 맞지 않습니다.');
     const pw = String(body.next || '');
     if (pw.length < 8 || !/[0-9]/.test(pw) || !/[a-zA-Z]/.test(pw)) throw err(400, '새 비밀번호는 영문과 숫자를 섞어 8자 이상으로 정해 주세요.');
-    u.salt = deps.randomId(16); u.hash = await deps.hash(pw, u.salt);
+    u.salt = newSalt(); u.hash = await deps.hash(pw, u.salt);
     await store.put('users', u);
     return { ok: true };
   });
@@ -841,7 +846,7 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
   if (!(await store.get('settings', 'site'))) await store.put('settings', { ...DEFAULT_SETTINGS });
   const users = await store.all('users');
   if (adminEmail && !users.some(u => u.email === adminEmail.toLowerCase())) {
-    const salt = deps.randomId(16);
+    const salt = (deps.saltPrefix || '') + deps.randomId(16);
     await store.put('users', { id: 'u_' + deps.randomId(12), email: adminEmail.toLowerCase(), name: '관리자', phone: '', role: 'admin', salt, hash: await deps.hash(adminPassword, salt), createdAt: deps.now() });
   }
   if (!(await store.get('pages', 'home'))) {

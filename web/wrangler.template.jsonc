@@ -1,0 +1,14 @@
+// Cloudflare Workers 설정 틀. deploy/windows-cloud-move.ps1 이 __D1_ID__ / __KV_ID__ 를 채워 wrangler.jsonc 로 저장합니다.
+{
+  "name": "taeil-erp",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "public", "binding": "ASSETS", "run_worker_first": true },
+  "d1_databases": [{ "binding": "DB", "database_name": "taeil", "database_id": "__D1_ID__" }],
+  "kv_namespaces": [{ "binding": "UPLOADS", "id": "__KV_ID__" }],
+  "vars": { "ADMIN_EMAIL": "admin@tigc.co.kr", "ERP_HOSTS": "erp.tigc.co.kr" },
+  "routes": [{ "pattern": "erp.tigc.co.kr/*", "zone_name": "tigc.co.kr" }],
+  "workers_dev": true,
+  "observability": { "enabled": true }
+}

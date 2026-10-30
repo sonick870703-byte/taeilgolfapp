@@ -52,7 +52,8 @@ const deps = {
     return Buffer.concat([d.update(Buffer.from(data, 'base64')), d.final()]).toString('utf8');
   },
   randomId: n => crypto.randomBytes(n).toString('base64url').slice(0, n),
-  hash: (pw, salt) => new Promise((ok, no) => crypto.scrypt(pw, salt, 32, (e, k) => (e ? no(e) : ok(k.toString('hex'))))),
+  // 'w.' 로 시작하는 salt 는 Cloudflare 서버에서 만든 비밀번호 (가벼운 scrypt N=2048)
+  hash: (pw, salt) => new Promise((ok, no) => crypto.scrypt(pw, salt, 32, salt.startsWith('w.') ? { N: 2048 } : {}, (e, k) => (e ? no(e) : ok(k.toString('hex'))))),
   async saveImage(dataUrl, size) {
     const m = /^data:image\/(webp|jpeg|png);base64,(.+)$/.exec(dataUrl || '');
     if (!m) throw Object.assign(new Error('사진 형식을 확인해 주세요.'), { status: 400 });
