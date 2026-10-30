@@ -54,6 +54,7 @@ export function icnRows(items, dir) {
       flight: normFlight(r.flightId), airline: r.airline || '',
       other: String(r.airportCode || '').toUpperCase(), otherName: r.airport || '',
       terminal: { P01: 'T1', P02: 'T1(탑승동)', P03: 'T2' }[r.terminalid] || r.terminalid || '',
+      via: [r.airportCode2, r.airportcode2, r.airportCode3].some(Boolean),
       gate: r.gatenumber || '', counter: dir === 'D' ? (r.chkinrange || '') : (r.exitnumber || ''),
       codeshareOf: /slave/i.test(r.codeshare || '') ? String(r.masterflightid || '').trim() : '',
       status, cls: statusClass(status),

@@ -1,6 +1,6 @@
 // ERP "운항 현황": 공항 출발·도착 실시간 운항표, 우리 고객 편(관심 편명) 표시, 연결 설정
 import { api } from '../shared/api.js';
-import { BOARD_AIRPORTS, boardAirportName, isGolfRoute, normFlight } from '../shared/flight-board.js?v=20261030b';
+import { BOARD_AIRPORTS, boardAirportName, isGolfRoute, normFlight } from '../shared/flight-board.js?v=20261030c';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -10,7 +10,7 @@ const CLS = { ok: 'g', warn: 'o', bad: 'r' };
 const REFRESH = 3 * 60 * 1000;
 
 // 화면을 다시 열어도 고른 값 유지
-const st = { airport: 'ICN', dir: 'D', golf: true, mine: false, q: '' };
+const st = { airport: 'ICN', dir: 'D', mine: false, q: '' };
 let timer = null, curEnv = null;
 
 // env: { toast, setBarAct, me }
@@ -24,7 +24,6 @@ export async function boardView(view, arg, env) {
       <select id="bAp" aria-label="공항">${BOARD_AIRPORTS.map(g => `<optgroup label="${esc(g.group)}">${g.list.map(a => `<option value="${a.code}" ${a.code === st.airport ? 'selected' : ''}>${esc(a.name)} ${a.code}</option>`).join('')}</optgroup>`).join('')}</select>
       <button class="chip ${st.dir === 'D' ? 'on' : ''}" data-dir="D">출발</button>
       <button class="chip ${st.dir === 'A' ? 'on' : ''}" data-dir="A">도착</button>
-      <button class="chip ${st.golf ? 'on' : ''}" id="bGolf">골프 노선만</button>
       <button class="chip ${st.mine ? 'on' : ''}" id="bMine">우리 고객 편만</button>
       <input class="grow" id="bQ" placeholder="편명·항공사·도시 찾기" value="${esc(st.q)}">
       <button class="btn sm" id="bReload">새로고침</button>
@@ -37,7 +36,6 @@ export async function boardView(view, arg, env) {
     </div>`;
   $('#bAp', view).onchange = e => { st.airport = e.target.value; load(view, env); };
   $$('[data-dir]', view).forEach(b => b.onclick = () => { st.dir = b.dataset.dir; $$('[data-dir]', view).forEach(x => x.classList.toggle('on', x === b)); load(view, env); });
-  $('#bGolf', view).onclick = e => { st.golf = !st.golf; e.target.classList.toggle('on', st.golf); draw(view); };
   $('#bMine', view).onclick = e => { st.mine = !st.mine; e.target.classList.toggle('on', st.mine); draw(view); };
   $('#bQ', view).oninput = e => { st.q = e.target.value; draw(view); };
   $('#bReload', view).onclick = () => load(view, env);
@@ -80,10 +78,10 @@ function draw(view) {
   const watch = new Set((d.watch || []).map(normFlight));
   const isMine = r => [r.flight, ...(r.alias || [])].some(f => watch.has(normFlight(f)));
   const q = st.q.trim().toLowerCase();
-  const rows = (d.rows || []).filter(r => (!st.golf || isGolfRoute(d.airport, r.other)) && (!st.mine || isMine(r))
+  const rows = (d.rows || []).filter(r => isGolfRoute(d.airport, r.other) && !r.via && (!st.mine || isMine(r))
     && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, boardAirportName(r.other)].join(' ').toLowerCase().includes(q)));
   const bad = rows.filter(r => r.cls === 'bad').length;
-  info.innerHTML = `${esc(boardAirportName(d.airport))} ${d.dir === 'D' ? '출발' : '도착'} ${rows.length}편${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(boardAirportName(d.airport))} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
+  info.innerHTML = `${esc(boardAirportName(d.airport))} ${d.dir === 'D' ? '출발' : '도착'} 직항 ${rows.length}편 (한국 ↔ 골프 여행지)${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(boardAirportName(d.airport))} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
   list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>예정</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${d.dir === 'D' ? '목적지' : '출발지'}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th></tr></thead><tbody>
     ${rows.map(r => {
       const mine = isMine(r);
