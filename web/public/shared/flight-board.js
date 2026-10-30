@@ -156,13 +156,21 @@ export function registerBoardRoutes({ on, store, deps, now, err, str, roles }) {
 
   const items = j => { const b = (j && j.response && j.response.body) || j || {}; const it = (b.items && (b.items.item || b.items)) || []; return Array.isArray(it) ? it : [it]; };
 
+  // 하루치 전부: 공동운항 편까지 1,000줄이 넘는 날이 있어 totalCount 까지 쪽(page)을 넘기며 받음
   async function icn(c, dir) {
-    const q = 'type=json&lang=K&numOfRows=1000&pageNo=1&from_time=0000&to_time=2400';
-    const j = c.proxyUrl
-      ? await getJson(c.proxyUrl + (c.proxyUrl.includes('?') ? '&' : '?') + 'api=' + (dir === 'D' ? 'dep' : 'arr') + '&' + q)
-      : await getJson(ICN_URL[dir] + '?serviceKey=' + (/%[0-9a-f]{2}/i.test(c.dataKey) ? c.dataKey : encodeURIComponent(c.dataKey)) + '&' + q);  // Encoding 키를 넣어도 됨
-    if (j && j.ok === false) throw err(502, '연결 서버: ' + (j.error || '오류'));
-    return tidy(icnRows(items(j), dir));
+    const all = [];
+    for (let page = 1; page <= 8; page++) {
+      const q = `type=json&lang=K&numOfRows=1000&pageNo=${page}&from_time=0000&to_time=2400`;
+      const j = c.proxyUrl
+        ? await getJson(c.proxyUrl + (c.proxyUrl.includes('?') ? '&' : '?') + 'api=' + (dir === 'D' ? 'dep' : 'arr') + '&' + q)
+        : await getJson(ICN_URL[dir] + '?serviceKey=' + (/%[0-9a-f]{2}/i.test(c.dataKey) ? c.dataKey : encodeURIComponent(c.dataKey)) + '&' + q);  // Encoding 키를 넣어도 됨
+      if (j && j.ok === false) throw err(502, '연결 서버: ' + (j.error || '오류'));
+      const got = items(j).filter(Boolean);
+      all.push(...got);
+      const total = Number(((j && j.response && j.response.body) || (j || {})).totalCount) || 0;
+      if (!got.length || !total || all.length >= total) break;
+    }
+    return tidy(icnRows(all, dir));
   }
 
   // 공항 출발편: 지금부터 2시간 전 ~ 10시간 뒤 (현지 시각 계산 없이 "지금 기준"으로 묻는 주소)
