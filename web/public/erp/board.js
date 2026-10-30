@@ -13,7 +13,7 @@ const todayStr = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 
 const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* 저장 안 돼도 됨 */ } } };
 
 // 고른 노선은 이 PC에 기억 (처음엔 인천 출발, 도착 전체)
-const st = { from: 'ICN', to: '', q: '', airline: '', ...(store.get('taeil.board') || {}) };
+const st = { from: 'ICN', to: '', q: '', airline: '', day: '', ...(store.get('taeil.board') || {}) };
 // 항공사는 편명 앞 2글자(IATA 코드)로 고릅니다. 예전에 이름으로 저장된 값은 비움
 if (!/^[A-Z0-9]{2}$/.test(st.airline || '')) st.airline = '';
 
@@ -24,7 +24,8 @@ const AIRLINES = [
 ];
 const AIRLINE_NAME = Object.fromEntries(AIRLINES.flatMap(g => g[1]));
 const carrier = f => String(f || '').slice(0, 2);
-const ofAirline = (r, code) => [r.flight, ...(r.alias || [])].some(f => carrier(f) === code);
+// 실제로 비행기를 띄우는 항공사(운항사)만 봅니다. 공동운항(남의 편에 붙인 편명)은 넣지 않음
+const ofAirline = (r, code) => carrier(r.flight) === code;
 if (st.from !== 'ICN' && st.to !== 'ICN') { st.from = st.from || 'ICN'; if (st.from !== 'ICN') st.to = 'ICN'; }
 let timer = null, curEnv = null, last = null, prefs = { favs: [], groups: [] };
 
@@ -92,6 +93,7 @@ export async function boardView(view, arg, env) {
       <button class="btn sm" id="bReload">새로고침</button>
     </div>
     <div class="filters" id="bFavs"></div>
+    <div class="filters" id="bDays"></div>
     <div class="filters"><select id="bAir" aria-label="항공사"><option value="">항공사 전체</option></select><input class="grow" id="bQ" placeholder="편명·항공사·도시 찾기" value="${esc(st.q)}"></div>
     <div id="bInfo" class="muted" style="font-size:13px;margin-bottom:10px"></div>
     <div id="bList"><div class="loading">불러오는 중…</div></div>
@@ -172,20 +174,33 @@ function draw(view) {
       ${admin ? ' <a href="#/board/settings" style="text-decoration:underline">연결 설정</a>' : ' 관리자에게 연결 설정을 부탁해 주세요.'}</div></div>`;
     return;
   }
+  // 날짜: 인천공항 자료는 어제·내일 편도 같이 와서, 고른 날(처음엔 오늘)만 봅니다
+  const ymd = todayStr().replace(/-/g, '');
+  const days = [...new Set((d.rows || []).map(r => r.sched.slice(0, 8)).filter(Boolean))].sort();
+  if (!days.includes(st.day)) st.day = days.includes(ymd) ? ymd : (days[0] || ymd);
+  const dayRel = x => { const diff = Math.round((Date.UTC(+x.slice(0, 4), +x.slice(4, 6) - 1, +x.slice(6, 8)) - Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6, 8))) / 864e5); return { '-1': '어제', 0: '오늘', 1: '내일' }[diff] || ''; };
+  const dayEl = $('#bDays', view);
+  if (dayEl) {
+    dayEl.hidden = days.length < 2;
+    dayEl.innerHTML = days.map(x => `<button class="chip ${x === st.day ? 'on' : ''}" data-day="${x}">${+x.slice(4, 6)}/${+x.slice(6, 8)}${dayRel(x) ? ' ' + dayRel(x) : ''}</button>`).join('');
+    $$('[data-day]', dayEl).forEach(b => b.onclick = () => { st.day = b.dataset.day; draw(view); });
+  }
+  const dayRows = (d.rows || []).filter(r => r.sched.startsWith(st.day));
   const watch = watched();
   const mine = r => [r.flight, ...(r.alias || [])].some(f => watch.has(normFlight(f)));
   const q = st.q.trim().toLowerCase();
   // 항공사 고르기: 지금 노선에 있는 항공사만 목록에 (고른 항공사가 이 노선에 없어도 목록엔 남김)
-  const count = code => (d.rows || []).filter(r => ofAirline(r, code)).length;
+  const count = code => dayRows.filter(r => ofAirline(r, code)).length;
   const extra = {};
-  for (const r of d.rows || []) { const c = carrier(r.flight); if (c && !AIRLINE_NAME[c]) extra[c] = r.airline || c; }
+  for (const r of dayRows) { const c = carrier(r.flight); if (c && !AIRLINE_NAME[c]) extra[c] = r.airline || c; }
   const sel = $('#bAir', view);
-  const opt = (code, name) => { const n = count(code); return `<option value="${code}" ${code === st.airline ? 'selected' : ''}>${esc(name)} (${n ? n + '편' : '오늘 없음'})</option>`; };
+  const opt = (code, name) => { const n = count(code); return `<option value="${code}" ${code === st.airline ? 'selected' : ''}>${esc(name)} (${n ? n + '편' : '편 없음'})</option>`; };
   if (sel) sel.innerHTML = `<option value="">항공사 전체</option>${AIRLINES.map(([g, list]) => `<optgroup label="${g}">${list.map(([c, n]) => opt(c, n)).join('')}</optgroup>`).join('')}${Object.keys(extra).length ? `<optgroup label="그 밖">${Object.entries(extra).sort((a, b) => a[1].localeCompare(b[1], 'ko')).map(([c, n]) => opt(c, n)).join('')}</optgroup>` : ''}`;
-  const rows = (d.rows || []).filter(r => (!st.airline || ofAirline(r, st.airline)) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
+  const rows = dayRows.filter(r => (!st.airline || ofAirline(r, st.airline)) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
   const bad = rows.filter(r => r.cls === 'bad').length;
   const otherHead = d.to === 'ICN' && d.from !== 'ICN' ? '출발지' : '도착지';
-  info.innerHTML = `${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
+  const dayTxt = `${+st.day.slice(4, 6)}/${+st.day.slice(6, 8)}${dayRel(st.day) ? ' ' + dayRel(st.day) : ''}`;
+  info.innerHTML = `${dayTxt} · ${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
   list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${esc(d.timeLabel)}</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${otherHead}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th><th></th></tr></thead><tbody>
     ${rows.map((r, i) => `<tr${mine(r) ? ' style="background:#fffbea"' : ''}><td>${hm(r.sched)}</td><td>${r.est && r.est !== r.sched ? `<b>${hm(r.est)}</b>` : ''}</td>
         <td><b>${mine(r) ? '★ ' : ''}${esc(r.flight)}</b>${r.alias && r.alias.length ? `<div class="muted" style="font-size:12px">공동운항 ${esc(r.alias.join(' · '))}</div>` : ''}</td>
@@ -194,10 +209,10 @@ function draw(view) {
         <td class="hide-m">${esc([r.terminal, r.gate && '게이트 ' + r.gate].filter(Boolean).join(' · '))}</td>
         <td>${r.status ? `<span class="badge ${CLS[r.cls] || ''}">${esc(r.status)}</span>` : ''}</td>
         <td><button class="btn sm" data-add="${i}" title="그룹에 넣기">+ 그룹</button></td></tr>`).join('')
-      || `<tr><td colspan="8" class="muted" style="text-align:center;padding:32px">${st.airline ? `오늘 ${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)}의 ` : '이 시간대에 '}${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항편이 없습니다.</td></tr>`}
+      || `<tr><td colspan="8" class="muted" style="text-align:center;padding:32px">${st.airline ? `${dayTxt} ${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)}의 ` : `${dayTxt} `}${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항편이 없습니다.</td></tr>`}
     </tbody></table></div>
     <p class="muted" style="font-size:12px">직항편만 보입니다. 실제 탑승 시각·게이트는 항공사 안내가 우선입니다.</p>`;
-  $$('[data-add]', list).forEach(b => b.onclick = () => { const r = rows[+b.dataset.add]; addDialog(view, { flight: r.flight, ...rowRoute(d, r), date: todayStr() }); });
+  $$('[data-add]', list).forEach(b => b.onclick = () => { const r = rows[+b.dataset.add]; addDialog(view, { flight: r.flight, ...rowRoute(d, r), date: r.sched ? `${r.sched.slice(0, 4)}-${r.sched.slice(4, 6)}-${r.sched.slice(6, 8)}` : todayStr() }); });
 }
 
 // ----- 그룹 -----
@@ -287,7 +302,7 @@ async function groupStatus(view) {
     const cell = $(`[data-g="${CSS.escape(g.id)}"] tr[data-i="${CSS.escape(it.id)}"] [data-live]`, el);
     if (!cell || !it.from || !it.to || (it.date && it.date !== t)) continue;
     const d = (statusCache.get(it.from + '-' + it.to) || {}).d;
-    const r = d && (d.rows || []).find(x => [x.flight, ...(x.alias || [])].some(f => normFlight(f) === normFlight(it.flight)));
+    const r = d && (d.rows || []).find(x => (!it.date || x.sched.startsWith(it.date.replace(/-/g, ''))) && [x.flight, ...(x.alias || [])].some(f => normFlight(f) === normFlight(it.flight)));
     cell.innerHTML = !d ? '<span class="muted">확인 불가</span>' : d.need ? '<span class="muted">키 필요</span>'
       : !r ? '<span class="muted">운항표에 없음</span>'
       : `${hm(r.est || r.sched)} <span class="badge ${CLS[r.cls] || ''}">${esc(r.status || '예정')}</span>`;
