@@ -48,13 +48,13 @@ if (-not (Test-Path $W)) { Fail 'Cloudflare 도구 설치에 실패했습니다.
 
 Step '3/6 Cloudflare 로그인'
 Push-Location $Site
-$who = (& $W whoami 2>&1) -join "`n"
-if ($who -notmatch 'associated with the email|Account ID|account') {
-  Write-Host ' 브라우저가 열리면 Cloudflare(taeilgolf@naver.com)로 로그인하고 "Allow(허용)"을 눌러 주세요.' -ForegroundColor Yellow
-  & $W login | Out-Host
-  $who = (& $W whoami 2>&1) -join "`n"
+$authed = { $o = (& $W whoami 2>&1) -join "`n"; ($o -match 'associated with the email|Account ID') -and ($o -notmatch 'not authenticated|You are not') }
+if (-not (& $authed)) {
+  Write-Host ' 잠시 뒤 브라우저가 열리면 Cloudflare(taeilgolf@naver.com)로 로그인하고 "Allow(허용)"을 눌러 주세요.' -ForegroundColor Yellow
+  Write-Host ' 브라우저가 안 열리면 아래에 나오는 https://dash.cloudflare.com/oauth2/... 주소를 복사해 크롬 주소창에 붙여 넣으세요.'
+  & $W login 2>&1 | Out-Host
 }
-if ($who -match 'not authenticated|You are not') { Pop-Location; Fail 'Cloudflare 로그인이 끝나지 않았습니다. 다시 실행해 주세요.' }
+if (-not (& $authed)) { & $W whoami 2>&1 | Out-Host; Pop-Location; Fail 'Cloudflare 로그인이 끝나지 않았습니다. 다시 실행해 주세요.' }
 Write-Host ' 로그인 확인'
 
 Step '4/6 저장 공간 만들기 (데이터베이스 · 사진)'
@@ -108,7 +108,7 @@ if ($first -and $ok) {
   Set-Content $Moved -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm') 에 Cloudflare로 옮겼습니다. 사무실 PC 서버는 쓰지 않습니다.`r`n예전 데이터 백업: $Data"
   # 바탕화면 '태일ERP 업데이트' 를 Cloudflare 업데이트로 바꿈
   $upd = "$Root\update.cmd"
-  Set-Content $upd -Encoding ASCII -Value "@echo off`r`nchcp 65001 >nul`r`npowershell -NoProfile -ExecutionPolicy Bypass -Command `"[Console]::OutputEncoding=[Text.Encoding]::UTF8; irm 'https://raw.githubusercontent.com/$Repo/$Branch/web/deploy/windows-cloud.ps1' | iex`"`r`npause"
+  Set-Content $upd -Encoding ASCII -Value "@echo off`r`nchcp 65001 >nul`r`npowershell -NoProfile -ExecutionPolicy Bypass -Command `"[Console]::OutputEncoding=[Text.Encoding]::UTF8; irm -Headers @{Accept='application/vnd.github.raw'; 'User-Agent'='taeil'} 'https://api.github.com/repos/$Repo/contents/web/deploy/windows-cloud.ps1?ref=$Branch' | iex`"`r`npause"
 }
 
 Write-Host ""
