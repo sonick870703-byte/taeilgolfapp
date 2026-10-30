@@ -56,7 +56,7 @@ export const DEFAULT_SETTINGS = {
   },
   // 홈페이지 '프로그램 다운로드' (#/download). 큰 설치 파일은 GitHub에 두고 주소만 겁니다.
   downloads: [
-    { name: '태일골프 골프 지구본 · PC (윈도우)', desc: '윈도우 10/11 PC에 설치합니다. 설치 후에는 새 버전이 나오면 자동으로 업데이트됩니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/installer/Taeilgolf_Setup_v1421.exe', kind: 'pc' },
+    { name: '태일골프 골프 지구본 · PC (윈도우)', desc: '윈도우 10/11 PC에 설치합니다. 설치 후에는 새 버전이 나오면 자동으로 업데이트됩니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/installer/Taeilgolf_Setup.exe', kind: 'pc' },
     { name: '태일골프 골프 지구본 · 안드로이드 휴대폰', desc: '안드로이드 휴대폰에서 눌러 받은 뒤 설치합니다. 설치 후에는 앱이 스스로 새 내용을 받습니다.', url: 'https://github.com/sonick870703-byte/taeilgolfapp/raw/main/android/TaeilGolfGlobe-android.apk', kind: 'android' },
   ],
   // 구글 스프레드시트에 사본 저장 (Apps Script 웹 앱 주소). /api/site 로는 내보내지 않습니다.
@@ -232,7 +232,10 @@ export function createApi(store, deps) {
 
   async function settings() {
     const s = await store.get('settings', 'site');
-    return { ...DEFAULT_SETTINGS, ...(s || {}) };
+    const out = { ...DEFAULT_SETTINGS, ...(s || {}) };
+    // 예전에 저장된 PC 설치 파일 주소(v1421)는 늘 최신인 고정 이름으로 바꿔 보여 줍니다
+    if (Array.isArray(out.downloads)) out.downloads = out.downloads.map(d => d && typeof d.url === 'string' ? { ...d, url: d.url.replace('installer/Taeilgolf_Setup_v1421.exe', 'installer/Taeilgolf_Setup.exe') } : d);
+    return out;
   }
 
   // ----- 구글 스프레드시트 사본 (비밀번호·여권번호는 보내지 않음) -----
