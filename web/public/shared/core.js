@@ -536,10 +536,75 @@ export function createApi(store, deps) {
     return a;
   }, STAFF);
 
+  // ----- 회사 메일함 (@tigc.co.kr → Cloudflare 메일 받기 → ERP). 본문·첨부는 따로 보관(deps.blob*)하고 여기엔 목록 정보만 -----
+  const mailMeta = m => ({ id: m.id, at: m.at, folder: m.folder, read: !!m.read, from: m.from, to: m.to, subject: m.subject, snippet: m.snippet, atts: (m.atts || []).length, replied: !!m.replied, by: m.by || '' });
+  async function mailConfig() { return (await store.get('config', 'mail')) || { id: 'mail', resendKey: '', from: '', fromName: '' }; }
+  on('GET', '/api/erp/mails', async ({ query }) => {
+    const folder = ['inbox', 'sent', 'trash'].includes(query.folder) ? query.folder : 'inbox';
+    const q = str(query.q, 60).toLowerCase();
+    return (await store.all('mails')).filter(m => m.folder === folder && (!q || [m.subject, m.from && m.from.address, m.from && m.from.name, m.snippet, (m.to || []).join(' ')].join(' ').toLowerCase().includes(q)))
+      .sort((a, b) => b.at - a.at).slice(0, 300).map(mailMeta);
+  }, STAFF);
+  on('GET', '/api/erp/mails/:id', async ({ params }) => {
+    const m = await store.get('mails', params.id);
+    if (!m) throw err(404, '메일을 찾을 수 없습니다.');
+    if (!m.read) { m.read = true; await store.put('mails', m); }
+    const body = deps.blobGet ? JSON.parse((await deps.blobGet(`mail/${m.id}/body`, 'text')) || '{}') : {};
+    return { ...m, text: body.text || '', html: body.html || '' };
+  }, STAFF);
+  on('PATCH', '/api/erp/mails/:id', async ({ params, body }) => {
+    const m = await store.get('mails', params.id);
+    if (!m) throw err(404, '메일을 찾을 수 없습니다.');
+    if (body.read !== undefined) m.read = !!body.read;
+    if (['inbox', 'trash'].includes(body.folder) && m.folder !== 'sent') m.folder = body.folder;
+    await store.put('mails', m);
+    return mailMeta(m);
+  }, STAFF);
+  on('GET', '/api/erp/mails/:id/att/:n', async ({ params }) => {
+    const m = await store.get('mails', params.id);
+    const a = m && (m.atts || [])[Number(params.n)];
+    if (!a || !deps.blobGet) throw err(404, '첨부 파일을 찾을 수 없습니다.');
+    const buf = await deps.blobGet(a.key, 'arrayBuffer');
+    if (!buf) throw err(404, '첨부 파일을 찾을 수 없습니다.');
+    return { name: a.name, type: a.type, data: deps.toBase64(buf) };
+  }, STAFF);
+  on('POST', '/api/erp/mails/send', async ({ body, user }) => {
+    const cfg = await mailConfig();
+    if (!cfg.resendKey || !cfg.from) throw err(400, '메일 보내기 설정이 아직 안 되어 있습니다. 메일함 › 설정에서 넣어 주세요.');
+    if (!deps.httpFetch) throw err(400, '미리보기에서는 메일을 보낼 수 없습니다.');
+    const to = str(body.to, 300).split(/[,;\s]+/).filter(Boolean);
+    if (!to.length || !to.every(a => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(a))) throw err(400, '받는 사람 메일 주소를 확인해 주세요.');
+    const subject = str(body.subject, 200) || '(제목 없음)';
+    const text = str(body.text, 50000);
+    if (!text) throw err(400, '내용을 입력해 주세요.');
+    const orig = body.replyTo ? await store.get('mails', str(body.replyTo, 40)) : null;
+    const headers = orig && orig.messageId ? { 'In-Reply-To': orig.messageId, References: orig.messageId } : undefined;
+    const r = await deps.httpFetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + cfg.resendKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: cfg.fromName ? `${cfg.fromName} <${cfg.from}>` : cfg.from, to, subject, text, reply_to: cfg.from, headers }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw err(502, '메일을 보내지 못했습니다: ' + (j.message || r.status));
+    const id = 'm_' + deps.randomId(14);
+    const m = { id, at: now(), folder: 'sent', read: true, from: { name: cfg.fromName || '', address: cfg.from }, to, subject, snippet: text.slice(0, 140), atts: [], by: user.name || user.email };
+    if (deps.blobPut) await deps.blobPut(`mail/${id}/body`, JSON.stringify({ text }));
+    await store.put('mails', m);
+    if (orig) { orig.replied = true; await store.put('mails', orig); }
+    return mailMeta(m);
+  }, STAFF);
+  on('GET', '/api/erp/mail-config', async () => { const c = await mailConfig(); return { from: c.from, fromName: c.fromName, hasKey: !!c.resendKey }; }, ADMIN);
+  on('PUT', '/api/erp/mail-config', async ({ body }) => {
+    const c = await mailConfig();
+    const from = str(body.from, 120).toLowerCase();
+    if (from && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(from)) throw err(400, '보내는 주소를 확인해 주세요.');
+    c.from = from; c.fromName = str(body.fromName, 60);
+    if (body.resendKey) c.resendKey = str(body.resendKey, 200);
+    await store.put('config', c);
+    return { from: c.from, fromName: c.fromName, hasKey: !!c.resendKey };
+  }, ADMIN);
+
   on('GET', '/api/erp/counts', async ({ user }) => {
-    const [bk, inq, chats, v, ap, fl] = await Promise.all([store.all('bookings'), store.all('inquiries'), store.all('chats'), store.get('visits', today()), store.all('approvals'), store.all('flightBookings')]);
+    const [bk, inq, chats, v, ap, fl, mails] = await Promise.all([store.all('bookings'), store.all('inquiries'), store.all('chats'), store.get('visits', today()), store.all('approvals'), store.all('flightBookings'), store.all('mails')]);
     return { approvals: user.role === 'admin' ? ap.filter(a => a.status === '대기').length : 0, waiting: bk.filter(b => b.status === '접수').length, inquiries: inq.filter(q => q.status === '새 문의').length,
-      chats: chats.filter(c => !c.closed && c.unread > 0).length, flights: fl.filter(b => ['견적 요청', '결제 완료', '확인 필요'].includes(b.status)).length, visitorsToday: v ? v.ids.length : 0, viewsToday: v ? v.views : 0 };
+      chats: chats.filter(c => !c.closed && c.unread > 0).length, flights: fl.filter(b => ['견적 요청', '결제 완료', '확인 필요'].includes(b.status)).length, visitorsToday: v ? v.ids.length : 0, viewsToday: v ? v.views : 0, mails: mails.filter(m => m.folder === 'inbox' && !m.read).length };
   }, STAFF);
 
   on('GET', '/api/erp/dashboard', async () => {

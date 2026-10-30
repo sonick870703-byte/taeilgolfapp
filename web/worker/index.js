@@ -6,6 +6,7 @@
 // 일반 값 (vars): ADMIN_EMAIL, ERP_HOSTS (예: erp.tigc.co.kr)
 import crypto from 'node:crypto';
 import { createApi, seed } from '../public/shared/core.js';
+import PostalMime from './vendor/postal-mime/postal-mime.js';
 
 function makeStore(db) {
   return {
@@ -41,6 +42,10 @@ function makeDeps(env) {
       d.setAuthTag(Buffer.from(tag, 'base64'));
       return Buffer.concat([d.update(Buffer.from(data, 'base64')), d.final()]).toString('utf8');
     },
+    // 메일 본문·첨부 보관 (KV, 'mail/…' 이름은 /uploads/ 로 공개되지 않음)
+    blobPut: (key, val, type) => env.UPLOADS.put(key, val, type ? { metadata: { type } } : undefined),
+    blobGet: (key, kind) => env.UPLOADS.get(key, kind),
+    toBase64: buf => Buffer.from(buf).toString('base64'),
     async saveImage(dataUrl, size) {
       const m = /^data:image\/(webp|jpeg|png);base64,(.+)$/.exec(dataUrl || '');
       if (!m) throw Object.assign(new Error('사진 형식을 확인해 주세요.'), { status: 400 });
@@ -101,7 +106,35 @@ async function erpHosts(env, store) {
   return new Set([...(env.ERP_HOSTS || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean), ...fromSettings]);
 }
 
+// ----- 회사 메일 받기: Cloudflare 메일 라우팅 → 이 Worker → ERP 메일함 -----
+const strip = (h = '') => h.replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+async function receiveMail(message, env) {
+  const { store } = await init(env);
+  const raw = await new Response(message.raw).arrayBuffer();
+  const mail = await PostalMime.parse(raw);
+  const id = 'm_' + crypto.randomBytes(10).toString('hex');
+  const atts = [];
+  for (const [n, a] of (mail.attachments || []).entries()) {
+    const size = a.content ? a.content.byteLength : 0;
+    if (!size || size > 20 * 1024 * 1024 || n >= 20) continue;
+    const key = `mail/${id}/att${n}`;
+    await env.UPLOADS.put(key, a.content, { metadata: { type: a.mimeType || 'application/octet-stream' } });
+    atts.push({ key, name: a.filename || `첨부${n + 1}`, type: a.mimeType || 'application/octet-stream', size });
+  }
+  const text = (mail.text || strip(mail.html)).slice(0, 200000);
+  await env.UPLOADS.put(`mail/${id}/body`, JSON.stringify({ text, html: (mail.html || '').slice(0, 1000000) }));
+  await store.put('mails', { id, at: Date.now(), folder: 'inbox', read: false,
+    from: { name: (mail.from && mail.from.name) || '', address: (mail.from && mail.from.address) || message.from },
+    to: [message.to], subject: (mail.subject || '(제목 없음)').slice(0, 300), snippet: text.replace(/\s+/g, ' ').trim().slice(0, 140), messageId: mail.messageId || '', atts });
+  // 백업 사본 (Cloudflare에서 '확인된 주소'로 등록한 곳만 가능)
+  if (env.MAIL_FORWARD) await message.forward(env.MAIL_FORWARD).catch(e => console.error('forward', e && e.message));
+}
+
 export default {
+  async email(message, env) {
+    try { await receiveMail(message, env); }
+    catch (e) { console.error('mail', e); if (env.MAIL_FORWARD) await message.forward(env.MAIL_FORWARD); else throw e; }
+  },
   async fetch(request, env) {
     const url = new URL(request.url);
     try {

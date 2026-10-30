@@ -4,6 +4,7 @@ import { ask } from '../shared/ask.js';
 import { APPROVAL_TYPES, INQUIRY_TYPES, INQUIRY_STATUSES, won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js?v=20261030h';
+import { mailView } from './mail.js?v=20261030i';
 import { flightsView } from './flights.js';
 import { travelersHtml, bindTravelers } from './passport.js';
 import { SERVICE_TERMS, PRIVACY_POLICY, CANCEL_POLICY, TRAVEL_TERMS } from '../shared/legal.js';
@@ -63,6 +64,7 @@ const MENU = [
   ['inquiries', '견적 문의', ''],
   ['flights', '항공권', ''],
   ['chats', '1:1 실시간 문의', ''],
+  ['mail', '메일함', ''],
   ['products', '상품 관리', ''],
   ['notices', '공지사항', ''],
   ['members', '회원 · 직원', ''],
@@ -72,13 +74,13 @@ const MENU = [
   ['site', '홈페이지 설정', ''],
   ['domain', '도메인 연결', ''],
 ];
-const TITLES = { flights: '항공권', approvals: '전자결재', inquiries: '견적 문의', chats: '1:1 실시간 문의', pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
+const TITLES = { mail: '메일함', flights: '항공권', approvals: '전자결재', inquiries: '견적 문의', chats: '1:1 실시간 문의', pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
 
 function shell() {
   root.innerHTML = `<div class="shell">
     <aside class="side" id="side">
       <div class="brand"><img src="../assets/logo.jpg" alt=""><span>태일골프 ERP</span></div>
-      <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${{ bookings: '<span class="cnt" id="waitCnt" hidden></span>', inquiries: '<span class="cnt" id="inqCnt" hidden></span>', flights: '<span class="cnt" id="flCnt" hidden></span>', chats: '<span class="cnt" id="chatCnt" hidden></span>', approvals: '<span class="cnt" id="apCnt" hidden></span>' }[k] || ''}</a>`).join('')}</nav>
+      <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${{ bookings: '<span class="cnt" id="waitCnt" hidden></span>', inquiries: '<span class="cnt" id="inqCnt" hidden></span>', flights: '<span class="cnt" id="flCnt" hidden></span>', chats: '<span class="cnt" id="chatCnt" hidden></span>', mail: '<span class="cnt" id="mailCnt" hidden></span>', approvals: '<span class="cnt" id="apCnt" hidden></span>' }[k] || ''}</a>`).join('')}</nav>
       <div class="who">${esc(me.name)} · ${me.role === 'admin' ? '관리자' : '직원'}<br><a href="../" target="_blank" style="text-decoration:underline">홈페이지 보기</a> · <button id="pwc">비밀번호 바꾸기</button> · <button id="lo">로그아웃</button>
         ${demo ? '<br><button id="rd" style="margin-top:6px">미리보기 처음 상태로</button>' : ''}
         <div style="margin-top:10px;font-size:11px;color:#7f9488;line-height:1.5">${COPYRIGHT}</div></div>
@@ -102,7 +104,7 @@ async function route() {
   const view = $('#view');
   view.innerHTML = '<div class="loading">불러오는 중…</div>';
   try {
-    await ({ dashboard, bookings, inquiries, chats, approvals, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv), flights: (v, a) => flightsView(v, a, { ...pageEnv, me }) }[k] || dashboard)(view, arg);
+    await ({ dashboard, bookings, inquiries, chats, approvals, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv), flights: (v, a) => flightsView(v, a, { ...pageEnv, me }), mail: (v, a) => mailView(v, a, { ...pageEnv, me }) }[k] || dashboard)(view, arg);
   } catch (e) {
     if (e.status === 401) { me = null; return loginView(); }
     view.innerHTML = `<div class="empty">${esc(e.message)}</div>`;
@@ -115,7 +117,7 @@ let lastChatCount = 0;
 async function refreshWaitCount() {
   try {
     const c = await api.get('/api/erp/counts');
-    for (const [id, n] of [['waitCnt', c.waiting], ['inqCnt', c.inquiries], ['chatCnt', c.chats], ['flCnt', c.flights], ['apCnt', c.approvals]]) { const el = $('#' + id); if (el) { el.hidden = !n; el.textContent = n; } }
+    for (const [id, n] of [['waitCnt', c.waiting], ['inqCnt', c.inquiries], ['chatCnt', c.chats], ['flCnt', c.flights], ['apCnt', c.approvals], ['mailCnt', c.mails]]) { const el = $('#' + id); if (el) { el.hidden = !n; el.textContent = n; } }
     if (c.chats > lastChatCount) toast('새 1:1 문의가 왔습니다.');
     lastChatCount = c.chats;
     document.title = (c.chats + c.inquiries ? `(${c.chats + c.inquiries}) ` : '') + '태일골프 ERP';
