@@ -19,7 +19,10 @@ export const DESTINATIONS = [
 const AIRPORT_NAME = Object.fromEntries([...ORIGINS, ...DESTINATIONS.flatMap(g => g.list)].map(a => [a.code, a.name]));
 export const airportName = code => AIRPORT_NAME[code] || code;
 
-export const FLIGHT_DEFAULTS = { markupPerPax: 20000, fxBuffer: 3, autoTicket: false, rates: { USD: 0, EUR: 0, GBP: 0, THB: 0, JPY: 0 } };
+export const FLIGHT_DEFAULTS = { markupPerPax: 20000, fxBuffer: 3, autoTicket: false, rates: { USD: 0, EUR: 0, GBP: 0, THB: 0, JPY: 0 }, partners: [] };
+
+// 제휴 발권처(여행사·발권 대행사)가 보내 준 결제 링크만 받습니다
+export const isPayLink = u => /^https:\/\/[^\s/]+\.[^\s]+$/i.test(u || '');
 
 const DUFFEL = 'https://api.duffel.com';
 const TOSS = 'https://api.tosspayments.com';
@@ -154,7 +157,7 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
   const log = (b, u, action) => { (b.history = b.history || []).push({ at: now(), by: who(u), action }); };
   const pub = b => {
     const { history, duffelOrderId, offerRaw, payment, ...rest } = b;
-    return { ...rest, paid: !!payment, payMethod: payment?.method || '' };
+    return { ...rest, paid: !!payment, payMethod: payment?.method || '' };  // payLink·partnerName 은 고객에게 보임
   };
 
   // ----- 공개 -----
@@ -245,6 +248,7 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
     const b = await store.get('flightBookings', params.id);
     if (!b || b.memberId !== user.id) throw err(404, '예약을 찾을 수 없습니다.');
     if (b.status !== '결제 대기' || !b.price) throw err(400, '지금은 결제할 수 없는 상태입니다.');
+    if (b.payLink) throw err(400, `이 예약은 ${b.partnerName}에서 결제합니다.`);
     if (b.payBy && Date.parse(b.payBy) < now()) throw err(400, '결제 기한이 지났습니다. 다시 검색하거나 상담해 주세요.');
     if (!(http && c.tossClientKey && c.tossSecretKey)) throw err(400, '카드 결제가 아직 연결되지 않았습니다. 계좌 입금이나 카톡 상담으로 안내드립니다.');
     b.orderId = b.no + '-' + deps.randomId(6);
@@ -321,6 +325,7 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
   on('PATCH', '/api/erp/flights/:id', async ({ params, body, user }) => {
     const b = await store.get('flightBookings', params.id);
     if (!b) throw err(404, '예약을 찾을 수 없습니다.');
+    const before = b.status;  // 화면의 상태 칸이 그대로면 자동으로 바뀐 상태를 덮어쓰지 않음
     if (body.price != null && !b.payment) {
       const price = Math.round(Number(body.price));
       if (!(price > 0)) throw err(400, '금액을 확인해 주세요.');
@@ -331,9 +336,19 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
     if (body.payBy != null) b.payBy = str(body.payBy, 30) || null;
     if (body.staffNote != null) b.staffNote = str(body.staffNote, 2000);
     if (body.pnr != null) b.pnr = str(body.pnr, 20);
-    if (body.status && FLIGHT_STATUSES.includes(body.status)) b.status = body.status;
+    if (body.partnerId != null) {
+      const pt = (await cfg()).partners.find(x => x.id === body.partnerId);
+      b.partnerId = pt ? pt.id : ''; b.partnerName = pt ? pt.name : '';
+    }
+    if (body.payLink != null) {
+      const u = str(body.payLink, 500);
+      if (u && !isPayLink(u)) throw err(400, '결제 링크는 https:// 로 시작하는 주소를 넣어 주세요.');
+      if (u && !b.partnerId) throw err(400, '결제 링크를 보낸 발권처를 먼저 골라 주세요.');
+      b.payLink = u;
+    }
+    if (body.status && body.status !== before && FLIGHT_STATUSES.includes(body.status)) b.status = body.status;
     if (body.markPaid && !b.payment) {
-      b.payment = { method: '계좌 입금', amount: b.price, at: now() };
+      b.payment = { method: b.payLink ? `${b.partnerName} 결제` : '계좌 입금', amount: b.price, at: now() };
       if (b.status === '결제 대기') b.status = '결제 완료';
     }
     log(b, user, str(body.logText, 200) || '내용 수정');
@@ -368,13 +383,15 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
     return b;
   }, STAFF);
 
+  on('GET', '/api/erp/flights-partners', async () => (await cfg()).partners, STAFF);
+
   // 연결 설정 (관리자만). 키는 /api/site 로 나가지 않고, 화면에는 가려서 보여 줍니다.
   on('GET', '/api/erp/flights-config', async () => {
     const c = await cfg();
     return {
       duffel: mask(c.duffelToken), duffelMode: keyMode(c.duffelToken, 'duffel_test_', 'duffel_live_'),
       tossClient: mask(c.tossClientKey), tossSecret: c.tossSecretKey ? '저장됨' : '', tossMode: keyMode(c.tossClientKey, 'test_', 'live_'),
-      markupPerPax: c.markupPerPax, fxBuffer: c.fxBuffer, autoTicket: !!c.autoTicket, rates: c.rates, server: !!http,
+      markupPerPax: c.markupPerPax, fxBuffer: c.fxBuffer, autoTicket: !!c.autoTicket, rates: c.rates, partners: c.partners, server: !!http,
     };
   }, ADMIN);
 
@@ -387,6 +404,9 @@ export function registerFlightRoutes({ on, store, deps, now, today, err, str, se
     if (body.markupPerPax != null) s.markupPerPax = Math.max(0, Math.round(Number(body.markupPerPax) || 0));
     if (body.fxBuffer != null) s.fxBuffer = Math.min(20, Math.max(0, Number(body.fxBuffer) || 0));
     if (body.autoTicket != null) s.autoTicket = !!body.autoTicket;
+    if (Array.isArray(body.partners)) s.partners = body.partners.slice(0, 30).map(p => ({
+      id: str(p.id, 20) || deps.randomId(8), name: str(p.name, 40), contact: str(p.contact, 100), memo: str(p.memo, 300),
+    })).filter(p => p.name);
     if (body.rates) s.rates = Object.fromEntries(Object.entries(body.rates).filter(([k]) => /^[A-Z]{3}$/.test(k)).map(([k, v]) => [k, Math.max(0, Number(v) || 0)]));
     s.id = 'flights'; s.updatedBy = who(user); s.updatedAt = now();
     await store.put('secrets', s);

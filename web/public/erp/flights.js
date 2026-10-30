@@ -38,7 +38,7 @@ function sliceText(s) {
 }
 
 async function openFlight(id, env, after) {
-  const b = await api.get('/api/erp/flights/' + id);
+  const [b, partners] = await Promise.all([api.get('/api/erp/flights/' + id), api.get('/api/erp/flights-partners')]);
   const o = b.offer, p = b.payment;
   const canRefund = p && (p.refunded || 0) < p.amount;
   const d = env.drawer(`${b.no} · ${b.name}`, `
@@ -66,6 +66,10 @@ async function openFlight(id, env, after) {
       ${!p ? `<div class="field"><label>판매 금액 (원, 전체 인원 합계)</label><input name="price" inputmode="numeric" value="${b.price || ''}" placeholder="예: 1280000"></div>` : ''}
       ${!o ? `<div class="field"><label>고객에게 보여 줄 항공편 내용</label><textarea name="quoteText" placeholder="예: 타이항공 TG659 10:20 출발 / TG658 23:40 출발, 수하물 23kg">${esc(b.quoteText || '')}</textarea></div>
       <div class="field"><label>결제 기한</label><input name="payBy" type="datetime-local" value="${b.payBy ? esc(new Date(new Date(b.payBy).getTime() + 9 * 3600e3).toISOString().slice(0, 16)) : ''}"></div>` : ''}
+      ${!p ? `<div class="field"><label>발권처 (제휴 여행사)</label><select name="partnerId"><option value="">우리 회사에서 결제 받기 (카드·계좌)</option>${partners.map(x => `<option value="${esc(x.id)}" ${x.id === b.partnerId ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>
+        ${partners.length ? '' : '<div class="muted" style="font-size:13px">관리자가 연결 설정에서 발권처를 추가하면 고를 수 있습니다.</div>'}</div>
+      <div class="field"><label>발권처 결제 링크</label><input name="payLink" value="${esc(b.payLink || '')}" placeholder="https://… (발권처가 보내 준 결제 주소)">
+        <div class="muted" style="font-size:13px">넣으면 고객의 "결제하기"가 이 주소로 열리고 "결제는 발권처에서 진행됩니다"라고 안내됩니다. 결제가 끝났다고 발권처가 알려 주면 "결제 확인"을 눌러 주세요.</div></div>` : ''}
       <div class="field"><label>항공 예약번호 (PNR)</label><input name="pnr" value="${esc(b.pnr || '')}" placeholder="발권처에서 받은 예약번호"></div>
       <div class="field"><label>상태</label><select name="status">${FLIGHT_STATUSES.map(s => `<option ${s === b.status ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
       <div class="field"><label>직원 메모</label><textarea name="staffNote">${esc(b.staffNote || '')}</textarea></div>
@@ -73,7 +77,7 @@ async function openFlight(id, env, after) {
     <div class="sec-title">기록</div>
     <div class="history">${(b.history || []).slice().reverse().map(h => `<div>${fmtDT(h.at)} · ${esc(h.by)} · ${esc(h.action)}</div>`).join('')}</div>`,
     `<button class="btn primary" id="fsave">저장</button>
-     ${b.price && !p ? '<button class="btn" id="fpaid">계좌 입금 확인</button>' : ''}
+     ${b.price && !p ? `<button class="btn" id="fpaid">${b.payLink ? '결제 확인' : '계좌 입금 확인'}</button>` : ''}
      ${o && p && b.status !== '발권 완료' ? '<button class="btn" id="ftk">발권하기</button>' : ''}
      ${canRefund ? `<button class="btn" id="frf">${p.key ? '카드 결제 취소' : '환불 처리'}</button>` : ''}`);
   const done = msg => { env.toast(msg); env.closeDrawer(); after(); };
@@ -81,12 +85,14 @@ async function openFlight(id, env, after) {
     const f = Object.fromEntries(new FormData($('#ff', d)));
     if (f.payBy) f.payBy = new Date(f.payBy + ':00+09:00').toISOString();
     if (f.price === '') delete f.price; else if (f.price != null) f.price = Number(String(f.price).replace(/[^\d]/g, ''));
-    try { await api.patch('/api/erp/flights/' + id, { ...f, logText: f.price && !b.price ? `견적 금액 ${won(f.price)} 안내` : '내용 수정' }); done('저장했습니다.' + (f.price && !b.price ? ' 고객 "내 항공권"에 결제 버튼이 생겼습니다.' : '')); }
+    const logText = f.price && !b.price ? `견적 금액 ${won(f.price)} 안내` : f.payLink && f.payLink !== (b.payLink || '') ? '발권처 결제 링크 넣음' : '내용 수정';
+    try { await api.patch('/api/erp/flights/' + id, { ...f, logText }); done('저장했습니다.' + (f.price && !b.price ? ' 고객 "내 항공권"에 결제 버튼이 생겼습니다.' : '')); }
     catch (e) { env.toast(e.message); }
   };
   if ($('#fpaid', d)) $('#fpaid', d).onclick = async () => {
-    if (!(await ask(`${won(b.price)} 입금을 확인하셨나요?`, '입금 확인'))) return;
-    try { await api.patch('/api/erp/flights/' + id, { markPaid: true, logText: '계좌 입금 확인' }); done('입금 확인했습니다.'); } catch (e) { env.toast(e.message); }
+    const via = b.payLink ? `${b.partnerName}에서 ${won(b.price)} 결제` : `${won(b.price)} 입금`;
+    if (!(await ask(`${via}를 확인하셨나요?`, '확인'))) return;
+    try { await api.patch('/api/erp/flights/' + id, { markPaid: true, logText: via + ' 확인' }); done('결제 확인했습니다.'); } catch (e) { env.toast(e.message); }
   };
   if ($('#ftk', d)) $('#ftk', d).onclick = async () => {
     if (!(await ask('Duffel로 발권합니다. Duffel 잔액에서 항공 요금이 빠져나갑니다. 진행할까요?', '발권하기'))) return;
@@ -120,6 +126,11 @@ async function settingsView(view, env) {
       <div class="field"><label>클라이언트 키 ${c.tossClient ? `<span class="badge ${c.tossMode === '실제' ? 'g' : 'o'}">${esc(c.tossMode)} · ${esc(c.tossClient)}</span>` : '<span class="badge">없음</span>'}</label><input name="tossClientKey" autocomplete="off" placeholder="${c.tossClient ? '바꿀 때만 입력' : 'test_ck_...'}"></div>
       <div class="field"><label>시크릿 키 ${c.tossSecret ? '<span class="badge g">저장됨</span>' : '<span class="badge">없음</span>'}</label><input name="tossSecretKey" type="password" autocomplete="off" placeholder="${c.tossSecret ? '바꿀 때만 입력' : 'test_sk_...'}"></div>
     </div>
+    <div class="card"><h2>제휴 발권처 <small>여행사·발권 대행사</small></h2>
+      <p class="muted" style="margin-top:0">고객이 다른 여행사(발권처) 결제창에서 바로 결제하게 하려면 여기 발권처를 추가하세요. 예약 화면에서 발권처를 고르고 그 회사가 보내 준 결제 링크를 넣으면 됩니다.</p>
+      <div id="ptList">${(c.partners || []).map(ptRow).join('')}</div>
+      <button type="button" class="btn sm" id="ptAdd">+ 발권처 추가</button>
+    </div>
     <div class="card"><h2>판매 금액 계산</h2>
       <p class="muted" style="margin-top:0">고객 금액 = 항공 원가 × 환율 × (1 + 환율 여유) + 1인 수수료 × 인원 (100원 단위 올림). 카드 수수료와 Duffel 수수료(건당 3달러 + 1%, 환전 2%)가 여기서 나옵니다.</p>
       <div class="grid"><div class="field"><label>1인 발권 수수료 (원)</label><input name="markupPerPax" inputmode="numeric" value="${c.markupPerPax}"></div>
@@ -128,11 +139,21 @@ async function settingsView(view, env) {
       <div class="grid">${Object.entries(c.rates).map(([k, v]) => `<div class="field"><label>1 ${k} =</label><input data-rate="${k}" inputmode="decimal" value="${v || ''}" placeholder="자동"></div>`).join('')}</div>
     </div>
     <button class="btn primary" id="csave">저장</button></form>`;
+  $('#ptAdd', view).onclick = () => { $('#ptList', view).insertAdjacentHTML('beforeend', ptRow({})); bindPt(view); $('#ptList .pt-row:last-child [data-f=name]', view).focus(); };
+  bindPt(view);
   $('#cf', view).onsubmit = async e => {
     e.preventDefault();
     const f = new FormData($('#cf', view));
-    const body = { markupPerPax: f.get('markupPerPax'), fxBuffer: f.get('fxBuffer'), autoTicket: f.get('autoTicket') === 'on', rates: Object.fromEntries($$('[data-rate]', view).map(i => [i.dataset.rate, i.value])) };
+    const partners = $$('.pt-row', view).map(r => ({ id: r.dataset.id, name: $('[data-f=name]', r).value, contact: $('[data-f=contact]', r).value, memo: $('[data-f=memo]', r).value }));
+    const body = { partners, markupPerPax: f.get('markupPerPax'), fxBuffer: f.get('fxBuffer'), autoTicket: f.get('autoTicket') === 'on', rates: Object.fromEntries($$('[data-rate]', view).map(i => [i.dataset.rate, i.value])) };
     for (const k of ['duffelToken', 'tossClientKey', 'tossSecretKey']) { const v = String(f.get(k) || '').trim(); if (v === '-') body[k] = ''; else if (v) body[k] = v; }
     try { await api.put('/api/erp/flights-config', body); env.toast('저장했습니다.'); settingsView(view, env); } catch (err) { env.toast(err.message); }
   };
 }
+
+const ptRow = p => `<div class="filters pt-row" data-id="${esc(p.id || '')}">
+  <input data-f="name" value="${esc(p.name || '')}" placeholder="회사 이름" aria-label="발권처 이름">
+  <input data-f="contact" value="${esc(p.contact || '')}" placeholder="담당자·연락처" aria-label="담당자 연락처">
+  <input class="grow" data-f="memo" value="${esc(p.memo || '')}" placeholder="메모 (정산 방식, 수수료 등)" aria-label="메모">
+  <button type="button" class="btn sm" data-del aria-label="발권처 삭제">삭제</button></div>`;
+function bindPt(view) { $$('.pt-row [data-del]', view).forEach(b => b.onclick = () => b.closest('.pt-row').remove()); }

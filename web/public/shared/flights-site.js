@@ -246,12 +246,19 @@ async function myFlights(env) {
         ${b.quoteText ? `<div class="meta" style="white-space:pre-line">${esc(b.quoteText)}</div>` : ''}
         <div class="meta">${b.price ? `결제 금액 <b>${won(b.price)}</b>` : '담당자가 요금을 확인하고 있습니다'}${b.pnr ? ` · 항공 예약번호 <b>${esc(b.pnr)}</b>` : ''}${b.payBy && b.status === '결제 대기' ? ` · 결제 기한 ${esc(new Date(b.payBy).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }))}` : ''}</div></div>
         <div style="text-align:right"><span class="badge ${STATUS_CLS[b.status] || ''}">${esc(b.status)}</span>
-        ${b.status === '결제 대기' && b.price ? `<div style="margin-top:10px"><button class="btn primary sm" data-pay="${esc(b.id)}">결제하기</button></div>` : ''}</div></div>`;
+        ${b.status === '결제 대기' && b.price ? `<div style="margin-top:10px"><button class="btn primary sm" data-pay="${esc(b.id)}">결제하기</button></div>` : ''}</div>
+        ${b.payLink && b.status === '결제 대기' ? `<div class="meta" style="grid-column:1/-1">결제는 태일골프 제휴 발권처 <b>${esc(b.partnerName)}</b>에서 진행됩니다. 결제창의 받는 곳 이름을 확인해 주세요.</div>` : ''}</div>`;
     }).join('') || '<div class="empty">아직 항공권 예약이 없습니다.<br><a class="btn primary" href="#/flights">항공권 검색</a></div>'}</div>
     ${list.some(b => b.status === '결제 대기') ? `<p class="fl-small" style="margin-top:20px">카드 결제가 어려우시면 ${esc(site.bank.name)} ${esc(site.bank.account)} (예금주 ${esc(site.bank.holder)})로 입금해 주세요. 담당자가 확인 후 발권합니다. 항공 요금은 바뀔 수 있어 결제 기한 안에 결제해 주셔야 합니다.</p>` : ''}
   </div>`;
   app.querySelectorAll('[data-pay]').forEach(btn => btn.onclick = async () => {
     btn.disabled = true;
-    try { await pay(list.find(b => b.id === btn.dataset.pay), env); } catch (e) { env.toast(e.message); btn.disabled = false; }
+    const b = list.find(x => x.id === btn.dataset.pay);
+    if (b.payLink) {
+      btn.disabled = false;
+      if (await ask(`${b.partnerName} 결제창으로 이동합니다. 금액 ${won(b.price)}을 확인하고 결제해 주세요. 결제가 끝나면 담당자가 확인 후 발권합니다.`, '결제창 열기')) window.open(b.payLink, '_blank', 'noopener');
+      return;
+    }
+    try { await pay(b, env); } catch (e) { env.toast(e.message); btn.disabled = false; }
   });
 }
