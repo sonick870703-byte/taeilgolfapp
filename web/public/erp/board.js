@@ -13,7 +13,7 @@ const todayStr = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 
 const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* 저장 안 돼도 됨 */ } } };
 
 // 고른 노선은 이 PC에 기억 (처음엔 인천 출발, 도착 전체)
-const st = { from: 'ICN', to: '', q: '', ...(store.get('taeil.board') || {}) };
+const st = { from: 'ICN', to: '', q: '', airline: '', ...(store.get('taeil.board') || {}) };
 if (st.from !== 'ICN' && st.to !== 'ICN') { st.from = st.from || 'ICN'; if (st.from !== 'ICN') st.to = 'ICN'; }
 let timer = null, curEnv = null, last = null, prefs = { favs: [], groups: [] };
 
@@ -81,7 +81,7 @@ export async function boardView(view, arg, env) {
       <button class="btn sm" id="bReload">새로고침</button>
     </div>
     <div class="filters" id="bFavs"></div>
-    <div class="filters"><input class="grow" id="bQ" placeholder="편명·항공사·도시 찾기" value="${esc(st.q)}"></div>
+    <div class="filters"><select id="bAir" aria-label="항공사"><option value="">항공사 전체</option></select><input class="grow" id="bQ" placeholder="편명·항공사·도시 찾기" value="${esc(st.q)}"></div>
     <div id="bInfo" class="muted" style="font-size:13px;margin-bottom:10px"></div>
     <div id="bList"><div class="loading">불러오는 중…</div></div>
     <div class="card" style="margin-top:16px">
@@ -109,6 +109,7 @@ export async function boardView(view, arg, env) {
     try { prefs.favs = (await api.put('/api/erp/board/favs', { favs })).favs; drawFavs(view); } catch (e) { env.toast(e.message); }
   };
   $('#bQ', view).oninput = e => { st.q = e.target.value; draw(view); };
+  $('#bAir', view).onchange = e => { st.airline = e.target.value; save(); draw(view); };
   $('#bReload', view).onclick = () => load(view);
   $('#gNew', view).onclick = async () => { const name = prompt('그룹 이름 (예: 11월 3일 파타야 김OO님 팀)'); if (!name) return; try { prefs.groups.push(await api.post('/api/erp/board/groups', { name })); drawGroups(view); } catch (e) { env.toast(e.message); } };
   drawFavs(view);
@@ -118,7 +119,7 @@ export async function boardView(view, arg, env) {
   timer = setInterval(() => { if (!view.isConnected || !$('#bList', view)) return clearInterval(timer); if (!document.hidden) { load(view, true); groupStatus(view); } }, REFRESH);
 }
 
-function save() { store.set('taeil.board', { from: st.from, to: st.to }); }
+function save() { store.set('taeil.board', { from: st.from, to: st.to, airline: st.airline }); }
 
 function drawFavs(view) {
   const el = $('#bFavs', view), b = $('#bFav', view);
@@ -163,10 +164,14 @@ function draw(view) {
   const watch = watched();
   const mine = r => [r.flight, ...(r.alias || [])].some(f => watch.has(normFlight(f)));
   const q = st.q.trim().toLowerCase();
-  const rows = (d.rows || []).filter(r => !q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q));
+  // 항공사 고르기: 지금 노선에 있는 항공사만 목록에 (고른 항공사가 이 노선에 없어도 목록엔 남김)
+  const airlines = [...new Set((d.rows || []).map(r => r.airline).filter(Boolean).concat(st.airline ? [st.airline] : []))].sort((a, b) => a.localeCompare(b, 'ko'));
+  const sel = $('#bAir', view);
+  if (sel) sel.innerHTML = `<option value="">항공사 전체</option>${airlines.map(a => `<option ${a === st.airline ? 'selected' : ''}>${esc(a)}</option>`).join('')}`;
+  const rows = (d.rows || []).filter(r => (!st.airline || r.airline === st.airline) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
   const bad = rows.filter(r => r.cls === 'bad').length;
   const otherHead = d.to === 'ICN' && d.from !== 'ICN' ? '출발지' : '도착지';
-  info.innerHTML = `${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
+  info.innerHTML = `${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
   list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${esc(d.timeLabel)}</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${otherHead}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th><th></th></tr></thead><tbody>
     ${rows.map((r, i) => `<tr${mine(r) ? ' style="background:#fffbea"' : ''}><td>${hm(r.sched)}</td><td>${r.est && r.est !== r.sched ? `<b>${hm(r.est)}</b>` : ''}</td>
         <td><b>${mine(r) ? '★ ' : ''}${esc(r.flight)}</b>${r.alias && r.alias.length ? `<div class="muted" style="font-size:12px">공동운항 ${esc(r.alias.join(' · '))}</div>` : ''}</td>
