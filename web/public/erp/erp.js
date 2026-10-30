@@ -6,7 +6,7 @@ import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js?v=20261030h';
 import { mailView } from './mail.js?v=20261030j';
 import { flightsView } from './flights.js';
-import { boardView } from './board.js?v=20261030d';
+import { boardView } from './board.js?v=20261030e';
 import { calcView } from './calc.js?v=20261030a';
 import { travelersHtml, bindTravelers } from './passport.js';
 import { SERVICE_TERMS, PRIVACY_POLICY, CANCEL_POLICY, TRAVEL_TERMS } from '../shared/legal.js';

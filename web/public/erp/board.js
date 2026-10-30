@@ -14,6 +14,7 @@ const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } cat
 
 // 고른 노선은 이 PC에 기억 (처음엔 인천 출발, 도착 전체)
 const st = { from: 'ICN', to: '', q: '', ...(store.get('taeil.board') || {}) };
+if (st.from !== 'ICN' && st.to !== 'ICN') { st.from = st.from || 'ICN'; if (st.from !== 'ICN') st.to = 'ICN'; }
 let timer = null, curEnv = null, last = null, prefs = { favs: [], groups: [] };
 
 // ----- 전세계 공항 목록 (OurAirports) -----
@@ -92,7 +93,13 @@ export async function boardView(view, arg, env) {
     const el = $(id, view), code = resolve(el.value);
     if (code === null) { env.toast('공항을 찾지 못했습니다. 영문 3글자 코드(예: BKK)나 도시 이름을 넣어 주세요.'); el.value = apLabel(st[key]); return; }
     if (key === 'from' && !code) { el.value = apLabel(st.from); return; }
-    st[key] = code; el.value = apLabel(code); save(); await load(view);
+    st[key] = code;
+    // 우리 노선은 늘 인천 출발 또는 인천 도착: 한쪽이 인천이 아니면 다른 쪽을 인천으로
+    const other = key === 'from' ? 'to' : 'from';
+    if (code && code !== 'ICN' && st[other] !== 'ICN') { st[other] = 'ICN'; $(other === 'from' ? '#bFrom' : '#bTo', view).value = apLabel('ICN'); }
+    if (code === 'ICN' && st[other] === 'ICN') { st[other] = ''; $(other === 'from' ? '#bFrom' : '#bTo', view).value = ''; }
+    if (!st.from) { st.from = 'ICN'; $('#bFrom', view).value = apLabel('ICN'); }
+    el.value = apLabel(st[key]); save(); await load(view);
   };
   $('#bFrom', view).onchange = () => pick('#bFrom', 'from');
   $('#bTo', view).onchange = () => pick('#bTo', 'to');
@@ -274,17 +281,18 @@ async function settingsView(view, env) {
   view.innerHTML = `
     ${c.server ? '' : '<div class="alerts"><div class="alert warn">미리보기에서는 실제 연결이 되지 않습니다.</div></div>'}
     <form id="bcf">
-    <div class="card"><h2>인천 출발·도착 운항 <small>공공데이터포털 · 무료</small></h2>
+    <div class="card"><h2>인천 출발·도착 운항 <small>공공데이터포털 · 무료 · 이 키 하나면 됩니다</small></h2>
       <p class="muted" style="margin-top:0">출발이나 도착이 인천인 노선(인천→전세계, 전세계→인천)은 이 키 하나로 봅니다. data.go.kr에서 <b>인천국제공항공사_여객편 운항현황(다국어)</b>을 활용신청한 뒤, 마이페이지의 <b>일반 인증키</b>를 넣습니다. 프로그램(지구본)에 쓰던 그 키를 그대로 써도 됩니다.</p>
       <div class="field"><label>공공데이터 인증키 ${c.dataKey ? `<span class="badge g">저장됨 · ${esc(c.dataKey)}</span>` : '<span class="badge">없음</span>'}</label><input name="dataKey" type="password" autocomplete="off" placeholder="${c.dataKey ? '바꿀 때만 입력 (지우려면 - 입력)' : '인증키'}"></div>
       <div class="field"><label>또는 연결 서버 주소 (구글 Apps Script, 선택)</label><input name="proxyUrl" value="${esc(c.proxyUrl)}" placeholder="https://script.google.com/macros/s/…/exec">
         <div class="muted" style="font-size:13px">인증키로 직접 연결이 안 될 때만 씁니다. 넣으면 이 주소를 먼저 씁니다.</div></div>
     </div>
+    <details ${c.adbKey ? 'open' : ''}><summary class="muted" style="cursor:pointer;margin-bottom:10px">인천을 거치지 않는 노선용 설정 (우리 회사는 쓰지 않음)</summary>
     <div class="card"><h2>인천 밖 노선 <small>AeroDataBox · 선택</small></h2>
       <p class="muted" style="margin-top:0">김해→방콕, 방콕→푸껫처럼 인천을 거치지 않는 노선은 AeroDataBox 키가 있어야 보입니다. RapidAPI(rapidapi.com) 또는 API.Market(api.market)에서 AeroDataBox 무료 요금제를 구독하고 키를 넣으세요. 더 많이 보려면 월 5달러 정도 요금제가 있습니다.</p>
       <div class="field"><label>구독한 곳</label><select name="adbProvider"><option value="rapidapi" ${c.adbProvider !== 'apimarket' ? 'selected' : ''}>RapidAPI</option><option value="apimarket" ${c.adbProvider === 'apimarket' ? 'selected' : ''}>API.Market</option></select></div>
       <div class="field"><label>API 키 ${c.adbKey ? `<span class="badge g">저장됨 · ${esc(c.adbKey)}</span>` : '<span class="badge">없음</span>'}</label><input name="adbKey" type="password" autocomplete="off" placeholder="${c.adbKey ? '바꿀 때만 입력 (지우려면 - 입력)' : 'API 키'}"></div>
-    </div>
+    </div></details>
     <button class="btn primary">저장</button></form>`;
   $('#bcf', view).onsubmit = async e => {
     e.preventDefault();
