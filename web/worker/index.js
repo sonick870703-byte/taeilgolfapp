@@ -45,6 +45,7 @@ function makeDeps(env) {
     // 메일 본문·첨부 보관 (KV, 'mail/…' 이름은 /uploads/ 로 공개되지 않음)
     blobPut: (key, val, type) => env.UPLOADS.put(key, val, type ? { metadata: { type } } : undefined),
     blobGet: (key, kind) => env.UPLOADS.get(key, kind),
+    blobDel: key => env.UPLOADS.delete(key),
     toBase64: buf => Buffer.from(buf).toString('base64'),
     async saveImage(dataUrl, size) {
       const m = /^data:image\/(webp|jpeg|png);base64,(.+)$/.exec(dataUrl || '');

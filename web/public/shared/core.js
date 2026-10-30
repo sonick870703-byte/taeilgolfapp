@@ -561,6 +561,27 @@ export function createApi(store, deps) {
     await store.put('mails', m);
     return mailMeta(m);
   }, STAFF);
+  // 여러 통 한꺼번에: 읽음/안읽음, 휴지통으로, 되살리기, 휴지통에서 영구 삭제(본문·첨부까지)
+  on('POST', '/api/erp/mails/bulk', async ({ body }) => {
+    const ids = Array.isArray(body.ids) ? [...new Set(body.ids.map(i => str(i, 40)).filter(Boolean))].slice(0, 300) : [];
+    const action = str(body.action, 10);
+    if (!ids.length || !['read', 'unread', 'trash', 'restore', 'delete'].includes(action)) throw err(400, '선택한 메일이 없습니다.');
+    let n = 0;
+    for (const id of ids) {
+      const m = await store.get('mails', id);
+      if (!m) continue;
+      if (action === 'read' || action === 'unread') m.read = action === 'read';
+      else if (action === 'trash') { if (m.folder === 'trash') continue; m.prev = m.folder; m.folder = 'trash'; }
+      else if (action === 'restore') { if (m.folder !== 'trash') continue; m.folder = m.prev === 'sent' ? 'sent' : 'inbox'; delete m.prev; }
+      else {
+        if (m.folder !== 'trash') continue;
+        if (deps.blobDel) for (const key of [`mail/${m.id}/body`, ...(m.atts || []).map(a => a.key)]) await deps.blobDel(key).catch(() => {});
+        await store.del('mails', m.id); n++; continue;
+      }
+      await store.put('mails', m); n++;
+    }
+    return { ok: true, count: n };
+  }, STAFF);
   on('GET', '/api/erp/mails/:id/att/:n', async ({ params }) => {
     const m = await store.get('mails', params.id);
     const a = m && (m.atts || [])[Number(params.n)];

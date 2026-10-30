@@ -4,7 +4,7 @@ import { ask } from '../shared/ask.js';
 import { APPROVAL_TYPES, INQUIRY_TYPES, INQUIRY_STATUSES, won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js?v=20261030h';
-import { mailView } from './mail.js?v=20261030i';
+import { mailView } from './mail.js?v=20261030j';
 import { flightsView } from './flights.js';
 import { boardView } from './board.js?v=20261030c';
 import { travelersHtml, bindTravelers } from './passport.js';
