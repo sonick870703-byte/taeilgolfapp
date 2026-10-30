@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS = {
   ceo: '최원정',
   tel: '02-737-6658',
   tel2: '010-6801-9330',
-  email: 'taeilgolf@naver.com',
+  email: 'taeilgolf@tigc.co.kr',
   address: '서울시 종로구 삼봉로 81, 736호 (두산위브파빌리온)',
   hours: '평일 09:00 ~ 18:00',
   bank: { name: '국민은행', holder: '최원정(태일골프커뮤니케이션)', account: '023501-04-292548' },
@@ -234,6 +234,8 @@ export function createApi(store, deps) {
     const s = await store.get('settings', 'site');
     const out = { ...DEFAULT_SETTINGS, ...(s || {}) };
     // 예전에 저장된 PC 설치 파일 주소(v1421)는 늘 최신인 고정 이름으로 바꿔 보여 줍니다
+    // 회사 메일을 tigc.co.kr(Zoho)로 옮김 (2026-10-30)
+    if (out.email === 'taeilgolf@naver.com') out.email = 'taeilgolf@tigc.co.kr';
     if (Array.isArray(out.downloads)) out.downloads = out.downloads.map(d => d && typeof d.url === 'string' ? { ...d, url: d.url.replace('installer/Taeilgolf_Setup_v1421.exe', 'installer/Taeilgolf_Setup.exe') } : d);
     return out;
   }
