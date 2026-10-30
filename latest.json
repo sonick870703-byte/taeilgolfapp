@@ -1,9 +1,9 @@
 {
- "version": "1.4.53",
- "file": "app-1.4.53.asar",
- "sha256": "759710bea941c58a2ab40bc8879673e881f7c432212896411457c60d7f3c4e6f",
+ "version": "1.4.54",
+ "file": "app-1.4.54.asar",
+ "sha256": "a012e802a209c92b2a56957c9ff26604327345c076f4829eae363ccea7b69346",
  "minShell": "",
  "fullUrl": "",
- "notes": "자동 업데이트 빠르게: 켜자마자 바로 적용",
- "sig": "DRTCoTqqM/EifEwpkn5Xyo78n4nqGDc2UWgDVepysU8qq/OU0c5gseYefM3W1M9I9K7CKBtj4+bFgGGdwkkYAA=="
+ "notes": "새 기능: 🗺 파타야 지도 (수완나품 공항·차층사오·파타야와 골프장 27곳, 거리·시간)",
+ "sig": "oibocx/L1AVW8Dxnzpt+g4HuAXbVPc3MnU9TV9vQevhzBHER9OyLsKkutZ4CgF/Gg62Ypqls0kbyHeWaVzP8Cg=="
 }
