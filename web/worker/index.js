@@ -133,7 +133,17 @@ async function receiveMail(message, env) {
 export default {
   async email(message, env) {
     try { await receiveMail(message, env); }
-    catch (e) { console.error('mail', e); if (env.MAIL_FORWARD) await message.forward(env.MAIL_FORWARD); else throw e; }
+    catch (e) {
+      console.error('mail', e);
+      if (env.MAIL_FORWARD) { await message.forward(env.MAIL_FORWARD); return; }
+      // 읽기에 실패해도 메일을 돌려보내지 않고, 메일함에 '열 수 없는 메일'로 남깁니다
+      try {
+        const { store } = await init(env);
+        await store.put('mails', { id: 'm_' + crypto.randomBytes(10).toString('hex'), at: Date.now(), folder: 'inbox', read: false,
+          from: { name: '', address: message.from }, to: [message.to], subject: message.headers.get('subject') || '(제목 없음)',
+          snippet: '메일 내용을 읽지 못했습니다: ' + String(e && e.message || e).slice(0, 100), messageId: '', atts: [] });
+      } catch (e2) { console.error('mail fallback', e2); throw e; }
+    }
   },
   async fetch(request, env) {
     const url = new URL(request.url);
