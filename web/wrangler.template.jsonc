@@ -9,6 +9,6 @@
   "kv_namespaces": [{ "binding": "UPLOADS", "id": "__KV_ID__" }],
   "vars": { "ADMIN_EMAIL": "admin@tigc.co.kr", "ERP_HOSTS": "erp.tigc.co.kr" },
   "routes": [{ "pattern": "erp.tigc.co.kr/*", "zone_name": "tigc.co.kr" }],
-  "workers_dev": true,
+  "workers_dev": false,
   "observability": { "enabled": true }
 }
