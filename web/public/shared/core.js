@@ -3,6 +3,7 @@
 // store: { all(col), get(col,id), put(col,doc), del(col,id) } (모두 async)
 // deps:  { hash(pw,salt), randomId(n), now() }  (+ 서버: httpFetch, 미리보기: demoFlights)
 import { registerFlightRoutes } from './flights.js';
+import { registerBoardRoutes } from './flight-board.js';
 
 export const CATEGORIES = [
   { id: 'unlimited', name: '무제한 골프' },
@@ -978,6 +979,7 @@ export function createApi(store, deps) {
   }
 
   registerFlightRoutes({ on, store, deps, now, today, err, str, settings, roles: { STAFF, MEMBER, ADMIN } });
+  registerBoardRoutes({ on, store, deps, now, err, str, roles: { STAFF, ADMIN } });
 
   return { handle };
 }
