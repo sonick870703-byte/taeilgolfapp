@@ -1,7 +1,7 @@
 // 태일골프 ERP (직원용 관리자 화면)
 import { api, getToken, setToken, isDemo, resetDemo } from '../shared/api.js';
 import { ask } from '../shared/ask.js';
-import { won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
+import { APPROVAL_TYPES, INQUIRY_TYPES, INQUIRY_STATUSES, won, STATUSES, CATEGORIES, PRICE_MARKUP, todayKST, daysBetween, excelRowToProduct, isExampleRow } from '../shared/core.js';
 import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js';
 
@@ -54,21 +54,24 @@ function loginView() {
 const MENU = [
   ['dashboard', '대시보드', '오늘 할 일'],
   ['bookings', '예약 관리', ''],
+  ['inquiries', '견적 문의', ''],
+  ['chats', '1:1 실시간 문의', ''],
   ['products', '상품 관리', ''],
   ['notices', '공지사항', ''],
   ['members', '회원 · 직원', ''],
+  ['approvals', '전자결재', ''],
   ['-', '홈페이지'],
   ['pages', '페이지 만들기', ''],
   ['site', '홈페이지 설정', ''],
   ['domain', '도메인 연결', ''],
 ];
-const TITLES = { pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
+const TITLES = { approvals: '전자결재', inquiries: '견적 문의', chats: '1:1 실시간 문의', pages: '페이지 만들기', dashboard: '대시보드', bookings: '예약 관리', products: '상품 관리', notices: '공지사항', members: '회원 · 직원', site: '홈페이지 설정', domain: '도메인 연결' };
 
 function shell() {
   root.innerHTML = `<div class="shell">
     <aside class="side" id="side">
       <div class="brand"><img src="../assets/logo.jpg" alt=""><span>태일골프 ERP</span></div>
-      <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${k === 'bookings' ? '<span class="cnt" id="waitCnt" hidden></span>' : ''}</a>`).join('')}</nav>
+      <nav id="snav">${MENU.map(([k, n]) => k === '-' ? `<div class="grp">${n}</div>` : `<a href="#/${k}" data-k="${k}">${n}${{ bookings: '<span class="cnt" id="waitCnt" hidden></span>', inquiries: '<span class="cnt" id="inqCnt" hidden></span>', chats: '<span class="cnt" id="chatCnt" hidden></span>', approvals: '<span class="cnt" id="apCnt" hidden></span>' }[k] || ''}</a>`).join('')}</nav>
       <div class="who">${esc(me.name)} · ${me.role === 'admin' ? '관리자' : '직원'}<br><a href="../" target="_blank" style="text-decoration:underline">홈페이지 보기</a> · <button id="pwc">비밀번호 바꾸기</button> · <button id="lo">로그아웃</button>
         ${demo ? '<br><button id="rd" style="margin-top:6px">미리보기 처음 상태로</button>' : ''}</div>
     </aside>
@@ -91,7 +94,7 @@ async function route() {
   const view = $('#view');
   view.innerHTML = '<div class="loading">불러오는 중…</div>';
   try {
-    await ({ dashboard, bookings, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv) }[k] || dashboard)(view, arg);
+    await ({ dashboard, bookings, inquiries, chats, approvals, products, notices, members, site: siteSettings, domain, pages: (v, a) => pagesView(v, a, pageEnv) }[k] || dashboard)(view, arg);
   } catch (e) {
     if (e.status === 401) { me = null; return loginView(); }
     view.innerHTML = `<div class="empty">${esc(e.message)}</div>`;
@@ -99,13 +102,18 @@ async function route() {
   refreshWaitCount();
 }
 
+// 메뉴 옆 숫자(접수 대기, 새 견적 문의, 답장 필요한 1:1 문의). 30초마다 자동으로 새로 셉니다.
+let lastChatCount = 0;
 async function refreshWaitCount() {
   try {
-    const list = await api.get('/api/erp/bookings?status=' + encodeURIComponent('접수'));
-    const c = $('#waitCnt'); if (!c) return;
-    c.hidden = !list.length; c.textContent = list.length;
+    const c = await api.get('/api/erp/counts');
+    for (const [id, n] of [['waitCnt', c.waiting], ['inqCnt', c.inquiries], ['chatCnt', c.chats], ['apCnt', c.approvals]]) { const el = $('#' + id); if (el) { el.hidden = !n; el.textContent = n; } }
+    if (c.chats > lastChatCount) toast('새 1:1 문의가 왔습니다.');
+    lastChatCount = c.chats;
+    document.title = (c.chats + c.inquiries ? `(${c.chats + c.inquiries}) ` : '') + '태일골프 ERP';
   } catch { /* 무시 */ }
 }
+setInterval(() => { if (me) refreshWaitCount(); }, 30000);
 
 // ---------- 대시보드 ----------
 async function dashboard(view) {
@@ -113,6 +121,8 @@ async function dashboard(view) {
   const c = d.counts;
   view.innerHTML = `
     <div class="kpis">
+      <div class="kpi"><span>오늘 방문자</span><b>${c.visitorsToday}명</b><small class="muted">페이지 조회 ${c.viewsToday}회</small></div>
+      <div class="kpi"><span>새 문의 (견적 · 1:1)</span><b style="color:${c.newInquiries + c.openChats ? 'var(--accent)' : 'inherit'}">${c.newInquiries + c.openChats}건</b></div>
       <div class="kpi"><span>오늘 들어온 예약</span><b>${c.newToday}건</b></div>
       <div class="kpi"><span>확인 대기 (접수)</span><b style="color:${c.waiting ? 'var(--accent)' : 'inherit'}">${c.waiting}건</b></div>
       <div class="kpi"><span>이번 달 출발</span><b>${c.departingThisMonth}건</b></div>
@@ -120,7 +130,7 @@ async function dashboard(view) {
     </div>
     <div class="cols2">
       <div class="card"><h2>오늘 할 일 <small>자동으로 정리됩니다</small></h2>
-        <div class="alerts">${d.alerts.map(a => `<div class="alert" data-id="${esc(a.bookingId)}"><span class="dot ${a.level}"></span><div class="t">${esc(a.text)}<small>${esc(a.no)} · ${esc(a.name)} · ${esc(a.product)}</small></div><span class="muted">›</span></div>`).join('') || '<div class="muted">처리할 일이 없습니다.</div>'}</div></div>
+        <div class="alerts">${d.alerts.map(a => `<div class="alert" ${a.inquiryId ? `data-inq="${esc(a.inquiryId)}"` : a.chatId ? `data-chat="${esc(a.chatId)}"` : `data-id="${esc(a.bookingId)}"`}><span class="dot ${a.level}"></span><div class="t">${esc(a.text)}<small>${esc(a.no)} · ${esc(a.name)} · ${esc(a.product)}</small></div><span class="muted">›</span></div>`).join('') || '<div class="muted">처리할 일이 없습니다.</div>'}</div></div>
       <div class="card"><h2>다가오는 출발</h2>
         <table class="tbl"><tbody>${d.upcoming.map(b => `<tr class="click" data-id="${esc(b.id)}"><td style="white-space:nowrap">${esc(b.departDate)}<div class="muted" style="font-size:12px">D-${daysBetween(d.today, b.departDate)}</div></td><td>${esc(b.name)} · ${b.pax}명<div class="muted" style="font-size:12px">${esc(b.productTitle)}</div></td><td>${badge(b.status)}</td></tr>`).join('') || '<tr><td class="muted">예정된 출발이 없습니다.</td></tr>'}</tbody></table></div>
     </div>
@@ -128,6 +138,131 @@ async function dashboard(view) {
       <div class="tbl-wrap" style="border:0"><table class="tbl"><thead><tr><th>출발월</th><th class="num">예약</th><th class="num">인원</th><th class="num">매출</th><th class="num">입금</th><th class="num">미수</th></tr></thead>
       <tbody>${d.monthly.map(m => `<tr><td>${esc(m.month)}</td><td class="num">${m.count}건</td><td class="num">${m.pax}명</td><td class="num">${won(m.sales)}</td><td class="num">${won(m.paid)}</td><td class="num">${won(m.sales - m.paid)}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">아직 데이터가 없습니다.</td></tr>'}</tbody></table></div></div>`;
   $$('[data-id]', view).forEach(el => el.onclick = () => openBooking(el.dataset.id, () => dashboard(view)));
+  $$('[data-inq]', view).forEach(el => el.onclick = () => { location.hash = '#/inquiries/' + el.dataset.inq; });
+  $$('[data-chat]', view).forEach(el => el.onclick = () => { location.hash = '#/chats/' + el.dataset.chat; });
+  const max = Math.max(1, ...d.visits7.map(v => v.visitors));
+  view.insertAdjacentHTML('beforeend', `<div class="card"><h2>최근 7일 방문자 <small>같은 사람은 하루 1명으로 셉니다</small></h2>
+    <div class="visit-bars">${d.visits7.map(v => `<div class="vb"><b>${v.visitors}</b><i style="height:${Math.round(v.visitors / max * 100)}%"></i><span>${v.date.slice(5).replace('-', '/')}</span></div>`).join('')}</div></div>`);
+}
+
+// ---------- 견적 문의 ----------
+const INQ_CLS = { '새 문의': 'o', '상담 중': 'b', '견적 보냄': 'b', '예약 전환': 'g', '종료': '' };
+async function inquiries(view, openId) {
+  const list = await api.get('/api/erp/inquiries');
+  view.innerHTML = `<p class="muted" style="margin-top:0">홈페이지 "견적 문의"로 들어온 문의입니다. 누르면 내용을 보고, 상태를 바꾸거나 바로 예약으로 등록할 수 있습니다.</p>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>받은 날</th><th>종류</th><th>이름 · 연락처</th><th class="hide-m">희망 내용</th><th>상태</th></tr></thead>
+    <tbody>${list.map(q => `<tr class="click" data-q="${esc(q.id)}"><td style="white-space:nowrap">${fmtDT(q.createdAt)}</td><td>${esc(q.type)}</td><td><b>${esc(q.name)}</b><div class="muted" style="font-size:12px">${esc(q.phone)}</div></td>
+      <td class="hide-m">${esc([q.destination, q.departDate, q.nights ? q.nights + '박' : '', q.pax ? q.pax + '명' : ''].filter(Boolean).join(' · '))}<div class="muted" style="font-size:12px">${esc((q.message || '').slice(0, 40))}</div></td>
+      <td><span class="badge ${INQ_CLS[q.status] || ''}">${esc(q.status)}</span></td></tr>`).join('') || '<tr><td colspan="5" class="muted">아직 들어온 문의가 없습니다.</td></tr>'}</tbody></table></div>`;
+  $$('[data-q]', view).forEach(tr => tr.onclick = () => inquiryDrawer(list.find(q => q.id === tr.dataset.q), () => inquiries(view)));
+  if (openId) { const q = list.find(x => x.id === openId); if (q) inquiryDrawer(q, () => inquiries(view)); }
+}
+
+function inquiryDrawer(q, after) {
+  const tel = q.phone.replace(/[^0-9+]/g, '');
+  const d = drawer(`견적 문의 · ${q.name}`, `
+    <div class="kv"><span>받은 날</span><b>${fmtDT(q.createdAt)}</b><span>종류</span><b>${esc(q.type)}</b><span>연락처</span><b>${esc(q.phone)} ${tel ? `<a class="btn sm" href="tel:${esc(tel)}">전화</a> <a class="btn sm" href="sms:${esc(tel)}">문자</a>` : ''}</b>
+      ${q.email ? `<span>이메일</span><b>${esc(q.email)}</b>` : ''}<span>여행지</span><b>${esc(q.destination || '-')}</b><span>출발 희망일</span><b>${esc(q.departDate || '미정')}</b>
+      <span>일정 · 인원</span><b>${q.nights ? q.nights + '박' : '-'} · ${q.pax ? q.pax + '명' : '-'}</b><span>예산</span><b>${esc(q.budget || '-')}</b></div>
+    ${q.message ? `<div class="card" style="padding:12px 14px;white-space:pre-line;margin:12px 0">${esc(q.message)}</div>` : ''}
+    <div class="field"><label for="iqS">상태</label><select id="iqS">${INQUIRY_STATUSES.map(s => `<option ${s === q.status ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+    <div class="field"><label for="iqM">직원 메모</label><textarea id="iqM" placeholder="상담 내용, 보낸 견적 금액 등">${esc(q.memo || '')}</textarea></div>
+    ${q.bookingId ? `<p class="muted">예약으로 등록됨 · <a href="#/bookings/${esc(q.bookingId)}" style="text-decoration:underline">예약 보기</a></p>` : ''}`,
+    `${me.role === 'admin' ? '<button class="btn" id="iqDel" style="color:var(--danger);margin-right:auto">삭제</button>' : ''}<button class="btn" id="iqBk">예약으로 등록</button><button class="btn primary" id="iqSave">저장</button>`);
+  const save = async (extra = {}) => api.patch('/api/erp/inquiries/' + q.id, { status: $('#iqS', d).value, memo: $('#iqM', d).value, ...extra });
+  $('#iqSave', d).onclick = async () => { try { await save(); toast('저장했습니다.'); closeDrawer(); after(); } catch (e) { toast(e.message); } };
+  $('#iqBk', d).onclick = async () => {
+    await save();
+    newBookingDrawer(after, { departDate: q.departDate, pax: q.pax || 2, nights: q.nights || '', name: q.name, phone: q.phone, note: [q.type, q.destination, q.budget && '예산 ' + q.budget, q.message].filter(Boolean).join(' / ') },
+      async b => { await api.patch('/api/erp/inquiries/' + q.id, { status: '예약 전환', bookingId: b.id }); });
+  };
+  if ($('#iqDel', d)) $('#iqDel', d).onclick = async () => { if (!await ask('이 문의를 삭제할까요?', '삭제')) return; await api.del('/api/erp/inquiries/' + q.id); closeDrawer(); after(); };
+}
+
+// ---------- 전자결재 ----------
+const AP_CLS = { '대기': 'o', '승인': 'g', '반려': 'r', '취소': '' };
+async function approvals(view) {
+  $('#barAct').innerHTML = '<button class="btn primary sm" id="apNew">+ 결재 요청</button>';
+  $('#apNew').onclick = () => approvalNew(() => approvals(view));
+  const list = await api.get('/api/erp/approvals');
+  view.innerHTML = `<p class="muted" style="margin-top:0">직원이 결재를 요청하면 대표(관리자)가 승인하거나 반려합니다. 결재 항목은 아직 정해지지 않아 (임시)로 두었습니다.</p>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>문서 번호</th><th>항목</th><th>제목</th><th class="num">금액</th><th class="hide-m">요청자</th><th>상태</th></tr></thead>
+    <tbody>${list.map(a => `<tr class="click" data-a="${esc(a.id)}"><td style="white-space:nowrap">${esc(a.no)}<div class="muted" style="font-size:12px">${fmtDT(a.createdAt)}</div></td><td>${esc(a.type)}</td><td><b>${esc(a.title)}</b>${a.bookingNo ? `<div class="muted" style="font-size:12px">예약 ${esc(a.bookingNo)}</div>` : ''}</td>
+      <td class="num">${a.amount ? won(a.amount) : '-'}</td><td class="hide-m">${esc(a.requester)}</td><td><span class="badge ${AP_CLS[a.status] || ''}">${esc(a.status)}</span></td></tr>`).join('') || '<tr><td colspan="6" class="muted">결재 문서가 없습니다.</td></tr>'}</tbody></table></div>`;
+  $$('[data-a]', view).forEach(tr => tr.onclick = () => approvalView(list.find(a => a.id === tr.dataset.a), () => approvals(view)));
+}
+
+function approvalNew(after) {
+  const d = drawer('결재 요청', `<form id="apF">
+    <div class="field"><label for="apT">항목</label><select id="apT">${APPROVAL_TYPES.map(t => `<option>${esc(t)}</option>`).join('')}</select></div>
+    <div class="field"><label for="apTi">제목</label><input id="apTi" placeholder="예: 김OO 고객 환불 요청"></div>
+    <div class="grid2"><div class="field"><label for="apAm">금액 (원)</label><input id="apAm" inputmode="numeric" placeholder="없으면 비워 두기"></div>
+    <div class="field"><label for="apBk">관련 예약 번호</label><input id="apBk" placeholder="예: TG20261030-001"></div></div>
+    <div class="field"><label for="apC">내용</label><textarea id="apC" style="min-height:140px" placeholder="이유와 자세한 내용"></textarea></div></form>`,
+    '<button class="btn" id="apN">취소</button><button class="btn primary" id="apY">결재 올리기</button>');
+  $('#apN', d).onclick = closeDrawer;
+  $('#apY', d).onclick = async () => {
+    try { const a = await api.post('/api/erp/approvals', { type: $('#apT', d).value, title: $('#apTi', d).value, amount: $('#apAm', d).value, bookingNo: $('#apBk', d).value, content: $('#apC', d).value });
+      toast(`결재 ${a.no}를 올렸습니다.`); closeDrawer(); after(); refreshWaitCount(); } catch (e) { toast(e.message); }
+  };
+}
+
+function approvalView(a, after) {
+  const canDecide = me.role === 'admin' && a.status === '대기';
+  const canCancel = a.requesterId === me.id && a.status === '대기';
+  const d = drawer(`전자결재 · ${a.no}`, `
+    <div class="kv"><span>항목</span><b>${esc(a.type)}</b><span>제목</span><b>${esc(a.title)}</b><span>금액</span><b>${a.amount ? won(a.amount) : '-'}</b>
+      <span>관련 예약</span><b>${esc(a.bookingNo || '-')}</b><span>요청자</span><b>${esc(a.requester)} · ${fmtDT(a.createdAt)}</b><span>상태</span><b><span class="badge ${AP_CLS[a.status] || ''}">${esc(a.status)}</span>${a.decidedBy ? ` ${esc(a.decidedBy)} · ${fmtDT(a.decidedAt)}` : ''}</b></div>
+    ${a.content ? `<div class="card" style="padding:12px 14px;white-space:pre-line;margin-bottom:12px">${esc(a.content)}</div>` : ''}
+    ${a.comment ? `<p><b>결재 의견:</b> ${esc(a.comment)}</p>` : ''}
+    ${canDecide ? '<div class="field"><label for="apCm">결재 의견 (선택)</label><textarea id="apCm"></textarea></div>' : ''}
+    <h3 style="font-size:14px;margin:16px 0 6px">처리 기록</h3><div class="muted" style="font-size:13px">${a.history.map(h => `${fmtDT(h.at)} · ${esc(h.by)} · ${esc(h.action)}`).join('<br>')}</div>`,
+    (canCancel ? '<button class="btn" id="apCan" style="margin-right:auto">요청 취소</button>' : '') + (canDecide ? '<button class="btn" id="apRej" style="color:var(--danger)">반려</button><button class="btn primary" id="apOk">승인</button>' : ''));
+  const decide = async approve => { try { await api.post(`/api/erp/approvals/${a.id}/decide`, { approve, comment: $('#apCm', d).value }); toast(approve ? '승인했습니다.' : '반려했습니다.'); closeDrawer(); after(); refreshWaitCount(); } catch (e) { toast(e.message); } };
+  if (canDecide) { $('#apOk', d).onclick = () => decide(true); $('#apRej', d).onclick = () => decide(false); }
+  if (canCancel) $('#apCan', d).onclick = async () => { try { await api.post(`/api/erp/approvals/${a.id}/cancel`); toast('요청을 취소했습니다.'); closeDrawer(); after(); } catch (e) { toast(e.message); } };
+}
+
+// ---------- 1:1 실시간 문의 ----------
+let chatTimer = null;
+async function chats(view, openId) {
+  clearInterval(chatTimer);
+  let list = await api.get('/api/erp/chats');
+  let cur = openId || null;
+  view.innerHTML = `<div class="chat-erp"><div class="chat-list" id="cl"></div><div class="chat-pane" id="cp"><div class="empty">왼쪽에서 대화를 고르세요.</div></div></div>`;
+  const drawList = () => {
+    $('#cl', view).innerHTML = list.map(c => { const last = c.messages[c.messages.length - 1] || {};
+      return `<button class="chat-item ${c.id === cur ? 'on' : ''}" data-c="${esc(c.id)}"><b>${esc(c.name)}${c.unread ? ` <span class="cnt">${c.unread}</span>` : ''}</b><span>${esc((last.from === 'staff' ? '나: ' : '') + (last.text || '').slice(0, 30))}</span><small>${fmtDT(c.updatedAt || c.createdAt)}${c.closed ? ' · 끝남' : ''}</small></button>`; }).join('') || '<div class="empty">아직 들어온 대화가 없습니다.</div>';
+    $$('[data-c]', view).forEach(b => b.onclick = () => { cur = b.dataset.c; history.replaceState(null, '', '#/chats/' + cur); drawPane(true); drawList(); });
+  };
+  const drawPane = async (markRead) => {
+    const c = list.find(x => x.id === cur); if (!c) return;
+    if (markRead && c.unread) { Object.assign(c, await api.post('/api/erp/chats/' + c.id, { read: true })); refreshWaitCount(); }
+    const tel = (c.phone || '').replace(/[^0-9+]/g, '');
+    const pane = $('#cp', view);
+    const keep = $('#cpIn', view)?.value || '';
+    pane.innerHTML = `<div class="chat-head"><b>${esc(c.name)}</b><span class="muted">${esc(c.phone || '연락처 없음')}</span>${tel ? `<a class="btn sm" href="tel:${esc(tel)}">전화</a>` : ''}<button class="btn sm" id="cpClose">${c.closed ? '다시 열기' : '대화 끝내기'}</button></div>
+      <div class="chat-msgs" id="cpM">${c.messages.map(m => `<div class="msg ${m.from}"><div>${esc(m.text)}</div><small>${m.from === 'staff' ? esc(m.by || '') + ' · ' : ''}${fmtDT(m.at)}</small></div>`).join('')}</div>
+      <form class="chat-in" id="cpF"><textarea id="cpIn" rows="2" placeholder="답장을 쓰고 Enter (줄바꿈은 Shift+Enter)"></textarea><button class="btn primary">보내기</button></form>`;
+    $('#cpIn', view).value = keep;
+    const m = $('#cpM', view); m.scrollTop = m.scrollHeight;
+    $('#cpIn', view).onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); $('#cpF', view).requestSubmit(); } };
+    $('#cpF', view).onsubmit = async e => {
+      e.preventDefault();
+      const text = $('#cpIn', view).value.trim(); if (!text) return;
+      $('#cpIn', view).value = '';
+      Object.assign(c, await api.post('/api/erp/chats/' + c.id, { text })); drawPane(); drawList();
+    };
+    $('#cpClose', view).onclick = async () => { Object.assign(c, await api.post('/api/erp/chats/' + c.id, { close: !c.closed })); drawPane(); drawList(); };
+  };
+  drawList(); if (cur) drawPane(true);
+  // 화면을 보고 있는 동안 4초마다 새 메시지 확인
+  chatTimer = setInterval(async () => {
+    if (!document.body.contains(view) || !location.hash.startsWith('#/chats')) return clearInterval(chatTimer);
+    const before = JSON.stringify(list.map(c => [c.id, c.messages.length]));
+    list = await api.get('/api/erp/chats').catch(() => list);
+    if (JSON.stringify(list.map(c => [c.id, c.messages.length])) !== before) { drawList(); if (cur) drawPane(true); }
+  }, 4000);
 }
 
 // ---------- 예약 관리 ----------
@@ -280,28 +415,28 @@ async function openBooking(id, after) {
   });
 }
 
-async function newBookingDrawer(after) {
+async function newBookingDrawer(after, pre = {}, onSaved) {
   const products = await api.get('/api/erp/products');
   const d = drawer('전화·카톡 예약 등록', `
     <form id="nb">
       <div class="field"><label>상품</label><select name="productId" required>${products.map(p => `<option value="${esc(p.id)}">${esc(p.title)}</option>`).join('')}</select></div>
       <div class="grid3">
-        <div class="field"><label>출발일</label><input name="departDate" type="date" required></div>
-        <div class="field"><label>박 수</label><input name="nights" type="number" min="0" placeholder="상품 기본값"></div>
-        <div class="field"><label>인원</label><input name="pax" type="number" min="1" value="2"></div>
+        <div class="field"><label>출발일</label><input name="departDate" type="date" required value="${esc(pre.departDate || '')}"></div>
+        <div class="field"><label>박 수</label><input name="nights" type="number" min="0" placeholder="상품 기본값" value="${esc(pre.nights || '')}"></div>
+        <div class="field"><label>인원</label><input name="pax" type="number" min="1" value="${esc(pre.pax || 2)}"></div>
       </div>
       <label class="check"><input type="checkbox" name="single"> 1인 1실</label>
       <div class="grid2">
-        <div class="field"><label>예약자 이름</label><input name="name" required></div>
-        <div class="field"><label>연락처</label><input name="phone"></div>
+        <div class="field"><label>예약자 이름</label><input name="name" required value="${esc(pre.name || '')}"></div>
+        <div class="field"><label>연락처</label><input name="phone" value="${esc(pre.phone || '')}"></div>
       </div>
-      <div class="field"><label>요청사항</label><textarea name="note"></textarea></div>
+      <div class="field"><label>요청사항</label><textarea name="note">${esc(pre.note || '')}</textarea></div>
       <p class="muted" style="font-size:13px">저장하면 금액, 예약금 20%, 잔금 기한(출발 1개월 전), 환불 기한(출발 14일 전)이 자동으로 계산됩니다.</p>
     </form>`, '<button class="btn primary" id="nbSave">예약 등록</button>');
   $('#nbSave', d).onclick = async () => {
     const f = new FormData($('#nb', d));
     const body = Object.fromEntries(f); body.single = !!f.get('single');
-    try { const b = await api.post('/api/erp/bookings', body); toast(`예약 ${b.no} 등록했습니다.`); closeDrawer(); after && after(); openBooking(b.id, after); }
+    try { const b = await api.post('/api/erp/bookings', body); if (onSaved) await onSaved(b); toast(`예약 ${b.no} 등록했습니다.`); closeDrawer(); after && after(); openBooking(b.id, after); }
     catch (err) { toast(err.message); }
   };
 }

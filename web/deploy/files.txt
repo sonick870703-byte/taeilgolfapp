@@ -18,6 +18,7 @@ public/index.html
 public/shared/api.js
 public/shared/ask.js
 public/shared/blocks.js
+public/shared/chat-widget.js
 public/shared/core.js
 public/shared/image.js
 public/shared/legal.js

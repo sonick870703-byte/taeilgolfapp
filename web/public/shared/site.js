@@ -1,7 +1,8 @@
 // 고객용 홈페이지 (tigc.co.kr)
 import { api, getToken, setToken, isDemo, resetDemo } from './api.js';
 import { ask } from './ask.js';
-import { won, todayKST, addDays } from './core.js';
+import { won, todayKST, addDays, INQUIRY_TYPES } from './core.js';
+import { mountChat, countVisit } from './chat-widget.js';
 import { renderBlocks, mountHero, productCard as card, priceHtml } from './blocks.js';
 import { PRIVACY_POLICY, SIGNUP_CONSENT, CANCEL_POLICY, SERVICE_TERMS, TRAVEL_TERMS } from './legal.js';
 
@@ -30,7 +31,7 @@ function applySite() {
   $('#brandName').textContent = site.brand;
   $('#logo').src = site.logo || 'assets/logo.jpg';
   $('#nav').innerHTML = site.menus.filter(m => m.visible !== false).map(m => `<a href="#/c/${m.id}" data-cat="${m.id}">${esc(m.name)}</a>`).join('')
-    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/notice">공지사항</a>`;
+    + (site.pages || []).map(pg => `<a href="#/page/${esc(pg.slug)}">${esc(pg.title)}</a>`).join('') + `<a href="#/inquiry">견적 문의</a><a href="#/notice">공지사항</a>`;
   $('#kakaoFab').href = site.kakaoUrl ? site.kakaoUrl.replace(/\/$/, '') + '/chat' : '#';
   const s = site.sns || {};
   $('#foot').innerHTML = `<div class="wrap">
@@ -224,6 +225,39 @@ function terms(kind) {
   app.innerHTML = `<div class="wrap page" style="max-width:860px"><h1>${titles[kind] || '약관'}</h1><article class="article">${esc(text)}</article></div>`;
 }
 
+// ---------- 견적 문의 ----------
+function inquiryPage(preType) {
+  const type = INQUIRY_TYPES.includes(decodeURIComponent(preType || '')) ? decodeURIComponent(preType) : '골프여행';
+  app.innerHTML = `<div class="narrow" style="max-width:640px">
+    <h1>견적 문의</h1>
+    <p class="sub">원하시는 여행을 적어 주시면 담당자가 견적을 만들어 연락드립니다. 로그인하지 않아도 됩니다.</p>
+    <form id="iqForm" novalidate>
+      <div class="field"><label>어떤 여행인가요?</label><div class="chips">${INQUIRY_TYPES.map(t => `<label class="chip"><input type="radio" name="type" value="${esc(t)}" ${t === type ? 'checked' : ''}><span>${esc(t)}</span></label>`).join('')}</div></div>
+      <div class="row2"><div class="field"><label for="iqDest">가고 싶은 곳</label><input id="iqDest" placeholder="예: 태국 파타야"></div>
+      <div class="field"><label for="iqDate">출발 희망일</label><input id="iqDate" type="date"></div></div>
+      <div class="row2"><div class="field"><label for="iqN">일정 (박)</label><input id="iqN" type="number" min="0" max="100" placeholder="예: 5"></div>
+      <div class="field"><label for="iqP">인원</label><input id="iqP" type="number" min="1" max="200" value="2"></div></div>
+      <div class="field"><label for="iqB">예산 (1인, 선택)</label><input id="iqB" placeholder="예: 150만 원 안팎"></div>
+      <div class="field"><label for="iqMsg">원하시는 점</label><textarea id="iqMsg" placeholder="골프 라운드 수, 숙소, 항공 시간 등 편하게 적어 주세요"></textarea></div>
+      <div class="row2"><div class="field"><label for="iqName">이름</label><input id="iqName" autocomplete="name" value="${esc(me?.name || '')}"></div>
+      <div class="field"><label for="iqPhone">연락처</label><input id="iqPhone" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" value="${esc(me?.phone || '')}"></div></div>
+      <input id="iqWeb" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <label class="check"><input type="checkbox" id="iqAgree"> <span>(필수) 견적 상담을 위해 이름·연락처·여행 희망 내용을 수집하고, 상담이 끝나고 1년 뒤 파기하는 데 동의합니다. 동의하지 않으시면 전화(${esc(site.tel)})나 카카오톡으로 문의하실 수 있습니다.</span></label>
+      <button class="btn primary block" type="submit" id="iqBtn">견적 요청 보내기</button>
+    </form></div>`;
+  $('#iqForm').onsubmit = async e => {
+    e.preventDefault();
+    const v = id => $('#' + id).value.trim();
+    if (!v('iqName') || !v('iqPhone')) { toast('이름과 연락처를 입력해 주세요.'); return; }
+    if (!$('#iqAgree').checked) { toast('개인정보 수집·이용에 동의해 주세요.'); return; }
+    const btn = $('#iqBtn'); btn.disabled = true; btn.textContent = '보내는 중…';
+    try {
+      await api.post('/api/inquiries', { type: app.querySelector('input[name=type]:checked')?.value, destination: v('iqDest'), departDate: v('iqDate'), nights: v('iqN'), pax: v('iqP'), budget: v('iqB'), message: v('iqMsg'), name: v('iqName'), phone: v('iqPhone'), agreePrivacy: true, website: v('iqWeb') });
+      app.innerHTML = `<div class="narrow" style="text-align:center"><h1>견적 요청을 받았습니다</h1><p class="sub">담당자가 확인하고 남겨 주신 연락처로 연락드리겠습니다. 급하시면 오른쪽 아래 "1:1 문의"나 전화 ${esc(site.tel)}로 연락 주세요.</p><a class="btn" href="#/">홈으로</a></div>`;
+    } catch (err) { toast(err.message); btn.disabled = false; btn.textContent = '견적 요청 보내기'; }
+  };
+}
+
 // ---------- 라우터 ----------
 async function route() {
   const h = location.hash.replace(/^#/, '') || '/';
@@ -240,6 +274,7 @@ async function route() {
     else if (a === 'my') await my();
     else if (a === 'notice') await notices(b);
     else if (a === 'terms') terms(b);
+    else if (a === 'inquiry') inquiryPage(b);
     else app.innerHTML = '<div class="empty" style="margin:48px 16px">페이지를 찾을 수 없습니다. <a href="#/" class="btn">홈으로</a></div>';
   } catch (e) {
     app.innerHTML = `<div class="wrap page"><div class="empty">${esc(e.message || '불러오지 못했습니다.')}<br><a href="#/" class="btn">홈으로</a></div></div>`;
@@ -257,6 +292,8 @@ async function start() {
     $('#resetDemo').onclick = resetDemo;
   }
   applySite(); renderTop();
+  mountChat(me);
+  countVisit();
   $('#menuBtn').onclick = () => $('#nav').classList.toggle('open');
   window.addEventListener('hashchange', route);
   route();

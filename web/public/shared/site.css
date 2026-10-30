@@ -230,3 +230,29 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .blk-it { grid-template-columns: 1fr; gap: 16px; }
   .blk-it.rev .blk-it-img { order: 0; }
 }
+/* 견적 문의 */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip span { display: inline-block; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; font-size: 14px; }
+.chip input:checked + span { background: var(--primary); border-color: var(--primary); color: #fff; }
+.chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* 1:1 문의 창 */
+.chat-fab { position: fixed; right: 16px; bottom: 80px; z-index: 30; height: 52px; padding: 0 18px 0 14px; border: 0; border-radius: 999px; background: var(--primary); color: #fff; display: flex; align-items: center; gap: 8px; font: inherit; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,.18); cursor: pointer; }
+.chat-fab[hidden] { display: none; }
+.chat-box { position: fixed; right: 16px; bottom: 16px; z-index: 40; width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 32px)); background: #fff; border-radius: 18px; box-shadow: 0 16px 48px rgba(0,0,0,.22); display: flex; flex-direction: column; overflow: hidden; }
+.cb-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--primary); color: #fff; }
+.cb-x { background: none; border: 0; color: #fff; font-size: 24px; line-height: 1; cursor: pointer; }
+.cb-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: #f6f8f7; }
+.cm { max-width: 82%; }
+.cm > div { padding: 9px 12px; border-radius: 14px; background: #fff; border: 1px solid var(--line); white-space: pre-line; font-size: 14px; }
+.cm.guest { align-self: flex-end; }
+.cm.guest > div { background: var(--primary); color: #fff; border-color: var(--primary); }
+.cm.sys > div { background: #fde8e6; color: #b42318; border-color: #f5c2bc; }
+.cb-in { padding: 10px 12px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.cb-who { display: flex; gap: 6px; }
+.cb-who input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 14px; }
+.cb-agree { font-size: 12px; color: var(--ink-3); display: flex; gap: 6px; align-items: flex-start; }
+.cb-agree.need { color: #b42318; }
+.cb-row { display: flex; gap: 8px; align-items: flex-end; }
+.cb-row textarea { flex: 1; resize: none; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 14px; }
+@media (max-width: 760px) { .chat-fab b { display: none; } .chat-fab { width: 52px; padding: 0; justify-content: center; bottom: 80px; } }

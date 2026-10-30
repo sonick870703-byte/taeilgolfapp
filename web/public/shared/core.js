@@ -10,6 +10,10 @@ export const CATEGORIES = [
   { id: 'membership', name: '멤버십' },
 ];
 
+export const INQUIRY_TYPES = ['골프여행', '무제한 골프', '한 달 살기', '단체 골프', '항공권', '호텔', '허니문', '가족여행', '기타'];
+export const INQUIRY_STATUSES = ['새 문의', '상담 중', '견적 보냄', '예약 전환', '종료'];
+// 전자결재 항목. 아직 정해지지 않아 (임시)로 둡니다.
+export const APPROVAL_TYPES = ['환불 (임시)', '할인 (임시)', '지출 (임시)', '예약 변경 (임시)', '기타 (임시)'];
 export const STATUSES = ['접수', '예약금 대기', '예약금 입금', '완납', '출발 완료', '취소'];
 
 export const PRICE_MARKUP = 20000; // 고객 표시가 = 기준가 + 20,000원 (1인)
@@ -18,7 +22,7 @@ export const REFUND_DAYS = 14;     // 출발 14일 전까지만 환불
 
 export const DEFAULT_SETTINGS = {
   id: 'site',
-  companyName: '태일골프커뮤니케이션',
+  companyName: '태일 골프커뮤니케이션',
   companyNameEn: 'TAEIL GOLF COMMUNICATION',
   brand: '태일골프',
   tagline: '태국 골프 여행 · 한 달 살기',
@@ -300,6 +304,62 @@ export function createApi(store, deps) {
     return quote(p, { pax: body.pax, single: !!body.single, departDate: str(body.departDate, 10) });
   });
 
+  // ----- 견적 문의 (로그인 없이) -----
+  on('POST', '/api/inquiries', async ({ body, token }) => {
+    if (str(body.website)) return { ok: true }; // 자동 등록 막기용 숨은 칸
+    const name = str(body.name, 40), phone = str(body.phone, 30);
+    if (!name || !phone) throw err(400, '이름과 연락처를 입력해 주세요.');
+    if (!body.agreePrivacy) throw err(400, '개인정보 수집·이용에 동의해 주세요.');
+    const user = await userFromToken(token);
+    const q = {
+      id: 'q_' + deps.randomId(12), createdAt: now(), status: '새 문의',
+      type: INQUIRY_TYPES.includes(body.type) ? body.type : '기타',
+      name, phone, email: str(body.email, 120), memberId: user ? user.id : '',
+      destination: str(body.destination, 80), departDate: /^\d{4}-\d{2}-\d{2}$/.test(body.departDate || '') ? body.departDate : '',
+      nights: Math.max(0, Math.min(100, Number(body.nights) || 0)), pax: Math.max(0, Math.min(200, Number(body.pax) || 0)),
+      budget: str(body.budget, 40), message: str(body.message, 2000), memo: '', history: [],
+    };
+    await store.put('inquiries', q);
+    return { ok: true };
+  });
+
+  // ----- 오늘 방문자 (이름·IP 없이, 브라우저마다 만든 익명 표시로 하루 1번만 셈) -----
+  on('POST', '/api/visit', async ({ body }) => {
+    const v = str(body.v, 40);
+    if (!/^[a-z0-9]{8,40}$/.test(v)) return { ok: true };
+    const d = today();
+    const doc = (await store.get('visits', d)) || { id: d, ids: [], views: 0 };
+    doc.views++;
+    if (!doc.ids.includes(v)) doc.ids.push(v);
+    await store.put('visits', doc);
+    return { ok: true };
+  });
+
+  // ----- 1:1 실시간 문의 -----
+  const chatPublic = c => ({ id: c.id, name: c.name, messages: c.messages.map(m => ({ from: m.from, text: m.text, at: m.at })) });
+  on('POST', '/api/chat', async ({ body, token }) => {
+    const text = str(body.text, 1000);
+    if (!text) throw err(400, '내용을 입력해 주세요.');
+    let c = body.id ? await store.get('chats', str(body.id, 40)) : null;
+    if (c && c.key !== str(body.key, 40)) c = null;
+    if (!c) {
+      if (!body.agreePrivacy) throw err(400, '개인정보 수집·이용에 동의해 주세요.');
+      const user = await userFromToken(token);
+      c = { id: 'c_' + deps.randomId(12), key: deps.randomId(24), createdAt: now(), name: str(body.name, 40) || (user && user.name) || '방문자',
+        phone: str(body.phone, 30) || (user && user.phone) || '', memberId: user ? user.id : '', messages: [], unread: 0, closed: false };
+    }
+    c.messages.push({ from: 'guest', text, at: now() });
+    c.messages = c.messages.slice(-200);
+    c.unread = (c.unread || 0) + 1; c.updatedAt = now(); c.closed = false;
+    await store.put('chats', c);
+    return { id: c.id, key: c.key, chat: chatPublic(c) };
+  });
+  on('GET', '/api/chat/:id', async ({ params, query }) => {
+    const c = await store.get('chats', params.id);
+    if (!c || c.key !== str(query.key, 40)) throw err(404, '대화를 찾을 수 없습니다.');
+    return chatPublic(c);
+  });
+
   // ----- 회원 -----
   on('POST', '/api/signup', async ({ body }) => {
     const email = str(body.email, 120).toLowerCase();
@@ -370,6 +430,66 @@ export function createApi(store, deps) {
   }, MEMBER);
 
   // ----- ERP (직원) -----
+  on('GET', '/api/erp/inquiries', async () => (await store.all('inquiries')).sort((a, b) => b.createdAt - a.createdAt), STAFF);
+  on('PATCH', '/api/erp/inquiries/:id', async ({ params, body, user }) => {
+    const q = await store.get('inquiries', params.id);
+    if (!q) throw err(404, '문의를 찾을 수 없습니다.');
+    if (body.status && INQUIRY_STATUSES.includes(body.status) && body.status !== q.status) { q.history.push({ at: now(), by: user.name || user.email, action: q.status + ' → ' + body.status }); q.status = body.status; }
+    if (body.memo !== undefined) q.memo = str(body.memo, 2000);
+    if (body.bookingId) q.bookingId = str(body.bookingId, 40);
+    await store.put('inquiries', q);
+    return q;
+  }, STAFF);
+  on('DELETE', '/api/erp/inquiries/:id', async ({ params }) => { await store.del('inquiries', params.id); return { ok: true }; }, ADMIN);
+
+  on('GET', '/api/erp/chats', async () => (await store.all('chats')).map(({ key, ...c }) => c).sort((a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt)), STAFF);
+  on('POST', '/api/erp/chats/:id', async ({ params, body, user }) => {
+    const c = await store.get('chats', params.id);
+    if (!c) throw err(404, '대화를 찾을 수 없습니다.');
+    if (body.read) c.unread = 0;
+    if (body.close !== undefined) c.closed = !!body.close;
+    const text = str(body.text, 1000);
+    if (text) { c.messages.push({ from: 'staff', by: user.name || '태일골프', text, at: now() }); c.unread = 0; c.updatedAt = now(); }
+    await store.put('chats', c);
+    const { key, ...out } = c;
+    return out;
+  }, STAFF);
+  // ----- 전자결재 -----
+  on('GET', '/api/erp/approvals', async () => (await store.all('approvals')).sort((a, b) => b.createdAt - a.createdAt), STAFF);
+  on('POST', '/api/erp/approvals', async ({ body, user }) => {
+    const title = str(body.title, 120);
+    if (!title) throw err(400, '제목을 입력해 주세요.');
+    const all = await store.all('approvals');
+    const a = { id: 'a_' + deps.randomId(10), no: 'AP' + today().replace(/-/g, '') + '-' + String(all.filter(x => x.createdAt && todayKST(x.createdAt) === today()).length + 1).padStart(2, '0'),
+      createdAt: now(), type: APPROVAL_TYPES.includes(body.type) ? body.type : APPROVAL_TYPES[APPROVAL_TYPES.length - 1],
+      title, amount: Math.max(0, Number(String(body.amount || '').replace(/[,원\s]/g, '')) || 0), bookingNo: str(body.bookingNo, 30), content: str(body.content, 3000),
+      requesterId: user.id, requester: user.name || user.email, status: '대기', comment: '', history: [{ at: now(), by: user.name || user.email, action: '결재 요청' }] };
+    await store.put('approvals', a);
+    return a;
+  }, STAFF);
+  on('POST', '/api/erp/approvals/:id/decide', async ({ params, body, user }) => {
+    const a = await store.get('approvals', params.id);
+    if (!a) throw err(404, '결재 문서를 찾을 수 없습니다.');
+    if (a.status !== '대기') throw err(400, '이미 처리된 결재입니다.');
+    a.status = body.approve ? '승인' : '반려'; a.comment = str(body.comment, 1000); a.decidedBy = user.name || user.email; a.decidedAt = now();
+    a.history.push({ at: now(), by: a.decidedBy, action: a.status + (a.comment ? ' · ' + a.comment : '') });
+    await store.put('approvals', a);
+    return a;
+  }, ADMIN);
+  on('POST', '/api/erp/approvals/:id/cancel', async ({ params, user }) => {
+    const a = await store.get('approvals', params.id);
+    if (!a || a.requesterId !== user.id || a.status !== '대기') throw err(400, '요청한 사람만, 처리되기 전에 취소할 수 있습니다.');
+    a.status = '취소'; a.history.push({ at: now(), by: user.name || user.email, action: '요청 취소' });
+    await store.put('approvals', a);
+    return a;
+  }, STAFF);
+
+  on('GET', '/api/erp/counts', async ({ user }) => {
+    const [bk, inq, chats, v, ap] = await Promise.all([store.all('bookings'), store.all('inquiries'), store.all('chats'), store.get('visits', today()), store.all('approvals')]);
+    return { approvals: user.role === 'admin' ? ap.filter(a => a.status === '대기').length : 0, waiting: bk.filter(b => b.status === '접수').length, inquiries: inq.filter(q => q.status === '새 문의').length,
+      chats: chats.filter(c => !c.closed && c.unread > 0).length, visitorsToday: v ? v.ids.length : 0, viewsToday: v ? v.views : 0 };
+  }, STAFF);
+
   on('GET', '/api/erp/dashboard', async () => {
     const t = today();
     const all = await store.all('bookings');
@@ -379,6 +499,13 @@ export function createApi(store, deps) {
     const alerts = [];
     for (const b of all) for (const a of bookingAlerts(b, t)) alerts.push({ ...a, bookingId: b.id, no: b.no, name: b.name, product: b.productTitle });
     for (const b of all) if (b.cancelRequested && b.status !== '취소') alerts.push({ level: 'danger', text: '고객 취소 요청', bookingId: b.id, no: b.no, name: b.name, product: b.productTitle });
+    const [inq, chats, vToday] = await Promise.all([store.all('inquiries'), store.all('chats'), store.get('visits', t)]);
+    const extra = { visitorsToday: vToday ? vToday.ids.length : 0, viewsToday: vToday ? vToday.views : 0,
+      newInquiries: inq.filter(q => q.status === '새 문의').length, openChats: chats.filter(c => !c.closed && c.unread > 0).length };
+    const visits7 = [];
+    for (let i = 6; i >= 0; i--) { const d = addDays(t, -i); const v = await store.get('visits', d); visits7.push({ date: d, visitors: v ? v.ids.length : 0 }); }
+    for (const q of inq.filter(q => q.status === '새 문의')) alerts.push({ level: 'new', text: `새 견적 문의 (${q.type})`, no: q.departDate || '날짜 미정', name: q.name, product: q.destination || q.type, inquiryId: q.id });
+    for (const c of chats.filter(c => !c.closed && c.unread > 0)) alerts.push({ level: 'new', text: `1:1 문의 답장 필요 (${c.unread}개)`, no: '실시간 문의', name: c.name, product: (c.messages[c.messages.length - 1] || {}).text?.slice(0, 20) || '', chatId: c.id });
     const order = { danger: 0, new: 1, warn: 2, info: 3 };
     alerts.sort((a, b) => order[a.level] - order[b.level]);
     const sum = (arr, f) => arr.reduce((s, x) => s + f(x), 0);
@@ -398,7 +525,9 @@ export function createApi(store, deps) {
         waiting: all.filter(b => b.status === '접수').length,
         departingThisMonth: live.filter(b => (b.departDate || '').startsWith(month)).length,
         unpaid: sum(live.filter(b => b.confirmed), b => Math.max(0, b.total - paidAmount(b))),
+        ...extra,
       },
+      visits7,
       alerts: alerts.slice(0, 50),
       upcoming: live.filter(b => b.departDate >= t).sort((a, b) => a.departDate.localeCompare(b.departDate)).slice(0, 10),
       monthly: Object.values(monthly).sort((a, b) => a.month.localeCompare(b.month)),
