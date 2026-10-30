@@ -14,6 +14,17 @@ const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } cat
 
 // 고른 노선은 이 PC에 기억 (처음엔 인천 출발, 도착 전체)
 const st = { from: 'ICN', to: '', q: '', airline: '', ...(store.get('taeil.board') || {}) };
+// 항공사는 편명 앞 2글자(IATA 코드)로 고릅니다. 예전에 이름으로 저장된 값은 비움
+if (!/^[A-Z0-9]{2}$/.test(st.airline || '')) st.airline = '';
+
+// 항공사 목록: 오늘 편이 없어도 늘 보이게 고정 (운항표에 다른 항공사가 있으면 아래에 덧붙임)
+const AIRLINES = [
+  ['한국 항공사', [['KE', '대한항공'], ['OZ', '아시아나항공'], ['7C', '제주항공'], ['LJ', '진에어'], ['TW', '티웨이항공'], ['BX', '에어부산'], ['RS', '에어서울'], ['ZE', '이스타항공'], ['YP', '에어프레미아'], ['RF', '에어로케이']]],
+  ['외국 항공사', [['TG', '타이항공'], ['XJ', '타이에어아시아엑스'], ['FD', '타이에어아시아'], ['VZ', '타이비엣젯항공'], ['PG', '방콕에어웨이즈'], ['VJ', '비엣젯항공'], ['VN', '베트남항공'], ['QH', '뱀부항공'], ['PR', '필리핀항공'], ['5J', '세부퍼시픽'], ['Z2', '필리핀에어아시아'], ['MH', '말레이시아항공'], ['AK', '에어아시아'], ['D7', '에어아시아엑스'], ['JL', '일본항공'], ['NH', '전일본공수'], ['MM', '피치항공'], ['SQ', '싱가포르항공'], ['TR', '스쿠트'], ['CX', '캐세이퍼시픽'], ['CI', '중화항공'], ['BR', '에바항공'], ['GA', '가루다인도네시아']]],
+];
+const AIRLINE_NAME = Object.fromEntries(AIRLINES.flatMap(g => g[1]));
+const carrier = f => String(f || '').slice(0, 2);
+const ofAirline = (r, code) => [r.flight, ...(r.alias || [])].some(f => carrier(f) === code);
 if (st.from !== 'ICN' && st.to !== 'ICN') { st.from = st.from || 'ICN'; if (st.from !== 'ICN') st.to = 'ICN'; }
 let timer = null, curEnv = null, last = null, prefs = { favs: [], groups: [] };
 
@@ -165,13 +176,16 @@ function draw(view) {
   const mine = r => [r.flight, ...(r.alias || [])].some(f => watch.has(normFlight(f)));
   const q = st.q.trim().toLowerCase();
   // 항공사 고르기: 지금 노선에 있는 항공사만 목록에 (고른 항공사가 이 노선에 없어도 목록엔 남김)
-  const airlines = [...new Set((d.rows || []).map(r => r.airline).filter(Boolean).concat(st.airline ? [st.airline] : []))].sort((a, b) => a.localeCompare(b, 'ko'));
+  const count = code => (d.rows || []).filter(r => ofAirline(r, code)).length;
+  const extra = {};
+  for (const r of d.rows || []) { const c = carrier(r.flight); if (c && !AIRLINE_NAME[c]) extra[c] = r.airline || c; }
   const sel = $('#bAir', view);
-  if (sel) sel.innerHTML = `<option value="">항공사 전체</option>${airlines.map(a => `<option ${a === st.airline ? 'selected' : ''}>${esc(a)}</option>`).join('')}`;
-  const rows = (d.rows || []).filter(r => (!st.airline || r.airline === st.airline) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
+  const opt = (code, name) => { const n = count(code); return `<option value="${code}" ${code === st.airline ? 'selected' : ''}>${esc(name)} (${n ? n + '편' : '오늘 없음'})</option>`; };
+  if (sel) sel.innerHTML = `<option value="">항공사 전체</option>${AIRLINES.map(([g, list]) => `<optgroup label="${g}">${list.map(([c, n]) => opt(c, n)).join('')}</optgroup>`).join('')}${Object.keys(extra).length ? `<optgroup label="그 밖">${Object.entries(extra).sort((a, b) => a[1].localeCompare(b[1], 'ko')).map(([c, n]) => opt(c, n)).join('')}</optgroup>` : ''}`;
+  const rows = (d.rows || []).filter(r => (!st.airline || ofAirline(r, st.airline)) && (!q || [r.flight, ...(r.alias || []), r.airline, r.other, r.otherName, apName(r.other)].join(' ').toLowerCase().includes(q)));
   const bad = rows.filter(r => r.cls === 'bad').length;
   const otherHead = d.to === 'ICN' && d.from !== 'ICN' ? '출발지' : '도착지';
-  info.innerHTML = `${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
+  info.innerHTML = `${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항 ${rows.length}편${st.airline ? ` (${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)})` : ''}${bad ? ` · <b style="color:#c0392b">지연·결항 ${bad}편</b>` : ''} · 시각은 ${esc(d.timeLabel)} 현지 기준 · ${new Date(d.at).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 받음 · 자료: ${esc(d.source)}${d.demo ? ' · <b>미리보기 예시</b>' : ''}`;
   list.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${esc(d.timeLabel)}</th><th>변경</th><th>편명</th><th class="hide-m">항공사</th><th>${otherHead}</th><th class="hide-m">터미널 · 게이트</th><th>상태</th><th></th></tr></thead><tbody>
     ${rows.map((r, i) => `<tr${mine(r) ? ' style="background:#fffbea"' : ''}><td>${hm(r.sched)}</td><td>${r.est && r.est !== r.sched ? `<b>${hm(r.est)}</b>` : ''}</td>
         <td><b>${mine(r) ? '★ ' : ''}${esc(r.flight)}</b>${r.alias && r.alias.length ? `<div class="muted" style="font-size:12px">공동운항 ${esc(r.alias.join(' · '))}</div>` : ''}</td>
@@ -180,7 +194,7 @@ function draw(view) {
         <td class="hide-m">${esc([r.terminal, r.gate && '게이트 ' + r.gate].filter(Boolean).join(' · '))}</td>
         <td>${r.status ? `<span class="badge ${CLS[r.cls] || ''}">${esc(r.status)}</span>` : ''}</td>
         <td><button class="btn sm" data-add="${i}" title="그룹에 넣기">+ 그룹</button></td></tr>`).join('')
-      || `<tr><td colspan="8" class="muted" style="text-align:center;padding:32px">이 시간대에 ${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항편이 없습니다.</td></tr>`}
+      || `<tr><td colspan="8" class="muted" style="text-align:center;padding:32px">${st.airline ? `오늘 ${esc(AIRLINE_NAME[st.airline] || extra[st.airline] || st.airline)}의 ` : '이 시간대에 '}${esc(apName(d.from))} → ${esc(d.to ? apName(d.to) : '전체')} 직항편이 없습니다.</td></tr>`}
     </tbody></table></div>
     <p class="muted" style="font-size:12px">직항편만 보입니다. 실제 탑승 시각·게이트는 항공사 안내가 우선입니다.</p>`;
   $$('[data-add]', list).forEach(b => b.onclick = () => { const r = rows[+b.dataset.add]; addDialog(view, { flight: r.flight, ...rowRoute(d, r), date: todayStr() }); });
