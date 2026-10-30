@@ -542,8 +542,92 @@ export function createApi(store, deps) {
     };
   }, STAFF);
 
+  // ----- 여행자 여권 정보 -----
+  // 여권번호는 예약 문서에 넣지 않고 'passports' 에 암호화해 따로 둡니다. 예약에는 가린 번호만 남습니다.
+  // 여행이 끝나고 90일(개인정보처리방침: 3개월 이내)이 지나면 여권번호와 생년월일을 지웁니다.
+  const seal = deps.seal || (v => 'demo:' + v);
+  const unseal = deps.unseal || (v => String(v).replace(/^demo:/, ''));
+  const maskNo = n => (n.length > 4 ? n.slice(0, 2) + '*'.repeat(n.length - 4) + n.slice(-2) : '****');
+  const PASSPORT_KEEP_DAYS = 90;
+  async function purgePassports(list) {
+    const t = today();
+    for (const b of list) {
+      const end = b.returnDate || b.departDate;
+      if (!end || !(b.travelers || []).some(x => x.passportMasked) || addDays(end, PASSPORT_KEEP_DAYS) >= t) continue;
+      for (const x of b.travelers) { await store.del('passports', x.id); x.passportMasked = ''; x.birth = ''; x.purgedAt = now(); }
+      log(b, null, `여행 종료 ${PASSPORT_KEEP_DAYS}일 경과: 여권번호·생년월일 자동 파기`);
+      await store.put('bookings', b);
+    }
+  }
+  function travelerFields(body, old = {}) {
+    const up = (v, n) => str(v, n).toUpperCase();
+    const x = {
+      ...old,
+      surname: up(body.surname, 40).replace(/[^A-Z \-]/g, ''), given: up(body.given, 60).replace(/[^A-Z \-]/g, ''),
+      sex: ['M', 'F'].includes(body.sex) ? body.sex : '', nationality: up(body.nationality, 3).replace(/[^A-Z]/g, ''),
+      birth: str(body.birth, 10), passportExp: str(body.passportExp, 10), korName: str(body.korName, 20),
+    };
+    if (!x.surname || !x.given) throw err(400, '영문 성과 이름을 입력해 주세요.');
+    for (const k of ['birth', 'passportExp']) if (x[k] && !/^\d{4}-\d{2}-\d{2}$/.test(x[k])) throw err(400, '날짜 형식을 확인해 주세요.');
+    return x;
+  }
+  async function setPassportNo(x, body) {
+    const no = str(body.passportNo, 12).toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (!no) return false;
+    if (no.length < 6) throw err(400, '여권번호를 확인해 주세요.');
+    await store.put('passports', { id: x.id, enc: await seal(no) });
+    x.passportMasked = maskNo(no); x.purgedAt = null;
+    return true;
+  }
+  const findTraveler = async (params) => {
+    const b = await store.get('bookings', params.id);
+    if (!b) throw err(404, '예약을 찾을 수 없습니다.');
+    const x = (b.travelers || []).find(t => t.id === params.tid);
+    if (!x) throw err(404, '여행자를 찾을 수 없습니다.');
+    return [b, x];
+  };
+  on('POST', '/api/erp/bookings/:id/travelers', async ({ params, body, user }) => {
+    const b = await store.get('bookings', params.id);
+    if (!b) throw err(404, '예약을 찾을 수 없습니다.');
+    if (body.consent !== true) throw err(400, '고객에게 여권 정보 수집·이용 동의를 받았는지 확인해 주세요.');
+    b.travelers = b.travelers || [];
+    if (b.travelers.length >= 40) throw err(400, '여행자는 40명까지 등록할 수 있습니다.');
+    const x = travelerFields(body, { id: 't_' + deps.randomId(10), consentAt: now(), consentBy: user.name || user.email, passportMasked: '' });
+    await setPassportNo(x, body);
+    b.travelers.push(x);
+    log(b, user, `여행자 등록: ${x.surname} ${x.given}${body.fromScan ? ' (여권 사진 자동 인식)' : ''}`);
+    await store.put('bookings', b);
+    return b;
+  }, STAFF);
+  on('PATCH', '/api/erp/bookings/:id/travelers/:tid', async ({ params, body, user }) => {
+    const [b, x] = await findTraveler(params);
+    Object.assign(x, travelerFields(body, x));
+    const noChanged = await setPassportNo(x, body);
+    log(b, user, `여행자 수정: ${x.surname} ${x.given}${noChanged ? ' (여권번호 변경)' : ''}`);
+    await store.put('bookings', b);
+    return b;
+  }, STAFF);
+  on('DELETE', '/api/erp/bookings/:id/travelers/:tid', async ({ params, user }) => {
+    const [b, x] = await findTraveler(params);
+    b.travelers = b.travelers.filter(t => t.id !== x.id);
+    await store.del('passports', x.id);
+    log(b, user, `여행자 삭제: ${x.surname} ${x.given} (여권 정보 파기)`);
+    await store.put('bookings', b);
+    return b;
+  }, STAFF);
+  // 전체 여권번호 보기는 기록이 남습니다 (항공권 발권·현지 예약 등 꼭 필요할 때만)
+  on('POST', '/api/erp/bookings/:id/travelers/:tid/reveal', async ({ params, user }) => {
+    const [b, x] = await findTraveler(params);
+    const p = await store.get('passports', x.id);
+    if (!p) throw err(404, '저장된 여권번호가 없습니다.');
+    log(b, user, `여권번호 열람: ${x.surname} ${x.given}`);
+    await store.put('bookings', b);
+    return { passportNo: await unseal(p.enc) };
+  }, STAFF);
+
   on('GET', '/api/erp/bookings', async ({ query }) => {
     let list = await store.all('bookings');
+    await purgePassports(list);
     if (query.status) list = list.filter(b => b.status === query.status);
     if (query.month) list = list.filter(b => (b.departDate || '').startsWith(query.month));
     if (query.q) { const q = query.q.toLowerCase(); list = list.filter(b => [b.no, b.name, b.phone, b.productTitle, b.memberEmail].join(' ').toLowerCase().includes(q)); }
@@ -723,7 +807,7 @@ export function createApi(store, deps) {
 
   // 고객에게는 기준가·직원 메모·처리 기록을 보여주지 않음
   function memberBooking(b) {
-    const { basePrice, singleSupplement, staffMemo, history, manualTotal, ...rest } = b;
+    const { basePrice, singleSupplement, staffMemo, history, manualTotal, travelers, ...rest } = b;
     return { ...rest, payments: (b.payments || []).map(p => pick(p, ['amount', 'date', 'method'])) };
   }
 

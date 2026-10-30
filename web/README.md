@@ -39,6 +39,9 @@ ADMIN_EMAIL=관리자이메일 ADMIN_PASSWORD='처음비밀번호' node server.j
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | 처음 실행할 때 만들 관리자 계정 |
 | `ERP_HOSTS` | ERP 화면으로 보낼 주소 (예: `erp.tigc.co.kr`). ERP의 도메인 연결 화면에서 "ERP"로 추가해도 됩니다 |
 | `DEMO=1` | 미리보기용 예시 예약을 넣음 |
+| `PASSPORT_KEY` | 여권번호 암호화 열쇠 (base64 32바이트). 없으면 `DATA_DIR/passport.key`를 자동으로 만듭니다. **백업할 때 `taeil.db`와 같이 보관하세요.** 열쇠를 잃으면 저장된 여권번호를 읽을 수 없습니다 |
+
+여권 자동 인식: ERP 예약 상세의 "여행자 · 여권"에서 여권 사진을 고르면 `public/vendor/tesseract/`(Tesseract.js, Apache-2.0)로 브라우저 안에서 아래 두 줄(MRZ)을 읽습니다. 사진은 서버로 보내지 않습니다. 여권번호는 AES-256-GCM으로 암호화해 `passports`에 따로 두고, 여행 종료 90일 뒤 자동으로 지웁니다.
 
 서버 없이 `public/` 폴더만 열면(미리보기) 브라우저 안의 데모 저장소로 같은 업무 로직이 돌아갑니다. 미리보기 관리자: `admin@tigc.co.kr` / `demo1234`.
 

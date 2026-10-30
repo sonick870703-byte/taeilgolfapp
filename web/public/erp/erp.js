@@ -5,6 +5,7 @@ import { APPROVAL_TYPES, INQUIRY_TYPES, INQUIRY_STATUSES, won, STATUSES, CATEGOR
 import { resizeForSlot, SLOTS } from '../shared/image.js';
 import { pagesView } from './pages.js';
 import { flightsView } from './flights.js';
+import { travelersHtml, bindTravelers } from './passport.js';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -395,6 +396,7 @@ async function openBooking(id, after) {
       <select name="method"><option>계좌이체</option><option>카드</option><option>현금</option></select>
       <input name="memo" placeholder="메모 (예: 예약금)" class="grow">
       <button class="btn primary sm">입금 등록</button></form>`}
+    ${travelersHtml(b, closed)}
     <div class="sec-title">카카오톡 안내문 <span class="muted" style="font-weight:400;font-size:13px">금액·기한이 자동으로 들어갑니다</span></div>
     <div class="chips-erp" id="nk">${NOTICE_KINDS.map(([k, n], i) => `<button type="button" class="${i ? '' : 'on'}" data-nk="${k}">${n}</button>`).join('')}</div>
     <div class="msgbox" id="msg">${esc(guideMessage(b, s))}</div>
@@ -413,6 +415,7 @@ async function openBooking(id, after) {
   const logSent = () => api.post(`/api/erp/bookings/${b.id}/notified`, { kind: NOTICE_KINDS.find(x => x[0] === nk)[1] }).catch(() => {});
   $('#cpy', d).onclick = () => { copy(noticeMessage(nk, b, s)); logSent(); };
   $('#cpyK', d).onclick = () => { copy(noticeMessage(nk, b, s)); logSent(); window.open(channelAdminUrl(s), '_blank', 'noopener'); };
+  bindTravelers(d, b, { toast, copy, reload });
   const bf = $('#bf', d);
   bf.onsubmit = async e => {
     e.preventDefault();

@@ -15,6 +15,7 @@ public/erp/erp.js
 public/erp/flights.js
 public/erp/index.html
 public/erp/pages.js
+public/erp/passport.js
 public/flights-pay.html
 public/index.html
 public/shared/api.js
@@ -27,6 +28,13 @@ public/shared/flights.css
 public/shared/flights.js
 public/shared/image.js
 public/shared/legal.js
+public/shared/mrz.js
 public/shared/site.css
 public/shared/site.js
+public/vendor/tesseract/LICENSE.txt
+public/vendor/tesseract/eng.traineddata.gz
+public/vendor/tesseract/tesseract-core-lstm.wasm.js
+public/vendor/tesseract/tesseract-core-simd-lstm.wasm.js
+public/vendor/tesseract/tesseract.min.js
+public/vendor/tesseract/worker.min.js
 server.js
