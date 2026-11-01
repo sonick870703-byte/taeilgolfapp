@@ -151,7 +151,7 @@ function authPage(kind) {
     <form id="authForm" novalidate>
       <div id="formErr"></div>
       ${signup ? `<div class="field"><label for="aName">이름</label><input id="aName" autocomplete="name" required></div>
-      <div class="field"><label for="aPhone">휴대폰 번호</label><input id="aPhone" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000"></div>` : ''}
+      <div class="field"><label for="aPhone">휴대폰 번호</label><input id="aPhone" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" required><span class="hint">아이디·비밀번호를 찾을 때 씁니다</span></div>` : ''}
       <div class="field"><label for="aEmail">이메일</label><input id="aEmail" type="email" autocomplete="email" required></div>
       <div class="field"><label for="aPw">비밀번호</label><input id="aPw" type="password" autocomplete="${signup ? 'new-password' : 'current-password'}" required>${signup ? '<span class="hint">8자 이상</span>' : ''}</div>
       ${signup ? `<label class="check"><input type="checkbox" id="aT"> <span>(필수) <a href="#/terms/service" target="_blank" style="text-decoration:underline">회원약관(예약·취소 규정 포함)</a>에 동의합니다</span></label>
@@ -159,7 +159,7 @@ function authPage(kind) {
       <label class="check"><input type="checkbox" id="aM"> <span>(선택) 할인·신상품 소식 받기 (<a href="#/terms/consent" target="_blank" style="text-decoration:underline">내용 보기</a>)</span></label>` : ''}
       <button class="btn primary block" type="submit" id="aBtn">${signup ? '가입하기' : '로그인'}</button>
     </form>
-    <div class="alt-link">${signup ? '이미 회원이신가요? <a href="#/login">로그인</a>' : '처음이신가요? <a href="#/signup">회원가입</a>'}</div>
+    <div class="alt-link">${signup ? '이미 회원이신가요? <a href="#/login">로그인</a>' : '처음이신가요? <a href="#/signup">회원가입</a> · <a href="#/find/id">아이디 찾기</a> · <a href="#/find/pw">비밀번호 찾기</a>'}</div>
   </div>`;
   $('#authForm').onsubmit = async e => {
     e.preventDefault();
@@ -176,6 +176,49 @@ function authPage(kind) {
       $('#formErr').innerHTML = `<div class="formerr">${esc(err.message)}</div>`;
       btn.disabled = false;
     }
+  };
+}
+
+// 아이디(이메일) 찾기 · 비밀번호 찾기 (PC·휴대폰 앱 첫 화면과 같은 서버 기능)
+function findPage(kind) {
+  const pw = kind === 'pw';
+  app.innerHTML = `<div class="narrow">
+    <h1>${pw ? '비밀번호 찾기' : '아이디 찾기'}</h1>
+    <p class="sub">${pw ? '가입한 이메일로 6자리 인증번호를 보내 드립니다. 인증 후 새 비밀번호를 정하세요.' : '가입할 때 넣은 이름과 휴대폰 번호로 아이디(이메일)를 찾습니다.'}</p>
+    <form id="fForm" novalidate><div id="formErr"></div>
+      ${pw ? '<div class="field"><label for="fEmail">이메일(아이디)</label><input id="fEmail" type="email" autocomplete="email" required></div>' : ''}
+      <div class="field"><label for="fName">이름</label><input id="fName" autocomplete="name" required></div>
+      <div class="field"><label for="fPhone">휴대폰 번호</label><input id="fPhone" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" required></div>
+      <button class="btn primary block" type="submit" id="fBtn">${pw ? '인증번호 받기' : '아이디 찾기'}</button>
+    </form><div id="fOut"></div>
+    <div class="alt-link"><a href="#/login">로그인</a> · ${pw ? '<a href="#/find/id">아이디 찾기</a>' : '<a href="#/find/pw">비밀번호 찾기</a>'} · <a href="#/signup">회원가입</a></div>
+  </div>`;
+  const fail = e => { $('#formErr').innerHTML = `<div class="formerr">${esc(e.message)}</div>`; };
+  const CS = '태일골프 카카오톡 채널 또는 전화 02-737-6658 (평일 09~18시)';
+  $('#fForm').onsubmit = async e => {
+    e.preventDefault(); $('#formErr').innerHTML = ''; const btn = $('#fBtn'); btn.disabled = true;
+    try {
+      if (!pw) {
+        const r = await api.post('/api/find-id', { name: $('#fName').value, phone: $('#fPhone').value });
+        $('#fOut').innerHTML = r.ids.length
+          ? `<div class="card" style="padding:16px;margin-top:14px"><b>찾은 아이디</b><ul>${r.ids.map(x => `<li>${esc(x.email)} <span class="muted">(가입 ${esc(x.joined)})</span></li>`).join('')}</ul><p class="muted" style="margin:0">개인정보 보호를 위해 일부만 보여 드립니다.</p></div>`
+          : `<div class="formerr" style="margin-top:14px">입력한 이름·휴대폰 번호로 가입한 아이디가 없습니다. 휴대폰 번호 없이 가입하셨다면 ${CS}로 문의해 주세요.</div>`;
+      } else {
+        const email = $('#fEmail').value.trim();
+        const r = await api.post('/api/password/forgot', { email, name: $('#fName').value, phone: $('#fPhone').value });
+        if (!r.sent) { $('#fOut').innerHTML = `<div class="card" style="padding:16px;margin-top:14px">회원 정보는 확인되었습니다. 지금은 메일 인증을 준비 중이라 ${CS}로 연락 주시면 임시 비밀번호를 바로 알려 드립니다.</div>`; btn.disabled = false; return; }
+        $('#fOut').innerHTML = `<form id="rForm" class="card" style="padding:16px;margin-top:14px" novalidate><p style="margin-top:0"><b>${esc(r.to)}</b> 으로 인증번호를 보냈습니다. (15분 안에 입력)</p>
+          <div class="field"><label for="rCode">인증번호 6자리</label><input id="rCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required></div>
+          <div class="field"><label for="rPw">새 비밀번호</label><input id="rPw" type="password" autocomplete="new-password" required><span class="hint">영문과 숫자를 섞어 8자 이상</span></div>
+          <button class="btn primary block" id="rBtn">새 비밀번호로 바꾸기</button></form>`;
+        $('#rForm').onsubmit = async ev => {
+          ev.preventDefault(); const b2 = $('#rBtn'); b2.disabled = true;
+          try { const x = await api.post('/api/password/reset', { email, code: $('#rCode').value, password: $('#rPw').value }); setToken(x.token); me = x.user; renderTop(); toast('비밀번호를 바꾸고 로그인했습니다.'); location.hash = '#/'; }
+          catch (er) { fail(er); b2.disabled = false; }
+        };
+      }
+    } catch (er) { fail(er); }
+    btn.disabled = false;
   };
 }
 
@@ -286,6 +329,7 @@ async function route() {
     else if (a === 'page') await page(b);
     else if (a === 'p') await product(b);
     else if (a === 'login' || a === 'signup') authPage(a);
+    else if (a === 'find') findPage(b);
     else if (a === 'my') await my();
     else if (a === 'notice') await notices(b);
     else if (a === 'terms') terms(b);

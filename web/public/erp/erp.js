@@ -681,9 +681,14 @@ async function members(view) {
   const list = await api.get('/api/erp/members');
   const ROLE = { member: '회원', staff: '직원', admin: '관리자' };
   view.innerHTML = `<p class="muted" style="margin-top:0">홈페이지에서 가입한 회원이 자동으로 보입니다. 직원으로 바꾸면 그 계정으로 ERP에 들어올 수 있습니다.${me.role !== 'admin' ? ' (권한 변경은 관리자만 할 수 있습니다.)' : ''}</p>
-    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>이름</th><th>이메일</th><th class="hide-m">연락처</th><th class="hide-m">가입일</th><th>구분</th></tr></thead><tbody>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>이름</th><th>이메일</th><th class="hide-m">연락처</th><th class="hide-m">가입일</th><th>구분</th>${me.role === 'admin' ? '<th>비밀번호</th>' : ''}</tr></thead><tbody>
     ${list.map(u => `<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td class="hide-m">${esc(u.phone || '')}</td><td class="hide-m">${fmtD(u.createdAt)}</td>
-      <td>${me.role === 'admin' && u.id !== me.id ? `<select data-role="${esc(u.id)}" aria-label="${esc(u.name)} 구분">${Object.entries(ROLE).map(([k, v]) => `<option value="${k}" ${u.role === k ? 'selected' : ''}>${v}</option>`).join('')}</select>` : ROLE[u.role]}</td></tr>`).join('')}</tbody></table></div>`;
+      <td>${me.role === 'admin' && u.id !== me.id ? `<select data-role="${esc(u.id)}" aria-label="${esc(u.name)} 구분">${Object.entries(ROLE).map(([k, v]) => `<option value="${k}" ${u.role === k ? 'selected' : ''}>${v}</option>`).join('')}</select>` : ROLE[u.role]}</td>${me.role === 'admin' ? `<td>${u.role === 'member' ? `<button class="btn sm" data-tmp="${esc(u.id)}" data-nm="${esc(u.name)}">임시 비밀번호</button>` : ''}</td>` : ''}</tr>`).join('')}</tbody></table></div>
+    ${me.role === 'admin' ? '<p class="muted" style="font-size:13px">비밀번호를 잊은 회원이 카카오톡·전화로 연락하면, 본인 확인(이름·휴대폰) 후 <b>임시 비밀번호</b>를 만들어 알려 주세요. 회원은 앱·홈페이지에서 그 비밀번호로 로그인한 뒤 바꾸면 됩니다.</p>' : ''}`;
+  $$('[data-tmp]', view).forEach(b => b.onclick = async () => {
+    if (!confirm(`${b.dataset.nm} 회원의 비밀번호를 임시 비밀번호로 바꿀까요? (그 회원의 다른 로그인은 끝납니다)`)) return;
+    try { const r = await api.post('/api/erp/members/' + b.dataset.tmp + '/temp-password', {}); prompt(`${b.dataset.nm} 회원 임시 비밀번호 (복사해서 알려 주세요)`, r.password); } catch (err) { toast(err.message); }
+  });
   $$('[data-role]', view).forEach(sel => sel.onchange = async () => {
     try { await api.patch('/api/erp/members/' + sel.dataset.role, { role: sel.value }); toast('권한을 바꿨습니다.'); } catch (err) { toast(err.message); members(view); }
   });
