@@ -6,7 +6,7 @@ on:
     - cron: '0 21 * * 0'   # 매주 월요일 06:00 (한국)
   push:
     branches: [claude/project-thread-xilp6l]
-    paths: [tools/kr_tour_fees.py, .github/workflows/kr-fees.yml]
+    paths: [tools/kr_tour_fees.py, .github/workflows/kr-fees.yml, services.json]
 permissions:
   contents: write
 concurrency: { group: kr-fees, cancel-in-progress: false }
