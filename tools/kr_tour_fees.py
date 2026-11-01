@@ -18,7 +18,7 @@ TAG = '한국관광공사 관광정보'
 def fetch_all():
     px = os.environ.get('PROXY_URL') or json.load(open(os.path.join(R, 'services.json')))['dataProxy']
     items, total, page = [], None, 1
-    while page <= 20:
+    while page <= 40:
         for tryno in range(3):
             try:
                 req = urllib.request.Request(px + '?api=golf&page=%d' % page, headers={'User-Agent': 'TaeilGolf-data/1.0'})
@@ -97,8 +97,9 @@ GF_MIN, GF_MAX = 25000, 600000
 OLD = '%04d-%02d-%02d' % (datetime.now().year - 2, datetime.now().month, 1)
 
 
-def parse_fee(fee):
-    """관광공사 이용요금 글 → {wdD, weD, cart, caddie} (확실한 것만)"""
+def parse_fee(fee, small=False):
+    """관광공사 이용요금 글 → {wdD, weD, cart, caddie} (확실한 것만). small=스크린·연습장"""
+    lo, hi = (3000, 100000) if small else (GF_MIN, GF_MAX)
     txt = clean(fee); p = {}
     for line in txt.split('\n'):
         if re.search(r'9\s*홀', line) and not re.search(r'18\s*홀', line):
@@ -122,15 +123,15 @@ def parse_fee(fee):
             m = re.search(rx, line)
             if not m: return 0
             for pos, v in w:
-                if pos >= m.end() and GF_MIN <= v <= GF_MAX:
+                if pos >= m.end() and lo <= v <= hi:
                     return v
             return 0
         wd = after(r'주중|평일|월\s*[~\-]\s*금')
         we = after(r'주말|토\s*[·,/~\-]?\s*일|토요일|일요일|공휴일|휴일')
         if wd and 'wdD' not in p: p['wdD'] = wd
         if we and 'weD' not in p: p['weD'] = we
-        if not wd and not we and re.search(r'그린\s*피|입장료|이용료', line) and 'wdD' not in p and 'weD' not in p:
-            gv = [v for _, v in w if GF_MIN <= v <= GF_MAX]
+        if not wd and not we and re.search(r'그린\s*피|입장료|이용료|게임|1\s*인|시간', line) and 'wdD' not in p and 'weD' not in p:
+            gv = [v for _, v in w if lo <= v <= hi]
             if len(gv) == 1: p['gf'] = gv[0]
     if 'gf' in p:
         g = p.pop('gf')
@@ -146,10 +147,14 @@ def main():
     items = raw['items']
     asar = sorted(glob.glob(os.path.join(R, 'app-*.asar')))[-1]
     W = json.loads(asar_file(asar, 'world_builtin.json'))['list']
-    W = [d for d in W if d.get('c') == 'South Korea' and not NOT_COURSE.search((d.get('n') or '') + ' ' + (d.get('nk') or ''))]
+    WK = [d for d in W if d.get('c') == 'South Korea']
+    W = [d for d in WK if not NOT_COURSE.search((d.get('n') or '') + ' ' + (d.get('nk') or ''))]
+    WS = [d for d in WK if NOT_COURSE.search((d.get('n') or '') + ' ' + (d.get('nk') or ''))]
     K = json.load(open(KRV)); V = K['venues']; byid = {v['id']: v for v in V}
     cands = [('w-%.5f,%.5f' % (d['lat'], d['lng']), d['lat'], d['lng'], d.get('nk') or d.get('n') or '') for d in W]
     cands += [(v['id'], v['lat'], v['lng'], v.get('name', '')) for v in V if v.get('type') == 'course' and 'lat' in v]
+    small = [('k%.5f,%.5f' % (d['lat'], d['lng']), d['lat'], d['lng'], d.get('nk') or d.get('n') or '') for d in WS]
+    small += [(v['id'], v['lat'], v['lng'], v.get('name', '')) for v in V if v.get('type') in ('screen', 'range', 'unk') and 'lat' in v]
     stat = dict(items=len(items), matched=0, priced=0, kept_official=0, no_amount=0, unmatched=0)
     used = set(); unmatched = []
     for it in items:
@@ -158,12 +163,14 @@ def main():
         lat, lng, t = float(it['y']), float(it['x']), it['t']
         k = norm(t)
         best = None
-        for cid, a, b, n in cands:
+        is_small = bool(NOT_COURSE.search(t))
+        pool, far, near = (small, 0.4, 0.08) if is_small else (cands, 3, 0.8)
+        for cid, a, b, n in pool:
             dist = km(lat, lng, a, b)
-            if dist > 3: continue
+            if dist > far: continue
             nn = norm(n); same = bool(k and nn and (k in nn or nn in k))
             score = dist - (2.5 if same else 0)
-            if (same or dist < 0.8) and (best is None or score < best[0]):
+            if (same or dist < near) and (best is None or score < best[0]):
                 best = (score, cid)
         if not best:
             stat['unmatched'] += 1; unmatched.append(t); continue
@@ -176,7 +183,7 @@ def main():
         old = v.get('price') or {}
         if v.get('priceSrc') or (old and TAG not in (old.get('memo') or '')):
             stat['kept_official'] += 1; continue
-        p, txt = parse_fee(it['fee'])
+        p, txt = parse_fee(it['fee'], small=is_small)
         mod = it.get('m') or ''
         mod = '%s-%s-%s' % (mod[:4], mod[4:6], mod[6:8]) if len(mod) >= 8 else ''
         memo = '%s 기준(수정일 %s), 바뀔 수 있으니 예약 전 골프장 확인 · 원문: %s' % (TAG, mod, txt.replace('\n', ' / ')[:300])
@@ -185,7 +192,7 @@ def main():
         if not any(p.get(x) for x in ('wdD', 'weD', 'cart', 'caddie')):
             stat['no_amount'] += 1
         pr = {x: p[x] for x in ('wdD', 'weD', 'cart', 'caddie') if p.get(x)}
-        pr['unit'] = '18홀 1인' if (pr.get('wdD') or pr.get('weD')) else ''
+        pr['unit'] = ('1인 기준' if is_small else '18홀 1인') if (pr.get('wdD') or pr.get('weD')) else ''
         pr['memo'] = memo
         if pr.get('wdD') or pr.get('weD'): stat['priced'] += 1
         v['price'] = {x: y for x, y in pr.items() if y}
