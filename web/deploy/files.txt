@@ -18,6 +18,7 @@ public/erp/calc.js
 public/erp/erp.css
 public/erp/erp.js
 public/erp/flights.js
+public/erp/fx.js
 public/erp/index.html
 public/erp/mail.js
 public/erp/pages.js
