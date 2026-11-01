@@ -1,0 +1,19 @@
+// 태일골프 라운지(대기실) 서버 : Cloudflare Workers + Durable Objects (무료 요금제, 24시간)
+//   https://tigc.co.kr/lounge/...  (홈페이지와 같은 주소 아래, 회원 확인은 홈페이지 서버 taeil-erp 에 물어봄)
+{
+  "name": "taeil-lounge",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "routes": [
+    { "pattern": "tigc.co.kr/lounge/*", "zone_name": "tigc.co.kr" },
+    { "pattern": "www.tigc.co.kr/lounge/*", "zone_name": "tigc.co.kr" }
+  ],
+  "workers_dev": false,
+  "services": [{ "binding": "ERP", "service": "taeil-erp" }],
+  "durable_objects": { "bindings": [
+    { "name": "ROOM", "class_name": "Room" },
+    { "name": "BOARD", "class_name": "Board" }
+  ] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room", "Board"] }],
+  "observability": { "enabled": true }
+}

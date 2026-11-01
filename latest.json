@@ -1,9 +1,9 @@
 {
- "version": "1.4.54",
- "file": "app-1.4.54.asar",
- "sha256": "a012e802a209c92b2a56957c9ff26604327345c076f4829eae363ccea7b69346",
+ "version": "1.4.55",
+ "file": "app-1.4.55.asar",
+ "sha256": "b737e4071795d58359966590ea985585d55366e923e973703564930fe72f6ded",
  "minShell": "",
  "fullUrl": "",
- "notes": "새 기능: 🗺 파타야 지도 (수완나품 공항·차층사오·파타야와 골프장 27곳, 거리·시간)",
- "sig": "oibocx/L1AVW8Dxnzpt+g4HuAXbVPc3MnU9TV9vQevhzBHER9OyLsKkutZ4CgF/Gg62Ypqls0kbyHeWaVzP8Cg=="
+ "notes": "새 기능: 🏠 대기실 (태일골프 라운지) — 회원끼리 3D 라운지에서 만나 스크린골프·낚시·당구, 동네 소모임",
+ "sig": "8jfIk13GWg8uxJ1JFN7Yrpqt5zu5TZSLcavcAj2Nqp374B8CUHo8kKBp7+IoPOpetUNl7UfChDyydcy8dFjlBQ=="
 }
