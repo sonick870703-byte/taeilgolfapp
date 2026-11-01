@@ -1,9 +1,9 @@
 {
- "version": "1.4.65",
- "file": "www-1.4.65.zip",
- "sha256": "ccbaf33a6e6e7168d73059790bb049dda364249108904594f3926077bc36e5e1",
+ "version": "1.4.66",
+ "file": "www-1.4.66.zip",
+ "sha256": "130e73840f6be1dc7ec970ca9bbf11145e3fdb3ceed0123e06f34e8570a30f82",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "새 기능 💱 환율",
- "sig": "pF8ScnV1dVAcbuuKKsMMb0gHh28HSe/kiUJyOdTw74O1b7eX/1LUUA9f2llA4N54nL6wFo7OV2lyQ1Ke9a7XIpxrbBfbmbYBu7T7i9DyxOK3z+Vd0ymaSQkpPBPOWSnRK/rmXvNqmbLERroYbL/3L42HlSUozyXNfkahEwOCUwK8UW/4UpYbosxhWUq6HLZbvGfW7znvjPbr0GwdNun4AU9A/mW2l+ym06l/dpnLZ3Rf+POrnMyVCmwYjPXtwbD9ifyph69eD7mZTMIykvVhz04h6DeBFKO+15eDd5wCuEsppFDeRvulmZuzGUzoMTv5xPRCLVwnqwBS/gabeqgMBA=="
+ "notes": "새 시작 화면 + 첫 화면 로그인",
+ "sig": "qi57rT55piuysds+SN2Em7egsOL8AE3Ljkm0fQ/sfW+aKgRErFa2LR1NeAovbyKw6UQFKeWpG0BrzEKI4hyWGaQyhuTEoKPAuy2pQCQqePiD24hUX79nntyQJgAvKgQlX7Ga8Gu56Hs/sVVTuM4uHtpfZq2levSfeZmcw8Epa0YdGrUaqOEcocc1TyXyimTbzSfZE4+F02RWEAMXaNYrG7T/bwXA/xun8rSyK79UW2737omFhyMlEwKX9CTCsISm5f8ZRIy14g9w0I70kJXBxWmOlVaJfkmniu9LBRMg5KA3Sa8IuK3zsyUTUQMC+aGm6TcKtPCt5YExbctTqllI3A=="
 }
