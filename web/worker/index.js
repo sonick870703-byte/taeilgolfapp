@@ -147,7 +147,21 @@ export default {
     }
   },
   async fetch(request, env) {
+    // PC 프로그램·휴대폰 앱 첫 화면(로그인·회원가입·아이디/비밀번호 찾기)은 다른 주소(file://, 앱 안 주소)에서 부릅니다.
+    // 로그인 표시는 쿠키가 아니라 Authorization 머리글이라, 이 몇 개 주소만 어디서든 부를 수 있게 엽니다.
     const url = new URL(request.url);
+    if (!APP_CORS.test(url.pathname)) return handle(request, env, url);
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS_HEADERS });
+    const res = await handle(request, env, url);
+    for (const [k, v] of Object.entries(CORS_HEADERS)) res.headers.set(k, v);
+    return res;
+  },
+};
+
+const APP_CORS = /^\/api\/(health|login|logout|signup|me|find-id|password\/(forgot|reset))$/;
+const CORS_HEADERS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Max-Age': '86400' };
+
+async function handle(request, env, url) {
     try {
       const { api, store } = await init(env);
       if (url.pathname.startsWith('/api/')) {
@@ -159,10 +173,8 @@ export default {
         }
         const token = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '') || null;
         const out = await api.handle({ method: request.method, path: url.pathname, query: Object.fromEntries(url.searchParams), body, token });
-        const res = json(200, out);
-        // ERP '도메인 연결'의 연결 확인이 다른 주소(tigc.co.kr 등)에서 읽을 수 있게 합니다
-        if (url.pathname === '/api/health') res.headers.set('Access-Control-Allow-Origin', '*');
-        return res;
+        // (/api/health 는 ERP '도메인 연결' 확인용으로도 다른 주소에서 읽습니다 → APP_CORS)
+        return json(200, out);
       }
       if (url.pathname.startsWith('/uploads/')) {
         const name = url.pathname.slice('/uploads/'.length);
@@ -184,5 +196,4 @@ export default {
       if (status === 500) console.error(e);
       return json(status, { error: status === 500 ? '서버 오류가 났습니다. 잠시 후 다시 시도해 주세요.' : e.message });
     }
-  },
-};
+}

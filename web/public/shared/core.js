@@ -411,6 +411,7 @@ export function createApi(store, deps) {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw err(400, '이메일 형식을 확인해 주세요.');
     if (pw.length < 8) throw err(400, '비밀번호는 8자 이상으로 정해 주세요.');
     if (!name) throw err(400, '이름을 입력해 주세요.');
+    if (String(phone).replace(/\D/g, '').length < 9) throw err(400, '휴대폰 번호를 입력해 주세요. (아이디·비밀번호 찾기에 씁니다)');
     if (!body.agreeTerms || !body.agreePrivacy) throw err(400, '이용약관과 개인정보 수집·이용에 동의해 주세요.');
     const exists = (await store.all('users')).find(u => u.email === email);
     if (exists) throw err(409, '이미 가입된 이메일입니다. 로그인해 주세요.');
@@ -439,6 +440,60 @@ export function createApi(store, deps) {
     u.salt = newSalt(); u.hash = await deps.hash(pw, u.salt);
     await store.put('users', u);
     return { ok: true };
+  });
+
+  // ----- 아이디(이메일) 찾기 · 비밀번호 다시 정하기 (홈페이지 + PC·휴대폰 앱 첫 화면) -----
+  const digits = s => String(s || '').replace(/\D/g, '');
+  const maskEmail = e => {
+    const [u, d = ''] = String(e).split('@'), parts = d.split('.');
+    const head = u.length <= 2 ? u[0] + '*' : u.slice(0, 2) + '*'.repeat(Math.min(6, u.length - 2));
+    return head + '@' + (parts[0] || '').slice(0, 1) + '*'.repeat(Math.max(1, Math.min(5, (parts[0] || '').length - 1))) + (parts.length > 1 ? '.' + parts.slice(1).join('.') : '');
+  };
+  const PW_RULE = pw => pw.length >= 8 && /[0-9]/.test(pw) && /[a-zA-Z]/.test(pw);
+  const findMember = async (name, phone) => (await store.all('users')).filter(u => u.name === name && digits(u.phone) === phone);
+  on('POST', '/api/find-id', async ({ body }) => {
+    const name = str(body.name, 40), phone = digits(body.phone);
+    if (!name || phone.length < 9) throw err(400, '이름과 휴대폰 번호를 입력해 주세요.');
+    const list = await findMember(name, phone);
+    return { ids: list.sort((a, b) => a.createdAt - b.createdAt).map(u => ({ email: maskEmail(u.email), joined: todayKST(u.createdAt) })) };
+  });
+  // 비밀번호 찾기: 가입한 메일로 6자리 인증번호를 보냅니다 (메일 보내기 설정 전이면 sent:false → 고객센터 안내)
+  on('POST', '/api/password/forgot', async ({ body }) => {
+    const email = str(body.email, 120).toLowerCase(), name = str(body.name, 40), phone = digits(body.phone);
+    if (!email || !name || phone.length < 9) throw err(400, '이메일(아이디), 이름, 휴대폰 번호를 모두 입력해 주세요.');
+    const u = (await store.all('users')).find(x => x.email === email);
+    if (!u || u.name !== name || digits(u.phone) !== phone) throw err(404, '입력한 정보와 맞는 회원이 없습니다. 아이디 찾기로 이메일을 먼저 확인해 주세요.');
+    const cfg = await mailConfig();
+    if (!cfg.resendKey || !cfg.from || !deps.httpFetch) return { sent: false };
+    const old = await store.get('pwresets', u.id);
+    if (old && now() - old.at < 60000) throw err(429, '인증번호를 방금 보냈습니다. 메일함(스팸함 포함)을 확인하시고, 1분 뒤에 다시 받을 수 있습니다.');
+    const code = String([...deps.randomId(24)].reduce((n, c) => (n * 31 + c.charCodeAt(0)) % 1000000, 7)).padStart(6, '0');
+    const salt = newSalt();
+    await store.put('pwresets', { id: u.id, at: now(), exp: now() + 15 * 60000, tries: 0, salt, hash: await deps.hash(code, salt) });
+    const text = `${u.name}님, 태일골프 비밀번호 찾기 인증번호입니다.\n\n인증번호: ${code}\n\n15분 안에 입력해 주세요. 직접 요청하지 않으셨다면 이 메일은 무시하셔도 됩니다.\n\n태일 골프커뮤니케이션 · tigc.co.kr · 02-737-6658`;
+    const r = await deps.httpFetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + cfg.resendKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: cfg.fromName ? `${cfg.fromName} <${cfg.from}>` : cfg.from, to: [u.email], subject: `[태일골프] 비밀번호 찾기 인증번호 ${code}`, text }) });
+    if (!r.ok) { await store.del('pwresets', u.id); throw err(502, '인증 메일을 보내지 못했습니다. 잠시 후 다시 시도하시거나 고객센터로 연락해 주세요.'); }
+    return { sent: true, to: maskEmail(u.email) };
+  });
+  on('POST', '/api/password/reset', async ({ body }) => {
+    const email = str(body.email, 120).toLowerCase(), code = digits(body.code).slice(0, 6), pw = String(body.password || '');
+    const u = (await store.all('users')).find(x => x.email === email);
+    const r = u && await store.get('pwresets', u.id);
+    if (!r || r.exp < now()) throw err(400, '인증번호가 없거나 15분이 지났습니다. 인증번호를 다시 받아 주세요.');
+    if (r.hash !== await deps.hash(code, r.salt)) {
+      r.tries = (r.tries || 0) + 1;
+      if (r.tries >= 5) { await store.del('pwresets', u.id); throw err(400, '인증번호를 5번 틀렸습니다. 인증번호를 다시 받아 주세요.'); }
+      await store.put('pwresets', r);
+      throw err(400, `인증번호가 맞지 않습니다. (${5 - r.tries}번 더 입력할 수 있습니다)`);
+    }
+    if (!PW_RULE(pw)) throw err(400, '새 비밀번호는 영문과 숫자를 섞어 8자 이상으로 정해 주세요.');
+    u.salt = newSalt(); u.hash = await deps.hash(pw, u.salt);
+    await store.put('users', u);
+    await store.del('pwresets', u.id);
+    // 다른 기기에 남아 있던 로그인은 모두 끝냅니다
+    for (const s of await store.all('sessions')) if (s.userId === u.id) await store.del('sessions', s.id);
+    return { token: await newSession(u), user: publicUser(u) };
   });
 
   on('POST', '/api/bookings', async ({ body, user }) => {
@@ -918,6 +973,20 @@ export function createApi(store, deps) {
     }
     await store.put('users', u);
     return publicUser(u);
+  }, ADMIN);
+
+  // 메일 인증을 못 하는 고객용: 관리자가 임시 비밀번호를 만들어 카카오톡·전화로 알려 줍니다 (그 회원의 다른 로그인은 끝남)
+  on('POST', '/api/erp/members/:id/temp-password', async ({ params }) => {
+    const u = await store.get('users', params.id);
+    if (!u) throw err(404, '회원을 찾을 수 없습니다.');
+    if (u.role !== 'member') throw err(400, '직원·관리자 계정은 본인이 비밀번호 바꾸기로 바꿔 주세요.');
+    const abc = 'abcdefghjkmnpqrstuvwxyz', num = '23456789', rnd = deps.randomId(16);
+    const pick2 = (set, i) => set[rnd.charCodeAt(i) % set.length];
+    const pw = 'tg' + [0, 1, 2].map(i => pick2(abc, i)).join('') + [3, 4, 5, 6].map(i => pick2(num, i)).join('');
+    u.salt = newSalt(); u.hash = await deps.hash(pw, u.salt);
+    await store.put('users', u);
+    for (const s of await store.all('sessions')) if (s.userId === u.id) await store.del('sessions', s.id);
+    return { password: pw };
   }, ADMIN);
 
   on('GET', '/api/erp/settings', async () => settings(), STAFF);
