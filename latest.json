@@ -1,9 +1,9 @@
 {
- "version": "1.4.65",
- "file": "app-1.4.65.asar",
- "sha256": "9d35a9adcfd56752a61a7ebe5cfac7324a6e408782b59983370270629b85b96f",
+ "version": "1.4.66",
+ "file": "app-1.4.66.asar",
+ "sha256": "e9dd37ceb76548fb265c593adc9f9212f02aa3a43a02e7dc1e9f4974e40bd782",
  "minShell": "",
  "fullUrl": "",
- "notes": "새 기능 💱 환율 (회원용 환율·여행, 관리자 환율 관리)",
- "sig": "Q0jST1UakfZAeLqxcmTaYSgZYIFyO4/wYaKPzkfInYTwRzPTr/3ZAEMeunS0Hokhg+Ok1Dg0jbQ/r9vcfA5KDA=="
+ "notes": "새 시작 화면 + 첫 화면 로그인 (회원가입·아이디 찾기·비밀번호 찾기)",
+ "sig": "Stuj+FrPIGjml1YJVm+VT588An2NXCv0DWOAdablRpE/P2/frbbyXUOQd5aoekfMyBKHI2gQNIc39NNriRukDQ=="
 }
