@@ -1,9 +1,9 @@
 {
- "version": "1.4.69",
- "file": "app-1.4.69.asar",
- "sha256": "ba34cb89d3df4a01e6c8b07aa62501cf8c5abd388e21a6a67390f21ee4124f28",
+ "version": "1.4.70",
+ "file": "app-1.4.70.asar",
+ "sha256": "3f8b92819277721dd2abaeb27e7b206eb1f9540620adc758061bb9e3b94f5d6a",
  "minShell": "",
  "fullUrl": "",
- "notes": "관리자 자동 로그인 · 종료 확인창 · 메인 화면 관리자 버튼 없앰",
- "sig": "nD7O8YmVtxh3/aN4pWWn6jx3RR3TqvOIa9AKaPYjDAe9jOclpOeWsNhRNx9/3XfgiKOMQOejEhV9Ewtp549sCA=="
+ "notes": "환율: 현지 물가에 호텔 대신 렌트카",
+ "sig": "5JoMeUBfa9C0P+sLgWOYnfFlNXnWjaASAdd3uLBG9l2JChqppHPtMX2S89BFmQj/dwcpbmwY2E0wxUSQrWwhBA=="
 }

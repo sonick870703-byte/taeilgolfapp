@@ -1,9 +1,9 @@
 {
- "version": "1.4.69",
- "file": "www-1.4.69.zip",
- "sha256": "df5e39a0cd23dc94dc27273db78b844515c26dbda49a98af5c52725044d9d7eb",
+ "version": "1.4.70",
+ "file": "www-1.4.70.zip",
+ "sha256": "ddc12f44cf8e8f0bc6c774bac3117e216fc135b6211d410b042d1dcca4fced20",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "종료 확인창 · 관리자 자동 로그인",
- "sig": "J5azPRJ++uHe2a8nKQAQXjKHqXXlw0gxlT9cPPwiF/Piya2AOPlqry6zzRJWLCgiwducdYfg1vMXbrKIRXRmtpIkC8CXj5tHDp4wUB/CF+Xvfy7Zx/Zs1b6eX1hwmvjtgj8Q/uSrZERkivMnaaiAW+lnK2kqrPrQV8H5IfseU3xUmmxeU/czvvuuaWlEa1fhqeHc3Y/eZyBoe18Ue63C+1QtGylM2HNHe9EKc5c68eSK1FO5iqY6v04h533oZYDEeBKbm+2vi6MzUFZCp0ycvHl+dm3/X//17CGMEmI9eIQYUrcke7vbUY+QX9tQGG9LPbb5+TwJAiI+2mcCgcMkbA=="
+ "notes": "환율: 현지 물가에 호텔 대신 렌트카",
+ "sig": "fKeGK+Xf9hUb2VefyFdTuUqf+ZKnV2k2Il6+ozND58dazR7SDtLn7rHt8RpxdIqCnvsUzkCgO6g9jwlMQp5xv5csCo2jW7s5vsBin+2kejZ7+r5PQ3PZo5kY1Doy6wumyDZFNNv+/ER52ar+lQv9+r9zrNHTyXAJbUu3z6aLoGLa01RLlMS+kHIfyuEsF62izG5jxO95vQUckkFAZVYotVDLTx0Cb3fnS7SHdrGtC7AHka6eNEdaJeNu4jh+Kosy8QkdX1aHmZ8sQ2lpePyPfhqT8ghZLBonz7JkSKaOMmUZRvCSajjej2nUyXJ6mIvYjSkAao/fwOcq6HlNmJycZA=="
 }
