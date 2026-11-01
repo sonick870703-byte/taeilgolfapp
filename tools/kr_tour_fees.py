@@ -37,6 +37,7 @@ def fetch_all():
             break
         page += 1
     raw = {'fetched': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'src': '한국관광공사 TourAPI 국문 관광정보 서비스 (공공데이터포털)', 'total': total, 'items': items}
+    os.makedirs(os.path.dirname(RAW), exist_ok=True)
     json.dump(raw, open(RAW, 'w'), ensure_ascii=False, indent=0)
     return raw
 
