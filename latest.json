@@ -1,9 +1,9 @@
 {
- "version": "1.4.61",
- "file": "app-1.4.61.asar",
- "sha256": "7d91b82b622fe15ae8137813600ce4f4d3b3dce673c8fe7c1601f046f9d7fd1e",
+ "version": "1.4.62",
+ "file": "app-1.4.62.asar",
+ "sha256": "505f90e1e8585beef3c2ca4946bc997ab031ae9acc8c8ecbd402d61659d0f8e9",
  "minShell": "",
  "fullUrl": "",
- "notes": "상품 금액 디자인 새로 + 제목·금액 글씨체 굵은 고딕으로",
- "sig": "rrCT7SOS2ZylqziEiEbLgS4Eb43W8IWd8l679GUPlRyQE8GHjpLM3Fb5GrcMJAYBKYvyqixQFq16jAj2NUzMCg=="
+ "notes": "여행경보 안내 글씨 정리",
+ "sig": "XQ5vvFPB/uT/7JEPDSTW/N6nsyPChsrHb51Z0i/+rPd9kyVNSkIn4GIXUrpC37M37zmqtmzNS7V7daGBDVGDAw=="
 }

@@ -1,9 +1,9 @@
 {
- "version": "1.4.61",
- "file": "www-1.4.61.zip",
- "sha256": "8d6360eb9fd5d9fe80409ea23315c03c366679c1eacc68ef8d1af9e095168cb6",
+ "version": "1.4.62",
+ "file": "www-1.4.62.zip",
+ "sha256": "1119be8eed0f35ff78840b7104cd61717925bb4fe846f883949be6d97e11b8fb",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "상품 금액 디자인 새로 + 제목·금액 글씨체 굵은 고딕으로",
- "sig": "d3TthVB9rYthPzFFn+BBrQm4mblXwUU5DPmJtmvS1fekS4Dr5onV3hHzFT9f/9owsnBwl1YWgcJiyDXbLdcA2E/vAdz2OxIClHuTRjO6pBerB7ZQiEjOqqS9QDUVA31eDTcx7lnGydV40tD8VyEUJQdluO2VdZHzFjiXJmoMVnPEq4YV8uypCyM86iWfcY9xA4t5yqI0bC9GlH+UArtvM+p9y8GOKsujKyu/oo1k8o8Sl5GaHdwmmj4w0TrgwA81JZd4mPUDixMu/OJg7wlcHDvg/dSpPWS96ZGeTvHOfOMo0dXOtoorKPGsKrkxhzt4K/vKJg4Oc8LhBMXiSeqznw=="
+ "notes": "여행경보 안내 글씨 정리",
+ "sig": "FL9EUi5VZEGUGilDNJ7AIAqvdfyM1FphmwxOKM2n2pErT8f9hwNm/2kzw0LpqbLl9spf2DsZXgrmnww+B3FyuRub8gdjcQWhKLbKKG9FAM+EJzvtAgjbFBo6wctNvvdHDbCzzccBZCqh0I8IQKUgbJ8pZ389aLvt5B9V1MXuv3cZrPDKkGFL9x1dbPt8sQ+nKDu8SvoykU321S3SOPO4Irk5HcXSwxYPaPHioOLP+qAm8O9bUlPU2y+hSsYSOCM7SC554/5lePwXq1mana3oznAhwadbkNdLKJ7sLLielnMO0KQLtbdfpukMIuOXiFNKTi40tzHTcZxQwk2AhjmVFg=="
 }
