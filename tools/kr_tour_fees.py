@@ -32,7 +32,7 @@ def fetch_all():
             print('::warning::연결 서버 오류: %s (공공데이터포털 관광정보 활용신청과 연결 서버 코드 교체가 필요할 수 있음)' % j.get('error'))
             raise SystemExit(0)
         items += j['items']; total = j['total']
-        print('page', page, len(j['items']), '/', total, file=sys.stderr)
+        print('page', page, len(j['items']), '/', total, 'failed', j.get('failed'), file=sys.stderr)
         if len(j['items']) < 100 or len(items) >= total:
             break
         page += 1
