@@ -1,9 +1,9 @@
 {
- "version": "1.4.55",
- "file": "app-1.4.55.asar",
- "sha256": "b737e4071795d58359966590ea985585d55366e923e973703564930fe72f6ded",
+ "version": "1.4.56",
+ "file": "app-1.4.56.asar",
+ "sha256": "0be5afb78f49055420df07c24f4377088ca263e07ac4db2db0ffc1b932f10c39",
  "minShell": "",
  "fullUrl": "",
- "notes": "새 기능: 🏠 대기실 (태일골프 라운지) — 회원끼리 3D 라운지에서 만나 스크린골프·낚시·당구, 동네 소모임",
- "sig": "8jfIk13GWg8uxJ1JFN7Yrpqt5zu5TZSLcavcAj2Nqp374B8CUHo8kKBp7+IoPOpetUNl7UfChDyydcy8dFjlBQ=="
+ "notes": "대기실 동호회·파티·지역방, 골프장 상세에서 실제 코스 스크린골프, 파타야 지도 버튼 정리",
+ "sig": "cMDz6n/r3x01oc9yixePl5fVd3UZHSF+FSkJ0oLpZoDE/K1PAwwyxyh/eXHoqpNH2zOTzEC4pDJF+cK0qFG4Dg=="
 }

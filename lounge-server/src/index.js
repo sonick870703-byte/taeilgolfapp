@@ -1,12 +1,12 @@
 // 태일골프 라운지(대기실) 서버
 //  - 회원 확인: 홈페이지 서버(taeil-erp)의 /api/login, /api/me 를 그대로 사용 (회원 정보는 여기 저장하지 않음)
 //  - Room  : 방 하나 = Durable Object 하나 (광장 hub / 동네 dong-… / 모임 meet-…). 실시간 위치·채팅·파티
-//  - Board : 라운지 전체에 하나. 닉네임·동네, 소모임 글·참가자, 신고, 이용 제한(SQLite)
+//  - Board : 라운지 전체에 하나. 닉네임·동네, 동호회(가입·운영진·게시판·정모), 신고, 이용 제한(SQLite)
 // 위치(GPS)는 받지 않습니다. 동네는 회원이 시·군·구를 직접 고릅니다.
 import { DurableObject } from 'cloudflare:workers';
 
 const PREFIX = '/lounge';
-const ROOM_RE = /^(hub|dong-[0-9A-Za-z가-힣_-]{1,40}|meet-\d{1,9})$/;
+const ROOM_RE = /^(hub|dong-[0-9A-Za-z가-힣_-]{1,40}|meet-\d{1,9}|club-\d{1,9}|course-m?\d{1,6}_m?\d{1,6})$/;
 const STAFF = r => r === 'admin' || r === 'staff';
 const now = () => Date.now();
 const str = (v, n) => String(v ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, n);
@@ -49,6 +49,10 @@ async function userFrom(env, token) {
   return user;
 }
 const board = env => env.BOARD.get(env.BOARD.idFromName('main'));
+const today = () => new Date(now() + 9 * 3600e3).toISOString().slice(0, 10);
+const CLUB_CATS = ['골프', '스크린골프', '파크골프', '연습장', '골프여행', '당구', '낚시', '운동·산책', '친목', '기타'];
+const CLUB_EMOJI = ['⛳', '🏌', '🏌️‍♀️', '🎯', '🏆', '✈', '🎱', '🎣', '🚶', '☕', '🌳', '🔥', '⭐', '🍀', '🐯', '🦅'];
+const AGES = ['누구나', '20·30대', '30·40대', '40·50대', '50·60대', '60대 이상'];
 
 export default {
   async fetch(request, env) {
@@ -87,6 +91,10 @@ export default {
           const m = await B.meetup(+room.slice(5), user.id);
           if (!m || (!m.joined && m.host !== user.id && !STAFF(user.role))) return json(403, { error: '모임에 참가한 회원만 들어갈 수 있어요.' });
         }
+        if (room.startsWith('club-')) {
+          const role = await B.clubRole(+room.slice(5), user.id);
+          if ((!role || role === 'pending') && !STAFF(user.role)) return json(403, { error: '동호회 회원만 들어갈 수 있어요.' });
+        }
         const stub = env.ROOM.get(env.ROOM.idFromName(room));
         const fwd = new Request(request);
         fwd.headers.set('x-lounge-user', encodeURIComponent(JSON.stringify({ id: user.id, role: user.role, nick: prof.nick, dong: prof.sgg ? `${prof.sido} ${prof.sgg}` : '', room })));
@@ -109,6 +117,11 @@ export default {
       if (p === '/api/meetups' && request.method === 'POST') return json(200, { meetup: await B.createMeetup(user.id, body) });
       if ((m = /^\/api\/meetups\/(\d+)$/.exec(p))) return json(200, { meetup: await B.meetup(+m[1], user.id, true) });
       if ((m = /^\/api\/meetups\/(\d+)\/(join|leave|close|delete)$/.exec(p)) && request.method === 'POST') return json(200, { meetup: await B.meetupAction(+m[1], m[2], user, body) });
+      // 동호회 (가입해서 계속 활동하는 동네 모임)
+      if (p === '/api/clubs' && request.method === 'GET') return json(200, { clubs: await B.clubs({ sido: str(q.get('sido'), 20), sgg: str(q.get('sgg'), 30), cat: str(q.get('cat'), 12), q: str(q.get('q'), 20), mine: q.get('mine') === '1', sort: str(q.get('sort'), 8) }, user.id) });
+      if (p === '/api/clubs' && request.method === 'POST') return json(200, { club: await B.createClub(user.id, body) });
+      if ((m = /^\/api\/clubs\/(\d+)$/.exec(p))) return json(200, { club: await B.club(+m[1], user, true) });
+      if ((m = /^\/api\/clubs\/(\d+)\/(join|leave|edit|delete|member|post|unpost|meetup)$/.exec(p)) && request.method === 'POST') return json(200, await B.clubAction(+m[1], m[2], user, body));
       if (p === '/api/report' && request.method === 'POST') return json(200, await B.report(user.id, body, ''));
       if (p === '/api/rooms') return json(200, { rooms: await B.roomCounts() });
       // 관리 (홈페이지 ERP 관리자·직원 계정)
@@ -144,7 +157,16 @@ export class Board extends DurableObject {
       CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY AUTOINCREMENT, at INTEGER, reporter TEXT, reporter_nick TEXT, target TEXT, target_nick TEXT, reason TEXT, room TEXT, log TEXT, status TEXT DEFAULT 'new');
       CREATE TABLE IF NOT EXISTS bans (uid TEXT PRIMARY KEY, until INTEGER, reason TEXT, by TEXT, at INTEGER);
       CREATE TABLE IF NOT EXISTS rooms (room TEXT PRIMARY KEY, n INTEGER, at INTEGER);
+      CREATE TABLE IF NOT EXISTS clubs (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, name_l TEXT UNIQUE, cat TEXT, sido TEXT, sgg TEXT, intro TEXT, question TEXT,
+        mode TEXT DEFAULT 'open', max INTEGER, emoji TEXT, color TEXT, ages TEXT, owner TEXT, created INTEGER, active INTEGER, status TEXT DEFAULT 'on');
+      CREATE INDEX IF NOT EXISTS clubs_area ON clubs (sido, sgg);
+      CREATE TABLE IF NOT EXISTS cm (cid INTEGER, uid TEXT, nick TEXT, role TEXT, at INTEGER, msg TEXT, PRIMARY KEY (cid, uid));
+      CREATE INDEX IF NOT EXISTS cm_uid ON cm (uid);
+      CREATE TABLE IF NOT EXISTS cposts (id INTEGER PRIMARY KEY AUTOINCREMENT, cid INTEGER, uid TEXT, nick TEXT, notice INTEGER DEFAULT 0, body TEXT, created INTEGER);
+      CREATE INDEX IF NOT EXISTS cposts_c ON cposts (cid, id);
     `);
+    // 예전 표에 동호회 번호 칸 추가 (이미 있으면 그냥 넘어감)
+    try { this.sql.exec('ALTER TABLE meetups ADD COLUMN club INTEGER'); } catch { /* exists */ }
   }
   one(q, ...a) { const r = this.sql.exec(q, ...a).toArray(); return r[0] || null; }
   all(q, ...a) { return this.sql.exec(q, ...a).toArray(); }
@@ -172,7 +194,7 @@ export class Board extends DurableObject {
     this.sql.exec(`INSERT INTO profiles (uid, nick, nick_l, sido, sgg, color, updated) VALUES (?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(uid) DO UPDATE SET nick = excluded.nick, nick_l = excluded.nick_l, sido = excluded.sido, sgg = excluded.sgg, color = excluded.color, updated = excluded.updated`,
       uid, nick, nick.toLowerCase(), sido, sgg, color, now());
-    if (nick !== old.nick) { this.sql.exec('UPDATE mm SET nick = ? WHERE uid = ?', nick, uid); this.sql.exec('UPDATE meetups SET host_nick = ? WHERE host = ?', nick, uid); }
+    if (nick !== old.nick) { for (const t of ['mm', 'cm', 'cposts']) this.sql.exec(`UPDATE ${t} SET nick = ? WHERE uid = ?`, nick, uid); this.sql.exec('UPDATE meetups SET host_nick = ? WHERE host = ?', nick, uid); }
     return this.profile(uid);
   }
 
@@ -180,7 +202,7 @@ export class Board extends DurableObject {
   pub(m, uid, full) {
     const members = this.all('SELECT uid, nick FROM mm WHERE mid = ? ORDER BY at', m.id);
     const o = { id: m.id, sido: m.sido, sgg: m.sgg, kind: m.kind, title: m.title, date: m.date, time: m.time, place: m.place, max: m.max, body: m.body,
-      hostNick: m.host_nick, mine: m.host === uid, host: m.host === uid ? uid : undefined, created: m.created, status: m.status,
+      club: m.club || 0, hostNick: m.host_nick, mine: m.host === uid, host: m.host === uid ? uid : undefined, created: m.created, status: m.status,
       count: members.length, joined: members.some(x => x.uid === uid) };
     if (full) o.members = members.map(x => x.nick);
     return o;
@@ -188,16 +210,16 @@ export class Board extends DurableObject {
   meetups(sido, sgg, uid) {
     const today = new Date(now() + 9 * 3600e3).toISOString().slice(0, 10);
     const rows = sido
-      ? (sgg ? this.all("SELECT * FROM meetups WHERE sido = ? AND sgg = ? AND date >= ? AND status <> 'deleted' ORDER BY date, time LIMIT 100", sido, sgg, today)
-        : this.all("SELECT * FROM meetups WHERE sido = ? AND date >= ? AND status <> 'deleted' ORDER BY date, time LIMIT 100", sido, today))
-      : this.all("SELECT * FROM meetups WHERE date >= ? AND status <> 'deleted' ORDER BY date, time LIMIT 100", today);
+      ? (sgg ? this.all("SELECT * FROM meetups WHERE sido = ? AND sgg = ? AND date >= ? AND status <> 'deleted' AND club IS NULL ORDER BY date, time LIMIT 100", sido, sgg, today)
+        : this.all("SELECT * FROM meetups WHERE sido = ? AND date >= ? AND status <> 'deleted' AND club IS NULL ORDER BY date, time LIMIT 100", sido, today))
+      : this.all("SELECT * FROM meetups WHERE date >= ? AND status <> 'deleted' AND club IS NULL ORDER BY date, time LIMIT 100", today);
     return rows.map(m => this.pub(m, uid));
   }
   meetup(id, uid, full) {
     const m = this.one("SELECT * FROM meetups WHERE id = ? AND status <> 'deleted'", id);
     return m ? this.pub(m, uid, full) : null;
   }
-  createMeetup(uid, b) {
+  createMeetup(uid, b, club = null) {
     const prof = this.profile(uid);
     if (!prof || !prof.nick) fail(409, '닉네임을 먼저 정해 주세요.');
     const sido = str(b.sido, 20), sgg = str(b.sgg, 30);
@@ -213,8 +235,8 @@ export class Board extends DurableObject {
     if (!place) fail(400, '만날 장소를 적어 주세요. (공개된 장소 권장)');
     const recent = this.one('SELECT COUNT(*) AS n FROM meetups WHERE host = ? AND created > ?', uid, now() - 86400e3);
     if (recent && recent.n >= 5) fail(429, '모임은 하루 5개까지 만들 수 있어요.');
-    const r = this.one(`INSERT INTO meetups (sido, sgg, kind, title, date, time, place, max, body, host, host_nick, created) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
-      sido, sgg, kind, title, date, time, place, max, body, uid, prof.nick, now());
+    const r = this.one(`INSERT INTO meetups (sido, sgg, kind, title, date, time, place, max, body, host, host_nick, created, club) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+      sido, sgg, kind, title, date, time, place, max, body, uid, prof.nick, now(), club);
     this.sql.exec('INSERT OR IGNORE INTO mm (mid, uid, nick, at) VALUES (?, ?, ?, ?)', r.id, uid, prof.nick, now());
     return this.meetup(r.id, uid, true);
   }
@@ -226,6 +248,7 @@ export class Board extends DurableObject {
       if (m.status !== 'open') fail(400, '모집이 끝난 모임이에요.');
       const prof = this.profile(uid);
       if (!prof || !prof.nick) fail(409, '닉네임을 먼저 정해 주세요.');
+      if (m.club) { const r = this.clubRole(m.club, uid); if (!r || r === 'pending') fail(403, '동호회 회원만 참석할 수 있어요.'); }
       const n = this.one('SELECT COUNT(*) AS n FROM mm WHERE mid = ?', id).n;
       if (n >= m.max) fail(400, '자리가 다 찼어요.');
       this.sql.exec('INSERT OR IGNORE INTO mm (mid, uid, nick, at) VALUES (?, ?, ?, ?)', id, uid, prof.nick, now());
@@ -236,11 +259,171 @@ export class Board extends DurableObject {
       if (m.host !== uid && !STAFF(user.role)) fail(403, '모임장만 할 수 있어요.');
       this.sql.exec("UPDATE meetups SET status = CASE status WHEN 'open' THEN 'closed' ELSE 'open' END WHERE id = ?", id);
     } else if (act === 'delete') {
-      if (m.host !== uid && !STAFF(user.role)) fail(403, '모임장만 할 수 있어요.');
+      if (m.host !== uid && !STAFF(user.role) && !(m.club && /owner|manager/.test(this.clubRole(m.club, uid) || ''))) fail(403, '모임장만 할 수 있어요.');
       this.sql.exec("UPDATE meetups SET status = 'deleted' WHERE id = ?", id);
       return null;
     }
     return this.meetup(id, uid, true);
+  }
+
+  // ---- 동호회 ----
+  // 역할: owner(모임장) · manager(운영진) · member · pending(가입 신청 중)
+  clubRole(cid, uid) { const r = this.one('SELECT role FROM cm WHERE cid = ? AND uid = ?', cid, uid); return r ? r.role : null; }
+  clubRow(cid) { return this.one("SELECT * FROM clubs WHERE id = ? AND status = 'on'", cid); }
+  clubPub(c, uid) {
+    const n = c.n ?? this.one("SELECT COUNT(*) AS n FROM cm WHERE cid = ? AND role <> 'pending'", c.id).n;
+    const next = this.one("SELECT date, time, title FROM meetups WHERE club = ? AND status <> 'deleted' AND date >= ? ORDER BY date, time LIMIT 1", c.id, today());
+    return { id: c.id, name: c.name, cat: c.cat, sido: c.sido, sgg: c.sgg, intro: c.intro, mode: c.mode, max: c.max, emoji: c.emoji, color: c.color, ages: c.ages,
+      count: n, created: c.created, active: c.active, role: uid ? this.clubRole(c.id, uid) : null, next };
+  }
+  clubs(f, uid) {
+    let rows;
+    const N = "(SELECT COUNT(*) FROM cm WHERE cm.cid = c.id AND cm.role <> 'pending') AS n";
+    if (f.mine) rows = this.all(`SELECT c.*, ${N} FROM clubs c JOIN cm ON cm.cid = c.id AND cm.uid = ? WHERE c.status = 'on' ORDER BY c.active DESC LIMIT 60`, uid);
+    else {
+      const w = ["c.status = 'on'"], a = [];
+      if (f.sido) { w.push('c.sido = ?'); a.push(f.sido); }
+      if (f.sgg) { w.push('c.sgg = ?'); a.push(f.sgg); }
+      if (f.cat) { w.push('c.cat = ?'); a.push(f.cat); }
+      if (f.q) { w.push('(c.name_l LIKE ? OR c.intro LIKE ?)'); a.push(`%${f.q.toLowerCase()}%`, `%${f.q}%`); }
+      const order = f.sort === 'new' ? 'c.created DESC' : f.sort === 'big' ? 'n DESC' : 'c.active DESC';
+      rows = this.all(`SELECT c.*, ${N} FROM clubs c WHERE ${w.join(' AND ')} ORDER BY ${order} LIMIT 80`, ...a);
+    }
+    return rows.map(c => this.clubPub(c, uid));
+  }
+  club(cid, user, full) {
+    const c = this.clubRow(cid);
+    if (!c) return null;
+    const o = this.clubPub(c, user.id);
+    o.question = c.question;
+    const member = (o.role && o.role !== 'pending') || STAFF(user.role);
+    const mgr = /owner|manager/.test(o.role || '') || STAFF(user.role);
+    o.staff = STAFF(user.role);
+    const ms = this.all("SELECT uid, nick, role, at, msg FROM cm WHERE cid = ? ORDER BY CASE role WHEN 'owner' THEN 0 WHEN 'manager' THEN 1 WHEN 'member' THEN 2 ELSE 3 END, at", cid);
+    o.leaders = ms.filter(x => x.role === 'owner' || x.role === 'manager').map(x => ({ nick: x.nick, role: x.role }));
+    // 공지는 누구나, 나머지 글·회원·일정은 회원만
+    o.notices = this.all('SELECT id, nick, body, created FROM cposts WHERE cid = ? AND notice = 1 ORDER BY id DESC LIMIT 3', cid);
+    if (full && member) {
+      o.members = ms.filter(x => x.role !== 'pending').map(x => ({ uid: mgr ? x.uid : undefined, nick: x.nick, role: x.role, at: x.at, me: x.uid === user.id }));
+      if (mgr) o.pending = ms.filter(x => x.role === 'pending').map(x => ({ uid: x.uid, nick: x.nick, at: x.at, msg: x.msg }));
+      o.posts = this.all('SELECT id, uid, nick, notice, body, created FROM cposts WHERE cid = ? ORDER BY id DESC LIMIT 50', cid)
+        .map(p => ({ id: p.id, nick: p.nick, notice: p.notice, body: p.body, created: p.created, mine: p.uid === user.id }));
+      o.meetups = this.all("SELECT * FROM meetups WHERE club = ? AND status <> 'deleted' AND date >= ? ORDER BY date, time LIMIT 20", cid, today()).map(m => this.pub(m, user.id, true));
+    }
+    return o;
+  }
+  clubFields(b, old = {}) {
+    const name = clean(str(b.name ?? old.name, 20));
+    if ([...name].length < 2) fail(400, '동호회 이름은 2~20자로 지어 주세요.');
+    if (/♡|운영자|관리자|태일골프|공식/.test(name)) fail(400, '쓸 수 없는 이름이에요.');
+    const sido = str(b.sido ?? old.sido, 20), sgg = str(b.sgg ?? old.sgg, 30);
+    if (!sido || !sgg) fail(400, '활동 동네(시·군·구)를 골라 주세요.');
+    const intro = maskPii(clean(str(b.intro ?? old.intro, 1000)));
+    if ([...intro].length < 10) fail(400, '동호회 소개를 10자 이상 적어 주세요.');
+    return {
+      name, sido, sgg, intro,
+      cat: CLUB_CATS.includes(b.cat) ? b.cat : old.cat || '골프',
+      question: maskPii(clean(str(b.question ?? old.question ?? '', 100))),
+      mode: b.mode === 'approve' || b.mode === 'open' ? b.mode : old.mode || 'open',
+      max: Math.max(5, Math.min(300, Math.round(+(b.max ?? old.max) || 100))),
+      emoji: CLUB_EMOJI.includes(b.emoji) ? b.emoji : old.emoji || '⛳',
+      color: /^#[0-9a-f]{6}$/i.test(b.color || '') ? b.color : old.color || '#2b8a3e',
+      ages: AGES.includes(b.ages) ? b.ages : old.ages || '누구나',
+    };
+  }
+  createClub(uid, b) {
+    const prof = this.profile(uid);
+    if (!prof || !prof.nick) fail(409, '닉네임을 먼저 정해 주세요.');
+    const own = this.one("SELECT COUNT(*) AS n FROM cm JOIN clubs c ON c.id = cm.cid AND c.status = 'on' WHERE cm.uid = ? AND cm.role = 'owner'", uid).n;
+    if (own >= 3) fail(400, '동호회는 한 사람이 3개까지 만들 수 있어요.');
+    const f = this.clubFields(b);
+    if (this.one("SELECT id FROM clubs WHERE name_l = ?", f.name.toLowerCase())) fail(409, '같은 이름의 동호회가 있어요. 다른 이름으로 지어 주세요.');
+    const r = this.one(`INSERT INTO clubs (name, name_l, cat, sido, sgg, intro, question, mode, max, emoji, color, ages, owner, created, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+      f.name, f.name.toLowerCase(), f.cat, f.sido, f.sgg, f.intro, f.question, f.mode, f.max, f.emoji, f.color, f.ages, uid, now(), now());
+    this.sql.exec("INSERT INTO cm (cid, uid, nick, role, at) VALUES (?, ?, ?, 'owner', ?)", r.id, uid, prof.nick, now());
+    return this.club(r.id, { id: uid }, true);
+  }
+  touch(cid) { this.sql.exec('UPDATE clubs SET active = ? WHERE id = ?', now(), cid); }
+  clubAction(cid, act, user, b) {
+    const c = this.clubRow(cid);
+    if (!c) fail(404, '없어진 동호회예요.');
+    const uid = user.id, role = this.clubRole(cid, uid), staff = STAFF(user.role);
+    const owner = role === 'owner' || staff, mgr = owner || role === 'manager', member = (role && role !== 'pending') || staff;
+    const prof = this.profile(uid);
+    if (act === 'join') {
+      if (!prof || !prof.nick) fail(409, '닉네임을 먼저 정해 주세요.');
+      if (role) fail(400, role === 'pending' ? '가입 신청을 이미 했어요. 운영진 승인을 기다려 주세요.' : '이미 가입한 동호회예요.');
+      const mine = this.one("SELECT COUNT(*) AS n FROM cm WHERE uid = ?", uid).n;
+      if (mine >= 30) fail(400, '동호회는 30개까지 가입할 수 있어요.');
+      const n = this.one("SELECT COUNT(*) AS n FROM cm WHERE cid = ? AND role <> 'pending'", cid).n;
+      if (n >= c.max) fail(400, '정원이 다 찼어요.');
+      const msg = maskPii(clean(str(b.msg, 200)));
+      this.sql.exec('INSERT INTO cm (cid, uid, nick, role, at, msg) VALUES (?, ?, ?, ?, ?, ?)', cid, uid, prof.nick, c.mode === 'approve' ? 'pending' : 'member', now(), msg);
+      if (c.mode !== 'approve') this.touch(cid);
+    } else if (act === 'leave') {
+      if (!role) fail(400, '가입하지 않은 동호회예요.');
+      if (role === 'owner') fail(400, '모임장은 다른 회원에게 모임장을 넘긴 뒤 나갈 수 있어요.');
+      this.sql.exec('DELETE FROM cm WHERE cid = ? AND uid = ?', cid, uid);
+    } else if (act === 'edit') {
+      if (!owner) fail(403, '모임장만 바꿀 수 있어요.');
+      const f = this.clubFields(b, c);
+      if (f.name !== c.name && this.one('SELECT id FROM clubs WHERE name_l = ? AND id <> ?', f.name.toLowerCase(), cid)) fail(409, '같은 이름의 동호회가 있어요.');
+      this.sql.exec('UPDATE clubs SET name = ?, name_l = ?, cat = ?, sido = ?, sgg = ?, intro = ?, question = ?, mode = ?, max = ?, emoji = ?, color = ?, ages = ? WHERE id = ?',
+        f.name, f.name.toLowerCase(), f.cat, f.sido, f.sgg, f.intro, f.question, f.mode, f.max, f.emoji, f.color, f.ages, cid);
+    } else if (act === 'delete') {
+      if (!owner) fail(403, '모임장만 없앨 수 있어요.');
+      this.sql.exec("UPDATE clubs SET status = 'deleted', name_l = NULL WHERE id = ?", cid);
+      this.sql.exec('DELETE FROM cm WHERE cid = ?', cid);
+      this.sql.exec("UPDATE meetups SET status = 'deleted' WHERE club = ?", cid);
+      return { club: null };
+    } else if (act === 'member') {
+      // 운영진: 승인·거절·내보내기 / 모임장: 운영진 지정·해제, 모임장 넘기기
+      if (!mgr) fail(403, '운영진만 할 수 있어요.');
+      const t = str(b.uid, 60), tr = this.clubRole(cid, t), a = str(b.act, 12);
+      if (!tr) fail(404, '회원을 찾을 수 없어요.');
+      if (tr === 'owner') fail(400, '모임장에게는 할 수 없어요.');
+      if (a === 'approve' || a === 'reject') {
+        if (tr !== 'pending') fail(400, '가입 신청한 회원이 아니에요.');
+        if (a === 'approve') {
+          const n = this.one("SELECT COUNT(*) AS n FROM cm WHERE cid = ? AND role <> 'pending'", cid).n;
+          if (n >= c.max) fail(400, '정원이 다 찼어요.');
+          this.sql.exec("UPDATE cm SET role = 'member', at = ? WHERE cid = ? AND uid = ?", now(), cid, t); this.touch(cid);
+        } else this.sql.exec('DELETE FROM cm WHERE cid = ? AND uid = ?', cid, t);
+      } else if (a === 'kick') {
+        if (tr === 'manager' && !owner) fail(403, '운영진은 모임장만 내보낼 수 있어요.');
+        this.sql.exec('DELETE FROM cm WHERE cid = ? AND uid = ?', cid, t);
+      } else if (a === 'manager' || a === 'member') {
+        if (!owner) fail(403, '모임장만 할 수 있어요.');
+        if (tr === 'pending') fail(400, '먼저 가입을 승인해 주세요.');
+        if (a === 'manager' && this.one("SELECT COUNT(*) AS n FROM cm WHERE cid = ? AND role = 'manager'", cid).n >= 10) fail(400, '운영진은 10명까지예요.');
+        this.sql.exec('UPDATE cm SET role = ? WHERE cid = ? AND uid = ?', a, cid, t);
+      } else if (a === 'owner') {
+        if (role !== 'owner') fail(403, '모임장만 넘길 수 있어요.');
+        if (tr === 'pending') fail(400, '가입한 회원에게만 넘길 수 있어요.');
+        this.sql.exec("UPDATE cm SET role = 'manager' WHERE cid = ? AND uid = ?", cid, uid);
+        this.sql.exec("UPDATE cm SET role = 'owner' WHERE cid = ? AND uid = ?", cid, t);
+        this.sql.exec('UPDATE clubs SET owner = ? WHERE id = ?', t, cid);
+      } else fail(400, '알 수 없는 요청이에요.');
+    } else if (act === 'post') {
+      if (!member) fail(403, '동호회 회원만 글을 쓸 수 있어요.');
+      const body = maskPii(clean(str(b.body, 1000)));
+      if (!body) fail(400, '내용을 적어 주세요.');
+      const recent = this.one('SELECT COUNT(*) AS n FROM cposts WHERE uid = ? AND created > ?', uid, now() - 3600e3).n;
+      if (recent >= 30) fail(429, '글이 너무 많아요. 잠시 후 다시 써 주세요.');
+      this.sql.exec('INSERT INTO cposts (cid, uid, nick, notice, body, created) VALUES (?, ?, ?, ?, ?, ?)', cid, uid, (prof || {}).nick || '', b.notice && mgr ? 1 : 0, body, now());
+      this.touch(cid);
+    } else if (act === 'unpost') {
+      const p = this.one('SELECT uid FROM cposts WHERE id = ? AND cid = ?', +b.id, cid);
+      if (!p) fail(404, '지워진 글이에요.');
+      if (p.uid !== uid && !mgr) fail(403, '쓴 사람이나 운영진만 지울 수 있어요.');
+      this.sql.exec('DELETE FROM cposts WHERE id = ?', +b.id);
+    } else if (act === 'meetup') {
+      if (!member) fail(403, '동호회 회원만 일정을 만들 수 있어요.');
+      if (c.mode === 'approve' && !mgr) fail(403, '이 동호회는 운영진만 정모 일정을 만들 수 있어요.');
+      this.createMeetup(uid, { ...b, sido: b.sido || c.sido, sgg: b.sgg || c.sgg, kind: c.cat }, cid);
+      this.touch(cid);
+    }
+    return { club: this.club(cid, user, true) };
   }
 
   // ---- 신고·제한 ----
@@ -251,10 +434,11 @@ export class Board extends DurableObject {
     const recent = this.one('SELECT COUNT(*) AS n FROM reports WHERE reporter = ? AND at > ?', reporter, now() - 3600e3);
     if (recent && recent.n >= 10) fail(429, '신고가 너무 많아요. 잠시 후 다시 해 주세요.');
     let target = str(b.target, 60), tnick = str(b.targetNick, 20);
+    if (!target && b.club) { const c = this.one('SELECT owner FROM clubs WHERE id = ?', +b.club); if (c) target = c.owner; }
     if (!target && b.meetup) { const m = this.one('SELECT host, host_nick FROM meetups WHERE id = ?', +b.meetup); if (m) { target = m.host; tnick = m.host_nick; } }
     if (target && !tnick) tnick = (this.profile(target) || {}).nick || '';
     this.sql.exec('INSERT INTO reports (at, reporter, reporter_nick, target, target_nick, reason, room, log) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      now(), reporter, me.nick || '', target, tnick, reason, str(b.room || (b.meetup ? 'meet-' + b.meetup : ''), 60), String(log || '').slice(0, 8000));
+      now(), reporter, me.nick || '', target, tnick, reason, str(b.room || (b.club ? 'club-' + b.club : b.meetup ? 'meet-' + b.meetup : ''), 60), String(log || '').slice(0, 8000));
     return { ok: true };
   }
   reports() { return this.all('SELECT * FROM reports ORDER BY id DESC LIMIT 200'); }
@@ -278,6 +462,9 @@ export class Board extends DurableObject {
 // =====================================================================================
 const PARTY_MAX = { golf: 8 };
 const GAMES = new Set(['golf', 'billiards']);
+// 게임 자리: 'golf' (방 전체가 같이 쓰는 자리) 또는 'golf~3' (3번 파티만의 자리)
+const gameOf = k => { const [g, id] = String(k || '').split('~'); return GAMES.has(g) && (id === undefined || /^\d{1,6}$/.test(id)) ? g : null; };
+const GROUP_MAX = 8;
 const ROOM_CAP = 50;
 
 export class Room extends DurableObject {
@@ -285,6 +472,8 @@ export class Room extends DurableObject {
     super(ctx, env);
     this.players = new Map(); // id -> player
     this.parties = {};
+    this.groups = new Map(); // 파티(같이 노는 무리): id -> { id, leader, members: [playerId] }
+    this.nextGid = 1;
     this.nextId = 1;
     this.msgId = 1;
     this.log = []; // 최근 채팅 (신고 근거용, 메모리에만)
@@ -307,7 +496,7 @@ export class Room extends DurableObject {
     ws.accept();
     // 같은 회원이 다른 창에서 또 들어오면 예전 접속을 닫음
     for (const old of this.players.values()) if (old.uid === info.id) { try { old.ws.close(4000, 'other'); } catch { /* */ } }
-    const me = { id: this.nextId++, uid: info.id, role: info.role, nick: info.nick, dong: info.dong, ws, color: '#4aa3ff', state: null, dirty: false, chats: [] };
+    const me = { id: this.nextId++, uid: info.id, role: info.role, nick: info.nick, dong: info.dong, ws, color: '#4aa3ff', state: null, dirty: false, chats: [], gid: 0, invites: new Map(), sent: new Map() };
     ws.addEventListener('message', ev => this.onMessage(me, ev.data));
     const bye = () => this.leave(me);
     ws.addEventListener('close', bye);
@@ -318,13 +507,14 @@ export class Room extends DurableObject {
   leave(me) {
     if (!this.players.has(me.id) || this.players.get(me.id) !== me) return;
     this.players.delete(me.id);
+    this.groupLeave(me, true);
     for (const g of Object.keys(this.parties)) {
       const p = this.parties[g], n = p.slots.length;
       p.slots = p.slots.filter(s => s.owner !== me.id);
-      if (p.slots.length !== n) { if (!p.slots.length) p.state = null; this.broadcast(this.partyInfo(g)); }
+      if (p.slots.length !== n) { if (!p.slots.length) p.state = null; this.partySend(g, this.partyInfo(g)); }
     }
     this.broadcast({ t: 'leave', id: me.id });
-    if (!this.players.size) { clearInterval(this.tick); this.tick = null; this.parties = {}; }
+    if (!this.players.size) { clearInterval(this.tick); this.tick = null; this.parties = {}; this.groups.clear(); }
     this.count();
   }
 
@@ -337,7 +527,7 @@ export class Room extends DurableObject {
       me.color = /^#[0-9a-f]{6}$/i.test(m.color || '') ? m.color : me.color;
       this.players.set(me.id, me);
       this.send(me, { t: 'welcome', id: me.id, room: this.roomName, me: { uid: me.uid, name: me.nick, staff: STAFF(me.role) },
-        players: [...this.players.values()].filter(p => p !== me).map(p => this.pub(p)), parties: Object.keys(this.parties).map(g => this.partyInfo(g)) });
+        players: [...this.players.values()].filter(p => p !== me).map(p => this.pub(p)), parties: Object.keys(this.parties).filter(g => !g.includes('~')).map(g => this.partyInfo(g)) });
       this.broadcast({ t: 'join', p: this.pub(me) }, me);
       if (!this.tick) this.tick = setInterval(() => this.flush(), 100);
       this.count();
@@ -378,40 +568,145 @@ export class Room extends DurableObject {
         this.send(me, { t: 'sys', text: `${target.nick}님을 내보냈어요.` });
         break;
       }
+      // ---- 파티: 초대 → 수락/거절, 나가기, 내보내기, 파티 채팅, 같이 게임 시작 ----
+      case 'ginv': {
+        const to = this.players.get(+m.id);
+        if (!to || to === me) return;
+        const g = this.groups.get(me.gid);
+        if (g && g.members.includes(to.id)) return this.send(me, { t: 'sys', text: `${to.nick}님은 이미 같은 파티예요.` });
+        if (g && g.members.length >= GROUP_MAX) return this.send(me, { t: 'sys', text: `파티는 ${GROUP_MAX}명까지예요.` });
+        const last = me.sent.get(to.id) || 0;
+        if (now() - last < 15000) return this.send(me, { t: 'sys', text: '잠시 후 다시 초대해 주세요.' });
+        me.sent.set(to.id, now());
+        to.invites.set(me.id, now());
+        this.send(to, { t: 'ginv', from: me.id, name: me.nick, n: g ? g.members.length : 1 });
+        this.send(me, { t: 'sys', text: `${to.nick}님에게 파티 초대를 보냈어요.` });
+        break;
+      }
+      case 'gans': {
+        const from = this.players.get(+m.from);
+        const at = me.invites.get(+m.from);
+        me.invites.delete(+m.from);
+        if (!from || !at || now() - at > 90000) return this.send(me, { t: 'sys', text: '지난 초대예요.' });
+        if (!m.ok) return this.send(from, { t: 'sys', text: `${me.nick}님이 파티 초대를 거절했어요.` });
+        let g = this.groups.get(from.gid);
+        if (!g) { g = { id: this.nextGid++, leader: from.id, members: [from.id] }; this.groups.set(g.id, g); from.gid = g.id; }
+        if (g.members.length >= GROUP_MAX) return this.send(me, { t: 'sys', text: '파티 자리가 다 찼어요.' });
+        if (me.gid && me.gid !== g.id) this.groupLeave(me);
+        if (!g.members.includes(me.id)) g.members.push(me.id);
+        me.gid = g.id;
+        this.groupSend(g, { t: 'sys', text: `🎉 ${me.nick}님이 파티에 들어왔어요.` });
+        this.groupInfo(g);
+        break;
+      }
+      case 'gleave': this.groupLeave(me); break;
+      case 'gkick': {
+        const g = this.groups.get(me.gid), t = this.players.get(+m.id);
+        if (!g || g.leader !== me.id || !t || t.gid !== g.id || t === me) return;
+        this.send(t, { t: 'sys', text: '파티에서 나가게 됐어요.' });
+        this.groupLeave(t);
+        break;
+      }
+      case 'glead': {
+        const g = this.groups.get(me.gid);
+        if (!g || g.leader !== me.id || !g.members.includes(+m.id)) return;
+        g.leader = +m.id; this.groupInfo(g);
+        break;
+      }
+      case 'gchat': {
+        const g = this.groups.get(me.gid);
+        let text = str(m.text, 200);
+        if (!g || !text) return;
+        const t = now();
+        me.chats = me.chats.filter(x => t - x < 10000);
+        if (me.chats.length >= 6) return this.send(me, { t: 'sys', key: 'slowDown' });
+        me.chats.push(t);
+        text = maskPii(clean(text));
+        this.log.push({ at: t, uid: me.uid, nick: me.nick, text: '(파티) ' + text });
+        this.groupSend(g, { t: 'chat', id: this.msgId++, from: me.id, name: me.nick, lang: 'ko', text, party: true });
+        break;
+      }
+      case 'gplay': { // 파티장이 게임을 고르면 파티원 모두 같은 게임 자리로
+        const g = this.groups.get(me.gid);
+        if (!g || g.leader !== me.id || !GAMES.has(m.game)) return;
+        const key = `${m.game}~${g.id}`, p = this.party(key);
+        if (p.state) return this.send(me, { t: 'sys', text: '파티가 이미 게임 중이에요.' });
+        this.groupSend(g, { t: 'gplay', game: m.game, key, by: me.nick });
+        break;
+      }
       case 'party_join': {
-        if (!GAMES.has(m.game)) return;
+        if (!gameOf(m.game)) return;
+        if (!this.partyOk(me, m.game)) return;
         const p = this.party(m.game);
-        if (p.slots.length >= (PARTY_MAX[m.game] || 4)) return this.send(me, { t: 'sys', key: 'partyFull' });
+        if (p.slots.length >= (PARTY_MAX[gameOf(m.game)] || 4)) return this.send(me, { t: 'sys', key: 'partyFull' });
         const guest = m.guest ? clean(str(m.guest, 12)) : '';
         if (!guest && p.slots.some(s => s.owner === me.id && !s.guest)) return;
         p.slots.push({ owner: me.id, name: guest || me.nick, guest: !!guest });
-        this.broadcast(this.partyInfo(m.game));
+        this.partySend(m.game, this.partyInfo(m.game));
         break;
       }
       case 'party_leave': {
-        if (!GAMES.has(m.game)) return;
+        if (!gameOf(m.game)) return;
         const p = this.party(m.game);
         p.slots = p.slots.filter((s, i) => s.owner !== me.id || (Number.isInteger(m.slot) && i !== m.slot));
         if (!p.slots.length) p.state = null;
-        this.broadcast(this.partyInfo(m.game));
+        this.partySend(m.game, this.partyInfo(m.game));
         break;
       }
       case 'party_state': {
-        if (!GAMES.has(m.game)) return;
+        if (!gameOf(m.game)) return;
         const p = this.party(m.game);
         if (!p.slots.some(s => s.owner === me.id)) return;
         if (JSON.stringify(m.state ?? null).length > 12000) return;
         p.state = m.state ?? null;
-        this.broadcast(this.partyInfo(m.game));
+        this.partySend(m.game, this.partyInfo(m.game));
         break;
       }
       case 'party_msg': {
-        if (!GAMES.has(m.game)) return;
+        if (!gameOf(m.game)) return;
         if (!this.party(m.game).slots.some(s => s.owner === me.id)) return;
-        this.broadcast({ t: 'party_msg', game: m.game, from: me.id, d: m.d }, me);
+        this.partySend(m.game, { t: 'party_msg', game: m.game, from: me.id, d: m.d }, me);
         break;
       }
     }
+  }
+
+  // 파티 자리(golf~3)는 그 파티원에게만, 공용 자리는 방 전체에
+  partyOk(me, key) { const id = String(key).split('~')[1]; return id === undefined || me.gid === +id; }
+  partySend(key, msg, except) {
+    const id = String(key).split('~')[1];
+    if (id === undefined) return this.broadcast(msg, except);
+    const g = this.groups.get(+id);
+    if (g) for (const pid of g.members) { const p = this.players.get(pid); if (p && p !== except) this.send(p, msg); }
+  }
+  groupSend(g, msg) { for (const pid of g.members) { const p = this.players.get(pid); if (p) this.send(p, msg); } }
+  groupInfo(g) {
+    const info = { t: 'group', g: { id: g.id, leader: g.leader, members: g.members.map(id => ({ id, name: (this.players.get(id) || {}).nick || '?' })) } };
+    this.groupSend(g, info);
+    const key = Object.keys(this.parties).filter(k => k.endsWith('~' + g.id));
+    for (const k of key) this.groupSend(g, this.partyInfo(k));
+  }
+  groupLeave(me, gone) {
+    const g = this.groups.get(me.gid);
+    me.gid = 0;
+    if (!g) return;
+    g.members = g.members.filter(id => id !== me.id);
+    // 파티 게임 자리에서도 빠짐
+    for (const k of Object.keys(this.parties)) if (k.endsWith('~' + g.id)) {
+      const p = this.parties[k], n = p.slots.length;
+      p.slots = p.slots.filter(s => s.owner !== me.id);
+      if (!p.slots.length) { delete this.parties[k]; } else if (p.slots.length !== n) this.partySend(k, this.partyInfo(k));
+    }
+    if (!gone) this.send(me, { t: 'group', g: null });
+    if (g.members.length <= 1) {
+      for (const id of g.members) { const p = this.players.get(id); if (p) { p.gid = 0; this.send(p, { t: 'group', g: null }); this.send(p, { t: 'sys', text: '파티가 끝났어요.' }); } }
+      for (const k of Object.keys(this.parties)) if (k.endsWith('~' + g.id)) delete this.parties[k];
+      this.groups.delete(g.id);
+      return;
+    }
+    if (g.leader === me.id) g.leader = g.members[0];
+    this.groupSend(g, { t: 'sys', text: `${me.nick}님이 파티에서 나갔어요.` });
+    this.groupInfo(g);
   }
 
   flush() {
