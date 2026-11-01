@@ -1,9 +1,9 @@
 {
- "version": "1.4.62",
- "file": "www-1.4.62.zip",
- "sha256": "1119be8eed0f35ff78840b7104cd61717925bb4fe846f883949be6d97e11b8fb",
+ "version": "1.4.63",
+ "file": "www-1.4.63.zip",
+ "sha256": "d5ea3d8f296228c382589c4250f95bf7800f3daf5e9409e8732a610729546e63",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "여행경보 안내 글씨 정리",
- "sig": "FL9EUi5VZEGUGilDNJ7AIAqvdfyM1FphmwxOKM2n2pErT8f9hwNm/2kzw0LpqbLl9spf2DsZXgrmnww+B3FyuRub8gdjcQWhKLbKKG9FAM+EJzvtAgjbFBo6wctNvvdHDbCzzccBZCqh0I8IQKUgbJ8pZ389aLvt5B9V1MXuv3cZrPDKkGFL9x1dbPt8sQ+nKDu8SvoykU321S3SOPO4Irk5HcXSwxYPaPHioOLP+qAm8O9bUlPU2y+hSsYSOCM7SC554/5lePwXq1mana3oznAhwadbkNdLKJ7sLLielnMO0KQLtbdfpukMIuOXiFNKTi40tzHTcZxQwk2AhjmVFg=="
+ "notes": "예상 금액 계산 숙박 1박·2박 추가",
+ "sig": "EeV47tiK60Q5MbyFsb0O0+eF+H88l21HcZ5kPWFL/FDhWO1V5WMshkTRCIAnGPGWUiwaqzUuX2fYA/VYBBebI/pdU0ch5aqAYAtU1eZZDW7qY9qGNAEqqrSt4+fBz9IuszBgSHSB4PdHosCvevpWbu2IcWFQ1/c5RlxlZ9aruAlo0YRxs6plhc1Q0X1ByYVPh5VkBcVos69HMR7X9ks3/r7gwIe0m4r/5i0JxUkXn1YkWyVAi7OnnxQgEFyW04RbTmQ2Hg6JCTMbxaLzdoEPwSjVWwfXGF0DmFFpbKuDYlQ0bEh2qB/1WW7pWbOxuaiujsYXAnc1wEH/bhPqUSZD2w=="
 }

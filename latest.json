@@ -1,9 +1,9 @@
 {
- "version": "1.4.62",
- "file": "app-1.4.62.asar",
- "sha256": "505f90e1e8585beef3c2ca4946bc997ab031ae9acc8c8ecbd402d61659d0f8e9",
+ "version": "1.4.63",
+ "file": "app-1.4.63.asar",
+ "sha256": "d7e88ad36733f27ecb4d8cc07d108e616a51f6a616e36324858c5b3fde90c399",
  "minShell": "",
  "fullUrl": "",
- "notes": "여행경보 안내 글씨 정리",
- "sig": "XQ5vvFPB/uT/7JEPDSTW/N6nsyPChsrHb51Z0i/+rPd9kyVNSkIn4GIXUrpC37M37zmqtmzNS7V7daGBDVGDAw=="
+ "notes": "예상 금액 계산 숙박 1박·2박 추가",
+ "sig": "y0qOdzgmEMQE2sHH157W0VsGATqLEajgeQUGJS8DQeYkG4ykKyfGOJHbgnDh6XyGAJlaMbmWV54zVlmgkL2bCg=="
 }
