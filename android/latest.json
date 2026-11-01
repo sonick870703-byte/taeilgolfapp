@@ -1,9 +1,9 @@
 {
- "version": "1.4.63",
- "file": "www-1.4.63.zip",
- "sha256": "d5ea3d8f296228c382589c4250f95bf7800f3daf5e9409e8732a610729546e63",
+ "version": "1.4.64",
+ "file": "www-1.4.64.zip",
+ "sha256": "a6fb73a7685d8924a44286ef0fe031c2cf2b7b7bebe86ef1cd45fb3686443eeb",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "예상 금액 계산 숙박 1박·2박 추가",
- "sig": "EeV47tiK60Q5MbyFsb0O0+eF+H88l21HcZ5kPWFL/FDhWO1V5WMshkTRCIAnGPGWUiwaqzUuX2fYA/VYBBebI/pdU0ch5aqAYAtU1eZZDW7qY9qGNAEqqrSt4+fBz9IuszBgSHSB4PdHosCvevpWbu2IcWFQ1/c5RlxlZ9aruAlo0YRxs6plhc1Q0X1ByYVPh5VkBcVos69HMR7X9ks3/r7gwIe0m4r/5i0JxUkXn1YkWyVAi7OnnxQgEFyW04RbTmQ2Hg6JCTMbxaLzdoEPwSjVWwfXGF0DmFFpbKuDYlQ0bEh2qB/1WW7pWbOxuaiujsYXAnc1wEH/bhPqUSZD2w=="
+ "notes": "관리자만 전세계 골프장 창 표시 · 상품 개수 표시 제거",
+ "sig": "EoVufkgaEPSHlfSQfJmycAmcxgKHjiGy4HZLxS7AjKacAyzarp64xR2i9pgv/ZkOMkWBiOKPL3P/4iTDKGvoEVmLvSBkARsZ1Y1abdlukFn6ix5BI+ny5Ki3pDVF9wyWlr9jKq3XT26LiHYWeiP//xIQeU40sL7HUqoXaUWM/ySsXz6Ga5ol3l9VooExZXqEb6ut+8nUiOPAaYWS6QjRqT/qbEbEcThFtW6PzMwDrXtzy1X2708o6vMs9BxYFMx3ryvVxnQF4etKMtw6oURepSOMY/0D1K2/gDij6vNHjU2zSpMsPDXurGklzSWkWCX6lhvmrVbZam/oqpQsfWTINw=="
 }

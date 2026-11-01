@@ -1,9 +1,9 @@
 {
- "version": "1.4.63",
- "file": "app-1.4.63.asar",
- "sha256": "d7e88ad36733f27ecb4d8cc07d108e616a51f6a616e36324858c5b3fde90c399",
+ "version": "1.4.64",
+ "file": "app-1.4.64.asar",
+ "sha256": "4551f4e68cda137c63b9af3f892920324d9540b72c2d61759c1b7ef728119490",
  "minShell": "",
  "fullUrl": "",
- "notes": "예상 금액 계산 숙박 1박·2박 추가",
- "sig": "y0qOdzgmEMQE2sHH157W0VsGATqLEajgeQUGJS8DQeYkG4ykKyfGOJHbgnDh6XyGAJlaMbmWV54zVlmgkL2bCg=="
+ "notes": "관리자만 전세계 골프장 창 표시 · 상품 개수 표시 제거",
+ "sig": "4hU/OZCQ9oX7dFKO6Aey41NVjcXeFUYOuRDrtulgtJyoMdqTtmJhRu74vUMGEcm62ehrYYF7tMaH+SzG/iLPAA=="
 }
