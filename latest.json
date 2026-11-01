@@ -1,9 +1,9 @@
 {
- "version": "1.4.68",
- "file": "app-1.4.68.asar",
- "sha256": "540968e3c29d1f42ae5720f62c8c3847653ea6898f11dd62941fe9c2cb361294",
+ "version": "1.4.69",
+ "file": "app-1.4.69.asar",
+ "sha256": "ba34cb89d3df4a01e6c8b07aa62501cf8c5abd388e21a6a67390f21ee4124f28",
  "minShell": "",
  "fullUrl": "",
- "notes": "로그인 화면: 로그인해야 시작 · 관리자 모드 들어가기 · 바탕 꽉 채움",
- "sig": "c/XPzOwLTf+6ykvLUHn9LSDhdCuKs2xKdrPUucIbPUWo9MvczyoEq62MlyWsxetlNLF2AS1KZ3kRHbG8wDoTAg=="
+ "notes": "관리자 자동 로그인 · 종료 확인창 · 메인 화면 관리자 버튼 없앰",
+ "sig": "nD7O8YmVtxh3/aN4pWWn6jx3RR3TqvOIa9AKaPYjDAe9jOclpOeWsNhRNx9/3XfgiKOMQOejEhV9Ewtp549sCA=="
 }

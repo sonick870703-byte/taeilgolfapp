@@ -1,9 +1,9 @@
 {
- "version": "1.4.68",
- "file": "www-1.4.68.zip",
- "sha256": "13fe690b8571b67f1a9e0fd3e174ef8c7406c889b40162b64fae073e4d8b8160",
+ "version": "1.4.69",
+ "file": "www-1.4.69.zip",
+ "sha256": "df5e39a0cd23dc94dc27273db78b844515c26dbda49a98af5c52725044d9d7eb",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "로그인 화면: 관리자 모드 · 바탕 꽉 채움",
- "sig": "a76gypFrDxssz73gDcmshW4i8KgL8e/mxIt2zhK1TQMzn2v4YpJUeorcpIedu4bJ/goNJ89pmpdNglhzuqxmYI9ssSXsnNrBdw3PDTO+nJoGSA/+RAiTBziII4S7HusX6zoOqebQG5hCHBXGKeQm0LIMiD4yBPtWqBIIJPkZAgqJoFAgOmCbLhZf1VQiVmBu1bRlTC+jBO7k4OU5jC0cYlex08wUX6FCIkOm6JOLNha3/XYVreWxhHUsV9WTD+VCrddDzecBCnMU86JI7J3P15OZX88UGCWAEWQWLBK5JAYaIErygFIeI2/rh5aDlou3tFXwSlrCb7i0kuNX+8+xRg=="
+ "notes": "종료 확인창 · 관리자 자동 로그인",
+ "sig": "J5azPRJ++uHe2a8nKQAQXjKHqXXlw0gxlT9cPPwiF/Piya2AOPlqry6zzRJWLCgiwducdYfg1vMXbrKIRXRmtpIkC8CXj5tHDp4wUB/CF+Xvfy7Zx/Zs1b6eX1hwmvjtgj8Q/uSrZERkivMnaaiAW+lnK2kqrPrQV8H5IfseU3xUmmxeU/czvvuuaWlEa1fhqeHc3Y/eZyBoe18Ue63C+1QtGylM2HNHe9EKc5c68eSK1FO5iqY6v04h533oZYDEeBKbm+2vi6MzUFZCp0ycvHl+dm3/X//17CGMEmI9eIQYUrcke7vbUY+QX9tQGG9LPbb5+TwJAiI+2mcCgcMkbA=="
 }
