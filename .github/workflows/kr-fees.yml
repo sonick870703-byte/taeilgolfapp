@@ -28,4 +28,4 @@ jobs:
           git add kr-venues.json; [ -d data ] && git add -A data || true
           if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
           git -c user.name="taeil-bot" -c user.email="noreply@tigc.co.kr" commit -m "국내 골프장 요금: 한국관광공사 관광정보 반영 ($(date -u +%F))"
-          git push origin HEAD:${GITHUB_REF_NAME}
+          git pull --rebase -q origin ${GITHUB_REF_NAME} && git push origin HEAD:${GITHUB_REF_NAME}

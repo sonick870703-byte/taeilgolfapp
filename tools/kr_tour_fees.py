@@ -151,6 +151,7 @@ def main():
     W = [d for d in WK if not NOT_COURSE.search((d.get('n') or '') + ' ' + (d.get('nk') or ''))]
     WS = [d for d in WK if NOT_COURSE.search((d.get('n') or '') + ' ' + (d.get('nk') or ''))]
     K = json.load(open(KRV)); V = K['venues']; byid = {v['id']: v for v in V}
+    before = json.dumps(V, ensure_ascii=False, sort_keys=True)
     cands = [('w-%.5f,%.5f' % (d['lat'], d['lng']), d['lat'], d['lng'], d.get('nk') or d.get('n') or '') for d in W]
     cands += [(v['id'], v['lat'], v['lng'], v.get('name', '')) for v in V if v.get('type') == 'course' and 'lat' in v]
     small = [('k%.5f,%.5f' % (d['lat'], d['lng']), d['lat'], d['lng'], d.get('nk') or d.get('n') or '') for d in WS]
@@ -199,6 +200,8 @@ def main():
         v['priceTour'] = it['id']
         if not v.get('phone') and it.get('tel'): v['phone'] = clean(it['tel']).split('\n')[0][:40]
         v['updated'] = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    if json.dumps(V, ensure_ascii=False, sort_keys=True) == before:
+        print(json.dumps(stat, ensure_ascii=False)); print('요금 변경 없음 → kr-venues.json 그대로'); return
     K['updated'] = datetime.now(timezone.utc).isoformat()
     K['count'] = len(V)
     srcs = K.get('source', '')
