@@ -1,9 +1,9 @@
 {
- "version": "1.4.54",
- "file": "www-1.4.54.zip",
- "sha256": "f353825db1331d0ff89b65037629fd80d5551ab039424fc3224089e75206a917",
+ "version": "1.4.55",
+ "file": "www-1.4.55.zip",
+ "sha256": "7e6ced59e3959670183d4ef7bf531a1dc0dc4ee139ef18d0c0d09e8070dd2077",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "새 기능: 🗺 파타야 지도 (수완나품 공항·차층사오·파타야와 골프장 27곳, 거리·시간)",
- "sig": "ldYeIyvjbYFFMjwCP3oYq+Hf44hrCs9SLx6sRvIP29K0tMq5feSeHcGcW+8KYjSFmGU+K8HulmHzH+nMmDjIloADuXPbKT9j/3qKpXEhi/4IpZNOpGWRRuoCyNFfauosWf+zgdfONo8yADzyM0k1FBOZY0BWP1gXd+HPvNvkuhnfJzzt0qZUWfeATWHjI7iuQX7TEp+UbALlhKNMKuC+EV04nQ2kGu9+GZ1SWYVncrAHMvZm1w/A+ODauiLiyji6hZlfcUayRxwsR2TRBg4r2i++KVUyxudpZK3CtExG1n89QJI4IGkbbq+ihH9fyIbtgsQc+s/Dg6Yl7vpI4rtE7g=="
+ "notes": "새 기능: 🏠 대기실 (태일골프 라운지) — 회원끼리 미니게임·동네 소모임",
+ "sig": "Y6SzkZN+BW4Za11EYkWm7VzVy/1Gr2eTs3kGqC1Wi8OfgCLajiWtMafMKo2YNoOMOvMTpHVjpWfkIpUsAyScOp1vdjdIj2P7WWZj5NLdmD4M4FqiC+1LScuE+vQ2DTPEYJPdziu8kWD+6ZSBbzPFD7dELdOWHd4KN/9KqL5Pz4MAn4U9DcTAkGIotHY+7wn2NpvYScqgOb6JFlU+48/xQQcCC57oiIaT+P1TRwyNjIyZnR7CoEBfEfOQX6Twu8k/1bv4Q8RQ1WYbAGXYnARJYLop0MRg90krepxkjp/fSKe3vmT4g4S6EeeUZ82jr5lWHSbh0Ed6pAzLi4FOlCWyBA=="
 }
