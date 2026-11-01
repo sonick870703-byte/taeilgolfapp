@@ -1,9 +1,9 @@
 {
- "version": "1.4.60",
- "file": "app-1.4.60.asar",
- "sha256": "793787122bb02085fbfe783a3571a9e844483ba6b4bdd420d89f79362a9e6e39",
+ "version": "1.4.61",
+ "file": "app-1.4.61.asar",
+ "sha256": "7d91b82b622fe15ae8137813600ce4f4d3b3dce673c8fe7c1601f046f9d7fd1e",
  "minShell": "",
  "fullUrl": "",
- "notes": "⚠ 여행경보 배지를 누르면 무슨 경보인지·왜 내려졌는지 설명",
- "sig": "72wjimWBgBY6qnDb57p8ZSyX0RXosVV/JTnZrPLxcA5pdJ2UQ6FxOHJhvt06zJUtvayLJsEj+xveD4+XmVn/DQ=="
+ "notes": "상품 금액 디자인 새로 + 제목·금액 글씨체 굵은 고딕으로",
+ "sig": "rrCT7SOS2ZylqziEiEbLgS4Eb43W8IWd8l679GUPlRyQE8GHjpLM3Fb5GrcMJAYBKYvyqixQFq16jAj2NUzMCg=="
 }
