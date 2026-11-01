@@ -1,9 +1,9 @@
 {
- "version": "1.4.56",
- "file": "www-1.4.56.zip",
- "sha256": "f0de70e12374e35b6df83688cc6b9827a4d784ab5f0af34f19f2d52c0b0a561a",
+ "version": "1.4.57",
+ "file": "www-1.4.57.zip",
+ "sha256": "94f6726b4f445616a0a1d71772569ccf2bf0819be38b0f5654d6c43916076de8",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "대기실 동호회·파티·지역방, 실제 골프장 코스 스크린골프, 파타야 지도 버튼 정리",
- "sig": "pPrHaIwOV7bFcl6hlzZlyoHa1AyLq21nMdiXUlrm79xD1rJZ1u30q30ggcWUZfG5nAoJdD5kiUBAYFUyyaI/+TupxkmmCzBV3En7XXcVTBHrcEb3MLgReRZ6caXdiwKBkPauHIZKn9TWaGSdkPSf6r3hg+55vOAp8cFCHzt5N3rKq7vW4rpAraqztO+5t0/mPkA2Wv3vc0yCeQDYRsrb6eQKIRej3Dsdn+a3WC2GBVV12kvnR9Lnu/t/5X6EqMi/IYk0ksXuFu/+gS3IFoPv7kF3Ay0a/uknGkkwdsZsYYDSonNDxTwOiRRHOqrSn+B8u+fxuVXQ9snFSrKe3yp2Bw=="
+ "notes": "국내 골프 찾기 지도 점 정리",
+ "sig": "P3BrMzYIhljvUJSYyO41Pgpmr/h5re5xd0ByNDLdFaSJ3OKrADScF3To19vKyFQl33RE0myVJYE61Y17DWZeRd3wa+DW9KFdUg+BJ9xIBKsThYkdhQTczqSEPtu/csBU3dVDS0rLo7IxWVAOCtsv5O3IGNI/1gKY3iBaVUo3tMuS7jNeKrghFbwujG/lI/eCiH4wTw7R6lr94ps+IluRMfAJcmVUcKsBNl700SARL8MYEpXG5SgXq/TBfd8BQLyrC4RnfZEll4Z5FclmukxpPD7vAMcPZtYUfRq+szf+43AIzRQ4s++ROndnK+6rgSc8ptmm+ZiuSsNKMKe67Hos/A=="
 }
