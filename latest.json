@@ -1,9 +1,9 @@
 {
- "version": "1.4.64",
- "file": "app-1.4.64.asar",
- "sha256": "4551f4e68cda137c63b9af3f892920324d9540b72c2d61759c1b7ef728119490",
+ "version": "1.4.65",
+ "file": "app-1.4.65.asar",
+ "sha256": "9d35a9adcfd56752a61a7ebe5cfac7324a6e408782b59983370270629b85b96f",
  "minShell": "",
  "fullUrl": "",
- "notes": "관리자만 전세계 골프장 창 표시 · 상품 개수 표시 제거",
- "sig": "4hU/OZCQ9oX7dFKO6Aey41NVjcXeFUYOuRDrtulgtJyoMdqTtmJhRu74vUMGEcm62ehrYYF7tMaH+SzG/iLPAA=="
+ "notes": "새 기능 💱 환율 (회원용 환율·여행, 관리자 환율 관리)",
+ "sig": "Q0jST1UakfZAeLqxcmTaYSgZYIFyO4/wYaKPzkfInYTwRzPTr/3ZAEMeunS0Hokhg+Ok1Dg0jbQ/r9vcfA5KDA=="
 }
