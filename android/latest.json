@@ -1,9 +1,9 @@
 {
- "version": "1.4.67",
- "file": "www-1.4.67.zip",
- "sha256": "ad660689a696fa6e72b0e113a01cec8a067ce15cf91ad55c07ddd55f1f75a4bb",
+ "version": "1.4.68",
+ "file": "www-1.4.68.zip",
+ "sha256": "13fe690b8571b67f1a9e0fd3e174ef8c7406c889b40162b64fae073e4d8b8160",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "대기실 여권 안전 등록 + 게임 포인트·장비 상점",
- "sig": "d+VZnopDjnRgqLbWzGOPIZE84nNv7Gzho24IBLZhkVaOfvTxMdx/OyL1xlBh6Ci6kndrgU7Q+FN1pnIxuZIkfshekJtLU3cxYm4UiPvnlR/oM5CgKQo6/aD06xHGNG9IGN5/XpQAZ8fN9PId10c1KO/irDhQhTX8IR1bOLk2JwOKnyQgtLL6V/ueaah+mC9tkK3M9RWBRvrHEAAUyxRW7epS3Azf9T19EZw9ZV75AU+l1n75ZVmXyMaX5Tmb+zwmrV2ij6Xwab5Gymgyup/I+hHkJNBFE+Kqf7wzt0JhxjMV8dXnve9TtFjMhTaDnq4RnSYWcCfW1MwIWaqxxh1lww=="
+ "notes": "로그인 화면: 관리자 모드 · 바탕 꽉 채움",
+ "sig": "a76gypFrDxssz73gDcmshW4i8KgL8e/mxIt2zhK1TQMzn2v4YpJUeorcpIedu4bJ/goNJ89pmpdNglhzuqxmYI9ssSXsnNrBdw3PDTO+nJoGSA/+RAiTBziII4S7HusX6zoOqebQG5hCHBXGKeQm0LIMiD4yBPtWqBIIJPkZAgqJoFAgOmCbLhZf1VQiVmBu1bRlTC+jBO7k4OU5jC0cYlex08wUX6FCIkOm6JOLNha3/XYVreWxhHUsV9WTD+VCrddDzecBCnMU86JI7J3P15OZX88UGCWAEWQWLBK5JAYaIErygFIeI2/rh5aDlou3tFXwSlrCb7i0kuNX+8+xRg=="
 }
