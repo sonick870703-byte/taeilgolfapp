@@ -13,6 +13,7 @@ concurrency: { group: kr-fees, cancel-in-progress: false }
 jobs:
   fees:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - name: 관광공사 골프장 요금 받기·반영
