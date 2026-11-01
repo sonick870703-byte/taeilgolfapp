@@ -1,0 +1,3541 @@
+{
+"note": "요금 없는 골프장 목록. id 는 kr-venues.json 의 id 그대로 사용",
+"count": 505,
+"courses": [
+{
+"id": "w-37.38222,127.08430",
+"name": "남서울cc",
+"web": "http://www.nscc.co.kr/",
+"phone": "031-709-6035",
+"addr": "분당구 104 Anyangpangyo-ro 1201(cheonibae"
+},
+{
+"id": "w-37.64461,128.68955",
+"name": "용평나인 GC",
+"web": "https://www.yongpyong.co.kr/kor/golf/clubGuide/yongpyong9Intro.do",
+"phone": "033-330-7471",
+"addr": "강원도 평창군 대관령면 올림픽로 715"
+},
+{
+"id": "w-34.77579,127.68604",
+"name": "여수시티파크리조트",
+"web": "http://www.citypark.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.83730,128.07165",
+"name": "사우스케이프오너스클럽",
+"web": "https://www.southcape.co.kr",
+"phone": "1644-0280",
+"addr": "경상남도 남해군 창선면 흥선로 1545"
+},
+{
+"id": "w-35.09881,128.01997",
+"name": "서경타니CC",
+"web": "https://www.tanicc.co.kr/",
+"phone": "055-831-7000",
+"addr": "사천시 곤양면 가화리산109-1"
+},
+{
+"id": "w-37.33764,126.94176",
+"name": "안양 컨트리클럽",
+"web": "https://www.golfsamsung.com/web/ayCourseMap.do",
+"phone": "031-460-3301",
+"addr": "군포2동 1 Bugok-dong"
+},
+{
+"id": "w-36.25252,128.54534",
+"name": "구니컨트리클럽",
+"web": "http://www.ccotdamcc.co.kr",
+"phone": "054-380-0000",
+"addr": "군위읍 군위군 군위읍 외량리 산13"
+},
+{
+"id": "w-35.48649,129.10036",
+"name": "통도 파인이스트 컨트리클럽",
+"web": "http://www.tongdocc.co.kr/",
+"phone": "055-381-0277",
+"addr": "양산시 하북면 답곡리 233"
+},
+{
+"id": "w-35.26280,128.66387",
+"name": "창원컨트리클럽",
+"web": "https://www.changwoncountryclub.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.35516,127.29479",
+"name": "유성컨트리클럽",
+"web": "https://yscc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.62045,127.48174",
+"name": "아난티클럽 서울",
+"web": "https://ananti.kr/ko/chord",
+"phone": "031-589-3000",
+"addr": "설악면 961-34 Yumyeong-ro, Seorak-myeon"
+},
+{
+"id": "w-37.91113,127.28808",
+"name": "베어크리크G.C",
+"web": "https://bearcreek.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.97282,126.98904",
+"name": "리버 벤드 골프장",
+"web": "https://humphreys.armymwr.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.22026,127.15445",
+"name": "코리아 CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.41343,126.74386",
+"name": "사이프러스CC",
+"web": "http://www.cypress.co.kr",
+"phone": "+10647878888",
+"addr": "서귀포시 탄현동 1585"
+},
+{
+"id": "w-33.46074,126.67153",
+"name": "에코랜드 CC",
+"web": "",
+"phone": "064-802-8041",
+"addr": "제주시 조천읍 대흘리 1221-38"
+},
+{
+"id": "w-33.52026,126.73783",
+"name": "세인트포 CC",
+"web": "",
+"phone": "064-786-3101",
+"addr": "제주시 구좌읍 김녕리 5160-2"
+},
+{
+"id": "w-33.52945,126.69610",
+"name": "크라운 CC",
+"web": "http://www.jejucrowncc.co.kr",
+"phone": "064-784-4811",
+"addr": "제주시 조천읍 북촌리 산 65"
+},
+{
+"id": "w-33.46479,126.64513",
+"name": "그린필드 CC",
+"web": "http://www.zephyrosgc.co.kr",
+"phone": "064-720-7000",
+"addr": "조천읍 산27번지 Waheul-ri, Jocheon-eup"
+},
+{
+"id": "w-33.45723,126.60926",
+"name": "라헨느골프리조트",
+"web": "http://www.lareine.co.kr/",
+"phone": "064-754-9000",
+"addr": "봉개동 237-5 Bonggae-dong"
+},
+{
+"id": "w-33.44410,126.54580",
+"name": "한라산CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.44522,126.51073",
+"name": "오라CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.43944,126.60261",
+"name": "제주힐 CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.43054,126.58203",
+"name": "제주컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.37762,126.24094",
+"name": "라온프라이빗CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.37478,126.37775",
+"name": "엘리시안제주CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.37444,126.36149",
+"name": "에버리스CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.34622,126.36750",
+"name": "아덴힐리조트앤골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.35204,126.38736",
+"name": "타미우스GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.33790,126.30856",
+"name": "블랙스톤CC",
+"web": "",
+"phone": "+10647969988",
+"addr": "한림읍 산54 Hallim-eup"
+},
+{
+"id": "w-33.33946,126.27989",
+"name": "라온GC",
+"web": "http://www.raon.co.kr/",
+"phone": "064-795-8000",
+"addr": "한경면 998 Yonggeum-ro, Hangyeong-myeon"
+},
+{
+"id": "w-33.33999,126.34809",
+"name": "캐슬렉스 제주CC",
+"web": "http://www.castlexjeju.com",
+"phone": "064-793-6688",
+"addr": "광평리 125 Gwangpyeong-ri, Andeok-myeon"
+},
+{
+"id": "w-33.33966,126.40111",
+"name": "나인브릿지CC",
+"web": "",
+"phone": "064-793-9999",
+"addr": "안덕면 34-156 Gwangpyeong-ro, Andeok-myeon"
+},
+{
+"id": "w-33.32968,126.63729",
+"name": "스프링데일CC",
+"web": "http://springdale.co.kr/",
+"phone": "064-800-8000",
+"addr": "서귀포시 남원읍 위미리 산21"
+},
+{
+"id": "w-33.31147,126.38913",
+"name": "핀크스 GC",
+"web": "http://www.pinxgc.co.kr",
+"phone": "064-792-5200",
+"addr": "서귀포시 안덕면 상천리 62-3"
+},
+{
+"id": "w-33.30688,126.58741",
+"name": "우리들CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-33.28964,126.34324",
+"name": "테디밸리 골프&리조트",
+"web": "http://www.teddyvalley.com/",
+"phone": "064-793-1000",
+"addr": "안덕면 365 Hanchang-ro, Andeok-myeon"
+},
+{
+"id": "w-33.28776,126.40680",
+"name": "롯데스카이힐 제주C.C. (Lotte Sky Hill jeju)",
+"web": "",
+"phone": "064-731-2000",
+"addr": "예래동 Saekdal-dong, 100 KR"
+},
+{
+"id": "w-33.34249,126.78336",
+"name": "샤인빌파크CC-RIVER코스",
+"web": "http://www.shinevilleparkcc.com/",
+"phone": "064-787-8700",
+"addr": "표선면 Pyoseon-myeon, Gasi-ro, 384 KR"
+},
+{
+"id": "w-33.34851,126.79107",
+"name": "샤인빌파크CC-PALM코스",
+"web": "http://www.shinevilleparkcc.com",
+"phone": "064-787-8700",
+"addr": "Jeju-do Seogwipo-si 표선면 가시로 384"
+},
+{
+"id": "w-33.36027,126.71661",
+"name": "부영CC",
+"web": "http://www.haevichi.com/cc/jeju/kr/index.hvc",
+"phone": "064-780-8000",
+"addr": "서귀포시 남원읍 신흥리 산30"
+},
+{
+"id": "w-33.36875,126.68342",
+"name": "더클래식컨트리클럽",
+"web": "http://www.theclassicresort.com",
+"phone": "+10647667100",
+"addr": "남원읍 남조로 1105"
+},
+{
+"id": "w-35.52106,126.50549",
+"name": "고창칸트리클럽",
+"web": "http://www.gochangcc.co.kr/",
+"phone": "063-560-7744",
+"addr": "두어리 70 Aehyanggaetbeol-ro, Simwon-myeon"
+},
+{
+"id": "w-35.29677,126.50052",
+"name": "에콜리안영광CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.82324,126.39459",
+"name": "선그린골프클럽",
+"web": "",
+"phone": "061-273-3000",
+"addr": "목포시 586-35 Yonghae-dong"
+},
+{
+"id": "w-35.16671,126.77252",
+"name": "어등산CC",
+"web": "",
+"phone": "062-605-3121",
+"addr": "광주 운수동 산 157-15"
+},
+{
+"id": "w-35.10803,126.74218",
+"name": "에콜리안광산CC",
+"web": "",
+"phone": "062-960-1500",
+"addr": "광주 26 Omongnae-gil"
+},
+{
+"id": "w-36.98979,126.44569",
+"name": "서산수컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.72249,126.33775",
+"name": "로얄힐스CC",
+"web": "http://www.thelinkscc.co.kr/",
+"phone": "041-670-0333",
+"addr": "반곡리 태안읍 반곡리 1151-5"
+},
+{
+"id": "w-35.89270,126.65281",
+"name": "군산 컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.57756,126.63455",
+"name": "드림파크CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.69687,126.73496",
+"name": "프라자골프클럽",
+"web": "https://blog.naver.com/itday",
+"phone": "031-911-1691",
+"addr": "덕이동 1038 덕이동"
+},
+{
+"id": "w-35.01209,128.67400",
+"name": "드비치GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.78633,126.96071",
+"name": "아네스빌CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.53506,127.25758",
+"name": "세종필드골프클럽",
+"web": "http://www.sejongcc.com",
+"phone": "044-861-5678",
+"addr": "세종특별자치시 정안세종로 1569"
+},
+{
+"id": "w-36.27572,127.16806",
+"name": "더힐컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.07972,127.02178",
+"name": "The Lakes at Osan",
+"web": "https://51fss.com/golf/",
+"phone": "050-5784-4128",
+"addr": "평택시 Sinjang-dong"
+},
+{
+"id": "w-37.46982,126.87874",
+"name": "광명 골프 클럽",
+"web": "",
+"phone": "02-2610-7340",
+"addr": "하안4동 94 Cheolmangsan-ro"
+},
+{
+"id": "w-37.21714,127.00657",
+"name": "남수원CC",
+"web": "http://www.chowon.com/amagolf_golf_desc.htm?gcs=gcs_spec&g=g_public&golfjang_gubun=%EF%BF%BD%DB%BA%EF%BF%BD&spec=1&uid=36&mode=golf&hol_uid",
+"phone": "031-229-9200",
+"addr": "화성시 송산동 170"
+},
+{
+"id": "w-37.18893,126.98520",
+"name": "라비돌CC",
+"web": "http://www.라비돌골프장.com",
+"phone": "031-352-4457",
+"addr": "Gyeonggi-do Hwaseong-si 정남면 세자로 286"
+},
+{
+"id": "w-37.18954,127.03832",
+"name": "파인힐클럽하우스",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.19023,127.10775",
+"name": "리베라CC",
+"web": "",
+"phone": "",
+"addr": "Osan 화성시 중리길 183 청계동 510-385 리베라CC 밸리동"
+},
+{
+"id": "w-37.15951,127.13342",
+"name": "한원컨트리클럽",
+"web": "",
+"phone": "031-373-7111",
+"addr": "처인구 94 Jeonnamugol-gil 2beon-gil, Namsa-eup"
+},
+{
+"id": "w-37.30079,127.13141",
+"name": "경기경찰청CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.31031,127.11774",
+"name": "한성CC",
+"web": "http://hansung-cc.co.kr",
+"phone": "031-284-3831",
+"addr": "경기도 용인시 기흥구 구교동로 151"
+},
+{
+"id": "w-37.28385,127.08684",
+"name": "태광CC",
+"web": "http://taegwangcc-taekwang-country-club.placestars.com/",
+"phone": "018776001",
+"addr": "기흥구 Yeongdeok-dong, Heungdeok 4-ro, 77 KR"
+},
+{
+"id": "w-37.40373,127.21243",
+"name": "조광컨트리(Jogwang Country)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.40390,127.20987",
+"name": "화이트그린랜드(White Green Land)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.31012,127.17208",
+"name": "레이크사이드CC",
+"web": "http://www.lakesidecc.co.kr",
+"phone": "031-334-2111",
+"addr": "용인시 모현면 능원리 산5-12"
+},
+{
+"id": "w-37.29457,127.18102",
+"name": "글렌로스CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.20795,127.18916",
+"name": "해솔리아CC",
+"web": "http://www.haesoliacc.co.kr",
+"phone": "031-321-7755",
+"addr": "경기도 용인시 처인구 이동읍 백자로 369"
+},
+{
+"id": "w-37.17102,127.22118",
+"name": "처인CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.21585,127.21975",
+"name": "은화삼CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.18148,127.24573",
+"name": "신원CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.15265,127.23517",
+"name": "화산CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.09321,127.23172",
+"name": "파인크리크CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.09460,127.24803",
+"name": "신안CC",
+"web": "http://www.shinancc.co.kr/company/shinan_intro.shn",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.10461,127.26257",
+"name": "마에스트로CC",
+"web": "http://www.maestrocc.co.kr",
+"phone": "031-8046-1000",
+"addr": "양성면 2134-36 Anseongmatchum-daero, Yangseong-myeon"
+},
+{
+"id": "w-37.13009,127.18371",
+"name": "레이크힐스용인CC",
+"web": "http://www.lakehills.co.kr/g_yi/",
+"phone": "031-336-8350",
+"addr": "경기도 용인시 처인구 남사면 경기동로 628"
+},
+{
+"id": "w-37.13381,127.14082",
+"name": "용인플라자CC",
+"web": "http://www.plazacc.co.kr",
+"phone": "031-323-3200",
+"addr": "용인시 남사면 봉무리 257-1"
+},
+{
+"id": "w-35.86584,128.81126",
+"name": "대구컨트리클럽 (Daegue Country Club)",
+"web": "http://www.daegucc.co.kr/",
+"phone": "053-854-0002",
+"addr": "진량읍 67-2 Seonhwa-ri, Jillyang-eup"
+},
+{
+"id": "w-36.08843,128.43163",
+"name": "구평골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.11344,128.43656",
+"name": "에버그린 골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.01003,129.05457",
+"name": "오펠골프클럽 (O'phell Golf Club)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.91173,129.31566",
+"name": "루나엑스골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.54162,129.09702",
+"name": "영남알프스CC",
+"web": "http://www.ynalpsgolf.co.kr",
+"phone": "052-264-0980",
+"addr": "울산광역시 170 Jasujeong-ro, Samnam-eup"
+},
+{
+"id": "w-35.50750,129.07433",
+"name": "골드그린GC",
+"web": "http://goldgreen.co.kr/index.asp",
+"phone": "055-372-0050",
+"addr": "울산 179 Banggigacheon-ro, Samnam-myeon"
+},
+{
+"id": "w-35.37542,129.17451",
+"name": "에이원 CC",
+"web": "",
+"phone": "055-371-3501",
+"addr": "양산시 매곡동 1"
+},
+{
+"id": "w-36.41886,127.40158",
+"name": "한미르대덕CC",
+"web": "",
+"phone": "042-250-6565",
+"addr": "대전 용산동 676"
+},
+{
+"id": "w-36.61179,127.29433",
+"name": "문화골프클럽",
+"web": "",
+"phone": "044-867-1067",
+"addr": "Sejong 금이로53-14"
+},
+{
+"id": "w-37.02033,127.38554",
+"name": "안성베네스트골프클럽",
+"web": "http://www.golfsamsung.com/web/asCourseMap.do",
+"phone": "1577-9727",
+"addr": "경기도 안성시 금광면 삼흥로 660"
+},
+{
+"id": "w-37.01911,127.81410",
+"name": "킹스데일CC",
+"web": "http://www.kingsdale.co.kr",
+"phone": "043-900-8800",
+"addr": "충주시 주덕읍 화곡리 산32-42"
+},
+{
+"id": "w-37.13972,128.18053",
+"name": "킹즈락CC",
+"web": "http://kingsrockcc.com",
+"phone": "043-640-9000",
+"addr": "충청북도 제천시 내토로7길 136"
+},
+{
+"id": "w-37.19125,127.58868",
+"name": "솔모로CC",
+"web": "http://www.solmoro.com",
+"phone": "031-884-7000",
+"addr": "가남읍 여주시 가남읍 솔모로그린길 171"
+},
+{
+"id": "w-37.21526,127.29418",
+"name": "양지파인CC",
+"web": "",
+"phone": "031-329-9500",
+"addr": "용인시 양지면 남곡리 34-1"
+},
+{
+"id": "w-37.21580,127.33284",
+"name": "지산CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.25584,127.28120",
+"name": "아시아나CC",
+"web": "http://www.asianacc.co.kr/",
+"phone": "031-334-8800",
+"addr": "용인시 양지면 대대리 산 291-1"
+},
+{
+"id": "w-37.21540,127.59647",
+"name": "아리지CC",
+"web": "http://www.ariji.co.kr",
+"phone": "031-887-5678",
+"addr": "여주시 68 Ariji green-gil, Ganam-eup"
+},
+{
+"id": "w-37.21845,127.61749",
+"name": "동여주CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.33471,127.35127",
+"name": "중부CC",
+"web": "http://www.akdjbcc.co.kr",
+"phone": "031-762-6588",
+"addr": "곤지암읍 451 Gyeongchung-daero, Gonjiam-eup"
+},
+{
+"id": "w-37.38479,127.36847",
+"name": "블루버드CC",
+"web": "https://www.curocc.com",
+"phone": "031-799-6000",
+"addr": "경기도 광주시 곤지암읍 오향길 180"
+},
+{
+"id": "w-37.40322,127.42152",
+"name": "렉스필드CC",
+"web": "www.rexfield.com",
+"phone": "031-880-0300",
+"addr": "여주시 1115 Gwangyeo-ro, Sanbuk-myeon"
+},
+{
+"id": "w-37.40686,127.38476",
+"name": "이스트밸리CC",
+"web": "",
+"phone": "031-760-3800",
+"addr": "곤지암읍 195 Geoneop-gil, Gonjiam-eup"
+},
+{
+"id": "w-37.33125,127.97615",
+"name": "인터불고GC(퍼블릭)",
+"web": "",
+"phone": "033-733-0707",
+"addr": "원주시 봉산동 830-6"
+},
+{
+"id": "w-37.58749,127.20626",
+"name": "덕소골프클럽",
+"web": "",
+"phone": "031-576-3700",
+"addr": "와부읍 600-7 Deokso-ri, Wabu-eup"
+},
+{
+"id": "w-37.64312,127.35412",
+"name": "양주CC",
+"web": "",
+"phone": "031-592-6060",
+"addr": "남양주시 화도읍 금남리 300"
+},
+{
+"id": "w-37.81857,126.89237",
+"name": "서원밸리CC",
+"web": "http://www.seowongolf.co.kr",
+"phone": "031-940-9400",
+"addr": "경기도 파주시 광탄면 발랑리 산48-1"
+},
+{
+"id": "w-37.81792,126.90308",
+"name": "서원힐스CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.78066,127.08821",
+"name": "레이크우드컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.81765,127.14637",
+"name": "그린골프클럽",
+"web": "http://golfzon.com/lee0560",
+"phone": "031-542-0752",
+"addr": "포천시 소흘읍 초가팔리 368"
+},
+{
+"id": "w-37.80051,127.30444",
+"name": "가평베네스트GC",
+"web": "http://www.golfsamsung.com/",
+"phone": "031-589-8000",
+"addr": "상면 Sang-myeon, Dundeongmal-gil, 232 KR"
+},
+{
+"id": "w-37.96800,127.17039",
+"name": "포천 아도니스CC",
+"web": "",
+"phone": "+10315309160",
+"addr": "신북면 포천로 2499"
+},
+{
+"id": "w-37.86671,127.25877",
+"name": "샴발라CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.87407,127.27177",
+"name": "포레스트CC",
+"web": "https://www.foresthill.kr",
+"phone": "+10315308000",
+"addr": ""
+},
+{
+"id": "w-38.08262,127.30609",
+"name": "몽베르CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.84012,127.72319",
+"name": "라데나 골프 클럽",
+"web": "http://www.ladenaresort.com",
+"phone": "033-260-1114",
+"addr": "신동면 72 Chiljeondong-gil, Sindong-myeon"
+},
+{
+"id": "w-35.49300,126.64587",
+"name": "골프존카운티 선운",
+"web": "http://www.golfzoncounty.com",
+"phone": "063-560-2000",
+"addr": "아산면 Asan-myeon, Ungok-ro, 418"
+},
+{
+"id": "w-35.35291,126.41755",
+"name": "웨스트오션CC",
+"web": "https://www.westoceancc.co.kr/",
+"phone": "061-350-2000",
+"addr": "대신리 백수읍 구수리 산 40-22"
+},
+{
+"id": "w-35.07477,126.56670",
+"name": "베르힐CC 함평",
+"web": "https://www.verthillcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.05353,126.50029",
+"name": "함평천지CC",
+"web": "https://www.hpnabicc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.94013,126.64064",
+"name": "나주컨트리클럽",
+"web": "http://najucc.com",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.94106,126.45890",
+"name": "무안클린밸리CC",
+"web": "http://www.muancleanvalley.com/",
+"phone": "",
+"addr": "태봉리"
+},
+{
+"id": "w-34.69790,126.26506",
+"name": "파인비치골프링크스",
+"web": "https://www.pinebeachcc.co.kr/",
+"phone": "061-530-7700",
+"addr": "인지리 224 Sia-ro, Hwawon-myeon"
+},
+{
+"id": "w-34.54686,126.76114",
+"name": "다산베아채CC",
+"web": "https://www.beachegolf.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.25025,126.71242",
+"name": "푸른솔GC 장성",
+"web": "https://www.purunsolgc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.42690,126.73854",
+"name": "석정힐CC",
+"web": "https://hillcc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.42023,126.80891",
+"name": "백양우리컨트리클럽",
+"web": "http://www.woori-cc.co.kr/",
+"phone": "061-392-2300",
+"addr": "북이면 사거리 752-1"
+},
+{
+"id": "w-36.88610,126.79065",
+"name": "파나시아골프클럽",
+"web": "https://panaceagc.com",
+"phone": "041-350-0900",
+"addr": "당진시 33 Gyemyeong-gil, Sinpyeong-myeon"
+},
+{
+"id": "w-36.68784,126.15803",
+"name": "스톤비치컨트리클럽",
+"web": "https://stonebeach-cc.com",
+"phone": "041-670-7000",
+"addr": "정죽리 근흥면 정죽리 2261-1"
+},
+{
+"id": "w-36.70702,126.17286",
+"name": "골든베이골프&리조트",
+"web": "https://new.goldenbay.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.34355,126.79356",
+"name": "백제컨트리클럽",
+"web": "https://www.baekjecc.com",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.33060,126.61886",
+"name": "보령베이스CC",
+"web": "https://www.boryeongbase.co.kr/",
+"phone": "041-939-3600",
+"addr": "보령시 명천동 14-38"
+},
+{
+"id": "w-37.74932,126.84703",
+"name": "제이퍼블릭골프클럽",
+"web": "https://www.jpublic.co.kr/",
+"phone": "031-8071-0808",
+"addr": "조리읍 100 Janggok-ro, Jori-eup"
+},
+{
+"id": "w-34.86705,127.40194",
+"name": "순천CC",
+"web": "http://suncheoncc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.90012,127.44876",
+"name": "포라이즌CC",
+"web": "https://www.fourizon.co.kr/",
+"phone": "061-740-8000",
+"addr": "순천시 상사면 오곡리 산 177"
+},
+{
+"id": "w-35.06744,128.40664",
+"name": "고성노벨CC",
+"web": "https://www.nobelcc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.02168,127.95690",
+"name": "골프존카운티 사천",
+"web": "http://www.golfzoncounty.com/",
+"phone": "055-851-5000",
+"addr": "서포면 산16-1 Dapyeong-ri, Seopo-myeon"
+},
+{
+"id": "w-35.04451,126.93597",
+"name": "무등산CC",
+"web": "https://www.mudeungsancc.com/",
+"phone": "061-379-1000",
+"addr": "서태리 292-90 Oseong-ro, Hwasun-eup"
+},
+{
+"id": "w-35.04663,127.30621",
+"name": "골프존카운티 순천",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=26",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.10985,128.04758",
+"name": "삼삼컨트리클럽",
+"web": "https://www.samsamcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.17525,128.23634",
+"name": "진주컨트리클럽",
+"web": "https://www.chinjucc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.68026,126.96434",
+"name": "태인컨트리클럽",
+"web": "https://www.taeincc.co.kr/",
+"phone": "063-534-0600",
+"addr": "태인면 395 Taeindongseo-ro, Taein-myeon"
+},
+{
+"id": "w-35.79777,127.03018",
+"name": "더나인골프클럽",
+"web": "https://www.theninegc.co.kr/",
+"phone": "063-548-3650",
+"addr": "김제시 8-75 Daehwa 1-gil, Geumgu-myeon"
+},
+{
+"id": "w-35.96175,127.02767",
+"name": "상떼힐익산CC",
+"web": "https://santehill.co.kr",
+"phone": "",
+"addr": "익산시"
+},
+{
+"id": "w-35.83064,126.91702",
+"name": "김제스파힐스CC",
+"web": "https://www.spahillscc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.77884,126.89027",
+"name": "도고칸트리구락부",
+"web": "https://www.dogocc.co.kr/",
+"phone": "041-542-4411",
+"addr": "아산시 선장면 신성리 113-8"
+},
+{
+"id": "w-36.08390,127.12820",
+"name": "아리스타CC",
+"web": "http://www.aristacc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.65361,127.11176",
+"name": "프린세스GC",
+"web": "www.princessgc.co.kr",
+"phone": "041-851-6300",
+"addr": "공주시 81-50 Bangjadeul-gil, Jeongan-myeon"
+},
+{
+"id": "w-36.69993,127.17765",
+"name": "세종에머슨컨트리클럽",
+"web": "http://www.sejongemerson.co.kr/",
+"phone": "044-862-1075",
+"addr": "천안시 Yucheon-ri, Jeonui-myeon"
+},
+{
+"id": "w-35.70354,127.20080",
+"name": "전주샹그릴라CC",
+"web": "http://www.jeonjucc.co.kr/",
+"phone": "063-643-1000",
+"addr": "지장리 559-90 Suji-ro, Sindeok-myeon"
+},
+{
+"id": "w-35.38932,127.12341",
+"name": "순창CC",
+"web": "https://www.sunchangcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.84002,127.04449",
+"name": "파인허스트골프클럽",
+"web": "http://pinehurst.co.kr/",
+"phone": "041-538-0900",
+"addr": "아산시 312-38 Eumbong-ro, Eumbong-myeon"
+},
+{
+"id": "w-37.23411,127.15587",
+"name": "조일프라자골프클럽",
+"web": "http://www.joilgolf.com",
+"phone": "031-334-7900",
+"addr": "처인구 470 Jisam-ro"
+},
+{
+"id": "w-37.38391,127.18159",
+"name": "강남300CC",
+"web": "https://www.kn300.com/",
+"phone": "031-719-0300",
+"addr": ""
+},
+{
+"id": "w-37.18806,127.18910",
+"name": "세현CC",
+"web": "https://www.sehyeoncc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.07603,127.19437",
+"name": "골프존카운티 안성W",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=7",
+"phone": "031-670-0500",
+"addr": "안성시 양성면 교동길 19-70"
+},
+{
+"id": "w-37.08576,127.19820",
+"name": "한림안성CC",
+"web": "https://www.golfzoncounty.com/gcounty/info/main?cc_code=29",
+"phone": "031-671-7153",
+"addr": "Gyeonggi-do Anseong-si 양성면 양성로 349-61"
+},
+{
+"id": "w-35.41584,127.29526",
+"name": "남원상록GC",
+"web": "https://www.sangnokresort.co.kr/main.do?skskType=nc",
+"phone": "063-630-1300",
+"addr": "남원시 11 Wolgye-gil, Daesan-myeon"
+},
+{
+"id": "w-35.43572,127.34221",
+"name": "골프존카운티 드래곤",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=44",
+"phone": "063-630-3000",
+"addr": "남원시 대산면 옥율리 883-1"
+},
+{
+"id": "w-35.29243,128.29238",
+"name": "의령친환경골프장",
+"web": "https://의령친환경골프장.kr/",
+"phone": "055-570-2943",
+"addr": "대산리 266 Daesan-ri, Uiryeong-eup"
+},
+{
+"id": "w-35.35598,128.18311",
+"name": "의령리온CC",
+"web": "https://www.rieoncc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.59293,127.90435",
+"name": "클럽디거창CC",
+"web": "https://www.clubd.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.68057,128.29430",
+"name": "유니밸리컨트리클럽",
+"web": "http://www.univalley.co.kr",
+"phone": "054-956-7575",
+"addr": "대가야읍 고령읍 내곡리 1085-2"
+},
+{
+"id": "w-35.71552,128.25207",
+"name": "대가야CC",
+"web": "https://www.daegayacc.com/",
+"phone": "054-956-0009",
+"addr": "대가야읍 1103 Daegaya-ro, Daegaya-eup"
+},
+{
+"id": "w-35.70468,128.21492",
+"name": "마스터피스컨트리클럽",
+"web": "https://www.masterpiecegc.com/",
+"phone": "",
+"addr": "쌍림면 산42-12 Wolmak-ri, Ssangnim-myeon"
+},
+{
+"id": "w-35.70097,128.08482",
+"name": "아델스코트CC",
+"web": "https://www.adelscott.co.kr",
+"phone": "055-930-7777",
+"addr": "경상남도 합천군 가야면 가조가야로 1916-10"
+},
+{
+"id": "w-35.69281,128.05378",
+"name": "에콜리안CC 거창",
+"web": "https://www.ecolian.or.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.67823,127.60134",
+"name": "장수골프리조트",
+"web": "https://www.jangsugolf.com/",
+"phone": "063-350-1000",
+"addr": "Jangsu 전북 장수"
+},
+{
+"id": "w-35.68803,127.71240",
+"name": "스카이뷰CC",
+"web": "https://www.skyviewcc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.83850,127.32445",
+"name": "써미트컨트리클럽",
+"web": "http://www.summitcc.co.kr/",
+"phone": "",
+"addr": "봉암리 부귀면 봉암리 산 80-1"
+},
+{
+"id": "w-35.83173,127.63373",
+"name": "골프존카운티 무주",
+"web": "http://www.golfzoncounty.com/",
+"phone": "063-320-3232",
+"addr": "공진리 안성면 공진리 산 53 1호"
+},
+{
+"id": "w-35.88386,127.72408",
+"name": "무주덕유산CC",
+"web": "https://www.mdysresort.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.07390,127.35509",
+"name": "K밸리컨트리클럽",
+"web": "http://www.kvalleycc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.15375,127.32824",
+"name": "에딘버러컨트리클럽",
+"web": "https://www.edinburgh.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.15438,127.79133",
+"name": "일라이트CC",
+"web": "https://illitegolfnresort.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.28356,127.87101",
+"name": "뉴스프링빌2CC 백화산",
+"web": "https://www.newspring.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.33545,127.93964",
+"name": "블루원상주CC",
+"web": "https://sj.blueone.com/",
+"phone": "054-530-8888",
+"addr": "상주시 모서면 삼포리 462-8"
+},
+{
+"id": "w-36.22415,128.05940",
+"name": "애플밸리컨트리클럽",
+"web": "https://www.applevalley.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.94494,128.37357",
+"name": "칠곡아이위시CC",
+"web": "https://www.iwishcc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.04160,128.05810",
+"name": "포도CC",
+"web": "https://www.podocc.com",
+"phone": "054-431-2135",
+"addr": "김천시 구성면 송죽리 611-2"
+},
+{
+"id": "w-35.81455,128.38064",
+"name": "고령오펠GC",
+"web": "https://www.ophelgc.com/_Goryeong/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.89878,128.81469",
+"name": "해림골프클럽",
+"web": "http://www.hlgolf.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.98768,128.81215",
+"name": "골프존카운티 청통",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=33",
+"phone": "054-339-8000",
+"addr": ""
+},
+{
+"id": "w-35.99023,128.72286",
+"name": "팔공컨트리클럽",
+"web": "http://www.palgong-cc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.00357,128.44277",
+"name": "파미힐스CC",
+"web": "http://www.palmyhillscc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.01530,128.46198",
+"name": "세븐밸리CC",
+"web": "http://www.sevenvalley.co.kr/",
+"phone": "054-979-1000",
+"addr": "왜관읍 왜관읍 봉계리 17"
+},
+{
+"id": "w-36.11492,128.68226",
+"name": "군위오펠GC",
+"web": "https://www.ophelgc.com/_Gunwi/",
+"phone": "054-380-8000",
+"addr": "산성면 Sanseong-myeon, Unsan-ri, 900 대구광역시"
+},
+{
+"id": "w-36.15717,128.45023",
+"name": "골프존카운티 선산",
+"web": "http://sunsan.golfzoncounty.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.29346,128.55405",
+"name": "파라지오 컨트리클럽",
+"web": "https://www.paragio.co.kr/",
+"phone": "054-833-1545",
+"addr": "신평리 167 Nonggongmajeon-gil, Bongyang-myeon"
+},
+{
+"id": "w-36.28901,128.54090",
+"name": "이지스카이CC",
+"web": "https://www.easyskycc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.22298,129.33598",
+"name": "포항CC",
+"web": "https://pohangcc.com/",
+"phone": "",
+"addr": "Pohang 경북 포항시 북구 송라면 동해대로2751번길 126"
+},
+{
+"id": "w-36.16264,129.36267",
+"name": "이스턴컨트리클럽",
+"web": "http://www.easterncc.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.99801,129.16232",
+"name": "안강레전드골프클럽",
+"web": "https://www.legendgolf.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.04380,129.01370",
+"name": "오션힐스 영천CC",
+"web": "https://oceanhills.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.86595,129.26052",
+"name": "경주CC",
+"web": "https://www.kyongjugolf.co.kr/",
+"phone": "054-778-8900",
+"addr": "경주시 북군동 375-1"
+},
+{
+"id": "w-35.85973,129.27281",
+"name": "보문골프클럽",
+"web": "http://golf.gtc.co.kr/",
+"phone": "054-745-1680",
+"addr": "경주시 북군동 5-4"
+},
+{
+"id": "w-35.82314,129.29766",
+"name": "블루원 디아너스 C.C.",
+"web": "https://gj.blueone.com/",
+"phone": "+118991888",
+"addr": "Gyeongju 경북 경주시 보불로 391"
+},
+{
+"id": "w-35.49486,129.13311",
+"name": "보라컨트리클럽",
+"web": "https://boracc.com",
+"phone": "052-255-1000",
+"addr": "울산광역시 404 Samdong-ro, Samdong-myeon"
+},
+{
+"id": "w-35.68853,129.27870",
+"name": "서라벌골프클럽",
+"web": "https://www.seorabolgc.com/",
+"phone": "054-773-7000",
+"addr": "경주시 외동읍 석계리 산1"
+},
+{
+"id": "w-35.67540,128.81345",
+"name": "오션힐스 청도GC",
+"web": "https://www.oceanhills.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.66094,128.64397",
+"name": "더 그레이스컨트리클럽",
+"web": "https://www.grace-cc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.47663,128.86192",
+"name": "밀양노벨CC",
+"web": "https://www.miryangnobelcc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.42746,128.99320",
+"name": "에덴벨리컨트리클럽",
+"web": "http://golf.edenvalley.co.kr/",
+"phone": "055-379-9000",
+"addr": "경상남도 양산시 원동면 대리 1039"
+},
+{
+"id": "w-35.47551,128.81472",
+"name": "리더스컨트리클럽",
+"web": "https://www.leaderscc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.45887,128.73485",
+"name": "명밀양 컨트리클럽",
+"web": "https://www.miryangcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.30956,128.57334",
+"name": "레이크힐스경남컨트리클럽",
+"web": "http://www.lakehills.co.kr/network/cc_gyeongnam/gyeongnam_main.html",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.25404,128.80840",
+"name": "정산컨트리클럽",
+"web": "https://www.jeongsancc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.23664,128.78078",
+"name": "포웰CC",
+"web": "https://www.4wellcc.com/",
+"phone": "055-340-9000",
+"addr": "김해시 진례면 송현리 산 100"
+},
+{
+"id": "w-35.27350,128.79687",
+"name": "김해상록GC",
+"web": "https://www.sangnokresort.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.27300,128.89858",
+"name": "가야CC",
+"web": "https://www.gayacc.com",
+"phone": "055-338-8723",
+"addr": "김해시 삼방동 930-1"
+},
+{
+"id": "w-35.22356,129.21947",
+"name": "해운대비치골프&리조트",
+"web": "http://www.haeundaebeachcc.com",
+"phone": "051-724-2268",
+"addr": "Seoul 부산광역시 기장군 기장읍 대변리 575-1"
+},
+{
+"id": "w-35.25740,129.18940",
+"name": "기장동원로얄컨트리클럽",
+"web": "https://www.dongwongolf.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.28749,129.20069",
+"name": "스톤게이트CC",
+"web": "https://www.stonegatecc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.28428,129.24278",
+"name": "아시아드CC",
+"web": "https://asiadcc.co.kr/",
+"phone": "051-720-6000",
+"addr": "일광읍 26 Chayang-gil, Ilgwang-myeon"
+},
+{
+"id": "w-35.44228,129.18391",
+"name": "울산컨트리클럽",
+"web": "https://www.ulsancc.co.kr/",
+"phone": "052-2250-7079",
+"addr": "울산 1 Ungchon-ro, Ungchon-myeon"
+},
+{
+"id": "w-35.44979,129.27507",
+"name": "오르비스GC",
+"web": "https://orvis.club/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.36593,129.19943",
+"name": "해운대컨트리클럽",
+"web": "https://www.haeundaecc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.52005,127.45152",
+"name": "에버힐골프클럽",
+"web": "http://everhillgc.com",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.54693,127.38841",
+"name": "세레니티CC",
+"web": "https://www.serenitycc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.61449,127.61891",
+"name": "골드나인CC",
+"web": "https://www.gold-9.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.47381,128.61206",
+"name": "남안동컨트리클럽",
+"web": "http://namandongcc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.56424,128.77578",
+"name": "안동레이크골프클럽",
+"web": "https://golf.gtc.co.kr/ANDONGLAKE/main/index.asp",
+"phone": "054-821-9191",
+"addr": "안동시 316 Gwangwangdanji-ro"
+},
+{
+"id": "w-36.48971,128.57268",
+"name": "안동리버힐 컨트리클럽",
+"web": "http://www.안동리버힐.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.68282,127.60571",
+"name": "이븐데일CC",
+"web": "http://www.evendale.co.kr/",
+"phone": "043-288-1000",
+"addr": "상당구 31 Daesin 2-gil, Miwon-myeon"
+},
+{
+"id": "w-36.72137,127.37926",
+"name": "그랜드CC",
+"web": "https://www.grandgolf.co.kr/",
+"phone": "043-212-7111",
+"addr": "청주시"
+},
+{
+"id": "w-36.73394,127.42804",
+"name": "오창에딘버러컨트리클럽",
+"web": "http://www.ochangedincc.com/",
+"phone": "043-210-1900",
+"addr": "청원구 Ochang-eup, Dureungyuri-ro, 846 KR 오창에딘버러C.C / Ochang Edinburgh C.C"
+},
+{
+"id": "w-36.74295,127.28128",
+"name": "천안상록CC",
+"web": "https://www.sangnokresort.co.kr/main.do?skskType=cc&skskMenu=2_1",
+"phone": "041-560-9100",
+"addr": "동남구 576 Susin-ro, Susin-myeon"
+},
+{
+"id": "w-36.80327,127.30610",
+"name": "골프존카운티 천안",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=43",
+"phone": "041-558-9900",
+"addr": "동남구 103 Maeseong 2-gil, Byeongcheon-myeon"
+},
+{
+"id": "w-36.81623,127.40253",
+"name": "골프존카운티 진천",
+"web": "https://www.golfzoncounty.com/gcounty/info/main?cc_code=32",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.84498,127.58732",
+"name": "블랙스톤 벨포레CC",
+"web": "https://www.blackstonebelleforet.com",
+"phone": "043-926-1000",
+"addr": "도안면 Yeonchon-ri, Doan-myeon"
+},
+{
+"id": "w-36.90858,127.30888",
+"name": "히든밸리골프클럽",
+"web": "https://www.hiddenvalley.co.kr/",
+"phone": "043-539-7900",
+"addr": "갈월리 711-1 Garwol-ri, Baekgok-myeon"
+},
+{
+"id": "w-36.93756,127.33923",
+"name": "아난티 중앙 골프클럽",
+"web": "https://joongang.ananti.kr/",
+"phone": "043-533-6666",
+"addr": "충청북도 진천군 백곡면 배티로 818-105"
+},
+{
+"id": "w-36.94857,127.38808",
+"name": "천룡CC",
+"web": "https://www.crcc.co.kr/",
+"phone": "043-536-1001",
+"addr": "신계리 이월면 신계리 산 78"
+},
+{
+"id": "w-36.96109,127.28801",
+"name": "윈체스트GC",
+"web": "https://www.winchestgc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.05457,127.38762",
+"name": "에덴블루CC",
+"web": "https://www.edenblue.co.kr",
+"phone": "031-678-7000",
+"addr": "경기도 안성시 죽산면 녹배길 175"
+},
+{
+"id": "w-37.04619,127.39109",
+"name": "골프클럽Q",
+"web": "http://www.golfclubq.com/",
+"phone": "031-8046-7100",
+"addr": "안성시 죽산면 장계리 711"
+},
+{
+"id": "w-37.03766,127.40540",
+"name": "안성CC",
+"web": "https://www.ansungcc.co.kr/",
+"phone": "031-674-9111",
+"addr": "경기도 안성시 죽산면 장계길 134"
+},
+{
+"id": "w-37.02981,127.46582",
+"name": "진양밸리GC",
+"web": "http://www.chinyangvalley.co.kr/",
+"phone": "043-881-6003",
+"addr": "대사리 삼성면 양덕리 산117-7"
+},
+{
+"id": "w-37.04019,127.46385",
+"name": "썬밸리CC",
+"web": "https://www.sunvalley.co.kr",
+"phone": "043-881-5307",
+"addr": "대사리 산500-16 Daesa-ri, Samseong-myeon"
+},
+{
+"id": "w-37.03909,127.52006",
+"name": "젠스필드CC",
+"web": "http://www.zensfield.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.00732,127.62723",
+"name": "모나크CC",
+"web": "https://monarchcc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.02591,127.67299",
+"name": "세일CC",
+"web": "https://www.seilcc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.02576,127.64869",
+"name": "레인보우힐스CC",
+"web": "https://www.rainbowhills.co.kr",
+"phone": "043-879-7900",
+"addr": "생리 168 Chasaeng-ro, Saenggeuk-myeon"
+},
+{
+"id": "w-36.93000,127.62235",
+"name": "코스카CC",
+"web": "https://www.koscacc.kr",
+"phone": "043-870-1000",
+"addr": "충청북도 음성군 음성읍 동음로 318"
+},
+{
+"id": "w-36.94613,127.83563",
+"name": "대영베이스컨트리클럽",
+"web": "https://basecc.co.kr/Main/Main.aspx",
+"phone": "043-850-8600",
+"addr": "충주시 이류면 장성리 산7"
+},
+{
+"id": "w-36.95188,127.85406",
+"name": "대영힐스컨트리클럽",
+"web": "https://dyhills.basecc.co.kr:6443/Main/Main.aspx",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.02713,127.86962",
+"name": "임페리얼레이크CC",
+"web": "https://www.alldaygolf.co.kr",
+"phone": "043-853-5550",
+"addr": "충주시 금가면 월상리 205-1"
+},
+{
+"id": "w-37.06907,127.99183",
+"name": "중원GC",
+"web": "https://www.joongwongolf.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.08740,128.27591",
+"name": "대호단양CC",
+"web": "www.daehocc.co.kr",
+"phone": "013-420-7114",
+"addr": "충청북도 단양군 대한민국 충청북도 단양군 매포읍 고양리 329-6"
+},
+{
+"id": "w-37.17498,127.73553",
+"name": "시그너스CC",
+"web": "https://www.cygnuscc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.17825,127.70446",
+"name": "소피아그린CC",
+"web": "https://sophiagreen.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.20776,127.57660",
+"name": "트리니티클럽",
+"web": "https://www.trinityclub.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.20857,127.56786",
+"name": "자유CC",
+"web": "https://www.jayucc.co.kr/",
+"phone": "031-880-9900",
+"addr": "가남읍 여주시 가남면 삼군리 산44"
+},
+{
+"id": "w-37.16597,127.61816",
+"name": "블랙스톤이천GC",
+"web": "https://www.blackstoneresort.com",
+"phone": "031-643-2000",
+"addr": "장호원읍 459-160 Jangyeo-ro, Janghowon-eup"
+},
+{
+"id": "w-37.08393,127.69972",
+"name": "스타CC",
+"web": "https://www.starcc.net",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.09139,127.73850",
+"name": "일레븐CC",
+"web": "https://www.elevencc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.08126,127.57402",
+"name": "이천실크밸리GC",
+"web": "https://www.silkvalleygc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.12941,127.69743",
+"name": "감곡CC",
+"web": "https://www.gamgokcc.com/",
+"phone": "043-882-1600",
+"addr": "충청북도 음성군 감곡면 오갑길 195"
+},
+{
+"id": "w-37.09572,127.32741",
+"name": "이글몬트CC",
+"web": "https://www.eaglemontcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.09568,127.33453",
+"name": "골프존카운티 안성H",
+"web": "http://www.golfzoncounty.com/gcounty/info/main?cc_code=4",
+"phone": "031-8056-0700",
+"addr": "Gyeonggi-do Anseong 보개면 보삼로 302"
+},
+{
+"id": "w-37.11250,127.34515",
+"name": "용인CC",
+"web": "https://www.yongincc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.12956,127.32190",
+"name": "블루원 용인CC",
+"web": "https://yi.blueone.com/",
+"phone": "018991888",
+"addr": "안성시"
+},
+{
+"id": "w-37.15682,127.42342",
+"name": "뉴스프링빌CC 이천",
+"web": "https://icheon.newspring.co.kr",
+"phone": "031-636-9908",
+"addr": "모가면 산76 Dumi-ri, Moga-myeon"
+},
+{
+"id": "w-37.17920,127.41768",
+"name": "비에이비스타CC",
+"web": "https://www.bavista.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.18504,127.39936",
+"name": "에이치원클럽",
+"web": "https://www.h1club.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.24017,127.60095",
+"name": "금강CC",
+"web": "https://www.kccgolf.co.kr/",
+"phone": "031-880-6000",
+"addr": "본두리 여주시 가남읍 본두리 1-2"
+},
+{
+"id": "w-37.22400,127.62794",
+"name": "남여주GC",
+"web": "https://www.namyeoju.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.20921,127.68452",
+"name": "페럼클럽",
+"web": "https://www.ferrumclub.com/",
+"phone": "031-887-7000",
+"addr": "여주시 181 Jeomdong-ro, Jeomdong-myeon"
+},
+{
+"id": "w-37.26877,127.73391",
+"name": "여주썬밸리CC",
+"web": "https://www.sunvalley.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.25395,127.61649",
+"name": "해슬리나인브릿지CC",
+"web": "https://www.haesley.com",
+"phone": "031-887-9900",
+"addr": "경기도 여주군 여주읍 명품1로 76"
+},
+{
+"id": "w-37.27950,127.60147",
+"name": "YJC골프클럽",
+"web": "https://www.yeojoocc.co.kr/",
+"phone": "031-883-7000",
+"addr": "여주시 Wolsong-dong, 월평로 78"
+},
+{
+"id": "w-37.29710,127.73594",
+"name": "360도CC",
+"web": "https://www.360cc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.30072,127.74457",
+"name": "캐슬파인GC",
+"web": "https://www.castlepine.co.kr",
+"phone": "031-880-8656",
+"addr": "부평리 강천면 부평리 47-1"
+},
+{
+"id": "w-37.33234,127.72808",
+"name": "스카이밸리CC",
+"web": "https://www.skyvalley.co.kr/skyvalley/main",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.34773,127.72385",
+"name": "루트52컨트리클럽",
+"web": "http://route52cc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.35153,127.41890",
+"name": "남촌CC",
+"web": "https://www.namchoncc.co.kr/",
+"phone": "031-769-0333",
+"addr": "곤지암읍 510 Iseon-ri, Gonjiam-eup"
+},
+{
+"id": "w-37.35915,127.43237",
+"name": "그린힐CC",
+"web": "https://www.shinangolf.com/club/greenhillcc",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.38964,127.49828",
+"name": "이포CC",
+"web": "https://ipocc.com/",
+"phone": "031-886-8100",
+"addr": "경기도 여주군 금사면 장흥로 416"
+},
+{
+"id": "w-37.47599,127.70046",
+"name": "더스타휴 골프앤리조트",
+"web": "https://www.thestarhue.com",
+"phone": "031-770-9900",
+"addr": "고송리"
+},
+{
+"id": "w-37.48398,127.78938",
+"name": "동원썬밸리CC",
+"web": "https://www.sunvalley.co.kr/dongwon/golf/intro",
+"phone": "033-344-5308",
+"addr": "서원면 Seowon-myeon, Seokhwa-ri, 646-7"
+},
+{
+"id": "w-37.42680,127.82105",
+"name": "오크밸리CC",
+"web": "https://hdcgolf.com/oakvalley/course",
+"phone": "+115887676",
+"addr": "원주시 지정면 월송리 1061-16"
+},
+{
+"id": "w-37.40644,127.81191",
+"name": "오크힐스CC",
+"web": "https://hdcgolf.com",
+"phone": "",
+"addr": "지정면 577-5 Pandae-ri, Jijeong-myeon"
+},
+{
+"id": "w-37.39844,127.83387",
+"name": "성문안CC",
+"web": "http://seongmunan.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.41367,127.64545",
+"name": "양평TPC골프클럽",
+"web": "http://www.tpcgolf.co.kr/",
+"phone": "031-772-3000",
+"addr": "대평리 113-8 Daepyeongpyeongjang-gil, Jipyeong-myeon"
+},
+{
+"id": "w-37.38325,127.64652",
+"name": "블루헤런GC",
+"web": "https://www.blueheron.co.kr/",
+"phone": "031-880-0700",
+"addr": "경기도 여주시 대신면 고달사로 67"
+},
+{
+"id": "w-37.36147,127.69761",
+"name": "신라CC",
+"web": "https://www.onetheclub.com/shilla/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.40110,127.87560",
+"name": "동서울레스피아 골프&리조트",
+"web": "https://www.respia.com",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.21467,128.51169",
+"name": "탑스텐리조트 동강시스타CC",
+"web": "https://www.cistar.co.kr/view/viewLink.do?page=homepage/KOR/resorts/golf_use_info",
+"phone": "+10339052800",
+"addr": "파평면 청송로402번길 138"
+},
+{
+"id": "w-37.17370,128.84540",
+"name": "하이원CC",
+"web": "https://www.high1.com",
+"phone": "033-590-7300",
+"addr": "고한읍 399 Gohan 7-gil, Gohan-eup"
+},
+{
+"id": "w-37.64147,127.26975",
+"name": "클럽비전힐스CC",
+"web": "https://www.visionhillscc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.72094,126.89219",
+"name": "올림픽CC",
+"web": "https://www.olympicsports.co.kr/",
+"phone": "031-962-0101",
+"addr": "고양시 벽제동 65-1"
+},
+{
+"id": "w-37.73224,126.89667",
+"name": "서서울CC",
+"web": "https://www.seoseoul.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.78632,126.91204",
+"name": "노스팜CC",
+"web": "https://www.npcc.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.79682,126.91051",
+"name": "송추CC",
+"web": "https://www.songchoo.co.kr/",
+"phone": "",
+"addr": "Paju 광적면 비암리 산 36-2"
+},
+{
+"id": "w-37.66482,127.45579",
+"name": "청평마이다스CC",
+"web": "https://www.midasgolf.co.kr/",
+"phone": "031-589-9000",
+"addr": "이천리 설악면 이천리 240"
+},
+{
+"id": "w-37.69329,127.56590",
+"name": "클럽모우CC",
+"web": "https://www.clubmow.com",
+"phone": "+10334399000",
+"addr": "서면 1367 Mogok-ri, Seo-myeon"
+},
+{
+"id": "w-37.75232,127.61391",
+"name": "원더클럽 파가니카CC",
+"web": "https://onetheclub.com/paganica/main",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.77619,127.74889",
+"name": "더플레이어스GC",
+"web": "https://www.playersgc.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.76882,127.71993",
+"name": "베어크리크GC 춘천",
+"web": "https://www.bearcreek.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.76649,127.67446",
+"name": "휘슬링락CC",
+"web": "https://www.whistlingrockcc.com/",
+"phone": "033-269-2101",
+"addr": "강원도 춘천시 남산면 동촌로 501"
+},
+{
+"id": "w-37.77157,127.65826",
+"name": "오너스GC",
+"web": "https://www.ownersgc.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.79087,127.69206",
+"name": "남춘천CC",
+"web": "https://www.namchuncheon.co.kr",
+"phone": "033-269-3000",
+"addr": "춘천시 신동면 혈동리 산 226"
+},
+{
+"id": "w-37.74163,127.76347",
+"name": "라비에벨CC",
+"web": "https://www.lavieestbellegolfnresort.com",
+"phone": "033-245-7000",
+"addr": "강원특별자치도 Chuncheon 동산면 종자리로 436"
+},
+{
+"id": "w-37.66348,127.68612",
+"name": "소노펠리체CC 비발디파크 EAST",
+"web": "https://www.sonofelicecc.com/sn",
+"phone": "016440063",
+"addr": "서면 산277 Palbong-ri, Seo-myeon"
+},
+{
+"id": "w-37.62453,127.86879",
+"name": "비콘힐스골프클럽",
+"web": "https://www.beaconhills.co.kr/",
+"phone": "033-439-5114",
+"addr": "홍천읍 Hongcheon-eup, Nopeunteo-ro, 533 KR"
+},
+{
+"id": "w-37.59373,127.71042",
+"name": "힐드로사이CC",
+"web": "https://www.hilldeloci.co.kr/",
+"phone": "033-439-3300",
+"addr": "홍천군 남면 화전리 산223"
+},
+{
+"id": "w-37.64027,127.67706",
+"name": "소노펠리체CC 비발디파크 WEST",
+"web": "https://www.sonofelicecc.com/vc",
+"phone": "033-435-8311",
+"addr": "대곡리 서면 팔봉리 산125-28"
+},
+{
+"id": "w-37.65899,127.52311",
+"name": "더스테이힐링파크 링스파3골프",
+"web": "https://www.thestayhealingpark.com/active/index",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.65554,127.45309",
+"name": "프리스턴벨리 CC",
+"web": "https://pristinevalley.co.kr",
+"phone": "031-589-2000",
+"addr": "천안리 설악면 이천리 산 2-12"
+},
+{
+"id": "w-37.92397,126.89205",
+"name": "타이거CC",
+"web": "https://www.tigercc.co.kr/",
+"phone": "031-958-8900",
+"addr": "법원읍 1803 Surihol-ro, Beobwon-eup"
+},
+{
+"id": "w-38.16612,127.29216",
+"name": "한탄강CC",
+"web": "https://hantancc.co.kr/",
+"phone": "02-795-9308",
+"addr": "갈말읍"
+},
+{
+"id": "w-37.93002,127.31781",
+"name": "일동레이크GC",
+"web": "https://www.ildonglakes.co.kr",
+"phone": "031-539-5900",
+"addr": "포천시 일동면 유동리 21-2"
+},
+{
+"id": "w-37.93823,127.33119",
+"name": "필로스CC",
+"web": "http://www.philosgc.com/",
+"phone": "031-531-2003",
+"addr": ""
+},
+{
+"id": "w-37.87468,127.34798",
+"name": "썬힐GC",
+"web": "http://www.sunhillgolf.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.87546,127.36379",
+"name": "리앤리CC",
+"web": "https://www.leenleecc.co.kr/",
+"phone": "+10315809000",
+"addr": "하면 운악청계로 702-24"
+},
+{
+"id": "w-37.84778,127.46742",
+"name": "베뉴지CC",
+"web": "http://www.venuegcc.com",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.88273,128.11751",
+"name": "세이지우드CC 홍천",
+"web": "https://www.sagewood.co.kr/hongcheon/main",
+"phone": "033-439-1000",
+"addr": "강원도 홍천군 두촌면 광석로 898-160"
+},
+{
+"id": "w-38.21026,128.49246",
+"name": "소노펠리체CC 델피노",
+"web": "https://www.sonofelicecc.com/dp",
+"phone": "033-639-8400",
+"addr": "토성면 토성면 원암리 403-1"
+},
+{
+"id": "w-38.31378,128.50247",
+"name": "설악썬밸리CC",
+"web": "https://www.sunvalley.co.kr",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-38.24861,128.54253",
+"name": "파인리즈CC",
+"web": "https://www.pineridge.co.kr/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-38.21085,128.53860",
+"name": "플라자CC 설악",
+"web": "https://www.plazacc.co.kr/plzcc/irsweb/golf2/course/seorak/seorak_club.do",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-38.05233,128.66338",
+"name": "설해원",
+"web": "https://www.seolhaeone.com/golf/list.do",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.64841,128.70431",
+"name": "용평CC",
+"web": "https://www.yongpyong.co.kr/kor/golf/clubGuide/yongpyongIntro.do",
+"phone": "+10333307410",
+"addr": "대관령면 올림픽로 715"
+},
+{
+"id": "w-37.65563,128.70594",
+"name": "버치힐CC",
+"web": "https://www.yongpyong.co.kr/kor/golf/course/birchhillClub/fullMap.do",
+"phone": "+10333307504",
+"addr": "대관령면 수하리 142-33"
+},
+{
+"id": "w-37.79984,128.88106",
+"name": "샌드파인GC",
+"web": "https://www.lakaisandpine.co.kr/golf",
+"phone": "033-655-7000",
+"addr": "강릉시 53 Jeodongdeung-gil"
+},
+{
+"id": "w-37.25634,126.44859",
+"name": "W5NF",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.43330,127.20723",
+"name": "제이원골프(J-Won Golf)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.99459,128.85577",
+"name": "시엘골프클럽 (Ciel Golf Club)",
+"web": "http://www.cielgolf.com",
+"phone": "054-336-7200",
+"addr": "청통면 334-41 Cheongtong-ro, Cheongtong-myeon"
+},
+{
+"id": "w-36.66598,127.32167",
+"name": "떼제베 골프장(TGV CC)",
+"web": "http://www.tgvcc.co.kr",
+"phone": "043-230-4000",
+"addr": "청주시 옥산면 환희리 산102"
+},
+{
+"id": "w-37.58101,126.90578",
+"name": "The royal golf club",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.25133,126.59192",
+"name": "상무대체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.00446,126.55690",
+"name": "함평엘리체CC",
+"web": "",
+"phone": "061-320-7800",
+"addr": "학교면 242 Seodangmae-gil, Hakgyo-myeon"
+},
+{
+"id": "w-34.96405,126.40561",
+"name": "무안CC",
+"web": "",
+"phone": "061-450-9000",
+"addr": "청계면 818-1 Dodae-ri, Cheonggye-myeon"
+},
+{
+"id": "w-34.80251,126.46866",
+"name": "중흥레포츠클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.82549,126.39370",
+"name": "목포골프클럽",
+"web": "",
+"phone": "061-273-0087",
+"addr": "목포시 614-194 Yeonsan-dong"
+},
+{
+"id": "w-34.72743,126.43066",
+"name": "사우스링스영암",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.89183,126.72500",
+"name": "나주힐스컨트리클럽",
+"web": "http://www.najuhills.com/",
+"phone": "061-337-5700",
+"addr": "Naju 세지면 성산리 820"
+},
+{
+"id": "w-35.00199,126.83550",
+"name": "해피니스CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.28350,126.55496",
+"name": "에스앤골프리조트",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.60239,126.60525",
+"name": "인피션 골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.52783,126.56342",
+"name": "베르힐CC 영종",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.47949,126.47017",
+"name": "스카이72 골프장 바다코스 (제5활주로 건설 예정지)",
+"web": "",
+"phone": "015990072",
+"addr": "운서동 392 Gonghangdong-ro"
+},
+{
+"id": "w-37.45138,126.48240",
+"name": "스카이72 골프장 하늘코스",
+"web": "http://www.sky72.com",
+"phone": "1544-7002",
+"addr": "인천광역시 인천 중구 공항동로 392"
+},
+{
+"id": "w-37.43423,126.46016",
+"name": "오렌지듄스영종GC",
+"web": "http://www.inggolf.co.kr",
+"phone": "032-743-0025",
+"addr": "인천 운서동 2851-17"
+},
+{
+"id": "w-37.35107,126.58929",
+"name": "오렌지듄스 GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.34908,126.61641",
+"name": "인천환경공단골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.24000,126.61075",
+"name": "제이유제이골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.23075,126.56279",
+"name": "아일랜드CC",
+"web": "https://www.theheavenresort.com",
+"phone": "032-884-1004",
+"addr": "경기도 안산시 단원구 대선로 466"
+},
+{
+"id": "w-37.22457,126.72943",
+"name": "엠투골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.35759,126.65330",
+"name": "송도 유니버스 골프클럽",
+"web": "http://www.universegolfclub.com",
+"phone": "032-865-0707",
+"addr": "인천광역시 연수구 지식기반로 152"
+},
+{
+"id": "w-37.37985,126.62439",
+"name": "잭니클라우스 골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.41361,126.65074",
+"name": "송도GC",
+"web": "http://www.songdogolf.co.kr/",
+"phone": "032-833-0500",
+"addr": "연수구 236 Neungheodae-ro, Dongchun 1(il)-dong"
+},
+{
+"id": "w-37.51389,126.63841",
+"name": "인천그랜드CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.54942,126.62832",
+"name": "베어즈베스트청라GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.56125,126.65266",
+"name": "인천국제CC",
+"web": "",
+"phone": "032-562-9991",
+"addr": "검암경서동 37 Bongsu-daero"
+},
+{
+"id": "w-37.54856,126.79316",
+"name": "인서울27골프클럽",
+"web": "",
+"phone": "02-6395-8000",
+"addr": "공항동 Osoe-dong, 1-2 인서울27 골프클럽"
+},
+{
+"id": "w-37.63531,126.85804",
+"name": "고양 CC",
+"web": "http://www.goyangcc.com",
+"phone": "031-960-7700",
+"addr": "덕양구 304-23 Heung-doro, Donae-dong"
+},
+{
+"id": "w-37.36794,126.76974",
+"name": "아세코밸리골프클럽클럽하우스",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.39113,126.77166",
+"name": "솔트베이GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.16974,126.75386",
+"name": "링크나인 골프클럽",
+"web": "http://www.linknine.co.kr/",
+"phone": "031-831-0900",
+"addr": "만세구 49 Haeun-ro 630beon-gil, Mado-myeon"
+},
+{
+"id": "w-37.22719,126.83489",
+"name": "화성골프클럽",
+"web": "http://www.hwaseonggc.com",
+"phone": "031-369-8900",
+"addr": "만세구 1393-27 Hwaseong-ro, Namyang-eup"
+},
+{
+"id": "w-37.65788,126.34576",
+"name": "유니아일랜드 골프&스파 리조트",
+"web": "http://www.uniisland.com",
+"phone": "032-933-9330",
+"addr": ""
+},
+{
+"id": "w-37.70297,126.53427",
+"name": "김포 씨사이드 CC",
+"web": "",
+"phone": "031-987-2048",
+"addr": "김포시"
+},
+{
+"id": "w-37.70774,126.56553",
+"name": "인그레인골프클럽",
+"web": "http://golfzon.com/starscreen",
+"phone": "031-981-5781",
+"addr": "김포시 월곶면 갈산리 429-19"
+},
+{
+"id": "w-37.65619,126.81191",
+"name": "일산스프링힐스 CC",
+"web": "http://www.springhills.co.kr",
+"phone": "031-969-2000",
+"addr": "고양시 주교동 1500"
+},
+{
+"id": "w-37.69560,126.84579",
+"name": "대한골프클럽",
+"web": "",
+"phone": "031-964-4222",
+"addr": "일산동구 131-1 Sarihyeon-dong"
+},
+{
+"id": "w-37.65682,126.85662",
+"name": "한양 CC",
+"web": "http://www.hycc.co.kr",
+"phone": "031-969-0810",
+"addr": "고양시 원당동 38-23"
+},
+{
+"id": "w-34.64769,127.62730",
+"name": "디오션CC",
+"web": "http://theoceanresort.co.kr/main/golfMain.do?PID=04",
+"phone": "061-689-0410",
+"addr": "여수시 638-1 Anpo-ri, Hwayang-myeon"
+},
+{
+"id": "w-34.71374,127.72090",
+"name": "오동도코스",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.71485,127.72511",
+"name": "여수경도골프앤리조트CC",
+"web": "https://www.sagewood.co.kr/yeosu/main",
+"phone": "061-660-1000",
+"addr": "전라남도 여수시 경호동 1013"
+},
+{
+"id": "w-34.75354,127.05239",
+"name": "보성에덴CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.77662,127.85270",
+"name": "아난티 남해 골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.79040,127.64164",
+"name": "갤럭시골프클럽",
+"web": "",
+"phone": "061-661-0001",
+"addr": "여수시 78 Jusamdeogyang-ro"
+},
+{
+"id": "w-34.79700,126.97263",
+"name": "JNJ골프리조트",
+"web": "http://www.jnjgolfresort.co.kr",
+"phone": "+10618649090",
+"addr": "장평면 기동리 1018"
+},
+{
+"id": "w-34.82065,127.21985",
+"name": "보성CC",
+"web": "http://bosungcc.co.kr/",
+"phone": "061-804-1000",
+"addr": "Boseong 조성면 조성3길 338번지"
+},
+{
+"id": "w-34.81103,128.42820",
+"name": "동원로얄CC 통영",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.83501,127.27276",
+"name": "벌교파3골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.87921,128.58907",
+"name": "거제뷰CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.93735,127.55572",
+"name": "부영CC순천",
+"web": "",
+"phone": "061-816-5533",
+"addr": "해룡면 신대로 188"
+},
+{
+"id": "w-34.95434,126.92056",
+"name": "엘리체컨트리클럽",
+"web": "http://www.ngjcc.co.kr",
+"phone": "061-373-5511",
+"addr": "전라남도 화순군"
+},
+{
+"id": "w-34.95482,127.70826",
+"name": "광양CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.95104,127.52264",
+"name": "금당골프클럽",
+"web": "",
+"phone": "061-726-7200",
+"addr": "순천시 206 Baekgang-ro"
+},
+{
+"id": "w-34.97165,126.90897",
+"name": "화순CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-34.98709,126.93957",
+"name": "조아밸리 CC",
+"web": "http://joavalleycc.co.kr/index.asp",
+"phone": "061-370-9000",
+"addr": "대곡리 도곡면 대곡리 산55-3"
+},
+{
+"id": "w-34.94542,128.35646",
+"name": "고성CC",
+"web": "",
+"phone": "055-673-8769",
+"addr": "통영시 고성읍 월평리 200-1"
+},
+{
+"id": "w-35.03643,127.27300",
+"name": "파인힐스CC",
+"web": "https://www.bosungleisure.com/pinehills",
+"phone": "061-750-9000",
+"addr": "전라남도 순천시 주암면 송광사길 99"
+},
+{
+"id": "w-35.09783,126.89940",
+"name": "빛고을CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.08989,128.74710",
+"name": "아라미르 골프앤리조트",
+"web": "http://www.ara-mir.com",
+"phone": "055-548-9999",
+"addr": "수제로 36"
+},
+{
+"id": "w-35.10135,128.08407",
+"name": "사천체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.26731,126.99315",
+"name": "죽향CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.22287,127.01469",
+"name": "창평CC(골프장)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.30832,127.02050",
+"name": "담양다이너스티CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.80505,127.00676",
+"name": "에스페란사골프클럽",
+"web": "",
+"phone": "063-546-0724",
+"addr": "이서면 금구면 낙성리 2-10"
+},
+{
+"id": "w-36.06918,126.88986",
+"name": "웅포골프클럽",
+"web": "",
+"phone": "063-720-7000",
+"addr": "웅포면 130 Gangbyeon-ro, Ungpo-myeon"
+},
+{
+"id": "w-36.30994,126.91249",
+"name": "롯데스카이힐CC",
+"web": "http://www.skyhill.co.kr/htmlCC/buyeo/main/main.jsp",
+"phone": "041-939-1700",
+"addr": "신리 470 Baekjemun-ro, Gyuam-myeon"
+},
+{
+"id": "w-36.76742,127.11758",
+"name": "남일밸리",
+"web": "",
+"phone": "041-531-0011",
+"addr": "천안시 36 Hyudae-ri, Baebang-eup"
+},
+{
+"id": "w-36.31677,127.23484",
+"name": "구룡대CC",
+"web": "",
+"phone": "042-550-7650",
+"addr": "계룡시 신도안면 남선리 501"
+},
+{
+"id": "w-35.81763,127.26154",
+"name": "OK CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.35484,127.08347",
+"name": "금과골프장",
+"web": "http://963916.igkorea.kr/",
+"phone": "063-653-9100",
+"addr": "금과면 111-2 Bangchuk-ri, Geumgwa-myeon"
+},
+{
+"id": "w-35.25009,127.09481",
+"name": "르오네트컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.28847,127.16280",
+"name": "옥과기안CC",
+"web": "http://www.okgwakiancc.co.kr/",
+"phone": "061-363-9700",
+"addr": "창정리 427-2 Soryong-ri, Okgwa-myeon"
+},
+{
+"id": "w-35.30964,127.17273",
+"name": "광주CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.84321,127.01496",
+"name": "아산CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.07624,127.00197",
+"name": "오산체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.99103,126.92254",
+"name": "이글골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.99226,126.85905",
+"name": "서평택골프클럽 파3골프장",
+"web": "http://www.daewongolf.co.kr",
+"phone": "+10316810077",
+"addr": "포승읍 도곡리 148-3"
+},
+{
+"id": "w-37.15673,126.94015",
+"name": "해병대체력단련장",
+"web": "http://welfare.navy.mil.kr/GolfDuckUseCourse.do?menu=1bo_id=201",
+"phone": "031-8012-2712",
+"addr": "화성시 봉담읍 덕리 423-5"
+},
+{
+"id": "w-37.32707,126.86809",
+"name": "제일컨트리클럽",
+"web": "http://www.jaeil-cc.co.kr",
+"phone": "031-400-2500",
+"addr": "안산시 부곡동 587"
+},
+{
+"id": "w-37.19351,127.13108",
+"name": "화성상록GC",
+"web": "https://www.sangnokresort.co.kr/",
+"phone": "031-371-0100",
+"addr": "동탄5동 80 Pulmugol-ro 60beon-gil, Jung-dong"
+},
+{
+"id": "w-37.19307,127.14770",
+"name": "기흥CC",
+"web": "http://www.ghcc.kr",
+"phone": "031-376-4001",
+"addr": "Gyeonggi-do 화성시, Gyeonggi-do 풀무골로 106번길 244"
+},
+{
+"id": "w-37.22355,127.12413",
+"name": "코리아CC 퍼블릭코스",
+"web": "http://www.kgav.com/",
+"phone": "031-286-8111",
+"addr": "용인시 고매동 산 18"
+},
+{
+"id": "w-37.28049,127.12310",
+"name": "수원CC",
+"web": "",
+"phone": "031-285-6363",
+"addr": "기흥구 495 Jungbu-daero"
+},
+{
+"id": "w-37.26291,127.12529",
+"name": "남부CC",
+"web": "",
+"phone": "031-288-2880",
+"addr": "용인시 상갈동 26-1"
+},
+{
+"id": "w-37.25020,127.08787",
+"name": "레이크 골프 클럽",
+"web": "",
+"phone": "031-202-7677",
+"addr": "영통구 28 Cheongmyeong-ro"
+},
+{
+"id": "w-37.34265,127.09568",
+"name": "골프장",
+"web": "http://www.9017.net/namyoung",
+"phone": "031-261-2900",
+"addr": "수지구 167-3 동천동"
+},
+{
+"id": "w-37.41728,127.10754",
+"name": "유명골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.43082,127.11103",
+"name": "서울공항 체력단련장",
+"web": "",
+"phone": "031-720-3590",
+"addr": "성남시 Godeung-dong"
+},
+{
+"id": "w-37.47818,127.15745",
+"name": "위례골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.36284,127.16592",
+"name": "서창퍼블릭골프장",
+"web": "",
+"phone": "031-718-8833",
+"addr": "신현동 56 Munhyeongsan-gil, Opo-eup"
+},
+{
+"id": "w-37.49784,127.16648",
+"name": "캐슬렉스서울GC",
+"web": "http://www.castlexgc.com",
+"phone": "02-480-5600",
+"addr": "명일동 감이동 260-1"
+},
+{
+"id": "w-37.24769,127.18190",
+"name": "선봉대 체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.06179,127.14159",
+"name": "서안성골프클럽",
+"web": "http://www.wgc.co.kr",
+"phone": "031-658-0759",
+"addr": "안성시 원곡면 지문리 769"
+},
+{
+"id": "w-36.84963,127.20659",
+"name": "골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.86581,127.25655",
+"name": "마론뉴데이CC",
+"web": "http://www.maronnewday.com",
+"phone": "041-623-5555",
+"addr": "천안시 북면 운용리 489"
+},
+{
+"id": "w-35.27515,127.91132",
+"name": "진산골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.27980,128.35944",
+"name": "육군체력단련장",
+"web": "",
+"phone": "055-585-0762",
+"addr": "가야읍 1065 Hamma-daero, Gunbuk-myeon"
+},
+{
+"id": "w-36.15590,127.77415",
+"name": "남성대체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.15127,128.30176",
+"name": "봉곡마스터골프클럽",
+"web": "",
+"phone": "054-442-0755",
+"addr": "봉곡남로 2-17"
+},
+{
+"id": "w-35.82948,128.62666",
+"name": "아트피아 골프클럽",
+"web": "",
+"phone": "053-761-0759",
+"addr": "두산동 Dusan-dong"
+},
+{
+"id": "w-35.82352,128.62035",
+"name": "미성PGA골프클럽",
+"web": "http://www.golfzon.com",
+"phone": "053-761-0066",
+"addr": "상동 12 Muhak-ro"
+},
+{
+"id": "w-35.79446,128.76145",
+"name": "인터불고 CC",
+"web": "http://www.interburgocc.com",
+"phone": "053-819-6100",
+"addr": "경상북도 경산시"
+},
+{
+"id": "w-35.90503,128.84803",
+"name": "골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.99732,128.99393",
+"name": "충성대체력단련장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.96112,128.47663",
+"name": "신동그린힐스CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.21079,128.52401",
+"name": "칼레이트CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.24486,129.35333",
+"name": "오션힐스 포항CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.04553,129.33284",
+"name": "대련골프클럽",
+"web": "",
+"phone": "054-248-9009",
+"addr": "포항시 흥해읍 대련리 산138"
+},
+{
+"id": "w-36.02851,129.33517",
+"name": "에스골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.95084,129.20610",
+"name": "선리치GC",
+"web": "http://www.sunrichgc.com",
+"phone": "054-777-3333",
+"addr": "안강읍 67 Geomdan-ri, Angang-eup"
+},
+{
+"id": "w-35.77548,129.48428",
+"name": "골프존카운티감포",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.72353,129.37533",
+"name": "이스트힐CC",
+"web": "www.easthills.co.kr",
+"phone": "054-775-1700",
+"addr": "양남면 산505 Hyodong-ri, Yangnam-myeon"
+},
+{
+"id": "w-35.68480,129.37430",
+"name": "마우나오션CC",
+"web": "https://www.mauna.co.kr",
+"phone": "016008668",
+"addr": "양남면 1021 Dongnam-ro, Yangnam-myeon"
+},
+{
+"id": "w-35.58914,129.43469",
+"name": "베이스타즈CC",
+"web": "",
+"phone": "052-280-8800",
+"addr": "울산 산120 Sinhyeon-dong"
+},
+{
+"id": "w-35.74060,128.85842",
+"name": "펜타뷰골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.49543,128.49416",
+"name": "동훈힐마루CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.49586,128.82777",
+"name": "밀양에스파크컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.21678,128.69605",
+"name": "그랜드 골프클럽",
+"web": "http://www.golfzon.com",
+"phone": "055-283-0707",
+"addr": "성산구 경남 창원시 성산구 사파정동(산) 95"
+},
+{
+"id": "w-35.28609,128.86731",
+"name": "피플레이 골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.26335,129.09915",
+"name": "동래배네스트CC",
+"web": "https://www.golfsamsung.com/web/drCourseMap.do",
+"phone": "+10515800300",
+"addr": "하정로 66"
+},
+{
+"id": "w-35.40021,129.04309",
+"name": "양산CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.39533,129.02115",
+"name": "양산동원로얄컨트리클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.42331,129.03156",
+"name": "다이아몬드CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-35.35833,129.18498",
+"name": "동부산컨트리클럽",
+"web": "http://www.dongpusancc.co.kr",
+"phone": "055-388-1315",
+"addr": "양산시 매곡외산로 282"
+},
+{
+"id": "w-36.40466,127.39043",
+"name": "사이언스 대덕 CC",
+"web": "",
+"phone": "042-865-3000",
+"addr": "Daejeon 전민동 산11-2"
+},
+{
+"id": "w-36.44597,127.78230",
+"name": "클럽디속리산",
+"web": "http://www.arisolcc.net/",
+"phone": "",
+"addr": "임한리 탄부면 상장리 산 30"
+},
+{
+"id": "w-36.62258,127.64312",
+"name": "필그린GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.51014,127.69155",
+"name": "클럽디보은CC",
+"web": "https://www.clubd.com/boeun/index.do",
+"phone": "043-540-8888",
+"addr": "충청북도 보은군 보은읍 장속중초로 386"
+},
+{
+"id": "w-36.76572,128.56151",
+"name": "월드CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.88799,129.39777",
+"name": "울진마린CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.71485,128.15604",
+"name": "문경GC",
+"web": "",
+"phone": "054-550-5000",
+"addr": "문경시 경상북도 문경시 마성면 외어리 산 1-1"
+},
+{
+"id": "w-36.67481,127.48050",
+"name": "스카이21",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-36.82106,127.46957",
+"name": "골프존카운티 화랑",
+"web": "http://www.golfzoncounty.com/crystal/main?T=16",
+"phone": "043-539-5000",
+"addr": "은탄리 809 Nongdari-ro, Munbaek-myeon"
+},
+{
+"id": "w-37.05512,127.74426",
+"name": "동촌GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.02865,127.78505",
+"name": "센테리움",
+"web": "",
+"phone": "043-849-7000",
+"addr": "충주시 노은면 신효리 산 81 외64필지"
+},
+{
+"id": "w-37.17283,128.23837",
+"name": "에콜리안제천CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.17758,128.19567",
+"name": "골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.17906,127.63021",
+"name": "빅토리아CC",
+"web": "",
+"phone": "031-883-0111",
+"addr": "여주시 Ganam-eup, Songnim-ri, 214 KR"
+},
+{
+"id": "w-37.11910,127.26821",
+"name": "루나힐스안성컨트리클럽",
+"web": "",
+"phone": "031-612-6060",
+"addr": "경기도 안성시 양성면 약산길 67-6"
+},
+{
+"id": "w-37.16634,127.42421",
+"name": "웰링턴CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.17584,127.45681",
+"name": "사우스스프링스CC",
+"web": "http://www.sscc.co.kr/",
+"phone": "031-630-7000",
+"addr": "모가면 64 Gongwon-ro, Moga-myeon"
+},
+{
+"id": "w-37.17338,127.52372",
+"name": "마이다스레이크이천 골프앤리조트",
+"web": "http://www.icmidas.com/",
+"phone": "031-640-0123",
+"addr": "이천시 602 Seolga-ro, Seolseong-myeon"
+},
+{
+"id": "w-37.23272,127.41402",
+"name": "더크로스비 골프클럽",
+"web": "http://www.thecrosbygc.co.kr",
+"phone": "031-730-8600",
+"addr": "경기도 이천시 호법면 중부대로798번길 177"
+},
+{
+"id": "w-37.25883,127.60337",
+"name": "영재 파3골프랜드",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.32777,127.65764",
+"name": "세라지오CC",
+"web": "http://www.ceragio.com",
+"phone": "031-887-8700",
+"addr": "여주시 530 Yeoyang-ro"
+},
+{
+"id": "w-37.32986,127.29832",
+"name": "곤지암GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.47158,127.33760",
+"name": "동서울골프클럽",
+"web": "http://dongseoulgc.com/",
+"phone": "031-768-1177",
+"addr": "퇴촌면 179-11 Dosu-ri, Toechon-myeon"
+},
+{
+"id": "w-37.43517,127.81104",
+"name": "메이플코스",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.41989,127.81859",
+"name": "IN코스",
+"web": "",
+"phone": "033-730-3500",
+"addr": "원주시 지정면 오크밸리2길 58"
+},
+{
+"id": "w-37.42430,127.81867",
+"name": "파인코스",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.39309,128.01025",
+"name": "파크밸리GC",
+"web": "http://www.parkvalley.co.kr",
+"phone": "033-731-4811",
+"addr": "강원특별자치도 원주시"
+},
+{
+"id": "w-37.48084,128.23635",
+"name": "웰리힐리CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.28272,127.85141",
+"name": "센추리21CC",
+"web": "",
+"phone": "033-733-1000",
+"addr": "문막읍 193 Gungmal-gil, Munmak-eup"
+},
+{
+"id": "w-37.22272,128.68355",
+"name": "에콜리안 정선CC",
+"web": "",
+"phone": "",
+"addr": "신동읍 112-49 Saegol-gil, Sindong-eup"
+},
+{
+"id": "w-37.37391,129.20697",
+"name": "파인밸리CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.22294,129.06602",
+"name": "블랙밸리CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.15791,128.94862",
+"name": "오투리조트 CC",
+"web": "",
+"phone": "033-580-7000",
+"addr": "삼수동 Hwangji-dong"
+},
+{
+"id": "w-37.17563,128.46277",
+"name": "하이망 CC점",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.54246,126.96786",
+"name": "골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.50997,127.00965",
+"name": "파스텔 골프클럽",
+"web": "http://www.pastelgolf.co.kr",
+"phone": "02-595-0011",
+"addr": "반포3동 66-2 Jamwon-dong"
+},
+{
+"id": "w-37.62141,127.31094",
+"name": "그린힐골프클럽",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.61343,127.29770",
+"name": "해비치CC",
+"web": "http://www.haevichicc.com/",
+"phone": "031-579-3000",
+"addr": "남양주시 화도읍 차산리 산 111-1"
+},
+{
+"id": "w-37.63964,126.90557",
+"name": "123 GC",
+"web": "",
+"phone": "02-359-0123",
+"addr": "창릉동 53-124 Dongsan-dong"
+},
+{
+"id": "w-37.65458,126.86620",
+"name": "한양파인 CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.66599,126.87891",
+"name": "뉴코리아 CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.75740,127.24368",
+"name": "한림광릉CC(회원제)",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.72827,127.17742",
+"name": "장현그린골프클럽",
+"web": "",
+"phone": "031-573-0100",
+"addr": "진접읍 444-5 Janghyeon-ri, Jinjeop-eup"
+},
+{
+"id": "w-37.52237,127.61517",
+"name": "골프장",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.52013,127.84684",
+"name": "옥스필드CC",
+"web": "http://www.oxfield.com/",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.84111,127.23789",
+"name": "포천GC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.88590,127.24014",
+"name": "포천힐스 CC",
+"web": "https://www.fortunehills.co.kr",
+"phone": "031-538-7000",
+"addr": "경기도 포천시 군내면 반월산성로375번길 34"
+},
+{
+"id": "w-37.58492,128.31932",
+"name": "태기산CC",
+"web": "",
+"phone": "015770755",
+"addr": "면온리 봉평면 면온1리 1095"
+},
+{
+"id": "w-37.58821,128.33744",
+"name": "휘닉스평창 CC",
+"web": "",
+"phone": "",
+"addr": ""
+},
+{
+"id": "w-37.65358,128.65790",
+"name": "알펜시아 트룬CC",
+"web": "http://www.alpensiaresort.co.kr/SptsCcclubIntro.gdc",
+"phone": "033-339-0000",
+"addr": "강원도 평창군 대관령면 솔봉로 325"
+},
+{
+"id": "w-37.66285,128.68835",
+"name": "알펜시아700GC",
+"web": "",
+"phone": "",
+"addr": "대관령면 대관령면 수하리 240"
+},
+{
+"id": "w-37.74375,128.96900",
+"name": "메이플비치",
+"web": "http://www.maplebeach.co.kr/",
+"phone": "033-650-0000",
+"addr": "강동면 Hasidong-ri, Gangdong-myeon"
+}
+]
+}
