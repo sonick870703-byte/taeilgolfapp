@@ -29,6 +29,18 @@ jobs:
           node-version: 22
       - name: Install wrangler
         run: npm install --no-save --no-fund --no-audit wrangler@4
+      - name: workers.dev 하위 주소 준비 (Durable Objects 에 필요, 처음 한 번만 만들어짐)
+        run: |
+          API=https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/subdomain
+          cur=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" $API)
+          echo "$cur"
+          if echo "$cur" | grep -q '"subdomain":"[a-z0-9]'; then echo 'already set'; exit 0; fi
+          for name in taeilgolf taeil-golf tigc-taeil; do
+            out=$(curl -s -X PUT -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H 'content-type: application/json' -d "{\"subdomain\":\"$name\"}" $API)
+            echo "$out"
+            echo "$out" | grep -q '"success":true' && exit 0
+          done
+          echo '::warning::workers.dev 하위 주소를 자동으로 만들지 못했습니다'
       - name: Deploy
         run: npx wrangler deploy
       - name: Check
