@@ -16,6 +16,11 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+      - name: 연결 서버 점검 (관광공사 응답 원문 일부)
+        continue-on-error: true
+        run: |
+          U=$(python3 -c "import json;print(json.load(open('services.json'))['dataProxy'])")
+          curl -sL --max-time 120 "$U?api=golf&debug=1" | head -c 5000; echo
       - name: 관광공사 골프장 요금 받기·반영
         run: python3 tools/kr_tour_fees.py
       - name: 바뀐 것 저장
