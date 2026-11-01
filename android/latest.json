@@ -1,9 +1,9 @@
 {
- "version": "1.4.58",
- "file": "www-1.4.58.zip",
- "sha256": "8fc534bf9291c9cc365b5eec53a3ec9f229718010e1b059285fa7715fed000d9",
+ "version": "1.4.59",
+ "file": "www-1.4.59.zip",
+ "sha256": "c4cb2bea0b5b75c46f3852dcfd93ce26399e69184b6ce10fe750ca27b0362a1f",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "국내 골프 찾기 지도 이름표 겹침 정리",
- "sig": "h8/AKAX6MopE176ZXa3X1nlOkplHFrhImCviu2LztvAxsSoNcxQvAIvJTVrhF2jg0+GquDHukfO7/dFY9cRVJtyzllkEl2Qljtl2wVnXnwQNJffz+eW18SSJxxOcO19hiBA8dPKQZieyRvN73oBBNksfJ6ThACAFa0LYRkT1kGmSdKJCHAY20Vm0zabD/TfNhbY0O5+0ii8Kb+Q+YjLRct3AyWyWpHliqn+l6UZ/J90/YQGi1dYxgRL64/EV+U1yLIv8lvT3lVRCgXJXlrk7PoY0hPXaHnB/9EjV2zjjtVq/5OdLtMWOFMqhiergtB4KTXzG61IDh+6kyEg10ZxtBw=="
+ "notes": "나라별 골프장 지도에 땅·나라 경계 표시 복구",
+ "sig": "Qg2tz7TDHFrcsNA494jGtjA4aagzzF+qJOjTc65NpBcnCKgEQPwcuLKDrQTfK/gjBI3n6oAazwt7DntRoM7g+Bj1d1wvnctSWGZC5v/pWrBtDDa/83t5C/+i3snK+1X+juTphSro7cr+wlmJSJHW35MKKkSESKefD+p2LUQZNgYyUrgZNYnlh/7hNY4nX2LRxOmIQKfAa0jOtHIlPFAmabLzTriHLDjCTW6LVbTNr37Zm5ZQjy32hGk+KfLuK6vJhGGrgY9IauiY53wLwKQxP38AnWd59MgzeQaMztXxrgzIlA3AdeYQMKTHhML1c6QkJk3GJ+fu4XT2+7B/4NY/7w=="
 }

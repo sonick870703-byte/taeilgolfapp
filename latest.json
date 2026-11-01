@@ -1,9 +1,9 @@
 {
- "version": "1.4.58",
- "file": "app-1.4.58.asar",
- "sha256": "0a04805cbea25118683265569519cc42327e31192333eb5b9908474d116c4039",
+ "version": "1.4.59",
+ "file": "app-1.4.59.asar",
+ "sha256": "cadcb111540c89139ab522806190dbcbc06eea82987b83b62a48a736c162b325",
  "minShell": "",
  "fullUrl": "",
- "notes": "국내 골프 찾기 지도 이름표 겹침 정리",
- "sig": "LHv9DExWBl2tyiKK+U/uAmbVJnBBQ7Bj0I08PxULBCKvALA73VOytyz3W1ibK+D7ZUYgP1sBSytMr1CCsmRICw=="
+ "notes": "나라별 골프장 지도에 땅·나라 경계 표시 복구",
+ "sig": "WwUZrCE0V4Ofp0LhassOU+pFuCHeGjmqp+MDxMf/3B8sYK5bvDFPkVWAR5Ji+72OMsx/clRVnBuMi6gio0X/DA=="
 }
