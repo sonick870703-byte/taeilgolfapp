@@ -151,7 +151,7 @@ export default {
       if (p === '/api/passport/delete' && request.method === 'POST') return json(200, await B.delPassport(user.id));
       // 여기부터는 여권 안전 등록을 마친 회원만
       if (p !== '/api/profile' && p !== '/api/report' && !STAFF(user.role) && !(await B.passport(user.id)).ok) return json(428, { error: '여권 안전 등록을 먼저 해 주세요.', need: 'passport' });
-      if (p === '/api/profile' && request.method === 'POST') return json(200, { profile: await B.setProfile(user.id, body) });
+      if (p === '/api/profile' && request.method === 'POST') return json(200, { profile: await B.setProfile(user.id, body, user.role) });
       if (p === '/api/meetups' && request.method === 'GET') return json(200, { meetups: await B.meetups(str(q.get('sido'), 20), str(q.get('sgg'), 30), user.id) });
       if (p === '/api/meetups' && request.method === 'POST') return json(200, { meetup: await B.createMeetup(user.id, body) });
       if ((m = /^\/api\/meetups\/(\d+)$/.exec(p))) return json(200, { meetup: await B.meetup(+m[1], user.id, true) });
@@ -227,11 +227,12 @@ export class Board extends DurableObject {
     const p = this.one('SELECT nick, sido, sgg, color FROM profiles WHERE uid = ?', uid);
     return p ? { nick: p.nick, sido: p.sido || '', sgg: p.sgg || '', color: p.color || '' } : null;
   }
-  setProfile(uid, b) {
+  setProfile(uid, b, role = '') {
     const old = this.profile(uid) || {};
     const nick = b.nick !== undefined ? clean(str(b.nick, 12)) : old.nick;
     if (!nick || nick.length < 2) fail(400, '닉네임은 2~12자로 정해 주세요.');
-    if (uid !== ADMIN_UID && /♡|운영자|관리자|태일골프|admin/i.test(nick)) fail(400, '쓸 수 없는 닉네임이에요.');
+    // 운영자·관리자·태일골프 같은 이름은 회사 이름이라 관리자(프로그램 관리자 모드 · 홈페이지 관리자 계정)만 씀
+    if (/♡/.test(nick) || (uid !== ADMIN_UID && role !== 'admin' && /운영자|관리자|태일골프|admin/i.test(nick))) fail(400, '쓸 수 없는 닉네임이에요. (태일골프·관리자 같은 이름은 회사 이름이라 관리자만 쓸 수 있어요)');
     const taken = this.one('SELECT uid FROM profiles WHERE nick_l = ? AND uid <> ?', nick.toLowerCase(), uid);
     if (taken) fail(409, '이미 쓰는 닉네임이에요.');
     const sido = b.sido !== undefined ? str(b.sido, 20) : old.sido || '';
