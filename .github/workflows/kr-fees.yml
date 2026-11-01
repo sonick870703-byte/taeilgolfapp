@@ -1,0 +1,25 @@
+name: kr-fees
+# 국내 골프장 요금 보강 (한국관광공사 TourAPI → kr-venues.json). 매주 월요일 + 수동 실행.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 21 * * 0'   # 매주 월요일 06:00 (한국)
+  push:
+    branches: [claude/project-thread-xilp6l]
+    paths: [tools/kr_tour_fees.py, .github/workflows/kr-fees.yml]
+permissions:
+  contents: write
+concurrency: { group: kr-fees, cancel-in-progress: false }
+jobs:
+  fees:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 관광공사 골프장 요금 받기·반영
+        run: python3 tools/kr_tour_fees.py
+      - name: 바뀐 것 저장
+        run: |
+          git add -A kr-venues.json data/ || true
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git -c user.name="taeil-bot" -c user.email="noreply@tigc.co.kr" commit -m "국내 골프장 요금: 한국관광공사 관광정보 반영 ($(date -u +%F))"
+          git push origin HEAD:${GITHUB_REF_NAME}
