@@ -1,9 +1,9 @@
 {
- "version": "1.4.66",
- "file": "app-1.4.66.asar",
- "sha256": "e9dd37ceb76548fb265c593adc9f9212f02aa3a43a02e7dc1e9f4974e40bd782",
+ "version": "1.4.67",
+ "file": "app-1.4.67.asar",
+ "sha256": "f2eafea1e6f9a7ba509e8e0fa09aa593c3cccac6d54ff30d7407408dd7086fb4",
  "minShell": "",
  "fullUrl": "",
- "notes": "새 시작 화면 + 첫 화면 로그인 (회원가입·아이디 찾기·비밀번호 찾기)",
- "sig": "Stuj+FrPIGjml1YJVm+VT588An2NXCv0DWOAdablRpE/P2/frbbyXUOQd5aoekfMyBKHI2gQNIc39NNriRukDQ=="
+ "notes": "대기실 여권 안전 등록(자동 기입) + 게임 포인트 최소화·장비 상점",
+ "sig": "tF+hPWfg1IywhPD1lLh8RvKtTv6e6/GCZs5FiATmLoKVCxcXj+eS2tWY/zYIgkpZ8M7f7N9qOVGVNQSjH9AfBg=="
 }

@@ -1,9 +1,9 @@
 {
- "version": "1.4.66",
- "file": "www-1.4.66.zip",
- "sha256": "130e73840f6be1dc7ec970ca9bbf11145e3fdb3ceed0123e06f34e8570a30f82",
+ "version": "1.4.67",
+ "file": "www-1.4.67.zip",
+ "sha256": "ad660689a696fa6e72b0e113a01cec8a067ce15cf91ad55c07ddd55f1f75a4bb",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "새 시작 화면 + 첫 화면 로그인",
- "sig": "qi57rT55piuysds+SN2Em7egsOL8AE3Ljkm0fQ/sfW+aKgRErFa2LR1NeAovbyKw6UQFKeWpG0BrzEKI4hyWGaQyhuTEoKPAuy2pQCQqePiD24hUX79nntyQJgAvKgQlX7Ga8Gu56Hs/sVVTuM4uHtpfZq2levSfeZmcw8Epa0YdGrUaqOEcocc1TyXyimTbzSfZE4+F02RWEAMXaNYrG7T/bwXA/xun8rSyK79UW2737omFhyMlEwKX9CTCsISm5f8ZRIy14g9w0I70kJXBxWmOlVaJfkmniu9LBRMg5KA3Sa8IuK3zsyUTUQMC+aGm6TcKtPCt5YExbctTqllI3A=="
+ "notes": "대기실 여권 안전 등록 + 게임 포인트·장비 상점",
+ "sig": "d+VZnopDjnRgqLbWzGOPIZE84nNv7Gzho24IBLZhkVaOfvTxMdx/OyL1xlBh6Ci6kndrgU7Q+FN1pnIxuZIkfshekJtLU3cxYm4UiPvnlR/oM5CgKQo6/aD06xHGNG9IGN5/XpQAZ8fN9PId10c1KO/irDhQhTX8IR1bOLk2JwOKnyQgtLL6V/ueaah+mC9tkK3M9RWBRvrHEAAUyxRW7epS3Azf9T19EZw9ZV75AU+l1n75ZVmXyMaX5Tmb+zwmrV2ij6Xwab5Gymgyup/I+hHkJNBFE+Kqf7wzt0JhxjMV8dXnve9TtFjMhTaDnq4RnSYWcCfW1MwIWaqxxh1lww=="
 }

@@ -3,6 +3,11 @@
 //  - Room  : 방 하나 = Durable Object 하나 (광장 hub / 동네 dong-… / 모임 meet-…). 실시간 위치·채팅·파티
 //  - Board : 라운지 전체에 하나. 닉네임·동네, 동호회(가입·운영진·게시판·정모), 신고, 이용 제한(SQLite)
 // 위치(GPS)는 받지 않습니다. 동네는 회원이 시·군·구를 직접 고릅니다.
+// 여권 안전 등록 (회원 별도 동의): 입장 전에 여권 사진을 받아 기기에서 기계판독줄(MRZ)을 읽고,
+//   서버에는 ① 여권번호 대신 되돌릴 수 없는 암호값(HMAC) ② 만료 연월·성인 여부 ③ 여권 사진(AES-GCM 암호화)만 저장.
+//   비밀 키는 이 서버(Durable Object) 안에서 처음 한 번 만들어 보관하며 코드·저장소에는 없음.
+//   사진은 관리자만, 이유를 적어야 볼 수 있고 볼 때마다 기록이 남음. 등록을 지우면 바로 파기 (이용 제한자는 제한 종료 후 1년).
+//   쓰임 = 성인 본인 확인, 한 여권 = 한 계정, 이용 제한자 재가입 차단, 범죄·사고 시 법에 따른 요청 대응.
 import { DurableObject } from 'cloudflare:workers';
 
 const PREFIX = '/lounge';
@@ -49,6 +54,7 @@ async function userFrom(env, token) {
   return user;
 }
 const board = env => env.BOARD.get(env.BOARD.idFromName('main'));
+const PASS_CONSENT = '2026-11-01';
 const today = () => new Date(now() + 9 * 3600e3).toISOString().slice(0, 10);
 const CLUB_CATS = ['골프', '스크린골프', '파크골프', '연습장', '골프여행', '당구', '낚시', '운동·산책', '친목', '기타'];
 const CLUB_EMOJI = ['⛳', '🏌', '🏌️‍♀️', '🎯', '🏆', '✈', '🎱', '🎣', '🚶', '☕', '🌳', '🔥', '⭐', '🍀', '🐯', '🦅'];
@@ -85,6 +91,7 @@ export default {
         const B = board(env);
         const ban = await B.banOf(user.id);
         if (ban) return json(403, { error: '이용이 제한된 계정입니다.', until: ban.until });
+        if (!STAFF(user.role) && !(await B.passport(user.id)).ok) return json(428, { error: '여권 안전 등록을 먼저 해 주세요.', need: 'passport' });
         const prof = await B.profile(user.id);
         if (!prof || !prof.nick) return json(409, { error: '닉네임을 먼저 정해 주세요.' });
         if (room.startsWith('meet-')) {
@@ -111,7 +118,11 @@ export default {
       if (ban && request.method === 'POST') return json(403, { error: '이용이 제한된 계정입니다.', until: ban.until });
       const q = url.searchParams;
       let m;
-      if (p === '/api/me') return json(200, { user, profile: await B.profile(user.id), ban });
+      if (p === '/api/me') return json(200, { user, profile: await B.profile(user.id), ban, passport: await B.passport(user.id) });
+      if (p === '/api/passport' && request.method === 'POST') return json(200, { passport: await B.setPassport(user.id, body) });
+      if (p === '/api/passport/delete' && request.method === 'POST') return json(200, await B.delPassport(user.id));
+      // 여기부터는 여권 안전 등록을 마친 회원만
+      if (p !== '/api/profile' && p !== '/api/report' && !STAFF(user.role) && !(await B.passport(user.id)).ok) return json(428, { error: '여권 안전 등록을 먼저 해 주세요.', need: 'passport' });
       if (p === '/api/profile' && request.method === 'POST') return json(200, { profile: await B.setProfile(user.id, body) });
       if (p === '/api/meetups' && request.method === 'GET') return json(200, { meetups: await B.meetups(str(q.get('sido'), 20), str(q.get('sgg'), 30), user.id) });
       if (p === '/api/meetups' && request.method === 'POST') return json(200, { meetup: await B.createMeetup(user.id, body) });
@@ -127,7 +138,8 @@ export default {
       // 관리 (홈페이지 ERP 관리자·직원 계정)
       if (p.startsWith('/api/admin/')) {
         if (!STAFF(user.role)) return json(403, { error: '관리자만 쓸 수 있어요.' });
-        if (p === '/api/admin/reports') return json(200, { reports: await B.reports(), bans: await B.bans() });
+        if (p === '/api/admin/reports') return json(200, { reports: await B.reports(), bans: await B.bans(), pass: await B.passStats() });
+        if (p === '/api/admin/passport-photo' && request.method === 'POST') return json(200, await B.adminPhoto(user.id, str(body.uid, 60), str(body.reason, 200)));
         if (p === '/api/admin/ban' && request.method === 'POST') return json(200, await B.ban(str(body.uid, 60), +body.hours || 0, str(body.reason, 200), user.id));
         if (p === '/api/admin/unban' && request.method === 'POST') return json(200, await B.unban(str(body.uid, 60)));
         if (p === '/api/admin/report-done' && request.method === 'POST') return json(200, await B.reportDone(+body.id));
@@ -157,6 +169,11 @@ export class Board extends DurableObject {
       CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY AUTOINCREMENT, at INTEGER, reporter TEXT, reporter_nick TEXT, target TEXT, target_nick TEXT, reason TEXT, room TEXT, log TEXT, status TEXT DEFAULT 'new');
       CREATE TABLE IF NOT EXISTS bans (uid TEXT PRIMARY KEY, until INTEGER, reason TEXT, by TEXT, at INTEGER);
       CREATE TABLE IF NOT EXISTS rooms (room TEXT PRIMARY KEY, n INTEGER, at INTEGER);
+      CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT);
+      CREATE TABLE IF NOT EXISTS passports (uid TEXT PRIMARY KEY, h TEXT UNIQUE, exp TEXT, adult INTEGER, at INTEGER, cv TEXT, seen INTEGER);
+      CREATE TABLE IF NOT EXISTS banned_h (h TEXT PRIMARY KEY, until INTEGER, at INTEGER);
+      CREATE TABLE IF NOT EXISTS pphoto (uid TEXT PRIMARY KEY, iv TEXT, data TEXT, at INTEGER, keep INTEGER DEFAULT 0);
+      CREATE TABLE IF NOT EXISTS plog (id INTEGER PRIMARY KEY AUTOINCREMENT, at INTEGER, admin TEXT, target TEXT, reason TEXT);
       CREATE TABLE IF NOT EXISTS clubs (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, name_l TEXT UNIQUE, cat TEXT, sido TEXT, sgg TEXT, intro TEXT, question TEXT,
         mode TEXT DEFAULT 'open', max INTEGER, emoji TEXT, color TEXT, ages TEXT, owner TEXT, created INTEGER, active INTEGER, status TEXT DEFAULT 'on');
       CREATE INDEX IF NOT EXISTS clubs_area ON clubs (sido, sgg);
@@ -426,6 +443,96 @@ export class Board extends DurableObject {
     return { club: this.club(cid, user, true) };
   }
 
+  // ---- 여권 안전 등록 ----
+  // 비밀 키: 처음 한 번 이 서버(Durable Object) 안에서 만들어 보관. 코드·저장소에는 없음.
+  pepper() {
+    const r = this.one("SELECT v FROM kv WHERE k = 'pepper'");
+    if (r) return r.v;
+    const b = crypto.getRandomValues(new Uint8Array(32)), v = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+    this.sql.exec("INSERT OR IGNORE INTO kv (k, v) VALUES ('pepper', ?)", v);
+    return this.one("SELECT v FROM kv WHERE k = 'pepper'").v;
+  }
+  async passHash(no, birth) {
+    const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(this.pepper()), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${no}|${birth}`));
+    return [...new Uint8Array(sig)].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+  passport(uid) {
+    if (!this._sw || this._sw < now() - 36e5) { this._sw = now(); this.sweep(); }
+    const r = this.one('SELECT exp, adult, at, seen FROM passports WHERE uid = ?', uid);
+    if (!r) return { ok: false };
+    if (!r.seen || r.seen < now() - 864e5) this.sql.exec('UPDATE passports SET seen = ? WHERE uid = ?', now(), uid);
+    const valid = r.exp >= today().slice(0, 7);
+    return { ok: valid && !!r.adult, exp: r.exp, at: r.at, expired: !valid };
+  }
+  async setPassport(uid, b) {
+    const no = String(b.no || '').toUpperCase().replace(/[\s-]/g, '');
+    const birth = str(b.birth, 10), exp = str(b.exp, 10);
+    if (!(b.agree && b.agreeId)) fail(400, '필수 동의 두 가지에 모두 체크해 주세요.');
+    const photo = String(b.photo || '');
+    if (!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(photo)) fail(400, '여권 사진을 찍어 올려 주세요.');
+    if (photo.length > 1_600_000) fail(413, '사진이 너무 커요. 다시 찍어 주세요.');
+    if (!/^[A-Z0-9]{7,9}$/.test(no) || !/[0-9]/.test(no)) fail(400, '여권번호를 여권에 적힌 그대로 넣어 주세요. (예: M12345678)');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(birth) || !/^\d{4}-\d{2}-\d{2}$/.test(exp)) fail(400, '생년월일과 여권 만료일을 골라 주세요.');
+    const t = today();
+    if (exp < t) fail(400, '만료된 여권은 등록할 수 없어요. 유효한 여권으로 등록해 주세요.');
+    const [y, m, d] = birth.split('-').map(Number), [ty, tm, td] = t.split('-').map(Number);
+    const age = ty - y - (tm < m || (tm === m && td < d) ? 1 : 0);
+    if (age < 0 || age > 120) fail(400, '생년월일을 확인해 주세요.');
+    if (age < 19) fail(403, '대기실은 회원끼리 직접 만나는 곳이라 만 19세 이상만 이용할 수 있어요.');
+    const h = await this.passHash(no, birth);
+    const ban = this.one('SELECT until FROM banned_h WHERE h = ?', h);
+    if (ban && (!ban.until || ban.until > now())) fail(403, '이용이 제한된 여권이에요. 문의는 태일골프 카카오톡 채널로 해 주세요.');
+    const other = this.one('SELECT uid FROM passports WHERE h = ? AND uid <> ?', h, uid);
+    if (other) fail(409, '이 여권은 이미 다른 계정에 등록돼 있어요. 한 여권은 한 계정에만 등록할 수 있어요.');
+    this.sql.exec('INSERT INTO passports (uid, h, exp, adult, at, cv, seen) VALUES (?, ?, ?, 1, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET h = excluded.h, exp = excluded.exp, adult = 1, at = excluded.at, cv = excluded.cv, seen = excluded.seen',
+      uid, h, exp.slice(0, 7), now(), PASS_CONSENT, now());
+    const enc = await this.seal(photo);
+    this.sql.exec('INSERT INTO pphoto (uid, iv, data, at, keep) VALUES (?, ?, ?, ?, 0) ON CONFLICT(uid) DO UPDATE SET iv = excluded.iv, data = excluded.data, at = excluded.at, keep = 0', uid, enc.iv, enc.data, now());
+    return this.passport(uid);
+  }
+  delPassport(uid) {
+    // 이용 제한 중이면 사진·암호값은 제한이 끝나고 1년까지 남김 (영구 제한은 5년+1년), 아니면 바로 파기
+    const ban = this.banOf(uid);
+    this.sql.exec('DELETE FROM passports WHERE uid = ?', uid);
+    if (ban) this.sql.exec('UPDATE pphoto SET keep = ? WHERE uid = ?', (ban.until || now() + 5 * 365 * 864e5) + 365 * 864e5, uid);
+    else this.sql.exec('DELETE FROM pphoto WHERE uid = ?', uid);
+    return { ok: true };
+  }
+  // 오래된 기록 정리: 끝난 지 1년 지난 이용 제한 암호값(영구 제한은 5년)·보관 기간 끝난 사진·1년 동안 대기실을 안 쓴 회원의 여권 정보 파기
+  sweep() {
+    const Y = 365 * 864e5;
+    this.sql.exec('DELETE FROM banned_h WHERE (until > 0 AND until < ?) OR (until = 0 AND at < ?)', now() - Y, now() - 5 * Y);
+    for (const r of this.all('SELECT uid FROM passports WHERE seen < ?', now() - Y)) this.delPassport(r.uid);
+    this.sql.exec('DELETE FROM pphoto WHERE keep > 0 AND keep < ? AND uid NOT IN (SELECT uid FROM passports)', now());
+  }
+  // 사진 암호화 (AES-GCM, 키는 이 서버 안에서만)
+  async aes() {
+    let r = this.one("SELECT v FROM kv WHERE k = 'photokey'");
+    if (!r) { const b = crypto.getRandomValues(new Uint8Array(32)); this.sql.exec("INSERT OR IGNORE INTO kv (k, v) VALUES ('photokey', ?)", btoa(String.fromCharCode(...b))); r = this.one("SELECT v FROM kv WHERE k = 'photokey'"); }
+    return crypto.subtle.importKey('raw', Uint8Array.from(atob(r.v), c => c.charCodeAt(0)), 'AES-GCM', false, ['encrypt', 'decrypt']);
+  }
+  async seal(text) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await this.aes(), new TextEncoder().encode(text)));
+    let bin = ''; for (let i = 0; i < ct.length; i += 0x8000) bin += String.fromCharCode(...ct.subarray(i, i + 0x8000));
+    return { iv: btoa(String.fromCharCode(...iv)), data: btoa(bin) };
+  }
+  // 관리자: 사진 보기 (이유 필수, 기록 남김)
+  async adminPhoto(admin, uid, reason) {
+    if (!reason || reason.length < 4) fail(400, '열람 이유를 적어 주세요. (예: 신고 #12 확인)');
+    const r = this.one('SELECT iv, data, at FROM pphoto WHERE uid = ?', uid);
+    if (!r) fail(404, '저장된 여권 사진이 없어요.');
+    this.sql.exec('INSERT INTO plog (at, admin, target, reason) VALUES (?, ?, ?, ?)', now(), admin, uid, reason);
+    const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: Uint8Array.from(atob(r.iv), c => c.charCodeAt(0)) }, await this.aes(), Uint8Array.from(atob(r.data), c => c.charCodeAt(0)));
+    const p = this.one('SELECT exp, at FROM passports WHERE uid = ?', uid) || {};
+    return { photo: new TextDecoder().decode(pt), at: r.at, exp: p.exp || '', nick: (this.profile(uid) || {}).nick || '' };
+  }
+  passStats() {
+    return { count: this.one('SELECT COUNT(*) AS n FROM passports').n, kept: this.one('SELECT COUNT(*) AS n FROM pphoto WHERE keep > 0').n,
+      log: this.all('SELECT l.*, p.nick AS tnick FROM plog l LEFT JOIN profiles p ON p.uid = l.target ORDER BY l.id DESC LIMIT 50') };
+  }
+
   // ---- 신고·제한 ----
   report(reporter, b, log) {
     const me = this.profile(reporter) || {};
@@ -448,9 +555,18 @@ export class Board extends DurableObject {
     if (!uid) fail(400, '대상을 골라 주세요.');
     const until = hours > 0 ? now() + hours * 3600e3 : 0; // 0 = 영구
     this.sql.exec('INSERT INTO bans (uid, until, reason, by, at) VALUES (?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason, by = excluded.by, at = excluded.at', uid, until, reason, by, now());
+    // 같은 여권으로 새 계정을 만들어 다시 들어오지 못하게
+    const pp = this.one('SELECT h FROM passports WHERE uid = ?', uid);
+    if (pp) this.sql.exec('INSERT INTO banned_h (h, until, at) VALUES (?, ?, ?) ON CONFLICT(h) DO UPDATE SET until = excluded.until, at = excluded.at', pp.h, until, now());
+    this.sweep();
     return { ok: true, until };
   }
-  unban(uid) { this.sql.exec('DELETE FROM bans WHERE uid = ?', uid); return { ok: true }; }
+  unban(uid) {
+    this.sql.exec('DELETE FROM bans WHERE uid = ?', uid);
+    const pp = this.one('SELECT h FROM passports WHERE uid = ?', uid);
+    if (pp) this.sql.exec('DELETE FROM banned_h WHERE h = ?', pp.h);
+    return { ok: true };
+  }
 
   // 방별 접속 인원 (방이 알려 줌)
   roomCount(room, n) { if (n > 0) this.sql.exec('INSERT INTO rooms (room, n, at) VALUES (?, ?, ?) ON CONFLICT(room) DO UPDATE SET n = excluded.n, at = excluded.at', room, n, now()); else this.sql.exec('DELETE FROM rooms WHERE room = ?', room); }
