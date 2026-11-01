@@ -1,9 +1,9 @@
 {
- "version": "1.4.70",
- "file": "app-1.4.70.asar",
- "sha256": "3f8b92819277721dd2abaeb27e7b206eb1f9540620adc758061bb9e3b94f5d6a",
+ "version": "1.4.71",
+ "file": "app-1.4.71.asar",
+ "sha256": "06e87e7b9b34428954824c245f08b449a4fedf093d7a6c8127e507eb49f9fcbb",
  "minShell": "",
  "fullUrl": "",
- "notes": "환율: 현지 물가에 호텔 대신 렌트카",
- "sig": "5JoMeUBfa9C0P+sLgWOYnfFlNXnWjaASAdd3uLBG9l2JChqppHPtMX2S89BFmQj/dwcpbmwY2E0wxUSQrWwhBA=="
+ "notes": "환율: 뒤로 버튼, 현지 돈↔원화 바꾸기",
+ "sig": "ozuc73Xq8TM60BjRpO2a0iRmdC6jZyXoX3mckTnWGASgYPluKLgIUHGw+6/2kXpbEjlG2GX8eAivopdEYksrDQ=="
 }

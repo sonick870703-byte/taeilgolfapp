@@ -1,9 +1,9 @@
 {
- "version": "1.4.70",
- "file": "www-1.4.70.zip",
- "sha256": "ddc12f44cf8e8f0bc6c774bac3117e216fc135b6211d410b042d1dcca4fced20",
+ "version": "1.4.71",
+ "file": "www-1.4.71.zip",
+ "sha256": "fea7100b7e8a77821c621e4a0edcbce68db49a5987f06e070c6de499804b8745",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "환율: 현지 물가에 호텔 대신 렌트카",
- "sig": "fKeGK+Xf9hUb2VefyFdTuUqf+ZKnV2k2Il6+ozND58dazR7SDtLn7rHt8RpxdIqCnvsUzkCgO6g9jwlMQp5xv5csCo2jW7s5vsBin+2kejZ7+r5PQ3PZo5kY1Doy6wumyDZFNNv+/ER52ar+lQv9+r9zrNHTyXAJbUu3z6aLoGLa01RLlMS+kHIfyuEsF62izG5jxO95vQUckkFAZVYotVDLTx0Cb3fnS7SHdrGtC7AHka6eNEdaJeNu4jh+Kosy8QkdX1aHmZ8sQ2lpePyPfhqT8ghZLBonz7JkSKaOMmUZRvCSajjej2nUyXJ6mIvYjSkAao/fwOcq6HlNmJycZA=="
+ "notes": "환율: 뒤로 버튼, 현지 돈↔원화 바꾸기",
+ "sig": "lmQCMvUiKG9yvtm2UIRvbpAUlpbKBjFPAhtxrpafJN2K5wZJevcYCNXC1hqkbMrNW5y7EevlHs8bRwb7ef4qs48etVqiYsogwmOPric6Vsx38inFW7bHL7m7iRP2vorQA1XOBvKY8gZTkOhmsnVQ9h6lPnYXk3lnzCfWAVYJmELG4LN38Lk6BXz09YaNxA6VHk7WZnc6QIaCvZW+g4mWsY935hxLE4gCXDuGlNMkKZHshzQCbDyp0drej8Wa+CuAKDcQXVACTtHhfBtEEj+ONRf7XomiWMj9Idwnm1CGDV2a0UA53Qx3gm6GduQJ+AdyouCtqqszCftPl7aJs6WYhA=="
 }
