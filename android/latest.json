@@ -1,9 +1,9 @@
 {
- "version": "1.4.57",
- "file": "www-1.4.57.zip",
- "sha256": "94f6726b4f445616a0a1d71772569ccf2bf0819be38b0f5654d6c43916076de8",
+ "version": "1.4.58",
+ "file": "www-1.4.58.zip",
+ "sha256": "8fc534bf9291c9cc365b5eec53a3ec9f229718010e1b059285fa7715fed000d9",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "국내 골프 찾기 지도 점 정리",
- "sig": "P3BrMzYIhljvUJSYyO41Pgpmr/h5re5xd0ByNDLdFaSJ3OKrADScF3To19vKyFQl33RE0myVJYE61Y17DWZeRd3wa+DW9KFdUg+BJ9xIBKsThYkdhQTczqSEPtu/csBU3dVDS0rLo7IxWVAOCtsv5O3IGNI/1gKY3iBaVUo3tMuS7jNeKrghFbwujG/lI/eCiH4wTw7R6lr94ps+IluRMfAJcmVUcKsBNl700SARL8MYEpXG5SgXq/TBfd8BQLyrC4RnfZEll4Z5FclmukxpPD7vAMcPZtYUfRq+szf+43AIzRQ4s++ROndnK+6rgSc8ptmm+ZiuSsNKMKe67Hos/A=="
+ "notes": "국내 골프 찾기 지도 이름표 겹침 정리",
+ "sig": "h8/AKAX6MopE176ZXa3X1nlOkplHFrhImCviu2LztvAxsSoNcxQvAIvJTVrhF2jg0+GquDHukfO7/dFY9cRVJtyzllkEl2Qljtl2wVnXnwQNJffz+eW18SSJxxOcO19hiBA8dPKQZieyRvN73oBBNksfJ6ThACAFa0LYRkT1kGmSdKJCHAY20Vm0zabD/TfNhbY0O5+0ii8Kb+Q+YjLRct3AyWyWpHliqn+l6UZ/J90/YQGi1dYxgRL64/EV+U1yLIv8lvT3lVRCgXJXlrk7PoY0hPXaHnB/9EjV2zjjtVq/5OdLtMWOFMqhiergtB4KTXzG61IDh+6kyEg10ZxtBw=="
 }
