@@ -16,7 +16,7 @@ TAG = '한국관광공사 관광정보'
 
 
 def fetch_all():
-    px = json.load(open(os.path.join(R, 'services.json')))['dataProxy']
+    px = os.environ.get('PROXY_URL') or json.load(open(os.path.join(R, 'services.json')))['dataProxy']
     items, total, page = [], None, 1
     while page <= 20:
         for tryno in range(3):
