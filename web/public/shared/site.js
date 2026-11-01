@@ -5,7 +5,7 @@ import { won, todayKST, addDays, INQUIRY_TYPES } from './core.js';
 import { mountChat, countVisit } from './chat-widget.js';
 import { renderBlocks, mountHero, productCard as card, priceHtml } from './blocks.js';
 import { flightsPage } from './flights-site.js';
-import { PRIVACY_POLICY, SIGNUP_CONSENT, CANCEL_POLICY, SERVICE_TERMS, TRAVEL_TERMS } from './legal.js';
+import { PRIVACY_POLICY, SIGNUP_CONSENT, CANCEL_POLICY, SERVICE_TERMS, TRAVEL_TERMS } from './legal.js?v=20261101a';
 
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -86,7 +86,7 @@ async function product(id) {
           <div class="info-box no"><h3>불포함</h3><p>${esc(p.excludes || '-')}</p></div>
         </div>
         ${p.body ? `<div class="info-box"><h3>상품 안내</h3><div class="body-text">${esc(p.body)}</div></div>` : ''}
-        <div class="info-box"><h3>예약 · 결제 · 환불</h3><p>· 예약금은 총액의 20%, 잔금은 출발 1개월 전까지 입금해 주세요.
+        <div class="info-box"><h3>예약 · 결제 · 환불</h3><p>· 예약금은 총액의 20%, 잔금은 출발 1개월 전까지 결제해 주세요.
 · 환불은 출발 14일 전까지만 가능합니다. 날짜별 취소료는 <a href="#/terms/cancel" style="text-decoration:underline">예약·취소 규정</a>을 확인해 주세요.
 · 1인 예약(1인 1실) 시 추가 요금이 있습니다.${p.category === 'month' ? ' 한 달 살기는 1인 예약 시 2인 요금입니다.' : ''}
 · 항공권과 여행자보험은 포함되어 있지 않습니다. 요금은 VAT 별도입니다.</p></div>

@@ -1058,6 +1058,18 @@ export function createApi(store, deps) {
 // ---------- 처음 실행할 때 넣는 기본 데이터 ----------
 export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
   if (!(await store.get('settings', 'site'))) await store.put('settings', { ...DEFAULT_SETTINGS });
+  // 한 번만: 이미 저장된 공지·상품·페이지·약관의 '잔금 … 입금해 주세요'를 '결제해 주세요'로 (2026-11-01 요청)
+  if (!(await store.get('config', 'mig_balance_pay'))) {
+    const re = /(출발 1개월(?:\(30일\))? 전까지) 입금해 주세요/g;
+    for (const col of ['notices', 'products', 'pages', 'settings']) {
+      for (const d of await store.all(col)) {
+        const j = JSON.stringify(d);
+        if (re.test(j)) { re.lastIndex = 0; await store.put(col, JSON.parse(j.replace(re, '$1 결제해 주세요'))); }
+        re.lastIndex = 0;
+      }
+    }
+    await store.put('config', { id: 'mig_balance_pay', at: deps.now() });
+  }
   const users = await store.all('users');
   if (adminEmail && !users.some(u => u.email === adminEmail.toLowerCase())) {
     const salt = (deps.saltPrefix || '') + deps.randomId(16);
@@ -1082,7 +1094,7 @@ export async function seed(store, deps, { adminEmail, adminPassword, demo }) {
   await P('p_pattaya_month', { code: 'OTHA10-4', order: 5, category: 'month', title: '시니어 한 달 살기 · 파타야 잔드 모라다', country: '태국', city: '파타야', nights: 30, basePrice: 0, summary: '2인 1실 기준 1인 요금 · 1인 예약 시 2인 요금', includes: '숙박 30박(2인 1실)', excludes: '항공권, 여행자보험, 개인 경비', priceNote: '요금은 상담 후 안내' });
   await P('p_royalcreek_member', { code: 'MEM-RC', order: 6, category: 'membership', title: '우돈타니 로얄크릭 창립회원 선불권', country: '태국', city: '우돈타니', nights: 0, basePrice: 2970000, summary: '가입금 299만원으로 3년간 100일 골프', includes: '3년간 100일 라운드', excludes: '항공권, 숙박, 캐디피·카트비·캐디팁' });
   await store.put('notices', { id: 'n_1', title: '[필독] 태일골프 예약 · 결제 · 환불 안내', pinned: true, visible: true, createdAt: deps.now(), author: '관리자',
-    body: '■ 요금 기준\n· 1박 골프 상품은 2인 1실 기준 1인 요금입니다.\n· 1인 예약(1인 1실 사용) 시 추가 요금이 있습니다.\n· 항공권과 여행자보험은 모든 상품에 포함되어 있지 않습니다.\n· 카트비, 캐디비, 캐디팁은 현지에서 따로 내시는 비용입니다.\n\n■ 결제 안내\n· 예약 시 예약금 20%, 잔금은 출발 1개월 전까지 입금해 주세요.\n· 모든 상품의 요금은 VAT 별도 금액입니다.\n\n■ 환불 안내\n· 환불은 출발 2주(14일) 전까지만 가능합니다.\n\n■ 상담 문의\n· 전화 02-737-6658 / 010-6801-9330\n· 카카오채널 태일골프 http://pf.kakao.com/_MzSxiX' });
+    body: '■ 요금 기준\n· 1박 골프 상품은 2인 1실 기준 1인 요금입니다.\n· 1인 예약(1인 1실 사용) 시 추가 요금이 있습니다.\n· 항공권과 여행자보험은 모든 상품에 포함되어 있지 않습니다.\n· 카트비, 캐디비, 캐디팁은 현지에서 따로 내시는 비용입니다.\n\n■ 결제 안내\n· 예약 시 예약금 20%, 잔금은 출발 1개월 전까지 결제해 주세요.\n· 모든 상품의 요금은 VAT 별도 금액입니다.\n\n■ 환불 안내\n· 환불은 출발 2주(14일) 전까지만 가능합니다.\n\n■ 상담 문의\n· 전화 02-737-6658 / 010-6801-9330\n· 카카오채널 태일골프 http://pf.kakao.com/_MzSxiX' });
   if (demo) {
     // 미리보기용 예시 그림 (직접 그린 일러스트, 실제 골프장 사진 아님)
     const base = typeof window !== 'undefined' ? new URL('../assets/sample/', import.meta.url).href : '/assets/sample/';
