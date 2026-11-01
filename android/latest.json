@@ -1,9 +1,9 @@
 {
- "version": "1.4.55",
- "file": "www-1.4.55.zip",
- "sha256": "7e6ced59e3959670183d4ef7bf531a1dc0dc4ee139ef18d0c0d09e8070dd2077",
+ "version": "1.4.56",
+ "file": "www-1.4.56.zip",
+ "sha256": "f0de70e12374e35b6df83688cc6b9827a4d784ab5f0af34f19f2d52c0b0a561a",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "새 기능: 🏠 대기실 (태일골프 라운지) — 회원끼리 미니게임·동네 소모임",
- "sig": "Y6SzkZN+BW4Za11EYkWm7VzVy/1Gr2eTs3kGqC1Wi8OfgCLajiWtMafMKo2YNoOMOvMTpHVjpWfkIpUsAyScOp1vdjdIj2P7WWZj5NLdmD4M4FqiC+1LScuE+vQ2DTPEYJPdziu8kWD+6ZSBbzPFD7dELdOWHd4KN/9KqL5Pz4MAn4U9DcTAkGIotHY+7wn2NpvYScqgOb6JFlU+48/xQQcCC57oiIaT+P1TRwyNjIyZnR7CoEBfEfOQX6Twu8k/1bv4Q8RQ1WYbAGXYnARJYLop0MRg90krepxkjp/fSKe3vmT4g4S6EeeUZ82jr5lWHSbh0Ed6pAzLi4FOlCWyBA=="
+ "notes": "대기실 동호회·파티·지역방, 실제 골프장 코스 스크린골프, 파타야 지도 버튼 정리",
+ "sig": "pPrHaIwOV7bFcl6hlzZlyoHa1AyLq21nMdiXUlrm79xD1rJZ1u30q30ggcWUZfG5nAoJdD5kiUBAYFUyyaI/+TupxkmmCzBV3En7XXcVTBHrcEb3MLgReRZ6caXdiwKBkPauHIZKn9TWaGSdkPSf6r3hg+55vOAp8cFCHzt5N3rKq7vW4rpAraqztO+5t0/mPkA2Wv3vc0yCeQDYRsrb6eQKIRej3Dsdn+a3WC2GBVV12kvnR9Lnu/t/5X6EqMi/IYk0ksXuFu/+gS3IFoPv7kF3Ay0a/uknGkkwdsZsYYDSonNDxTwOiRRHOqrSn+B8u+fxuVXQ9snFSrKe3yp2Bw=="
 }
