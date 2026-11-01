@@ -1,9 +1,9 @@
 {
- "version": "1.4.60",
- "file": "www-1.4.60.zip",
- "sha256": "11de7a090977bf47d267b2d71c0be278cf6303ddedfd1a664c2426e49ea35a04",
+ "version": "1.4.61",
+ "file": "www-1.4.61.zip",
+ "sha256": "8d6360eb9fd5d9fe80409ea23315c03c366679c1eacc68ef8d1af9e095168cb6",
  "minShell": 5,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "⚠ 여행경보 배지를 누르면 이유 설명",
- "sig": "HfI28O6bHEResFP+Dvy03WKmQO8L0fPQVvrFKHR4s6x7Eh0aHbtwfDzn3bySKcM9G8L1KhjKPjFmurSUUDfbVwxNYoYem94PzsiTDBD9Cr4+UONDvLymP9m6LY+aWwj6Fgkld84Zo7LNTQ+HYJppozkWLntlcWI7oXn3Z11hTd/tsulJYsTsfKABB8138vbnQqOBRhhMn26mmuaqeIIrk8yIx9bPITezeXdeOF3pK344OSIzjl5u8fYSiuBNrAnGpVNnjKC/qEoXfesWS+qaLD/jVm1BgjORd12T24M8PBF14wzd+1ANr8mSJbXEhkYPUmlAugi76N+EiGs1tRIjZA=="
+ "notes": "상품 금액 디자인 새로 + 제목·금액 글씨체 굵은 고딕으로",
+ "sig": "d3TthVB9rYthPzFFn+BBrQm4mblXwUU5DPmJtmvS1fekS4Dr5onV3hHzFT9f/9owsnBwl1YWgcJiyDXbLdcA2E/vAdz2OxIClHuTRjO6pBerB7ZQiEjOqqS9QDUVA31eDTcx7lnGydV40tD8VyEUJQdluO2VdZHzFjiXJmoMVnPEq4YV8uypCyM86iWfcY9xA4t5yqI0bC9GlH+UArtvM+p9y8GOKsujKyu/oo1k8o8Sl5GaHdwmmj4w0TrgwA81JZd4mPUDixMu/OJg7wlcHDvg/dSpPWS96ZGeTvHOfOMo0dXOtoorKPGsKrkxhzt4K/vKJg4Oc8LhBMXiSeqznw=="
 }
