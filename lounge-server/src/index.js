@@ -600,8 +600,8 @@ export class Board extends DurableObject {
     c.mul = Math.max(0, Math.min(100, +(b.mul ?? old.mul) || 0)) || 1;
     c.shop = {};
     const src = b.shop && typeof b.shop === 'object' ? b.shop : old.shop || {};
-    for (const [id, v] of Object.entries(src).slice(0, 200)) {
-      if (!/^[a-z]{1,4}\d{1,3}$/.test(id) || !v || typeof v !== 'object') continue;
+    for (const [id, v] of Object.entries(src).slice(0, 300)) {
+      if (!/^(?:[a-z]{1,4}\d{1,3}|f\.(?:rod|float|hook|chum|bait)\.[a-z0-9]{1,20})$/.test(id) || !v || typeof v !== 'object') continue;
       const o = {};
       if (v.price !== undefined && v.price !== '' && v.price !== null) o.price = int(v.price, 0, 100000000, 0);
       if (v.ko) o.ko = clean(str(v.ko, 30));

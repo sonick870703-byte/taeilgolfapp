@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.6",
- "file": "www-1.4.71.6.zip",
- "sha256": "7268f7008b5806ba7621ed4d4059a11b7f7752cb1375a38d865657b8b1a2e1d4",
+ "version": "1.4.72",
+ "file": "www-1.4.72.zip",
+ "sha256": "15da4b0464c3f96465beee7bbc1f6057c0f8e98afeea4bf3848a764ec4016749",
  "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "대기실 가로 스크롤, 국내 골프 찾기 필터 정리",
- "sig": "UXSDnzVD/KXPxOU/UuG/kuz4iYJV/PD4Mv3/epbJPsHqjoY2BagkGhEDhQNoDB6teGWVvSryayEOfmwz7tTwU7u1WRespfnRYutfirxizccIVz/54rzM6+ipZdUuJjGtsmkjfEy7UnoJ+bDSsS4OFc/yNsWNgIWh+mTQEj8r07zpfe4CdkB/ul8Al4EHLAaV1qrc1kVPzMeSJn2YFLIjykoncpWB8ra6OfwCTIc5FvNzSJMDO7mUevY7+F4cMso037BAHUQHh7z6e7iN4l89iHss2+KWB/r5BlPH7UAz+VTKL22UJ0BzcpoT+ZRXxaUOzzBy1qAR+C6RDhEDjCWxKQ=="
+ "notes": "관리자 대기실 권한 · 금액 글씨 · 동호회방 안내",
+ "sig": "MqoQPL8Xxn02C5hqTYoQ6WKFrUBdqJjLZ+98rRD2L9eXdeRALexOjvD4sY/AIEr9RVZ8ICjZ0LcG0X24gEs6Vvs250NvW1d2yAdXL616ATvYlvnICY0NRtOYuzPv435dY1FTa1EtSz9+nIEZpGFd2UMA5zRQXg1l9xDlxJCRsLR3Fd+LeHyZ/rDutH5zcuNrmb7qs5CZrj48c1oBLkvluxFOK854u731GrX0SVJv7SDFZdJLWakN+h/LjXMuim4m1WCYP3K50d7XB1C6JM/s4XDfV1n45KA22fg57DcH+20TvbHA+wgw7BqU6V4CwB3Y6aJTtNO7NuyZX9nIWV7V3Q=="
 }
