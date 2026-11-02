@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.1",
- "file": "www-1.4.71.1.zip",
- "sha256": "af6d9394994290b2ff69f90757ece13f88fea7e3088817c2d5502a0bd8a3d2f7",
- "minShell": 5,
+ "version": "1.4.71.2",
+ "file": "www-1.4.71.2.zip",
+ "sha256": "5275eaaafc643d4c9f8002b34fad5fd2834232c9db0a489499a189f457c0ccee",
+ "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "휴대폰 가로 화면",
- "sig": "CE6EDjFx18vZ5liCRQwpU+JRT0JTXmItfQl8PqZfZuc7T2+HRltwJIXLONKqKqxcYNGWZDpolZEX8gYwa9GuuO8A2nR95Z0TrHMnBNpU5ImIV/pyYSe424zlGMn3vpf29j//cHzQlh5Q46ioFxRdlkit+mFDAQ01J4abLwSZabyevJm/YfiHbgHr1jnYpzdzXwfjIl5hO2jfX/c5vtAlnKjaFdd9dsO0BDspuFkaVnNg5jWZiZV+JIxNoehd8LkZpbIPnyYvr60Hx+C5NVDI2XzAz8PW0Gh47z1Y45q8AaNWnRuoBAdT3YadzzCMB6sc38yCapw3rfWyFOSFY28Pbg=="
+ "notes": "업데이트 빠르게",
+ "sig": "UuZMBW4jjkSkyAry4EwJjZcvSJfEhsYIsdF3OA0i4s1IF0PGJneixfPzeHa4fBplRkUdjqa0kO9YhIY/yc4F8YUl7diM2BLoWPIqnXo6qdrCnjfUBk/2OCBQ74b68SrIrGjI9grT6kb5bSaTmrKHiGDL/3Qdmm5o/SS5VG7bgo0mxRdnkIITrxXU+M9najEhu8FT/BnvPk9c9SjVHsj4Bse0wYKU5vbuWTGQVhosovtNzPq/lnFT++RxhrnbEMeAOGuO1KZ7cjk4I3TESh/wBnHzJKYR54YtWHkToMlCwHGBg9ZVn2VSKliNtLUxvYhW1KZyym9fAHaT5CS+obzULQ=="
 }
