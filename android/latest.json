@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.3",
- "file": "www-1.4.71.3.zip",
- "sha256": "2073ff2c68be806bfae7e81aef14c91f1b888a7ba03d90ecbf04111c1e4c7766",
+ "version": "1.4.71.4",
+ "file": "www-1.4.71.4.zip",
+ "sha256": "1fc76b268e3ef64a446d7c9a5c448d4b3b77524c8ddd44e3f3283a4823801394",
  "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "가로 화면: 주변 정보 버튼 하나로",
- "sig": "HaaHy0zlEYYIbqSVBCwbfT8EBV/mjK8uAy7RuW+MVx88SYWtZRn1/mYmULPsl+2YR2xg5lp3fcv9BNjO7gUoFbayVWz/arHldnnsCxez2OrqdEXiR9SaeXAGb6FH8fDMgMuOGK/hGH8icG3jIzs2vGTX6oP4GEd/E5ACLJVYQk6NY/w9jRdSpecYCMS8xlpJT6b5z2AogocE90AFQ5RcD+MX0VDipoWiHExlIq0lG4pabsScCZO5ZeRH8fZee1zC0mto3fHZQDwHHH5uQH841yu5sTMiQQFbocZ1UAmQuz72XJ/e12ZWyMDA2zrVSyd2V7/yfmpIh9nN0UzGpE2PWw=="
+ "notes": "켜 둔 상태에서도 자동 업데이트",
+ "sig": "eOyuMRMfgyHfDnv6jBeIH8x2Z1TUntZCUoqrqkbqHzx+32dIpFDg0IbFU3jxXyoMbMnG+LK3DRsKAhFM5iAc3JO0n7rpnelU52f0AygifcG3BddDbp3aE2Z0EhYv/irQfc/a6Xr+D05PR2c41NG+3KsVnv4C6kQL3EeSokaqiY1xGx8wH3g396oUykQBlb8EfsDfSFwfI6/Qf5OfFZkUhpwyfQtzfsdcMZARRebL1N/c+eir3EKXjAft5lsJ+WI/bDicYeeoNXyZNb/33xJ71bq7rlJhP5D2eT31+S9i0Ns2NFvE/3F2PiM9JoHZbiWKPtwptpyu1OXohpCWUK2Alg=="
 }
