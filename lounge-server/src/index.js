@@ -13,6 +13,11 @@ import { DurableObject } from 'cloudflare:workers';
 const PREFIX = '/lounge';
 const ROOM_RE = /^(hub|dong-[0-9A-Za-z가-힣_-]{1,40}|meet-\d{1,9}|club-\d{1,9}|course-m?\d{1,6}_m?\d{1,6})$/;
 const STAFF = r => r === 'admin' || r === 'staff';
+// 프로그램 관리자 모드 (1.4.71): 지구본 첫 화면에서 관리자 비밀번호로 들어오면, 프로그램 안에 암호화돼 있던 관리자 키로
+// 라운지 관리자 세션을 받음. 저장소에는 키의 SHA-256 값만 있음 (키 자체는 없음).
+const ADMIN_KEY_SHA256 = '6e98594b52fbc7639367b3d2ddd79e910d06982a43dac2d41275913fb5f6442e';
+const ADMIN_UID = 'taeil-admin', ADMIN_NICK = '태일골프 관리자';
+const sha256hex = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, '0')).join('');
 const now = () => Date.now();
 const str = (v, n) => String(v ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, n);
 
@@ -46,6 +51,12 @@ async function userFrom(env, token) {
   if (!token || !/^[\w-]{10,80}$/.test(token)) return null;
   const c = userCache.get(token);
   if (c && c.exp > now()) return c.user;
+  if (token.startsWith('adm_')) {
+    const ok = await board(env).adminSession(token);
+    const user = ok ? { id: ADMIN_UID, name: ADMIN_NICK, role: 'admin' } : null;
+    userCache.set(token, { user, exp: now() + (user ? 5 * 60e3 : 20e3) });
+    return user;
+  }
   const r = await erp(env, '/api/me', { headers: { authorization: 'Bearer ' + token } });
   const u = r.status === 200 && r.body && r.body.user ? r.body.user : null;
   const user = u ? { id: String(u.id), name: str(u.name, 40), role: u.role || 'member' } : null;
@@ -77,6 +88,21 @@ export default {
         if (r.status !== 200 || !r.body || !r.body.token) return json(r.status === 200 ? 401 : r.status, { error: (r.body && r.body.error) || '로그인하지 못했습니다.' });
         const u = r.body.user || {};
         return json(200, { token: r.body.token, user: { id: u.id, name: u.name, role: u.role } });
+      }
+
+      // 프로그램 관리자 모드 → 라운지 관리자 세션 (30일)
+      if (p === '/api/admin-login' && request.method === 'POST') {
+        let b = {};
+        try { b = await request.json(); } catch { fail(400, '잘못된 요청입니다.'); }
+        const key = String(b.key || '').slice(0, 200);
+        if (!key || (await sha256hex(key)) !== ADMIN_KEY_SHA256) return json(401, { error: '관리자 키가 맞지 않습니다.' });
+        const t = await board(env).adminLogin();
+        return json(200, { token: t, user: { id: ADMIN_UID, name: ADMIN_NICK, role: 'admin' } });
+      }
+      if (p === '/api/admin-logout' && request.method === 'POST') {
+        const t = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+        if (t.startsWith('adm_')) { userCache.delete(t); await board(env).adminLogout(t); }
+        return json(200, { ok: true });
       }
 
       const token = (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, '') || url.searchParams.get('token') || '';
@@ -119,11 +145,13 @@ export default {
       const q = url.searchParams;
       let m;
       if (p === '/api/me') return json(200, { user, profile: await B.profile(user.id), ban, passport: await B.passport(user.id) });
+      // 라운지 설정 (공지·포인트 규칙·상점 가격): 누구나 읽고, 관리자만 바꿈
+      if (p === '/api/config') return json(200, { config: await B.config() });
       if (p === '/api/passport' && request.method === 'POST') return json(200, { passport: await B.setPassport(user.id, body) });
       if (p === '/api/passport/delete' && request.method === 'POST') return json(200, await B.delPassport(user.id));
       // 여기부터는 여권 안전 등록을 마친 회원만
       if (p !== '/api/profile' && p !== '/api/report' && !STAFF(user.role) && !(await B.passport(user.id)).ok) return json(428, { error: '여권 안전 등록을 먼저 해 주세요.', need: 'passport' });
-      if (p === '/api/profile' && request.method === 'POST') return json(200, { profile: await B.setProfile(user.id, body) });
+      if (p === '/api/profile' && request.method === 'POST') return json(200, { profile: await B.setProfile(user.id, body, user.role) });
       if (p === '/api/meetups' && request.method === 'GET') return json(200, { meetups: await B.meetups(str(q.get('sido'), 20), str(q.get('sgg'), 30), user.id) });
       if (p === '/api/meetups' && request.method === 'POST') return json(200, { meetup: await B.createMeetup(user.id, body) });
       if ((m = /^\/api\/meetups\/(\d+)$/.exec(p))) return json(200, { meetup: await B.meetup(+m[1], user.id, true) });
@@ -143,6 +171,7 @@ export default {
         if (p === '/api/admin/ban' && request.method === 'POST') return json(200, await B.ban(str(body.uid, 60), +body.hours || 0, str(body.reason, 200), user.id));
         if (p === '/api/admin/unban' && request.method === 'POST') return json(200, await B.unban(str(body.uid, 60)));
         if (p === '/api/admin/report-done' && request.method === 'POST') return json(200, await B.reportDone(+body.id));
+        if (p === '/api/admin/config' && request.method === 'POST') return json(200, { config: await B.setConfig(body) });
       }
       return json(404, { error: 'not found' });
     } catch (e) {
@@ -198,11 +227,12 @@ export class Board extends DurableObject {
     const p = this.one('SELECT nick, sido, sgg, color FROM profiles WHERE uid = ?', uid);
     return p ? { nick: p.nick, sido: p.sido || '', sgg: p.sgg || '', color: p.color || '' } : null;
   }
-  setProfile(uid, b) {
+  setProfile(uid, b, role = '') {
     const old = this.profile(uid) || {};
     const nick = b.nick !== undefined ? clean(str(b.nick, 12)) : old.nick;
     if (!nick || nick.length < 2) fail(400, '닉네임은 2~12자로 정해 주세요.');
-    if (/♡|운영자|관리자|태일골프|admin/i.test(nick)) fail(400, '쓸 수 없는 닉네임이에요.');
+    // 운영자·관리자·태일골프 같은 이름은 회사 이름이라 관리자(프로그램 관리자 모드 · 홈페이지 관리자 계정)만 씀
+    if (/♡/.test(nick) || (uid !== ADMIN_UID && role !== 'admin' && /운영자|관리자|태일골프|admin/i.test(nick))) fail(400, '쓸 수 없는 닉네임이에요. (태일골프·관리자 같은 이름은 회사 이름이라 관리자만 쓸 수 있어요)');
     const taken = this.one('SELECT uid FROM profiles WHERE nick_l = ? AND uid <> ?', nick.toLowerCase(), uid);
     if (taken) fail(409, '이미 쓰는 닉네임이에요.');
     const sido = b.sido !== undefined ? str(b.sido, 20) : old.sido || '';
@@ -547,6 +577,40 @@ export class Board extends DurableObject {
     this.sql.exec('INSERT INTO reports (at, reporter, reporter_nick, target, target_nick, reason, room, log) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
       now(), reporter, me.nick || '', target, tnick, reason, str(b.room || (b.club ? 'club-' + b.club : b.meetup ? 'meet-' + b.meetup : ''), 60), String(log || '').slice(0, 8000));
     return { ok: true };
+  }
+  // ---- 프로그램 관리자 세션 ----
+  adminLogin() {
+    const t = 'adm_' + [...crypto.getRandomValues(new Uint8Array(24))].map(b => b.toString(16).padStart(2, '0')).join('');
+    this.sql.exec("DELETE FROM kv WHERE k LIKE 'adm:%' AND CAST(v AS INTEGER) < ?", now());
+    this.sql.exec('INSERT OR REPLACE INTO kv (k, v) VALUES (?, ?)', 'adm:' + t, String(now() + 30 * 86400e3));
+    if (!this.profile(ADMIN_UID)) this.sql.exec('INSERT OR IGNORE INTO profiles (uid, nick, nick_l, sido, sgg, color, updated) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      ADMIN_UID, ADMIN_NICK, ADMIN_NICK.toLowerCase(), '서울', '종로구', '#2b8a3e', now());
+    return t;
+  }
+  adminSession(t) { const r = this.one('SELECT v FROM kv WHERE k = ?', 'adm:' + t); return !!r && +r.v > now(); }
+  adminLogout(t) { this.sql.exec('DELETE FROM kv WHERE k = ?', 'adm:' + t); return { ok: true }; }
+  // ---- 라운지 설정 (관리자가 바꿈) ----
+  config() { const r = this.one("SELECT v FROM kv WHERE k = 'cfg'"); try { return r ? JSON.parse(r.v) : {}; } catch { return {}; } }
+  setConfig(b) {
+    const old = this.config(), c = {};
+    const int = (v, lo, hi, d) => { const n = Math.round(+v); return Number.isFinite(n) ? Math.max(lo, Math.min(hi, n)) : d; };
+    c.notice = clean(str(b.notice ?? old.notice, 300));
+    c.dayCap = int(b.dayCap ?? old.dayCap, 0, 100000, 30);
+    c.start = int(b.start ?? old.start, 0, 10000000, 100);
+    c.mul = Math.max(0, Math.min(100, +(b.mul ?? old.mul) || 0)) || 1;
+    c.shop = {};
+    const src = b.shop && typeof b.shop === 'object' ? b.shop : old.shop || {};
+    for (const [id, v] of Object.entries(src).slice(0, 200)) {
+      if (!/^[a-z]{1,4}\d{1,3}$/.test(id) || !v || typeof v !== 'object') continue;
+      const o = {};
+      if (v.price !== undefined && v.price !== '' && v.price !== null) o.price = int(v.price, 0, 100000000, 0);
+      if (v.ko) o.ko = clean(str(v.ko, 30));
+      if (v.hidden) o.hidden = 1;
+      if (Object.keys(o).length) c.shop[id] = o;
+    }
+    c.at = now();
+    this.sql.exec('INSERT OR REPLACE INTO kv (k, v) VALUES (?, ?)', 'cfg', JSON.stringify(c));
+    return c;
   }
   reports() { return this.all('SELECT * FROM reports ORDER BY id DESC LIMIT 200'); }
   reportDone(id) { this.sql.exec("UPDATE reports SET status = 'done' WHERE id = ?", id); return { ok: true }; }
