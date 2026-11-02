@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.5",
- "file": "www-1.4.71.5.zip",
- "sha256": "3ad8a8831668b5754bc9cdb43a31d2fd471f7f748170aefbcd656881d8452f97",
+ "version": "1.4.71.6",
+ "file": "www-1.4.71.6.zip",
+ "sha256": "7268f7008b5806ba7621ed4d4059a11b7f7752cb1375a38d865657b8b1a2e1d4",
  "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "새 버전 확인은 1시간에 한 번",
- "sig": "Vl5tTU1MoIJMBMCSpq0S2hcLWFw11zVOKgSC3gmBY+SUh1XdoYehkgzU6ooKNyncTbIOv0ash1TvL2CfDwxbmJGev+FMkg2xMeUm7ZuDtcBIiMUcwdCWP3n3oYjS9S18gPbj5AdX48+tCC1kHAkisWkP0AzQIBzDP8P4ZXe6mCl8dew1/gA/YkI8RGcSXDLkAhMvyANJ3mO2aXrrkdvkHvwiWt6TFHl7/Jag+C6WvpI2kA3uSXoufl+3fN3TKLNkei2s4S94EqFopvdS35sHaRNomgQjcs3BWeeKRNKHZW0rvPa0CY27I7IriFP3ZDLtlJ7eylTmXTvp7OK4oKumRw=="
+ "notes": "대기실 가로 스크롤, 국내 골프 찾기 필터 정리",
+ "sig": "UXSDnzVD/KXPxOU/UuG/kuz4iYJV/PD4Mv3/epbJPsHqjoY2BagkGhEDhQNoDB6teGWVvSryayEOfmwz7tTwU7u1WRespfnRYutfirxizccIVz/54rzM6+ipZdUuJjGtsmkjfEy7UnoJ+bDSsS4OFc/yNsWNgIWh+mTQEj8r07zpfe4CdkB/ul8Al4EHLAaV1qrc1kVPzMeSJn2YFLIjykoncpWB8ra6OfwCTIc5FvNzSJMDO7mUevY7+F4cMso037BAHUQHh7z6e7iN4l89iHss2+KWB/r5BlPH7UAz+VTKL22UJ0BzcpoT+ZRXxaUOzzBy1qAR+C6RDhEDjCWxKQ=="
 }
