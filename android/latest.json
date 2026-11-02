@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.2",
- "file": "www-1.4.71.2.zip",
- "sha256": "5275eaaafc643d4c9f8002b34fad5fd2834232c9db0a489499a189f457c0ccee",
+ "version": "1.4.71.3",
+ "file": "www-1.4.71.3.zip",
+ "sha256": "2073ff2c68be806bfae7e81aef14c91f1b888a7ba03d90ecbf04111c1e4c7766",
  "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "업데이트 빠르게",
- "sig": "UuZMBW4jjkSkyAry4EwJjZcvSJfEhsYIsdF3OA0i4s1IF0PGJneixfPzeHa4fBplRkUdjqa0kO9YhIY/yc4F8YUl7diM2BLoWPIqnXo6qdrCnjfUBk/2OCBQ74b68SrIrGjI9grT6kb5bSaTmrKHiGDL/3Qdmm5o/SS5VG7bgo0mxRdnkIITrxXU+M9najEhu8FT/BnvPk9c9SjVHsj4Bse0wYKU5vbuWTGQVhosovtNzPq/lnFT++RxhrnbEMeAOGuO1KZ7cjk4I3TESh/wBnHzJKYR54YtWHkToMlCwHGBg9ZVn2VSKliNtLUxvYhW1KZyym9fAHaT5CS+obzULQ=="
+ "notes": "가로 화면: 주변 정보 버튼 하나로",
+ "sig": "HaaHy0zlEYYIbqSVBCwbfT8EBV/mjK8uAy7RuW+MVx88SYWtZRn1/mYmULPsl+2YR2xg5lp3fcv9BNjO7gUoFbayVWz/arHldnnsCxez2OrqdEXiR9SaeXAGb6FH8fDMgMuOGK/hGH8icG3jIzs2vGTX6oP4GEd/E5ACLJVYQk6NY/w9jRdSpecYCMS8xlpJT6b5z2AogocE90AFQ5RcD+MX0VDipoWiHExlIq0lG4pabsScCZO5ZeRH8fZee1zC0mto3fHZQDwHHH5uQH841yu5sTMiQQFbocZ1UAmQuz72XJ/e12ZWyMDA2zrVSyd2V7/yfmpIh9nN0UzGpE2PWw=="
 }
