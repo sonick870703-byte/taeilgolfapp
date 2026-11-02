@@ -1,9 +1,9 @@
 {
- "version": "1.4.71",
- "file": "app-1.4.71.asar",
- "sha256": "06e87e7b9b34428954824c245f08b449a4fedf093d7a6c8127e507eb49f9fcbb",
+ "version": "1.4.72",
+ "file": "app-1.4.72.asar",
+ "sha256": "012a74d386a0dff9222f593ac686798c4007a7df23c8379265ea035b99bec110",
  "minShell": "",
  "fullUrl": "",
- "notes": "환율: 뒤로 버튼, 현지 돈↔원화 바꾸기",
- "sig": "ozuc73Xq8TM60BjRpO2a0iRmdC6jZyXoX3mckTnWGASgYPluKLgIUHGw+6/2kXpbEjlG2GX8eAivopdEYksrDQ=="
+ "notes": "관리자 모드로 대기실까지 관리 · 금액 글씨 또렷하게 · 동호회방 안내 · 상품 표지 개수 빼기",
+ "sig": "Tsj0ktqVKXtU3OuFlDRYng6UpVR6FcMBt5xe1ueHzD8ywY3qaaByrOV1RdKXM1STp9ZScToslNqQyfLgjwWsCA=="
 }
