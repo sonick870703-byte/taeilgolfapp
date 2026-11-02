@@ -1,9 +1,9 @@
 {
- "version": "1.4.71.4",
- "file": "www-1.4.71.4.zip",
- "sha256": "1fc76b268e3ef64a446d7c9a5c448d4b3b77524c8ddd44e3f3283a4823801394",
+ "version": "1.4.71.5",
+ "file": "www-1.4.71.5.zip",
+ "sha256": "3ad8a8831668b5754bc9cdb43a31d2fd471f7f748170aefbcd656881d8452f97",
  "minShell": 21,
  "apkUrl": "TaeilGolfGlobe-android.apk",
- "notes": "켜 둔 상태에서도 자동 업데이트",
- "sig": "eOyuMRMfgyHfDnv6jBeIH8x2Z1TUntZCUoqrqkbqHzx+32dIpFDg0IbFU3jxXyoMbMnG+LK3DRsKAhFM5iAc3JO0n7rpnelU52f0AygifcG3BddDbp3aE2Z0EhYv/irQfc/a6Xr+D05PR2c41NG+3KsVnv4C6kQL3EeSokaqiY1xGx8wH3g396oUykQBlb8EfsDfSFwfI6/Qf5OfFZkUhpwyfQtzfsdcMZARRebL1N/c+eir3EKXjAft5lsJ+WI/bDicYeeoNXyZNb/33xJ71bq7rlJhP5D2eT31+S9i0Ns2NFvE/3F2PiM9JoHZbiWKPtwptpyu1OXohpCWUK2Alg=="
+ "notes": "새 버전 확인은 1시간에 한 번",
+ "sig": "Vl5tTU1MoIJMBMCSpq0S2hcLWFw11zVOKgSC3gmBY+SUh1XdoYehkgzU6ooKNyncTbIOv0ash1TvL2CfDwxbmJGev+FMkg2xMeUm7ZuDtcBIiMUcwdCWP3n3oYjS9S18gPbj5AdX48+tCC1kHAkisWkP0AzQIBzDP8P4ZXe6mCl8dew1/gA/YkI8RGcSXDLkAhMvyANJ3mO2aXrrkdvkHvwiWt6TFHl7/Jag+C6WvpI2kA3uSXoufl+3fN3TKLNkei2s4S94EqFopvdS35sHaRNomgQjcs3BWeeKRNKHZW0rvPa0CY27I7IriFP3ZDLtlJ7eylTmXTvp7OK4oKumRw=="
 }
